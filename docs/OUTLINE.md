@@ -1,0 +1,24 @@
+#Intake:
+	pistonRetract
+	pistonExtend
+	talonForwardVelocity
+	talonReverseVelocity
+	talonNoVelocity
+#Shooter:
+	Flywheel:
+		falconStop
+		falconShoot
+	Transfer:
+		neo550Stop
+		neo550FullPower
+	Angler:
+		moveNeoToAngle(angle)
+		stopWithLimits
+#Climb:
+	falconWinchUp
+	falconWinchDown
+	primaryPistonEngage
+	primaryPistonRetract
+	secondaryPistonEngage
+	secondaryPistonRetract
+	getStage
