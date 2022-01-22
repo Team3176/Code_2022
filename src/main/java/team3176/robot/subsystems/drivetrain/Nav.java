@@ -75,9 +75,20 @@ public class Nav extends SubsystemBase {
     this.gyroOffset = (getNavxAngle_inDegrees());
   }
   
-    public void resetGyro() {
+  public void resetGyro() {
     gyro.reset();
   }
+  
+  public coordType getCurrentCoordType() {
+    return currentCoordType;
+  }
+  
+  public coordType setCurrentCoordType(String CoordType) {
+    if (CoordType.equals("FIELD_CENTRIC")) {
+      currentCoordType = coordType.FIELD_CENTRIC;
+    }
+    if (CoordType.equals("ROBOT_CENTRIC")) {
+      currentCoordType = coordType.ROBOT_CENTRIC;
   
   public double getGyroAngle() {
     return getNavxAngle_inDegrees();
@@ -88,7 +99,32 @@ public class Nav extends SubsystemBase {
     return this.currentAngle;
   }
   
+      
+  public void setSpinLockAngle() {
+    spinLockAngle = getNavxAngle_inRadians();
+  }
   
+  public void setFieldCentricOffset() {
+    fieldCentricOffset = getNavxAngle_inRadians();
+    // SmartDashboard.putNumber("value in Drivetrain", getNavxAngle_inRadians());
+  }
+      
+  public double getCurrentAngle() {
+    updateNavxAngle();
+    return this.currentAngle;
+  }
+      
+  public Pose2d getCurrentPose() {
+    // SmartDashboard.putNumber("odometry X", odometry.getPoseMeters().getX());
+    // SmartDashboard.putNumber("odometry Y", odometry.getPoseMeters().getY());
+    return odometry.getPoseMeters() ; //Does this work?
+  }
+  
+  public void resetOdometry(Pose2d pose) {
+    //odometry.resetPosition(pose, gyro.getRotation2d().times(1));  //Not sure, gyroAngle);a   // <-- Note getRotation2d is continuous, ie 360+1=361 not 0 or -359 
+    odometry.resetPosition(pose, getNavxAngle_inRadians_asRotation2d());  
+  }
+      
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -97,7 +133,7 @@ public class Nav extends SubsystemBase {
       // SmartDashboard.putNumber("Drivetrain.getHeading_as_getNavxAngle_inDegrees()", getNavxAngle_inDegrees());
       //return gyro.getRotation2d().getRadians() ; //+ Math.PI/2;
       return getNavxAngle_inRadians() ; //+ Math.PI/2;
-    }
+    }  
   }
 
   @Override
