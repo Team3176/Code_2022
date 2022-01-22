@@ -17,6 +17,9 @@ import team3176.robot.subsystems.ExampleSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private Intake m_Intake;
+  private Controller m_Controller;
+  private Compressor m_Compressor;
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -24,6 +27,11 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_Pneumatics = Pneumatics.getInstance();
+    m_Controller = Controller.getInstance();
+    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    m_Compressor.enableDigital();
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -34,7 +42,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    m_Controller.getDuke_XButton().whenPressed(new Extend());
+    m_Controller.getDuke_YButton().whenPressed(new Retract());
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

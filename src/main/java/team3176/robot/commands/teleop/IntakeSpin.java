@@ -5,22 +5,21 @@
 package team3176.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.ExampleSubsystem;
+import team3176.robot.subsystems.Intake;
 
 /** An example command that uses an example subsystem. */
-public class ExampleCommand extends CommandBase {
+public class IntakeSpin extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExampleSubsystem m_subsystem;
 
+  Intake m_Intake = Intake.getInstance();
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
-    this.m_subsystem = subsystem;
+  public IntakeSpin() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(m_Intake);
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +28,8 @@ public class ExampleCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() 
+  m_Intake.spinVelocityPercent(0.4); // <-- temporary value
 
   // Called once the command ends or is interrupted.
   @Override
