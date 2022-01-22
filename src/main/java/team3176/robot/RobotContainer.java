@@ -4,11 +4,14 @@
 
 package team3176.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
 import team3176.robot.subsystems.ExampleSubsystem;
+import team3176.robot.subsystems.climb.Climb;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,13 +21,13 @@ import team3176.robot.subsystems.ExampleSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  Compressor m_Compressor;
+  Climb m_Climb;
+  
   public RobotContainer() {
-    // Configure the button bindings
+    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    m_Climb = Climb.getInstance();
+
     configureButtonBindings();
   }
 
@@ -41,8 +44,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+  // public Command getAutonomousCommand() {
+  //   // An ExampleCommand will run in autonomous
+  //   // return new Command;
+  // } //TODO: REPLACE
 }

@@ -12,4 +12,13 @@ package team3176.robot.constants;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class ClimbConstants{}
+public final class ClimbConstants{
+    public final static int FALCON_CAN_ID = 52;
+    public final static int FALCON2_CAN_IC = 53; //Might change
+    public final static int SLOTIDX = 0;
+    public final static int TIMEOUT_MS = 30;
+    public final static double[] PID_MAIN = {/*P*/0.01, /*I*/0, /*D*/0};
+    public final static double[] PID_SECONDARY = {/*P*/0.01, /*I*/0, /*D*/0};
+    public final static double WINCH_MAX_LENGTH_POS = 2; //TODO:CHANGE NUMBER
+    public final static double WINCH_MIN_LENGTH_POS = 0; //TODO:CHANGE NUMBER 
+}
