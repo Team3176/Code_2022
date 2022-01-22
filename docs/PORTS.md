@@ -1,0 +1,30 @@
+#CAN IDs: Drive (1 - 49); Falcon (50 - 59); Spark (60 - 69); Talon (70 - 79)
+	- Intake Talon:			Test (70)
+	- Climb Falcon:			Test (52)
+	- Shooter Falcon 1:		Test (50)
+	- Shooter Falcon 2:		Test (51)
+	- Transfer Spark 1:		Test (60)
+	- Transfer Spark 2:		Test (61)
+	- Angler Spark:			Test (62)
+	- Drive: 1, 2, 3, 4
+	- Turn: 11, 22, 33, 44
+
+#PCH Ports: 16 Total
+	- Intake 1: ,			Test (0, 1)
+	- Intake 2: ,			Test (2, 3)
+	- Climb Primary 1: ,		Test (4, 5)
+	- Climb Primary 2: ,		Test (6, 7)
+	- Climb Secondary 1: ,		Test (8, 9)
+	- Climb Secondary 2: ,		Test (10, 11)
+
+#DIO/I2C(DIO): (None are I2C, yet!!)
+	- Angler Limit 1:		Test (0)
+	- Angler Limit 2:		Test (1)
+	- Arm Limit 1:			Test (2)
+	- Arm Limit 2:			Test (3)
+	- Arm Limit 3:			Test (4)
+	- Arm Limit 4:			Test (5)
+	- Arm Limit 5:			Test (6)
+	- Arm Limit 6:			Test (7)
+	- Arm Limit 7:			Test (8)
+	- Arm Limit 8:			Test (9)
