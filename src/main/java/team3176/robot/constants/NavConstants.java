@@ -12,4 +12,8 @@ package team3176.robot.constants;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class NavConstants {}
+public final class NavConstants {
+
+    public static final double GYRO_COORDSYS_ROTATIONAL_OFFSET_2021 =90; //-90;/*Units.radiansToDegrees(Math.PI / 2); */  // Currently equivalent to +90 Degrees 
+    public static final double GYRO_COORDSYS_ROTATIONAL_OFFSET = GYRO_COORDSYS_ROTATIONAL_OFFSET_2021 ;
+}
