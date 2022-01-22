@@ -12,32 +12,40 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import team3176.robot.constants.TransferConstants;
 
-public class Transfer extends SubsystemBase {
-
+public class Transfer extends SubsystemBase
+{
+  private Transfer m_transfer = new Transfer();
   private CANSparkMax transferMotor1;
   private CANSparkMax transferMotor2;
+  private SparkMaxPIDController pidController1;
+  private SparkMaxPIDController pidController2;
+  private RelativeEncoder encoder1;
+  private RelativeEncoder encoder2;
 
-  public Transfer() {
-
+  public Transfer()
+  {
     transferMotor1 = new CANSparkMax(TransferConstants.TRANSFER_NEO1_CAN_ID, MotorType.kBrushless);
     transferMotor2 = new CANSparkMax(TransferConstants.TRANSFER_NEO2_CAN_ID, MotorType.kBrushless);
-
+    pidController1 = transferMotor1.getPIDController();
+    pidController2 = transferMotor2.getPIDController();
+    encoder1 = transferMotor1.getEncoder();
+    encoder2 = transferMotor2.getEncoder();
   }
 
-  public void motor1Stop() {
-
-
-
-
+  public void motor2Velocity(double velocity)
+  {
+    pidController2.setReference(velocity, ControlType.kVelocity);
   }
 
-  public void motor1FullPow() {
-
-
-
-    
+  public void motor1Position(double position)
+  {
+    pidController1.setReference(position, ControlType.kPosition);
   }
 
+  public void  motorStop() {
+    transferMotor1.set(0.0);
+    transferMotor2.set(0.0);
+  }
 
   @Override
   public void periodic() {
@@ -48,4 +56,9 @@ public class Transfer extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
+  public Transfer getInstance() {
+    return m_transfer;
+  }
+
 }
