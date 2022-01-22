@@ -5,10 +5,39 @@
 package team3176.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import team3176.robot.constants.TransferConstants;
 
 public class Transfer extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public Transfer() {}
+
+  private CANSparkMax transferMotor1;
+  private CANSparkMax transferMotor2;
+
+  public Transfer() {
+
+    transferMotor1 = new CANSparkMax(TransferConstants.TRANSFER_NEO1_CAN_ID, MotorType.kBrushless);
+    transferMotor2 = new CANSparkMax(TransferConstants.TRANSFER_NEO2_CAN_ID, MotorType.kBrushless);
+
+  }
+
+  public void motor1Stop() {
+
+
+
+
+  }
+
+  public void motor1FullPow() {
+
+
+
+    
+  }
+
 
   @Override
   public void periodic() {

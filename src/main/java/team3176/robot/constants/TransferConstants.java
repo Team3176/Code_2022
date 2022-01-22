@@ -12,4 +12,9 @@ package team3176.robot.constants;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class TransferConstants{}
+public final class TransferConstants{
+
+    public static final int TRANSFER_NEO1_CAN_ID = 60;
+    public static final int TRANSFER_NEO2_CAN_ID = 61;
+
+}
