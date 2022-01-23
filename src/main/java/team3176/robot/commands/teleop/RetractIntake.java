@@ -5,10 +5,10 @@
 package team3176.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Intake;
+import team3176.robot.subsystems.intake.Intake;
 
 /** An example command that uses an example subsystem. */
-public class Retractntake extends CommandBase {
+public class RetractIntake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   Intake m_Intake = Intake.getInstance();

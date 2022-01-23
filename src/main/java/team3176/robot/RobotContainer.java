@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
 import team3176.robot.subsystems.ExampleSubsystem;
+import team3176.robot.subsystems.intake.*;
+import team3176.robot.subsystems.controller.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

@@ -5,7 +5,7 @@
 package team3176.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Intake;
+import team3176.robot.subsystems.intake.Intake;
 
 /** An example command that uses an example subsystem. */
 public class IntakeSpint extends CommandBase {
@@ -28,8 +28,9 @@ public class IntakeSpint extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() 
-  m_Intake.stopMotor();
+  public void execute() {
+    m_Intake.stopMotor();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
