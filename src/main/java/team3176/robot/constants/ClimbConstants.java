@@ -14,7 +14,7 @@ package team3176.robot.constants;
  */
 public final class ClimbConstants{
     public final static int FALCON_CAN_ID = 52;
-    public final static int FALCON2_CAN_IC = 53; //Might change
+    public final static int FALCON2_CAN_ID = 53; //Might change
     public final static int SLOTIDX = 0;
     public final static int TIMEOUT_MS = 30;
     public final static double[] PID_MAIN = {/*P*/0.01, /*I*/0, /*D*/0};
