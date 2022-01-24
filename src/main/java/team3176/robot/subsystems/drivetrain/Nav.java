@@ -10,134 +10,32 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 
 public class Nav extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
+  private SwerveDriveOdometry odometry;
+  private static Nav instance = new Nav();
+  
   public Nav() {
-    private SwerveDriveOdometry odometry;
-    
-    // private PowerDistribution PDP = new PowerDistribution(PowerManagementConstants.PDP_CAN_ID, ModuleType.kCTRE);
-    private AHRS gyro;
-    private double gyroOffset = 0;
-
-    private double lastGyroClock;
   
-    private drivetrainGyro() {
-      
-      // Instantiating the gyro
-      gyro = new AHRS(SPI.Port.kMXP);
-      gyro.reset();
-      // gyro.setAngleAdjustment(90.0);
-      // gyroUpdateOffset();
-      updateNavxAngle();
-      // odometry = new SwerveDriveOdometry(DrivetrainConstants.DRIVE_KINEMATICS,
-      // gyro.getRotation2d()); // <<-- getRotation2d is continuous. ie 360+1=361 not
-      // 0 or -361. gyro.getRotation2d() uses NWU Axis Convention
-
-      //Is continuous. ie 360+1=361 not m0 or -361. getNavxAngle_asRotation2d() should be same Axis Convention as Teleop, I believe.
-      //odometry = new SwerveDriveOdometry(DrivetrainConstants.DRIVE_KINEMATICS, getNavxAngle_inRadians_asRotation2d()); 
-    }
-  }
-  
-  public void driveGyro() {
-    
-    updateNavxAngle();
-    // SmartDashboard.putNumber("Drive updated currentAngle Degrees",
-    // (this.currentAngle * 180/Math.PI));
-    // SmartDashboard.putString("Drive currentCoordType",
-    // currentCoordType.toString()); 
-    
+    /* 
     if (this.isSpinLocked && !isOrbiting()) {
       this.spinCommand = -spinLockPID.returnOutput(getNavxAngle_inRadians(), spinLockAngle);
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
     }
-   }
+    */
+  }
 
-  public double getNavxAngle_inDegrees() {
-    return (gyro.getAngle() + DrivetrainConstants.GYRO_COORDSYS_ROTATIONAL_OFFSET + this.gyroOffset);
-  }
   
-    private double getNavxAngle_inRadians() {
-    return (Units.degreesToRadians(getNavxAngle_inDegrees()));
-  }
-  
-  public Rotation2d getNavxAngle_inRadians_asRotation2d() {
-    Rotation2d angle = new Rotation2d(getNavxAngle_inRadians());
-    return angle;
-  }
-  
-   private void updateNavxAngle() {
-    // -pi to pi; 0 = straight
-    this.currentAngle = (((Units.degreesToRadians(getNavxAngle_inDegrees()))) % (2 * Math.PI));
-    // gyro.getNavxAngle is returned in degrees.
-    // Then converted to radians (ie *(Math.PI/180)).
-    // And finally, it's modulus against 2pi is taken and returned as currentAngle.
-  }
-  
-  public void gyroUpdateOffset() {
-    this.gyroOffset = (getNavxAngle_inDegrees());
-  }
-  
-  public void resetGyro() {
-    gyro.reset();
-  }
-  
-  public coordType getCurrentCoordType() {
-    return currentCoordType;
-  }
-  
-  public coordType setCurrentCoordType(String CoordType) {
-    if (CoordType.equals("FIELD_CENTRIC")) {
-      currentCoordType = coordType.FIELD_CENTRIC;
-    }
-    if (CoordType.equals("ROBOT_CENTRIC")) {
-      currentCoordType = coordType.ROBOT_CENTRIC;
-  
-  public double getGyroAngle() {
-    return getNavxAngle_inDegrees();
-  }
-  
-  public double getCurrentAngle() {
-    updateNavxAngle();
-    return this.currentAngle;
-  }
-  
-      
-  public void setSpinLockAngle() {
-    spinLockAngle = getNavxAngle_inRadians();
-  }
-  
-  public void setFieldCentricOffset() {
-    fieldCentricOffset = getNavxAngle_inRadians();
-    // SmartDashboard.putNumber("value in Drivetrain", getNavxAngle_inRadians());
-  }
-      
-  public double getCurrentAngle() {
-    updateNavxAngle();
-    return this.currentAngle;
-  }
-      
-  public Pose2d getCurrentPose() {
-    // SmartDashboard.putNumber("odometry X", odometry.getPoseMeters().getX());
-    // SmartDashboard.putNumber("odometry Y", odometry.getPoseMeters().getY());
-    return odometry.getPoseMeters() ; //Does this work?
-  }
-  
-  public void resetOdometry(Pose2d pose) {
-    //odometry.resetPosition(pose, gyro.getRotation2d().times(1));  //Not sure, gyroAngle);a   // <-- Note getRotation2d is continuous, ie 360+1=361 not 0 or -359 
-    odometry.resetPosition(pose, getNavxAngle_inRadians_asRotation2d());  
-  }
       
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    public double getHeading() {
-      // SmartDashboard.putNumber("Drivetrain.getHeading_as_gyro.getRotation2d.getDegrees()", gyro.getRotation2d().getDegrees());
-      // SmartDashboard.putNumber("Drivetrain.getHeading_as_getNavxAngle_inDegrees()", getNavxAngle_inDegrees());
-      //return gyro.getRotation2d().getRadians() ; //+ Math.PI/2;
-      return getNavxAngle_inRadians() ; //+ Math.PI/2;
-    }  
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public static Nav getInstance() {
+    return instance;
   }
 }

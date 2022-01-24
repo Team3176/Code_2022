@@ -6,9 +6,9 @@ package team3176.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Swervepod extends SubsystemBase {
+public class SwervePod2022 extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  public Swervepod() {}
+  public SwervePod2022() {}
 
   @Override
   public void periodic() {
