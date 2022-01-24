@@ -6,6 +6,7 @@ package team3176.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 
 public class Gyro3176 extends SubsystemBase {
