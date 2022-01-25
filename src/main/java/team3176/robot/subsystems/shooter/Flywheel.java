@@ -27,12 +27,14 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, FlywheelConstants.kPIDLoopIndex, FlywheelConstants.kTimeoutMS);
     flywheelMotor1.configAllowableClosedloopError(0, FlywheelConstants.kPIDLoopIndex, FlywheelConstants.kTimeoutMS);
     flywheelMotor1.setSensorPhase(true);
+    flywheelMotor1.configClosedloopRamp(FlywheelConstants.kRampRate, FlywheelConstants.kTimeoutMS);
 
     flywheelMotor2.configFactoryDefault();
     flywheelMotor2.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, FlywheelConstants.kPIDLoopIndex, FlywheelConstants.kTimeoutMS);
     flywheelMotor2.configAllowableClosedloopError(0, FlywheelConstants.kPIDLoopIndex, FlywheelConstants.kTimeoutMS);
     // This will (hopefully) invert the second motor
     flywheelMotor2.setSensorPhase(false);
+    flywheelMotor2.configClosedloopRamp(FlywheelConstants.kRampRate, FlywheelConstants.kTimeoutMS);
   }
 
   public void spinMotors(double ticksPer100ms)
@@ -41,10 +43,14 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100ms);
   }
 
+  /*
   public void spinMotors2(double metersPerSecond)
   {
-    
+    // double ticsPer100ms = --MATH!--
+    flywheelMotor1.set(TalonFXControlMode.Velocity, ticksPer100ms);
+    flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100ms);
   }
+  */
 
   public void stopMotors()
   {

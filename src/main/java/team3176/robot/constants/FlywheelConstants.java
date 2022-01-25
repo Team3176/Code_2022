@@ -20,4 +20,6 @@ public final class FlywheelConstants{
     public static final int kPIDLoopIndex = 0;
     public static final int kTimeoutMS = 30;
 
+    public static final double kRampRate = 0.5; // seconds from 0 to full speed...?
+
 }

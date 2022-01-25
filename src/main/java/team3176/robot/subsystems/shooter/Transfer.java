@@ -30,6 +30,9 @@ public class Transfer extends SubsystemBase
     pidController2 = transferMotor2.getPIDController();
     encoder1 = transferMotor1.getEncoder();
     encoder2 = transferMotor2.getEncoder();
+    
+    transferMotor1.setClosedLoopRampRate(TransferConstants.kRampRate);
+    transferMotor2.setClosedLoopRampRate(TransferConstants.kRampRate);
   }
 
   public void motor2Velocity(double velocity)

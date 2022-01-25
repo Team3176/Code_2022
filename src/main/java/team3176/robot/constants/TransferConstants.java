@@ -17,4 +17,6 @@ public final class TransferConstants{
     public static final int TRANSFER_NEO1_CAN_ID = 60;
     public static final int TRANSFER_NEO2_CAN_ID = 61;
 
+    public static final double kRampRate = 0.5; // seconds to go from 0 to full
+
 }
