@@ -4,7 +4,6 @@
 
 package team3176.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import team3176.robot.commands.common.TimeDelay;
 
@@ -20,16 +19,6 @@ public class ClimbToMid extends SequentialCommandGroup {
       new ClimbWinchUp(),
       new TimeDelay(5),
       new ClimbPrimaryPistonEngage(),
-      new TimeDelay(5),
-      new ClimbWinchDown(),
-      new TimeDelay(5),
-      new ClimbSecondaryPistonEngage(),
-      new TimeDelay(5),
-      new ParallelCommandGroup(new ClimbWinchUp(), new ClimbPrimaryPistonRetract()),
-      new TimeDelay(5),
-      new ClimbPrimaryPistonEngage(),
-      new TimeDelay(5),
-      new ClimbSecondaryPistonRetract(),
       new TimeDelay(5),
       new ClimbWinchDown(),
       new TimeDelay(5),

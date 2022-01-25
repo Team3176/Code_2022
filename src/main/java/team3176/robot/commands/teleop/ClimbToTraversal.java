@@ -4,46 +4,45 @@
 
 package team3176.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import team3176.robot.commands.common.TimeDelay;
 
-public class ClimbToTraversal extends CommandBase {
-  /** Creates a new ClimbToTraversal. */
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class ClimbToTraversal extends SequentialCommandGroup {
+  /** Creates a new ClimbToMid. */
   public ClimbToTraversal() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-    /**
-     * m_Climb.winchUp();
-     * m_Climb.primaryPistonsEngage();
-     * m_Climb.winchDown();
-     * m_Climb.secondaryPistonsEngage();
-     * winchUp              //
-     * primaryPistonRetract //
-     * primaryPistonEngage
-     * secondaryPistonRetract
-     * WinchDown
-     * secondaryPistonEngage
-     * winchUp              //
-     * primaryPistonRetract //
-     * primaryPistonEngage
-     * secondaryPistonRetract
-     * winchDown
-     * secondaryPistonEngage
-     */
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    addCommands(
+      new ClimbWinchUp(),
+      new TimeDelay(5),
+      new ClimbPrimaryPistonEngage(),
+      new TimeDelay(5),
+      new ClimbWinchDown(),
+      new TimeDelay(5),
+      new ClimbSecondaryPistonEngage(),
+      new TimeDelay(5),
+      new ParallelCommandGroup(new ClimbWinchUp(), new ClimbPrimaryPistonRetract()),
+      new TimeDelay(5),
+      new ClimbPrimaryPistonEngage(),
+      new TimeDelay(5),
+      new ClimbSecondaryPistonRetract(),
+      new TimeDelay(5),
+      new ClimbWinchDown(),
+      new TimeDelay(5),
+      new ClimbSecondaryPistonEngage(),
+      new ParallelCommandGroup(new ClimbWinchUp(), new ClimbPrimaryPistonRetract()),
+      new TimeDelay(5),
+      new ClimbPrimaryPistonEngage(),
+      new TimeDelay(5),
+      new ClimbSecondaryPistonRetract(),
+      new TimeDelay(5),
+      new ClimbWinchDown(),
+      new TimeDelay(5),
+      new ClimbSecondaryPistonEngage()
+    );
   }
 }
