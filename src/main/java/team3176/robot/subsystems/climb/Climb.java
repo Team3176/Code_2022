@@ -69,18 +69,24 @@ public class Climb extends SubsystemBase {
     winchSecondaryMotor.config_kI(ClimbConstants.SLOTIDX, ClimbConstants.PID_SECONDARY[1], ClimbConstants.TIMEOUT_MS);
     winchSecondaryMotor.config_kD(ClimbConstants.SLOTIDX, ClimbConstants.PID_SECONDARY[2], ClimbConstants.TIMEOUT_MS);
     */
+    winchMotor.configPeakOutputForward(.05, ClimbConstants.TIMEOUT_MS); //TODO: TUNNNNNNNEEEEEEEEEEEEEEEEEEEEEEEE
+    winchMotor.configPeakOutputReverse(-.05, ClimbConstants.TIMEOUT_MS); //TODO: TUNNNNNNNEEEEEEEEEEEEEEEEEEEEEEEE
+    /*
+    winchSecondaryMotor.configPeakOutputForward(.05, ClimbConstants.TIMEOUT_MS);
+    winchSecondaryMotor.configPeakOutputReverse(-.05, ClimbConstants.TIMEOUT_MS);
+    */
   }
 
+  //TODO: CREATE A JOYSTICK AXIS CONTROLLED WINCH
+
   public void winchUp() {
-    //TODO: setLimit
     winchMotor.set(ControlMode.Position, ClimbConstants.WINCH_MAX_LENGTH_POS); //TODO:CHANGE CONSTANT
-    // winchSecondaryMotor.set(ControlMode.Position, ClimbConstants.WINCH_MAX_LENGTH_POS);
+    // winchSecondaryMotor.set(ControlMode.Position, ClimbConstants.WINCH_MAX_LENGTH_POS); //TODO: Add displacement from starting tic
   }
 
   public void winchDown() {
-    //TODO: SET LIMIT
     winchMotor.set(ControlMode.Position, ClimbConstants.WINCH_MIN_LENGTH_POS); //TODO:CHANGE CONSTANT
-    // winchSecondaryMotor.set(ControlMode.Position, ClimbConstants.WINCH_MIN_LENGTH_POS);
+    // winchSecondaryMotor.set(ControlMode.Position, ClimbConstants.WINCH_MIN_LENGTH_POS); //TODO: Add displacement from starting tic
   }
 
   public void primaryPistonsEngage() {

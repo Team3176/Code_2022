@@ -1,0 +1,54 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package team3176.robot.commands.teleop;
+
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import team3176.robot.subsystems.climb.Climb;
+
+public class ClimbToHigh extends CommandBase {
+  Climb m_Climb = Climb.getInstance();
+  Timer currTime;
+  double timestamp;
+  public ClimbToHigh() {
+    currTime = new Timer();
+    addRequirements(m_Climb);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    timestamp = Timer.getFPGATimestamp();
+    currTime.start();
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if(currTime.get() < 10) m_Climb.winchUp();
+    else if(currTime.get() < 20) m_Climb.primaryPistonsEngage();
+    else if(currTime.get() < 30) m_Climb.winchDown();
+    else if(currTime.get() < 40) m_Climb.secondaryPistonsEngage();
+    /**
+     * winchUp              //
+     * primaryPistonRetract //
+     * primaryPistonEngage
+     * secondaryPistonRetract
+     * WinchDown
+     * secondaryPistonEngage
+     */
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    if(Timer.getFPGATimestamp() >= (timestamp + 120)) {return true;}
+    return false;
+  }
+}
