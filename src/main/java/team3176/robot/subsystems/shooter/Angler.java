@@ -23,6 +23,15 @@ public class Angler extends SubsystemBase {
   private DigitalInput limitSwitch2;
 
   private int ticsPerRevolution;
+  private double positionAt45Deg;
+
+  private boolean PIDLoopEngaged;
+  private boolean limiter1Engaged;
+  private boolean limiter2Engaged;
+
+  // Used to help us allow the angler to be touching a limit switch and move away from it. This value is only used for its sign.
+  // This value is whatever value we have set the motor to, and we don't care what the ControlType is.
+  private double setValue;
 
   public Angler() {
 
@@ -36,6 +45,39 @@ public class Angler extends SubsystemBase {
     limitSwitch1 = new DigitalInput(AnglerConstants.limiter1Channel);
     limitSwitch2 = new DigitalInput(AnglerConstants.limiter2Channel);
 
+    PIDLoopEngaged = true;
+    limiter1Engaged = false;
+    limiter2Engaged = false;
+    setValue = 0;
+  }
+
+  /**
+   * Should be called in this subsystem before any line that makes the motor move. This enables the PID controller after it is
+   * automatically disabled when setting the motor to 0.0 speed with the simple set() method.
+   */
+  public void reengagePIDLoop()
+  {
+    PIDController.setReference(encoder.getVelocity(), ControlType.kVelocity);
+  }
+
+  /**
+   * Should be called anytime the motor should be set in this subsystem instead of writing the set line. This method accounts for the possibility of the
+   * PID loop being disengaged from setting the raw speed using the simple set() method and the limiter being engaged.
+   * @param value
+   * @param controlType
+   * @author Jared Brown
+   */
+  public void engagePIDMotor(double value, ControlType controlType)
+  {
+    this.setValue = value;
+    if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
+    PIDController.setReference(value, controlType);
+  }
+
+  public void engageRawMotor(double velocity)
+  {
+    PIDLoopEngaged = false;
+    anglerMotor.set(velocity);
   }
 
   public void changeAngle(double angleChange)
@@ -43,7 +85,7 @@ public class Angler extends SubsystemBase {
     double rotationsOfMotor = angleChange * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO;
     if ((encoder.getPosition() + rotationsOfMotor <= 80 * AnglerConstants.ROTATIONS_PER_DEGREE) &&
         (encoder.getPosition() + rotationsOfMotor >= 45 * AnglerConstants.ROTATIONS_PER_DEGREE)) {
-      PIDController.setReference(rotationsOfMotor, ControlType.kPosition);
+      this.engagePIDMotor(rotationsOfMotor, ControlType.kPosition);
     }
   }
 
@@ -52,10 +94,21 @@ public class Angler extends SubsystemBase {
     double oldAngleInRotationsOfMotor = encoder.getPosition();
     double differenceInRotations = (newAngle * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO) - oldAngleInRotationsOfMotor;
     if ((newAngle <= 80) && (newAngle >= 45)) {
-      PIDController.setReference(differenceInRotations, ControlType.kPosition);
+      this.engagePIDMotor(differenceInRotations, ControlType.kPosition);
     }
   }
 
+
+  /**
+   * Sets the velocity of the angler in degrees/sec
+   * @param velocity deg/s
+   * @author Jared Brown and Christian Schweitzer
+   */
+  public void setVelocity(double degreesPerSecond)
+  {
+    double rotationsPerMin = degreesPerSecond * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO * 60;
+    PIDController.setReference(rotationsPerMin, ControlType.kVelocity);
+  }
 
 
   /*
@@ -68,13 +121,24 @@ public class Angler extends SubsystemBase {
     reach that limit switch. When the motors stop, the command that is running will end, and that command's end() method will call
     a setter to be written in this subsystem that will set the position that the motor reads in rotations at that moment as the position
     that corresponds to a 45 degree angle. Then, this can be used as a reference for setting other angles.
+
+    See method below \/\/\/
   */
 
+  public void setPositionAt45Deg()
+  {
+    positionAt45Deg = encoder.getPosition();
+  }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    if ((limitSwitch1.get() && setValue < 0) || (limitSwitch2.get() && setValue > 0)) {
+      engageRawMotor(0.0);
+    }
+
   }
 
   @Override
