@@ -46,20 +46,7 @@ public class Gyro3176 extends SubsystemBase {
   }
   
   
-  public void driveGyro() {
-    
-    updateNavxAngle();
-    // SmartDashboard.putNumber("Drive updated currentAngle Degrees",
-    // (this.currentAngle * 180/Math.PI));
-    // SmartDashboard.putString("Drive currentCoordType",
-    // currentCoordType.toString()); 
-    
-    /*if (this.isSpinLocked && !isOrbiting()) {
-      this.spinCommand = -spinLockPID.returnOutput(getNavxAngle_inRadians(), spinLockAngle);
-      // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
-    }
-    */
-  }
+ 
 
   public double getNavxAngle_inDegrees() {
     return (gyro.getAngle() + DrivetrainConstants.GYRO_COORDSYS_ROTATIONAL_OFFSET + this.gyroOffset);
@@ -102,6 +89,7 @@ public class Gyro3176 extends SubsystemBase {
     updateNavxAngle();
     return this.currentAngle;
   }
+
   public double getHeading() {
     // SmartDashboard.putNumber("Drivetrain.getHeading_as_gyro.getRotation2d.getDegrees()", gyro.getRotation2d().getDegrees());
     // SmartDashboard.putNumber("Drivetrain.getHeading_as_getNavxAngle_inDegrees()", getNavxAngle_inDegrees());
@@ -111,8 +99,19 @@ public class Gyro3176 extends SubsystemBase {
       
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    updateNavxAngle();
+    // SmartDashboard.putNumber("Drive updated currentAngle Degrees",
+    // (this.currentAngle * 180/Math.PI));
+    // SmartDashboard.putString("Drive currentCoordType",
+    // currentCoordType.toString()); 
+    
+    /*if (this.isSpinLocked && !isOrbiting()) {
+      this.spinCommand = -spinLockPID.returnOutput(getNavxAngle_inRadians(), spinLockAngle);
+      // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
+    }
+    */
   }
+    // This method will be called once per scheduler run
 
   @Override
   public void simulationPeriodic() {

@@ -8,15 +8,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 // import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -49,21 +46,13 @@ public class Drivetrain extends SubsystemBase {
   //private Controller controller = Controller.getInstance();
 //private Vision m_Vision = Vision.getInstance();
 
-  private SwerveDriveOdometry odometry;
-
  // private PowerDistribution PDP = new PowerDistribution(PowerManagementConstants.PDP_CAN_ID, ModuleType.kCTRE);
-  private AHRS gyro;
-  private double gyroOffset = 0;
 
   private ArrayList<SwervePod2021> pods;
 
-  private coordType currentCoordType;
-  private coordType lastCoordType;
   private driveMode currentDriveMode;
 
   private boolean autonVision;
-
-  private double lastGyroClock;
 
   public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.DRIVE_ONE_CID),
       new TalonFX(DrivetrainConstants.DRIVE_TWO_CID), new TalonFX(DrivetrainConstants.DRIVE_THREE_CID),
@@ -139,9 +128,6 @@ public class Drivetrain extends SubsystemBase {
     pods.add(podBL);
     pods.add(podBR);
 
-    // currentCoordType = coordType.FIELD_CENTRIC;
-    currentCoordType = coordType.FIELD_CENTRIC;
-
     autonVision = false;
 
     // Setting constants
@@ -152,9 +138,6 @@ public class Drivetrain extends SubsystemBase {
     maxSpeed_InchesPerSec = DrivetrainConstants.MAX_WHEEL_SPEED_INCHES_PER_SECOND;
     maxRotation = DrivetrainConstants.MAX_ROT_SPEED;
     maxAccel = DrivetrainConstants.MAX_ACCEL;
-
-    // Instantiating the gyro
-   
 
     // SmartDashboard.putNumber("currentAngle", this.currentAngle);
 
@@ -222,27 +205,6 @@ public class Drivetrain extends SubsystemBase {
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
 
-
-
-    if (currentCoordType == coordType.FIELD_CENTRIC) {
-      final double temp = (this.forwardCommand * Math.cos(this.currentAngle)
-          + this.strafeCommand * Math.sin(this.currentAngle));
-      this.strafeCommand = (-this.forwardCommand * Math.sin(this.currentAngle)
-          + this.strafeCommand * Math.cos(this.currentAngle));
-      //TEST BELOW TO SEE IF FIXES RC/FC ALIGNMENT
-      //final double temp = (this.forwardCommand * Math.sin(this.currentAngle)
-      //    + this.strafeCommand * Math.cos(this.currentAngle));
-      //this.strafeCommand = (-this.forwardCommand * Math.cos(this.currentAngle)
-      //    + this.strafeCommand * Math.sin(this.currentAngle));
-      this.forwardCommand = temp;
-    }
-    // TODO: Find out why we multiply by 0.75
-    if (currentCoordType == coordType.ROBOT_CENTRIC) {
-      this.strafeCommand *= 1; // 0.75;
-      this.forwardCommand *= 1; // 0.75;
-      this.spinCommand *= 1; // 0.75;
-    }
-   
     // SmartDashboard.putNumber("this.forwardCom_Drivetrain.drive",
     // this.forwardCommand);
     // SmartDashboard.putNumber("this.strafeCom_Drivetrain.drive",
@@ -250,11 +212,6 @@ public class Drivetrain extends SubsystemBase {
     // TODO: Find out why this putNumber statement is making the spinLock work
     // SmartDashboard.putNumber("this.spinCom_Drivetrain.drive", this.spinCommand);
     calculateNSetPodPositions(this.forwardCommand, this.strafeCommand, this.spinCommand);
-
-    // SmartDashboard.putBoolean("isOrbiting", currentDriveMode == driveMode.ORBIT);
-    // SmartDashboard.putBoolean("isRobotCentric", currentCoordType == coordType.ROBOT_CENTRIC);
-    SmartDashboard.putBoolean("isFieldCentric", currentCoordType == coordType.FIELD_CENTRIC);
-    //  System.out.println("CURRENTCOORDTYPE = " + currentCoordType);
   }
 
   /**
@@ -398,10 +355,6 @@ public class Drivetrain extends SubsystemBase {
     currentDriveMode = wantedDriveMode;
   }
 
-  public void setCoordType(coordType wantedType) {
-    currentCoordType = wantedType;
-  }
-
   public boolean isOrbiting() {
     if (currentDriveMode == driveMode.ORBIT) {
       return true;
@@ -432,14 +385,6 @@ public class Drivetrain extends SubsystemBase {
     return fieldCentricOffset;
   }
 
-  
-  public void setCoordTypeToFieldCentric() {
-    this.currentCoordType = coordType.FIELD_CENTRIC;
-  }
-
-  public void setCoordTypeToRobotCentric() {
-    this.currentCoordType = coordType.ROBOT_CENTRIC;
-  }
   /**
    * Sets Turbo mode on or off
    * @param onOrOff Passing a value of true sets Turbo on (ie isTurboOn = true), and passing value of false sets Turbo off (ie isTurboOn = false)
@@ -507,14 +452,7 @@ public class Drivetrain extends SubsystemBase {
     if (this.arraytrack > 3) {
       this.arraytrack = 0;
     } 
-   
-
-
- 
   }
-
-
-   
 
   @Override
   public void simulationPeriodic() {

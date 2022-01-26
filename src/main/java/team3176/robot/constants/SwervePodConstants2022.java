@@ -35,7 +35,7 @@ public final class SwervePodConstants2022 {
     public static final int TALON_DRIVE_PID_LOOP_ID = kPIDLoopIdx; 
     public static final int TALON_DRIVE_PID_TIMEOUT_MS = kTimeoutMs;  
     
-    public static final double[][] DRIVE_PID_2021 = {
+    public static final double[][] DRIVE_PID_2022 = {
         /* kP */     {0.15, 0.1, 0.15, 0.15},
         // /* kI */    {0.001, 0.0015, 0.0015, 0.005}, // using these don't work
         /* kI */    {0.0, 0.0, 0.0, 0.0},
@@ -52,11 +52,11 @@ public final class SwervePodConstants2022 {
         // /* I-Zne */ {0.0, 0.0, 0.0, 0.0}     // The range of error for kI to take affect (like a reverse deadband)
     // };
 
-    public static double DRIVE_PID[][] =DRIVE_PID_2021;
+    public static double DRIVE_PID[][] =DRIVE_PID_2022;
 
     // BR P: 2.41, I: 0.0, D: 152.0, F: 0.0
 
-    public static final double[][] SPIN_PID_2021 = {
+    public static final double[][] SPIN_PID_2022 = {
         //           FR    FL    BL     BR
     //    /* kP */    {1.0, 2.0, 0.9, 0.1},
 //        /* kP */    {1.0, 2.0, 0.9, 2.0},
@@ -71,7 +71,7 @@ public final class SwervePodConstants2022 {
     /* kF */    {0.0, 0.0, 0.0, 0.0}    // Feed forward gain constant
     };
 
-    public static double SPIN_PID[][] =SPIN_PID_2021;
+    public static double SPIN_PID[][] =SPIN_PID_2022;
 
 
     /* OFFSETS: Corresponds to selftest output from CTRE Phoenix tool.
@@ -87,9 +87,8 @@ public final class SwervePodConstants2022 {
     // public static final int[] SPIN_OFFSET = {47762, 4189, 388129, -50897};
     // public static final int[] SPIN_OFFSET = {49844, 55384, 58418, 73442};
 
-    // public static final int[] SPIN_OFFSET_2021 = {424, 224, 2826, 2807}; // 2021 Bot //OrigOff
-    public static final int[] SPIN_OFFSET_2021 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
-    public static final int[] SPIN_OFFSET =SPIN_OFFSET_2021;
+    public static final int[] SPIN_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
+    public static final int[] SPIN_OFFSET =SPIN_OFFSET_2022;
 
     public static final double DRIVE_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 13.79;
 

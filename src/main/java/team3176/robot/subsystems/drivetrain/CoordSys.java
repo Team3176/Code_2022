@@ -5,13 +5,14 @@
 package team3176.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.util.sendable.Sendable;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 public class CoordSys extends SubsystemBase {
   private static CoordSys instance = new CoordSys(); 
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
+  
+
 
   public enum coordType {
     FIELD_CENTRIC, ROBOT_CENTRIC
@@ -22,21 +23,13 @@ public class CoordSys extends SubsystemBase {
 
 
   /** Creates a new ExampleSubsystem. */
-  public CoordSys() {}
+  //public CoordSys() {}    //<-- WTF is this. -char
   
   public coordType getCurrentCoordType() {
     return currentCoordType;
   }
   
- /* public coordType setCurrentCoordType(String CoordType) {
-    if (CoordType.equals("FIELD_CENTRIC")) {
-      currentCoordType = coordType.FIELD_CENTRIC;
-    }
-    if (CoordType.equals("ROBOT_CENTRIC")) {
-      currentCoordType = coordType.ROBOT_CENTRIC;
-    }
-  }
- */ 
+
   public void setCurrentCoordType(String CoordType) {
     if (CoordType.equals("FIELD_CENTRIC")) {
       currentCoordType = coordType.FIELD_CENTRIC;

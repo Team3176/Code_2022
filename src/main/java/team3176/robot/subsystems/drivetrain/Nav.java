@@ -12,15 +12,24 @@ public class Nav extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   private SwerveDriveOdometry odometry;
   private static Nav instance = new Nav();
+  Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
+  CoordSys m_CoordSys = CoordSys.getInstance();
+  Odometry3176 m_Odometry3176 = Odometry3176.getInstance();
+  private double currentAngle;  
   
   public Nav() {
-  
     /* 
     if (this.isSpinLocked && !isOrbiting()) {
       this.spinCommand = -spinLockPID.returnOutput(getNavxAngle_inRadians(), spinLockAngle);
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
     }
     */
+    public double getCurrentAngleFromGyro() {
+      this.currentAngle = Gyro3176.getCurrentAngle();
+      return this.currentAngle;
+    }
+    
+
   }
 
   
