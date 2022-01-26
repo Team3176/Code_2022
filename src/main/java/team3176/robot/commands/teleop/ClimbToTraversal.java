@@ -34,6 +34,7 @@ public class ClimbToTraversal extends SequentialCommandGroup {
       new ClimbWinchDown(),
       new TimeDelay(5),
       new ClimbSecondaryPistonEngage(),
+      new TimeDelay(5),
       new ParallelCommandGroup(new ClimbWinchUp(), new ClimbPrimaryPistonRetract()),
       new TimeDelay(5),
       new ClimbPrimaryPistonEngage(),
