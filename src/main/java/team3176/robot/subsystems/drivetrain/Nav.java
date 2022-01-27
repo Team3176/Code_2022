@@ -24,14 +24,14 @@ public class Nav extends SubsystemBase {
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
     }
     */
-    public double getCurrentAngleFromGyro() {
-      this.currentAngle = Gyro3176.getCurrentAngle();
-      return this.currentAngle;
-    }
-    
 
   }
 
+  public double getCurrentAngleFromGyro() {
+    this.currentAngle = m_Gyro3176.getCurrentAngle();
+    return this.currentAngle;
+  }
+    
   
       
   @Override
