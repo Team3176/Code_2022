@@ -37,6 +37,9 @@ import java.util.ArrayList;
 import team3176.robot.util.PIDLoop;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
+
 
 
 
@@ -44,6 +47,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
   private static Drivetrain instance = new Drivetrain();
+  private CoordSys m_CoordSys = CoordSys.getInstance();
+  private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
+
   //private Controller controller = Controller.getInstance();
 //private Vision m_Vision = Vision.getInstance();
 
@@ -364,7 +370,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
 
-
+  
  
   public driveMode getCurrentDriveMode() {
     return currentDriveMode;
@@ -382,7 +388,7 @@ public class Drivetrain extends SubsystemBase {
     isSpinLocked = set;
   }
 
-  public double getFieldCentricOffset() {
+  public double getFieldCentricOffset() { //Question: setFieldCentricOffset in CoordSys. Move one, none, or both?
     return fieldCentricOffset;
   }
 
