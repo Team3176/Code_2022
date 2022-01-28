@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.shooter;
+package frc.robot.subsystems.indexer;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.TransferConstants;
@@ -13,41 +13,30 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Transfer extends SubsystemBase
+public class Indexer extends SubsystemBase
 {
-  private Transfer m_transfer = new Transfer();
-  private CANSparkMax transferMotor1;
-  private CANSparkMax transferMotor2;
+  private Indexer m_indexer = new Indexer();
+  private CANSparkMax indexerMotor1;
   private SparkMaxPIDController pidController1;
-  private SparkMaxPIDController pidController2;
   private RelativeEncoder encoder1;
+  private RelativeEncoder encoder2;
 
-  public Transfer()
+  public Indexer()
   {
-    transferMotor1 = new CANSparkMax(TransferConstants.TRANSFER_NEO1_CAN_ID, MotorType.kBrushless);
-    pidController1 = transferMotor1.getPIDController();
-    encoder1 = transferMotor1.getEncoder();
+    indexerMotor1 = new CANSparkMax(TransferConstants.TRANSFER_NEO2_CAN_ID, MotorType.kBrushless);
+    pidController1 = indexerMotor1.getPIDController();
+    encoder2 = indexerMotor1.getEncoder();
     
-    transferMotor1.setClosedLoopRampRate(TransferConstants.kRampRate);
+    indexerMotor1.setClosedLoopRampRate(TransferConstants.kRampRate);
   }
-
-  public void motor2Velocity(double velocity)
-  {
-    pidController2.setReference(velocity, ControlType.kVelocity);
-  }
-
-  /*
-  -- I don't want to blow this away just yet.
-  Let's keep it embedded as a comment, please.  --char
 
   public void motor1Position(double position)
   {
     pidController1.setReference(position, ControlType.kPosition);
   }
-  */
 
   public void  motorStop() {
-    transferMotor1.set(0.0);
+    indexerMotor1.set(0.0);
   }
 
   @Override
@@ -60,8 +49,8 @@ public class Transfer extends SubsystemBase
     // This method will be called once per scheduler run during simulation
   }
 
-  public Transfer getInstance() {
-    return m_transfer;
+  public Indexer getInstance() {
+    return m_indexer;
   }
 
 }
