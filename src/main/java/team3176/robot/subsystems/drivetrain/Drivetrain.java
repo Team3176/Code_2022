@@ -100,18 +100,12 @@ public class Drivetrain extends SubsystemBase {
   
  
 
-  private double fieldCentricOffset = 0.0;
-
   private int arraytrack;
   double[] angleHist = { 0.0, 0.0, 0.0, 0.0, 0.0 };
   double angleAvgRollingWindow;
 
   public enum driveMode {
     DEFENSE, DRIVE, VISION, ORBIT
-  }
-
-  public enum coordType {
-    BACK_ROBOT_CENTRIC, FIELD_CENTRIC, ROBOT_CENTRIC
   }
 
   private SwervePod2021 podFR;
@@ -210,6 +204,30 @@ public class Drivetrain extends SubsystemBase {
       this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+    }
+    if (this.isSpinLocked && !isOrbiting()) {
+      this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
+      // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
+
+    }
+
+    if (m_CoordSys.isFieldCentric()) {
+      final double temp = (this.forwardCommand * Math.cos(this.currentAngle)
+          + this.strafeCommand * Math.sin(this.currentAngle));
+      this.strafeCommand = (-this.forwardCommand * Math.sin(this.currentAngle)
+          + this.strafeCommand * Math.cos(this.currentAngle));
+      // TEST BELOW TO SEE IF FIXES RC/FC ALIGNMENT
+      // final double temp = (this.forwardCommand * Math.sin(this.currentAngle)
+      // + this.strafeCommand * Math.cos(this.currentAngle));
+      // this.strafeCommand = (-this.forwardCommand * Math.cos(this.currentAngle)
+      // + this.strafeCommand * Math.sin(this.currentAngle));
+      this.forwardCommand = temp;
+    }
+    // TODO: Find out why we multiply by 0.75
+    if (m_CoordSys.isRobotCentric()) {
+      this.strafeCommand *= 1; // 0.75;
+      this.forwardCommand *= 1; // 0.75;
+      this.spinCommand *= 1; // 0.75;
     }
 
     // SmartDashboard.putNumber("this.forwardCom_Drivetrain.drive",
@@ -388,10 +406,7 @@ public class Drivetrain extends SubsystemBase {
     isSpinLocked = set;
   }
 
-  public double getFieldCentricOffset() { //Question: setFieldCentricOffset in CoordSys. Move one, none, or both?
-    return fieldCentricOffset;
-  }
-
+ 
   /**
    * Sets Turbo mode on or off
    * @param onOrOff Passing a value of true sets Turbo on (ie isTurboOn = true), and passing value of false sets Turbo off (ie isTurboOn = false)

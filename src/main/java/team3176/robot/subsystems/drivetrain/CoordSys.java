@@ -28,8 +28,23 @@ public class CoordSys extends SubsystemBase {
   public coordType getCurrentCoordType() {
     return currentCoordType;
   }
-  
 
+  public boolean isFieldCentric() {
+    if (currentCoordType == coordType.FIELD_CENTRIC) {
+      return true;
+     } else {
+       return false;
+     }
+  }
+
+  public boolean isRobotCentric() {
+    if (currentCoordType == coordType.ROBOT_CENTRIC) {
+      return true;
+     } else {
+       return false;
+     }
+  }
+  
   public void setCurrentCoordType(String CoordType) {
     if (CoordType.equals("FIELD_CENTRIC")) {
       currentCoordType = coordType.FIELD_CENTRIC;
@@ -38,10 +53,15 @@ public class CoordSys extends SubsystemBase {
       currentCoordType = coordType.ROBOT_CENTRIC;
     }
   }
+ 
   public void setFieldCentricOffset() {
     fieldCentricOffset = m_Gyro.getNavxAngle_inRadians();
     // SmartDashboard.putNumber("value in Drivetrain", getNavxAngle_inRadians());
   }  
+
+  public double getFieldCentricOffset() { 
+    return fieldCentricOffset;
+  }
 
       
   @Override
