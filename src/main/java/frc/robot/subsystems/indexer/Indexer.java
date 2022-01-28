@@ -23,7 +23,7 @@ public class Indexer extends SubsystemBase
 
   public Indexer()
   {
-    indexerMotor1 = new CANSparkMax(TransferConstants.TRANSFER_NEO2_CAN_ID, MotorType.kBrushless);
+    indexerMotor1 = new CANSparkMax(IndexerConstants.TRANSFER_NEO1_CAN_ID, MotorType.kBrushless);
     pidController1 = indexerMotor1.getPIDController();
     encoder2 = indexerMotor1.getEncoder();
     
