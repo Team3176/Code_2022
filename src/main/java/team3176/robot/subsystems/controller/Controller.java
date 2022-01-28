@@ -128,7 +128,7 @@ public class Controller {
     rotStick_Button16 = new JoystickButton(rotStick, 16);
 
     op_A = new XboxLoneButton(operator, Button.kA.value, Button.kLeftBumper.value);
-    op_A_Shift = new DoubleButton(operator, Button.kA.value, Button.kLeftBumper.value);
+    // op_A_Shift = new DoubleButton(operator, Button.kA.value, Button.kLeftBumper.value);
     op_B = new XboxLoneButton(operator, Button.kB.value, Button.kLeftBumper.value);
     op_X = new XboxLoneButton(operator, Button.kX.value, Button.kLeftBumper.value);
     op_Y = new XboxLoneButton(operator, Button.kY.value, Button.kLeftBumper.value);
