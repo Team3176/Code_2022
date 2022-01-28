@@ -28,7 +28,6 @@ public class Intake extends SubsystemBase {
     
 
   public Intake() {
-    SmartDashboard.putNumber("IntakeSpeed", 0); // temp value
   }
 
   public void Extend() 
