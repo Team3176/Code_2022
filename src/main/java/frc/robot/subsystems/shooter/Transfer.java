@@ -17,9 +17,7 @@ public class Transfer extends SubsystemBase
 {
   private Transfer m_transfer = new Transfer();
   private CANSparkMax transferMotor1;
-  private CANSparkMax transferMotor2;
   private SparkMaxPIDController pidController1;
-  private SparkMaxPIDController pidController2;
   private RelativeEncoder encoder1;
 
   public Transfer()
@@ -33,22 +31,10 @@ public class Transfer extends SubsystemBase
 
   public void motor2Velocity(double velocity)
   {
-    pidController2.setReference(velocity, ControlType.kVelocity);
+    pidController1.setReference(velocity, ControlType.kVelocity);
   }
 
-  /*
-  -- I don't want to blow this away just yet.
-  Let's keep it embedded as a comment, please.  --char
-
-  public void motor1Position(double position)
-  {
-    pidController1.setReference(position, ControlType.kPosition);
-  }
-  */
-
-  public void  motorStop() {
-    transferMotor1.set(0.0);
-  }
+  
 
   @Override
   public void periodic() {
