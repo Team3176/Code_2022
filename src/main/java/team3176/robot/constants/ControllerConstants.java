@@ -12,4 +12,9 @@ package team3176.robot.constants;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class ControllerConstants{}
+public final class ControllerConstants{
+    public final static int ROT_ID = 0;
+    public final static int TRANS_ID = 1;
+    public final static int OP_ID = 2;
+    public final static double TRIGGER_THRESHOLD = 0.1;
+}
