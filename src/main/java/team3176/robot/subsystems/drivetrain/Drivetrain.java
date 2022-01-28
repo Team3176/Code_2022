@@ -30,6 +30,7 @@ import team3176.robot.constants.DrivetrainConstants;
 //import team3176.robot.constants.PowerManagementConstants;
 import team3176.robot.subsystems.controller.Controller;
 import team3176.robot.subsystems.vision.Vision;
+import team3176.robot.subsystems.drivetrain.SwervePod2021;
 
 import java.util.ArrayList;
 
@@ -316,7 +317,7 @@ public class Drivetrain extends SubsystemBase {
 
 
       //SmartDashboard.putBoolean("orbiting", isOrbiting());
-    } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defenseive position
+    } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defensive position
       double smallNum = Math.pow(10, -15);
       pods.get(0).set(smallNum, -1.0 * Math.PI / 4.0);
       pods.get(1).set(smallNum, 1.0 * Math.PI / 4.0);
