@@ -153,10 +153,53 @@ public class Controller {
     op_DPAD_Left = new POVButton(operator, 270);
   }
 
-  // public double getForward() {
-  //   if(Math.abs(-transStick.getY() < 0.06)) return 0.0;
-  //   return 
-  // }
+  public double getForward() {
+    if(Math.abs(transStick.getY()) < 0.06) return 0.0;
+    return ControllerConstants.FORWARD_AXIS_INVERSION * Math.pow(transStick.getY(), 1);
+  }
+
+  public double getStrafe() {
+    if(Math.abs(transStick.getX()) < 0.06) return 0.0;
+    return ControllerConstants.STRAFE_AXIS_INVERSION * Math.pow(transStick.getX(), 1);
+  }
+
+  public double getSpin() {
+    if(Math.abs(rotStick.getX()) < 0.06) return 0.0;
+    return 0.2 * ControllerConstants.SPIN_AXIS_INVERSION * (Math.pow(rotStick.getX(), 1) / 7.0);
+  }
+
+  public double getOrbitSpeed() { //TODO: FIND IF WE NEED
+    if(Math.abs(rotStick.getY()) < 0.06) return 0.0;
+    return Math.pow(rotStick.getY(), 1);
+  }
+
+  public int getTransStickPOV() {
+    return transStick.getPOV();
+  }
+
+  public int getRotStickPOV() {
+    return rotStick.getPOV();
+  }
+
+  public double getXboxLeftY() {
+    if(Math.abs(operator.getLeftY()) < 0.06) return 0.0;
+    return Math.pow(operator.getLeftY(), 1);
+  }
+
+  public double getXboxLeftX() {
+    if(Math.abs(operator.getLeftX()) < 0.06) return 0.0;
+    return Math.pow(operator.getLeftX(), 1);
+  }
+
+  public double getXboxRightY() {
+    if(Math.abs(operator.getRightY()) < 0.06) return 0.0;
+    return Math.pow(operator.getLeftY(), 1);
+  }
+
+  public double getXboxRightX() {
+    if(Math.abs(operator.getRightX()) < 0.06) return 0.0;
+    return Math.pow(operator.getRightX(), 1);
+  }
 
   public JoystickButton getTransStick_Button1() {return transStick_Button1;}
   public JoystickButton getTransStick_Button2() {return transStick_Button2;}
