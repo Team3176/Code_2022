@@ -26,7 +26,7 @@ public class XboxDBLShift extends Trigger {
 
     @Override
     public boolean get() {
-        if(m_Controller.getRawButton(calledButton) && !m_Controller.getRawButton(primaryShiftKey) && m_Controller.getRawButton(secondaryShiftKey)) 
+        if(m_Controller.getRawButton(calledButton) && m_Controller.getRawButton(primaryShiftKey) && m_Controller.getRawButton(secondaryShiftKey)) 
         {return true;}
         return false;
     }

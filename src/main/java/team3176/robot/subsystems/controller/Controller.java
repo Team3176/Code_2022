@@ -18,7 +18,7 @@ import team3176.robot.util.XboxDBLShift.*;
 public class Controller {
 
   private static Controller instance = new Controller();
-  public Controller getInstance() {return instance;}
+  public static Controller getInstance() {return instance;}
 
   private final Joystick transStick;
   private final Joystick rotStick;
@@ -181,22 +181,22 @@ public class Controller {
     return rotStick.getPOV();
   }
 
-  public double getXboxLeftY() {
+  public double getOp_LeftY() {
     if(Math.abs(operator.getLeftY()) < 0.06) return 0.0;
     return Math.pow(operator.getLeftY(), 1);
   }
 
-  public double getXboxLeftX() {
+  public double getOp_LeftX() {
     if(Math.abs(operator.getLeftX()) < 0.06) return 0.0;
     return Math.pow(operator.getLeftX(), 1);
   }
 
-  public double getXboxRightY() {
+  public double getOp_RightY() {
     if(Math.abs(operator.getRightY()) < 0.06) return 0.0;
     return Math.pow(operator.getLeftY(), 1);
   }
 
-  public double getXboxRightX() {
+  public double getOp_RightX() {
     if(Math.abs(operator.getRightX()) < 0.06) return 0.0;
     return Math.pow(operator.getRightX(), 1);
   }
