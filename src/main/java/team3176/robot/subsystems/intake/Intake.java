@@ -17,6 +17,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Intake extends SubsystemBase {
     private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
     private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
@@ -25,7 +27,8 @@ public class Intake extends SubsystemBase {
     private boolean pistonSetting = false;
     
 
-  public Intake() {}
+  public Intake() {
+  }
 
   public void Extend() 
   {

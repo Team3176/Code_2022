@@ -7,6 +7,8 @@ package team3176.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import team3176.robot.subsystems.intake.Intake;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // Test Mode Imports
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +27,9 @@ public class Robot extends TimedRobot {
   private boolean pistonSetting;
 
   private RobotContainer m_robotContainer;
+  private Intake m_Intake;
+  private double intakeSpeed;
+  private boolean pistonSetting;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -101,9 +106,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() 
   {
-    SmartDashboard.putNumber("Intake Speed", intakeSpeed);
+    SmartDashboard.putNumber("IntakeSpeed", intakeSpeed);
+    SmartDashboard.putBoolean("PistonSetting", pistonSetting);
     m_Intake.spinVelocityPercent(intakeSpeed);
-    SmartDashboard.putBoolean("Piston Setting", pistonSetting);
     if (pistonSetting)
     {
       m_Intake.Extend();
@@ -112,5 +117,6 @@ public class Robot extends TimedRobot {
     {
       m_Intake.Retract();
     }
+    
   }
 }
