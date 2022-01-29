@@ -5,8 +5,9 @@
 package team3176.robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.*;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -55,7 +56,7 @@ public class Drivetrain extends SubsystemBase {
 
  // private PowerDistribution PDP = new PowerDistribution(PowerManagementConstants.PDP_CAN_ID, ModuleType.kCTRE);
 
-  private ArrayList<SwervePod2021> pods;
+  private ArrayList<SwervePod2022> pods;
 
   private driveMode currentDriveMode;
 
@@ -65,9 +66,9 @@ public class Drivetrain extends SubsystemBase {
       new TalonFX(DrivetrainConstants.DRIVE_TWO_CID), new TalonFX(DrivetrainConstants.DRIVE_THREE_CID),
       new TalonFX(DrivetrainConstants.DRIVE_FOUR_CID) };
 
-  public TalonSRX[] spinControllers = { new TalonSRX(DrivetrainConstants.STEER_ONE_CID),
-      new TalonSRX(DrivetrainConstants.STEER_TWO_CID), new TalonSRX(DrivetrainConstants.STEER_THREE_CID),
-      new TalonSRX(DrivetrainConstants.STEER_FOUR_CID) };
+  public CANSparkMax[] spinControllers = { new CANSparkMax(DrivetrainConstants.STEER_ONE_CID, MotorType.kBrushless),
+      new CANSparkMax(DrivetrainConstants.STEER_TWO_CID, MotorType.kBrushless), new CANSparkMax(DrivetrainConstants.STEER_THREE_CID, MotorType.kBrushless),
+      new CANSparkMax(DrivetrainConstants.STEER_FOUR_CID, MotorType.kBrushless) };
 
   private double length; // robot's wheelbase
   private double width; // robot's trackwidth
@@ -108,22 +109,22 @@ public class Drivetrain extends SubsystemBase {
     DEFENSE, DRIVE, VISION, ORBIT
   }
 
-  private SwervePod2021 podFR;
-  private SwervePod2021 podFL;
-  private SwervePod2021 podBL;
-  private SwervePod2021 podBR;
+  private SwervePod2022 podFR;
+  private SwervePod2022 podFL;
+  private SwervePod2022 podBL;
+  private SwervePod2022 podBR;
 
   private double lockP, lockI, lockD;
 
   private Drivetrain() {
     // Instantiate pods
-    podFR = new SwervePod2021(0, driveControllers[0], spinControllers[0]);
-    podFL = new SwervePod2021(1, driveControllers[1], spinControllers[1]);
-    podBL = new SwervePod2021(2, driveControllers[2], spinControllers[2]);
-    podBR = new SwervePod2021(3, driveControllers[3], spinControllers[3]);
+    podFR = new SwervePod2022(0, driveControllers[0], spinControllers[0]);
+    podFL = new SwervePod2022(1, driveControllers[1], spinControllers[1]);
+    podBL = new SwervePod2022(2, driveControllers[2], spinControllers[2]);
+    podBR = new SwervePod2022(3, driveControllers[3], spinControllers[3]);
 
     // Instantiate array list then add instantiated pods to list
-    pods = new ArrayList<SwervePod2021>();
+    pods = new ArrayList<SwervePod2022>();
     pods.add(podFR);
     pods.add(podFL);
     pods.add(podBL);
@@ -353,7 +354,7 @@ public class Drivetrain extends SubsystemBase {
   public void stopMotors() {
     for (int idx = 0; idx < (pods.size()); idx++) {
       driveControllers[idx].set(ControlMode.PercentOutput, 0);
-      spinControllers[idx].set(ControlMode.PercentOutput, 0);
+      spinControllers[idx].set(0);
     }
 
   }

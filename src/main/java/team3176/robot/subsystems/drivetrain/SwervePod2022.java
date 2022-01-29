@@ -41,7 +41,8 @@ import team3176.robot.constants.MasterConstants;
 public class SwervePod2022 {
 
     private TalonFX driveController;
-    private TalonSRX spinController;
+    private CANSparkMax spinController;
+    private SparkMaxPIDController spinPIDController;
 
     private int id;
     private int kEncoderOffset; 
@@ -65,7 +66,11 @@ public class SwervePod2022 {
     private double kP_Spin;
     private double kI_Spin;
     private double kD_Spin;
-    private double kF_Spin;
+    private double kFF_Spin;
+    private double kIz_Spin;
+    private double kMaxOutput;
+    private double kMinOutput;
+
 
     private double kP_Drive;
     private double kI_Drive;
@@ -83,8 +88,9 @@ public class SwervePod2022 {
     private final PIDController m_drivePIDController;
     private final ProfiledPIDController m_turningPIDController;
     private SwerveModuleState state;
+    private RelativeEncoder m_encoder;
 
-    public SwervePod2022(int id, TalonFX driveController, TalonSRX spinController) {
+    public SwervePod2022(int id, TalonFX driveController, CANSparkMax spinController) {
         this.id = id;
 
         this.kEncoderOffset = SwervePodConstants2022.SPIN_OFFSET[this.id];
@@ -119,11 +125,15 @@ public class SwervePod2022 {
         kPIDLoopIdx_drive = SwervePodConstants2022.TALON_DRIVE_PID_LOOP_ID;
         kTimeoutMs_drive = SwervePodConstants2022.TALON_DRIVE_PID_TIMEOUT_MS;
 
+        m_encoder = spinController.getEncoder();
 
         kP_Spin = SwervePodConstants2022.SPIN_PID[0][id];
         kI_Spin = SwervePodConstants2022.SPIN_PID[1][id];
         kD_Spin = SwervePodConstants2022.SPIN_PID[2][id];
-        kF_Spin = SwervePodConstants2022.SPIN_PID[3][id];
+        kFF_Spin = SwervePodConstants2022.SPIN_PID[3][id];
+        kIz_Spin = SwervePodConstants2022.SPIN_PID[4][id];
+        kMaxOutput = SwervePodConstants2022.SPIN_PID[5][id];
+        kMinOutput = SwervePodConstants2022.SPIN_PID[6][id];
 
         kP_Drive = 0.03; // SwervePodConstants.DRIVE_PID[0][id];
         kI_Drive = 0.0; // SwervePodConstants.DRIVE_PID[1][id];
@@ -134,7 +144,7 @@ public class SwervePod2022 {
         this.spinController = spinController;
 
         this.driveController.configFactoryDefault();
-        this.spinController.configFactoryDefault();
+        this.spinController.restoreFactoryDefaults();
 
         this.driveController.configClosedloopRamp(0.5);    
 
@@ -142,9 +152,9 @@ public class SwervePod2022 {
        // this.driveController.setNeutralMode(NeutralMode.Brake);
 
         this.driveController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-        this.spinController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);   //TODO: investigate QuadEncoder vs CTRE_MagEncoder_Absolute.  Are the two equivalent?  Why QuadEncoder instead of CTRE_MagEncoder_Absolute
+        //this.spinController.configSelectedFeedbackSensor(FeedbackDevice.m_encoder, 0, 0);   //TODO: investigate QuadEncoder vs CTRE_MagEncoder_Absolute.  Are the two equivalent?  Why QuadEncoder instead of CTRE_MagEncoder_Absolute
 
-       
+        /*
         if (this.id == 0 || this.id == 1) {
             this.spinController.setSensorPhase(SwervePodConstants2022.kSensorPhase);
             this.spinController.setInverted(SwervePodConstants2022.kMotorInverted);
@@ -153,7 +163,7 @@ public class SwervePod2022 {
             this.spinController.setSensorPhase(true);
             this.spinController.setInverted(true);
         }
-        
+        */
 
             //TODO: check out "Feedback Device Not Continuous"  under config tab in CTRE-tuner.  Is the available via API and set-able?  Caps encoder to range[-4096,4096], correct?
                 //this.spinController.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition), 0, 0);
@@ -172,10 +182,12 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("F", kF_Drive);
        // SmartDashboard.putNumber("driveSet",0);
 
-        this.spinController.config_kP(kPIDLoopIdx_spin, kP_Spin, kTimeoutMs_spin);
-        this.spinController.config_kI(kPIDLoopIdx_spin, kI_Spin, kTimeoutMs_spin);
-        this.spinController.config_kD(kPIDLoopIdx_spin, kD_Spin, kTimeoutMs_spin);
-        this.spinController.config_kF(kPIDLoopIdx_spin, kF_Spin, kTimeoutMs_spin);
+        this.spinPIDController.setP(kP_Spin, kPIDLoopIdx_spin);
+        this.spinPIDController.setI(kI_Spin, kPIDLoopIdx_spin);
+        this.spinPIDController.setD(kD_Spin, kPIDLoopIdx_spin);
+        this.spinPIDController.setFF(kFF_Spin, kPIDLoopIdx_spin);
+        this.spinPIDController.setIZone(kIz_Spin, kPIDLoopIdx_spin);
+        this.spinPIDController.setOutputRange(kMinOutput, kMaxOutput);
 
       ;
         // SmartDashboard.putNumber("startTics", startTics);
@@ -217,10 +229,10 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("P" + (id + 1) + " absTics", spinController.getSelectedSensorPosition());
         //if (this.id == 3) {spinController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
         if (this.podDrive > (-Math.pow(10,-10)) && this.podDrive < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(podDrive) != 0 is notationally sloppy math
-            spinController.set(ControlMode.Position, this.lastEncoderPos);  
+            spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
             // SmartDashboard.putNumber("P" + (id + 1) + " lastEncoderPos", this.lastEncoderPos);
         } else {
-            spinController.set(ControlMode.Position, encoderSetPos);  
+            spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
             this.lastEncoderPos = encoderSetPos;
             // SmartDashboard.putNumber("P" + (id + 1) + " lastEncoderPos", this.lastEncoderPos);
         }    
@@ -250,7 +262,8 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("P" + (id + 1) + " calcSpinPos_angle", angle);
         //System.out.println("calcSpinPos - P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
-        this.encoderPos = spinController.getSelectedSensorPosition() - this.kEncoderOffset;
+        this.encoderPos = m_encoder.getPosition();
+        //this.encoderPos = spinController.getSelectedSensorPosition() - this.kEncoderOffset;
         // SmartDashboard.putNumber("P" + (id + 1) + " kEncoderOffset", this.kEncoderOffset);
         // SmartDashboard.putNumber("P" + (id + 1) + " getSelectedSensorPosition", spinController.getSelectedSensorPosition());
         // SmartDashboard.putNumber("P" + (id + 1) + " encoderPos_in_calcSpinPos",this.encoderPos);
@@ -281,7 +294,7 @@ public class SwervePod2022 {
 
     public void goHome() {
         double homePos = 0 + this.kEncoderOffset;
-        this.spinController.set(ControlMode.Position, homePos);
+        this.spinPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
     }
 
     private int rads2Tics(double rads) {        //TODO: put a modulo cap limit like in tics2Rads (range[-pi,pi])  (Is it returning 0-2pi somehow?)
@@ -319,7 +332,7 @@ public class SwervePod2022 {
         //this.isAutonSwerveControllerOptimizingSpinPos = true;
         // Optimize the reference state to avoid spinning further than 90 degrees
         SwerveModuleState newDesiredState = new SwerveModuleState(desiredState.speedMetersPerSecond, desiredState.angle.times(-1));
-        Rotation2d rotation = new Rotation2d(-tics2Rads(spinController.getSelectedSensorPosition()));
+        Rotation2d rotation = new Rotation2d(-tics2Rads(m_encoder.getPosition()));
         state = newDesiredState;
         //SwerveModuleState.optimize(desiredState, rotation); //I do not know if this is the angle of the encoder.
         // SmartDashboard.putNumber("P"+this.id+".setDesiredState_desiredDegrees", desiredState.angle.getDegrees());
@@ -330,7 +343,7 @@ public class SwervePod2022 {
         driveOutput = .25 * driveOutput/DrivetrainConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND;   //TODO: <-- Ask Chase, why we multiply by 0.25?
 
         final var turnOutput = 
-            m_turningPIDController.calculate(tics2Rads(spinController.getSelectedSensorPosition()), state.angle.getRadians());
+            m_turningPIDController.calculate(tics2Rads(m_encoder.getPosition()), state.angle.getRadians());
         // SmartDashboard.putNumber("P"+this.id+".setDesiredState_TurnOutput",turnOutput);
         // SmartDashboard.putNumber("P"+this.id+".setDesiredState_DriveOutput",driveOutput);
 
@@ -358,7 +371,7 @@ public class SwervePod2022 {
     }
 
     public SwerveModuleState getState() {
-        state = new SwerveModuleState(getVelocity_metersPerSec(), new Rotation2d(tics2Rads(spinController.getSelectedSensorPosition())));
+        state = new SwerveModuleState(getVelocity_metersPerSec(), new Rotation2d(tics2Rads(m_encoder.getPosition())));
                 /*drivetrain.gyro.getRate() * DrivetrainConstants.DEGREES_PER_SECOND_TO_METERS_PER_SECOND_OF_WHEEL,
         drivetrain.getRotation2d());*/       
         return state;                                                                         //Not sure if this works
