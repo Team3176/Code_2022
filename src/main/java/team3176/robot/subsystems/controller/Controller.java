@@ -17,12 +17,18 @@ import team3176.robot.util.XboxDBLShift.*;
 
 public class Controller {
 
+  /* Creates one Version of the Controller class that can be Used Everywhere else with creating a new version */
+
   private static Controller instance = new Controller();
   public static Controller getInstance() {return instance;}
+
+  /* The Three Physical Controllers that we have */
 
   private final Joystick transStick;
   private final Joystick rotStick;
   private final XboxController operator;
+
+  /* First Part of Creating the Buttons on the Joysticks */
 
   private final JoystickButton transStick_Button1;
   private final JoystickButton transStick_Button2;
@@ -58,7 +64,7 @@ public class Controller {
   private final JoystickButton rotStick_Button15;
   private final JoystickButton rotStick_Button16;
 
-  //Add stick and slider and axes (how to say multiple axises)
+  //TODO: Add slider
 
   private final Trigger op_A;
   private final Trigger op_A_Shift;
@@ -79,14 +85,16 @@ public class Controller {
   private final Trigger op_Back_Shift;
   private final Trigger op_Back_Double_Shift;
   private final Trigger op_LTrigger; //TODO: SEE IF WE WANT SHIFTED TRIGGERS
-  private final Trigger op_RTrigger; //TODO: SEE IF WE WANT SHIFTED TRIGGERS
+  private final Trigger op_RTrigger;
 
-  private final POVButton op_DPAD_Up;
+  private final POVButton op_DPAD_Up; //TODO: SHIFTED DPAD ANYONE
   private final POVButton op_DPAD_Left;
   private final POVButton op_DPAD_Down;
   private final POVButton op_DPAD_Right;
 
   public Controller() {
+    /* Finish Creating the Objects */
+
     transStick = new Joystick(ControllerConstants.TRANS_ID);
     rotStick = new Joystick(ControllerConstants.ROT_ID);
     operator = new XboxController(ControllerConstants.OP_ID);
@@ -126,6 +134,13 @@ public class Controller {
     rotStick_Button15 = new JoystickButton(rotStick, 15);
     rotStick_Button16 = new JoystickButton(rotStick, 16);
 
+    /* 
+     * The Xbox Controller Buttons 
+     * XboxMain: The first level of control; NAME + NOT FIRST SHIFT + NOT SECOND SHIFT
+     * XboxShift: The second level of control; The first shift; NAME + First SHIFT + NOT SECOND SHIFT
+     * XboxDBLShift: The third level of control; The second shift; NAME + FIRST SHIFT + SECOND SHIFT
+     */
+
     op_A = new XboxMain(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
     op_A_Shift = new XboxShift(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
     op_A_Double_Shift = new XboxDBLShift(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
@@ -147,59 +162,120 @@ public class Controller {
     op_LTrigger = new XboxAxisAsButton(operator, Axis.kLeftTrigger.value, ControllerConstants.TRIGGER_THRESHOLD); //TODO: CHANGE THRESHOLD
     op_RTrigger = new XboxAxisAsButton(operator, Axis.kRightTrigger.value, ControllerConstants.TRIGGER_THRESHOLD);
     
+    /**
+     * The DPAD of the Xbox Controller
+     * The values are 0 as UP going in a 360 circle CCW
+     */
+
     op_DPAD_Up = new POVButton(operator, 0);
     op_DPAD_Right = new POVButton(operator, 90);
     op_DPAD_Down = new POVButton(operator, 180);
     op_DPAD_Left = new POVButton(operator, 270);
   }
 
+  /**
+   * Scale is the power of 1
+   * Deadband of 0.06
+   * @return The scales magnitude vector of the Y axis of TransStick if it breaks deadband
+   */
+
   public double getForward() {
     if(Math.abs(transStick.getY()) < 0.06) return 0.0;
     return ControllerConstants.FORWARD_AXIS_INVERSION * Math.pow(transStick.getY(), 1);
   }
+
+  /**
+   * Scale is the power of 1
+   * Deadband of 0.06
+   * @return The scales magnitude vector of the X axis of TransStick if it breaks deadband
+   */
 
   public double getStrafe() {
     if(Math.abs(transStick.getX()) < 0.06) return 0.0;
     return ControllerConstants.STRAFE_AXIS_INVERSION * Math.pow(transStick.getX(), 1);
   }
 
+  /**
+   * Scale is the power of 1
+   * Deadband of 0.06
+   * @return The scales magnitude vector of the X axis of RotStick if it breaks deadband
+   */
+
   public double getSpin() {
     if(Math.abs(rotStick.getX()) < 0.06) return 0.0;
     return 0.2 * ControllerConstants.SPIN_AXIS_INVERSION * (Math.pow(rotStick.getX(), 1) / 7.0);
   }
+
+  /**
+   * Scale is the power of 1
+   * Deadband of 0.06
+   * @return The scales magnitude vector of the Y axis of RotStick if it breaks deadband
+   */
 
   public double getOrbitSpeed() { //TODO: FIND IF WE NEED
     if(Math.abs(rotStick.getY()) < 0.06) return 0.0;
     return Math.pow(rotStick.getY(), 1);
   }
 
+  /**
+   * Scale is the power of 1
+   * @return The position of the POV on TransStick (The mini-joystick on top)
+   */
+
   public int getTransStickPOV() {
     return transStick.getPOV();
   }
 
+  /**
+   * Scale is the power of 1
+   * @return The position of the POV on RotStick (The mini-joystick on top)
+   */
+
   public int getRotStickPOV() {
     return rotStick.getPOV();
   }
+
+  /**
+   * Scale is the power of 1
+   * @return The value of the y axis of the left joystick of the Xbox Controller
+   */
 
   public double getOp_LeftY() {
     if(Math.abs(operator.getLeftY()) < 0.06) return 0.0;
     return Math.pow(operator.getLeftY(), 1);
   }
 
+  /**
+   * Scale is the power of 1
+   * @return The value of the x axis of the left joystick of the Xbox Controller
+   */
+
   public double getOp_LeftX() {
     if(Math.abs(operator.getLeftX()) < 0.06) return 0.0;
     return Math.pow(operator.getLeftX(), 1);
   }
+
+  /**
+   * Scale is the power of 1
+   * @return The value of the y axis of the right joystick of the Xbox Controller
+   */
 
   public double getOp_RightY() {
     if(Math.abs(operator.getRightY()) < 0.06) return 0.0;
     return Math.pow(operator.getLeftY(), 1);
   }
 
+  /**
+   * Scale is the power of 1
+   * @return The scales value of the x axis of the right joystick of the Xbox Controller
+   */
+
   public double getOp_RightX() {
     if(Math.abs(operator.getRightX()) < 0.06) return 0.0;
     return Math.pow(operator.getRightX(), 1);
   }
+
+  /* Returns the object of the named button */
 
   public JoystickButton getTransStick_Button1() {return transStick_Button1;}
   public JoystickButton getTransStick_Button2() {return transStick_Button2;}
