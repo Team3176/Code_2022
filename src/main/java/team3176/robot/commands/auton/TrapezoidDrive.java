@@ -2,17 +2,21 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Drivetrain.coordType;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public class TrapezoidDrive extends CommandBase {
   /** Creates a new TrapezoidDrive. */
   private Drivetrain m_Drivetrain = Drivetrain.getInstance();
+  private Gyro3176 m_gyro = Gyro3176.getInstance();
+  private CoordSys m_CoordSys = CoordSys.getInstance();
   private Timer timer = new Timer();
   private TrapezoidProfile profile;
   private double theta;
@@ -33,9 +37,9 @@ public class TrapezoidDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Drivetrain.setCoordType(coordType.FIELD_CENTRIC);
-    m_Drivetrain.setSpinLockAngle();
-    m_Drivetrain.setSpinLock(true);
+    m_CoordSys.setCoordType(coordType.FIELD_CENTRIC);
+    m_gyro.setSpinLockAngle();
+    //m_gyro.setSpinLock(true);
     timer.start();
   }
 

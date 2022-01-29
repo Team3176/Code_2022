@@ -1,4 +1,4 @@
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -9,12 +9,14 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.constants.DrivetrainConstants;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.constants.DrivetrainConstants;
+import team3176.robot.subsystems.drivetrain.Odometry3176;
 
 public class HolonomicAuton extends CommandBase {
 
   Drivetrain drivetrain = Drivetrain.getInstance();
+  Odometry3176 odometry = Odometry3176.getInstance();
 
   HolonomicDriveController holonomicController;
   Trajectory trajectory;
@@ -52,7 +54,7 @@ public class HolonomicAuton extends CommandBase {
     }
        
     Trajectory.State nextState = trajectory.sample(trajTime);
-    ChassisSpeeds adjustedSpeeds = holonomicController.calculate(drivetrain.getCurrentPose(), nextState, nextState.poseMeters.getRotation());
+    ChassisSpeeds adjustedSpeeds = holonomicController.calculate(odometry.getCurrentPose(), nextState, nextState.poseMeters.getRotation());
 
     // Simpily normalizing to get -1 to 1
     double forwardCommand = adjustedSpeeds.vxMetersPerSecond / DrivetrainConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND;

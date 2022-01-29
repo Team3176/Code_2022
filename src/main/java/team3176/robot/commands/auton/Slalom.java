@@ -1,13 +1,17 @@
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Drivetrain.coordType;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Slalom extends CommandBase {
     private Drivetrain drivetrain = Drivetrain.getInstance();
+    private CoordSys coordSys = CoordSys.getInstance();
+    private Gyro3176 gyro = Gyro3176.getInstance();
     private double startTime;
     double runTimeInput;
     double time1 = 1.15;
@@ -22,8 +26,8 @@ public class Slalom extends CommandBase {
     @Override
     public void initialize() {
         startTime = Timer.getFPGATimestamp();
-        drivetrain.setCoordType(coordType.FIELD_CENTRIC);
-        drivetrain.resetGyro();
+        coordSys.setCoordType(coordType.FIELD_CENTRIC);
+        gyro.resetGyro();
     }
 
     @Override

@@ -2,17 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
-import frc.robot.constants.DrivetrainConstants;
-import frc.robot.subsystems.Drivetrain;
+import team3176.robot.Robot;
+import team3176.robot.RobotContainer;
+import team3176.robot.constants.DrivetrainConstants;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.Odometry3176;
 
 public class FollowGivenPath extends CommandBase {
   
@@ -20,6 +21,7 @@ public class FollowGivenPath extends CommandBase {
   private Trajectory trajectory;
   private Robot robot;
   private RobotContainer container;
+  private Odometry3176 odometry;
   
   /** Creates a new FollowSlalomPath. */
   public FollowGivenPath(Trajectory trajectory) {
@@ -31,6 +33,7 @@ public class FollowGivenPath extends CommandBase {
   public void initialize() {
 
     drivetrain = Drivetrain.getInstance();
+    odometry = Odometry3176.getInstance();
     
    
 
@@ -55,7 +58,7 @@ public class FollowGivenPath extends CommandBase {
         drivetrain);*/
 
 // Reset odometry to the starting pose of the trajectory.
-drivetrain.resetOdometry(trajectory.getInitialPose());
+odometry.resetOdometry(trajectory.getInitialPose());
 
 
 }
