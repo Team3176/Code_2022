@@ -12,8 +12,7 @@ import team3176.robot.constants.ControllerConstants;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import team3176.robot.util.*;
-import team3176.robot.util.XboxDBLShift.*;
+import team3176.robot.util.XboxController.*;
 
 public class Controller {
 

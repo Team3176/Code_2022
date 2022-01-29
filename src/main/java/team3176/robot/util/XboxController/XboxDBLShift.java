@@ -1,4 +1,4 @@
-package team3176.robot.util.XboxDBLShift;
+package team3176.robot.util.XboxController;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;

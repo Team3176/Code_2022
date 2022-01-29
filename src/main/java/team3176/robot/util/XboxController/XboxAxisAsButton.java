@@ -1,4 +1,4 @@
-package team3176.robot.util;
+package team3176.robot.util.XboxController;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;

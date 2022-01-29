@@ -1,4 +1,4 @@
-package team3176.robot.util;
+package team3176.robot.util.Joystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
