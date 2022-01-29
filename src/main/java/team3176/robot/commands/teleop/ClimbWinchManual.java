@@ -5,28 +5,39 @@
 package team3176.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import team3176.robot.subsystems.climb.Climb;
+
+/**
+ * Uses a passed joystick value to Manually control the Winch
+ */
 
 public class ClimbWinchManual extends CommandBase {
-  /** Creates a new ClimbWinchManual. */
-  public ClimbWinchManual() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private Climb m_Climb = Climb.getInstance();
+  private boolean direction; //true is Up and false is Down
+
+  public ClimbWinchManual(double joyValue) { //TODO: SEE IF IT IS BETTER WITH PASSING THE JOYVAL AS A PARAMETER OR IN COMMAND WITH ACCESSING THE INSTANCE OF CONTROLLER BUT CANT DO ON THIS BRANCH
+    addRequirements(m_Climb);
+    if(joyValue > 0) {direction = true;} else {direction = false;}
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if(direction) {m_Climb.winchManualUp();}
+    else {m_Climb.winchManualDown();}
+  }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if(direction) {m_Climb.winchManualUp();}
+    else {m_Climb.winchManualDown();}
+  }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

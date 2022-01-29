@@ -20,5 +20,5 @@ public final class ClimbConstants{
     public final static double[] PID_MAIN = {/*P*/0.01, /*I*/0, /*D*/0};
     public final static double[] PID_SECONDARY = {/*P*/0.01, /*I*/0, /*D*/0};
     public final static double WINCH_MAX_LENGTH_POS = 2; //TODO:CHANGE NUMBER
-    public final static double WINCH_MIN_LENGTH_POS = 0; //TODO:CHANGE NUMBER 
+    public final static double WINCH_MIN_LENGTH_POS = 0; //TODO:CHANGE NUMBER
 }
