@@ -5,7 +5,7 @@
 package frc.robot.subsystems.indexer;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.TransferConstants;
+import frc.robot.constants.IndexerConstants;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -15,7 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Indexer extends SubsystemBase
 {
-  private Indexer m_indexer = new Indexer();
+  private static Indexer m_indexer = new Indexer();
   private CANSparkMax indexerMotor1;
   private SparkMaxPIDController pidController1;
   private RelativeEncoder encoder1;
@@ -23,11 +23,11 @@ public class Indexer extends SubsystemBase
 
   public Indexer()
   {
-    indexerMotor1 = new CANSparkMax(IndexerConstants.TRANSFER_NEO1_CAN_ID, MotorType.kBrushless);
+    indexerMotor1 = new CANSparkMax(IndexerConstants.INDEXER_NEO1_CAN_ID, MotorType.kBrushless);
     pidController1 = indexerMotor1.getPIDController();
     encoder2 = indexerMotor1.getEncoder();
     
-    indexerMotor1.setClosedLoopRampRate(TransferConstants.kRampRate);
+    indexerMotor1.setClosedLoopRampRate(IndexerConstants.kRampRate);
   }
 
   public void motor1Position(double position)
@@ -49,7 +49,7 @@ public class Indexer extends SubsystemBase
     // This method will be called once per scheduler run during simulation
   }
 
-  public Indexer getInstance() {
+  public static Indexer getInstance() {
     return m_indexer;
   }
 

@@ -13,6 +13,9 @@ import frc.robot.subsystems.shooter.Angler;
 import frc.robot.subsystems.shooter.Transfer;
 import frc.robot.subsystems.shooter.Flywheel;
 
+import frc.robot.commands.teleop.AnglerShuffleboardTest;
+import frc.robot.constants.AnglerConstants;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -23,11 +26,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final Angler m_Angler = new Angler();
-  // private final Transfer m_Transfer = new Transfer();
-  // private final Flywheel m_Flywheel = new Flywheel();
+  private final Angler m_Angler = Angler.getInstance();
+  // private final Transfer m_Transfer = Transfer.getInstance();
+  // private final Flywheel m_Flywheel = Flywheel.getInstance();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
+  private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -41,7 +46,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

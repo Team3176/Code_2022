@@ -15,7 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Transfer extends SubsystemBase
 {
-  private Transfer m_transfer = new Transfer();
+  private static Transfer m_transfer = new Transfer();
   private CANSparkMax transferMotor1;
   private SparkMaxPIDController pidController1;
   private RelativeEncoder encoder1;
@@ -46,7 +46,7 @@ public class Transfer extends SubsystemBase
     // This method will be called once per scheduler run during simulation
   }
 
-  public Transfer getInstance() {
+  public static Transfer getInstance() {
     return m_transfer;
   }
 

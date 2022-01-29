@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 
 public class Flywheel extends SubsystemBase {
 
-  private Flywheel m_flywheel = new Flywheel();
+  private static Flywheel m_flywheel = new Flywheel();
   private TalonFX flywheelMotor1;
   private TalonFX flywheelMotor2;
 
@@ -69,7 +69,7 @@ public class Flywheel extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public Flywheel getInstance() {
+  public static Flywheel getInstance() {
     return m_flywheel;
   }
   

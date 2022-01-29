@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Angler extends SubsystemBase {
   
+  private static Angler m_Angler = new Angler();
   private CANSparkMax anglerMotor;
   private SparkMaxPIDController PIDController;
   private RelativeEncoder encoder;
@@ -36,6 +37,7 @@ public class Angler extends SubsystemBase {
   // This value is whatever value we have set the motor to, and we don't care what the ControlType is.
   private double setValue;
 
+  // used for Shuffleboard velocity + limit switch testing
   private double smartdashboardVelocity;
 
   public Angler() {
@@ -64,9 +66,10 @@ public class Angler extends SubsystemBase {
     limiter2Engaged = false;
     setValue = 0;
 
-    smartdashboardVelocity = 0.0;
-    SmartDashboard.putNumber("Velocity (RPM)", smartdashboardVelocity);
-    SmartDashboard.putNumber("Angler FF", 0.0);
+    // used for Shuffleboard velocity + limit switch testing
+    // smartdashboardVelocity = 0.0;
+    // SmartDashboard.putNumber("Velocity (RPM)", smartdashboardVelocity);
+    // SmartDashboard.putNumber("Angler FF", 0.0);
   }
 
   /**
@@ -88,15 +91,30 @@ public class Angler extends SubsystemBase {
    */
   public void engagePIDMotor(double value, ControlType controlType)
   {
-    this.setValue = value;
-    if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
-    PIDController.setReference(value, controlType);
+    if (!limiter1Engaged && !limiter2Engaged) {
+      this.setValue = value;
+      if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
+      PIDController.setReference(value, controlType);
+    }
   }
 
-  public void engageRawMotor(double velocity)
+  public void engageRawMotor(double percentOutput)
+  {
+    this.setValue = percentOutput;
+    if (!limiter1Engaged && !limiter2Engaged) {
+      PIDLoopEngaged = false;
+      anglerMotor.set(percentOutput);
+    }
+  }
+
+  // Does the same thing as engageRawMotor(), except it ignores the limiter conditional so it can stop the motors no matter what
+  public void limiterStopMotor()
   {
     PIDLoopEngaged = false;
-    anglerMotor.set(velocity);
+    // Do NOT change the this.setValue variable for the limiter stopping the motor. It needs to remain where
+    // it was so that we know which direction we were trying to go originally, and so that the motor doesn't
+    // periodically stop and start over and over while the limit switch is held
+    anglerMotor.set(0.0);
   }
 
   public void changeAngle(double angleChange)
@@ -151,11 +169,11 @@ public class Angler extends SubsystemBase {
 
   public void shuffleboardVelocity()  
   {
-    double newVelocity = SmartDashboard.getNumber("Velocity (RPM)", smartdashboardVelocity);
-    if (newVelocity != smartdashboardVelocity) 
+    double newVelocity = SmartDashboard.getNumber("Velocity (RPM)", this.smartdashboardVelocity);
+    if (newVelocity != this.smartdashboardVelocity) 
     {
-      smartdashboardVelocity = newVelocity;
-      engagePIDMotor(smartdashboardVelocity, ControlType.kVelocity);
+      this.smartdashboardVelocity = newVelocity;
+      engagePIDMotor(this.smartdashboardVelocity, ControlType.kVelocity);
     }
   }
 
@@ -167,19 +185,42 @@ public class Angler extends SubsystemBase {
     }
   }
 
+  public void setFF(double newFF)
+  {
+    PIDController.setFF(newFF);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    if ((limitSwitch1.get() && setValue < 0) || (limitSwitch2.get() && setValue > 0)) {
-      engageRawMotor(0.0);
+    System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
+
+    // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
+    if (!limitSwitch1.get() && setValue < 0) {
+      limiterStopMotor();
+      limiter1Engaged = true;
+      limiter2Engaged = false;
+      System.out.println("LEFT LIMITER PRESSED ---------------");
+    } else if (!limitSwitch2.get() && setValue > 0) {
+      limiterStopMotor();
+      limiter2Engaged = true;
+      limiter1Engaged = false;
+      System.out.println("RIGHT LIMITER PRESSED ---------------");
+    } else {
+      limiter1Engaged = false;
+      limiter2Engaged = false;
     }
-      shuffleboardVelocity();
-      tunePID();
+
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
+  public static Angler getInstance() {
+    return m_Angler;
+  }
+
 }
