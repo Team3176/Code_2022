@@ -1,6 +1,6 @@
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
-import frc.robot.subsystems.Drivetrain;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CrossInitLine extends CommandBase {

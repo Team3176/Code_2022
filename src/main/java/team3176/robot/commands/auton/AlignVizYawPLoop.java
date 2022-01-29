@@ -2,18 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
 import java.sql.Driver;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.auton.AutonRotate;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Transfer;
-import frc.robot.subsystems.Drivetrain.coordType;
-import frc.robot.subsystems.Vision;
+import team3176.robot.commands.auton.AutonRotate;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.shooter.Transfer;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.vision.Vision;
 
 
 /**
@@ -25,8 +26,9 @@ import frc.robot.subsystems.Vision;
 public class AlignVizYawPLoop extends SequentialCommandGroup {
 
   private Drivetrain m_drivetrain = Drivetrain.getInstance();
-  private Vision m_Vision = Vision.getInstance();
-  private Transfer m_Transfer = Transfer.getInstance();
+  private CoordSys m_coordSys = CoordSys.getInstance();
+  //private Vision m_Vision = Vision.getInstance();
+  //private Transfer m_Transfer = Transfer.getInstance();
   private double tx, yawError, steerCorrection;
   private double upperTxLimit, lowerTxLimit;
   private double kP, minCommand;
@@ -34,13 +36,13 @@ public class AlignVizYawPLoop extends SequentialCommandGroup {
   /** Creates a new AutonAlign. */
   public AlignVizYawPLoop() {
     addRequirements(m_drivetrain);
-    addRequirements(m_Transfer);
+    //addRequirements(m_Transfer);
   }
 
   @Override
   public void initialize() {
     // m_drivetrain.setCoordType(coordType.ROBOT_CENTRIC);
-    m_drivetrain.setCoordType(coordType.FIELD_CENTRIC);
+    m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
     //m_Vision.setPipeline(1);
     //m_Vision.turnLEDsOn();
     this.kP = -0.01;
@@ -52,7 +54,7 @@ public class AlignVizYawPLoop extends SequentialCommandGroup {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.tx =  m_Vision.getTx();
+    //this.tx =  m_Vision.getTx();
     this.yawError = -tx;
     //new AutonRotate(.1, tx);
     if (tx > upperTxLimit) {

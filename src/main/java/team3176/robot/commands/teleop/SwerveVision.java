@@ -41,8 +41,8 @@ public class SwerveVision extends CommandBase {
 
   @Override
   public void execute() {
-    spinOutput = spinPID.returnOutput(m_gyro.getGyroAngle(), m_gyro.getGyroAngle() + m_Vision.getBallDegrees());
-    drivetrain.drive(forwardCommand.getAsDouble(), strafeCommand.getAsDouble(), spinOutput);
+    //spinOutput = spinPID.returnOutput(m_gyro.getGyroAngle(), m_gyro.getGyroAngle() + m_Vision.getBallDegrees());
+    //drivetrain.drive(forwardCommand.getAsDouble(), strafeCommand.getAsDouble(), spinOutput);
   }
 
   @Override

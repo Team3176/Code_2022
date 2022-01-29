@@ -2,18 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.constants.VisionConstants;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Vision;
-import frc.robot.*;
+import team3176.robot.constants.VisionConstants;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.vision.Vision;
+import team3176.robot.*;
 
 public class AutonSelector extends CommandBase{
-  private Vision m_Vision = Vision.getInstance();
+  //private Vision m_Vision = Vision.getInstance();
   private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private CommandScheduler commandScheduler = CommandScheduler.getInstance();
 
@@ -26,8 +26,8 @@ public class AutonSelector extends CommandBase{
   // Called when the command is initially scheduled.
   @Override
   public void initialize(){
-    m_Vision.controlLoopBallRecog();
-    angle = (m_Vision.hasTarget == 1) ? m_Vision.ballAngle * -VisionConstants.DEG2RAD : -999;
+    //m_Vision.controlLoopBallRecog();
+    //angle = (m_Vision.hasTarget == 1) ? m_Vision.ballAngle * -VisionConstants.DEG2RAD : -999;
   }
 
   /**

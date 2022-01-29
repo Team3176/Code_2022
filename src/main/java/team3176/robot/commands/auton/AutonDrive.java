@@ -2,12 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Drivetrain.coordType;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
 
 public class AutonDrive extends CommandBase {
   /** Creates a new AutonDrive. */
@@ -19,6 +21,8 @@ public class AutonDrive extends CommandBase {
   private double omega; //rotational velocity
   private double endTime;
   private Drivetrain drivetrain = Drivetrain.getInstance();
+  private Gyro3176 m_gyro = Gyro3176.getInstance();
+  private CoordSys m_coordSys = CoordSys.getInstance();
 
   public AutonDrive(double x, double y, double rot, double time) {
     addRequirements(drivetrain);
@@ -35,8 +39,8 @@ public class AutonDrive extends CommandBase {
   public void initialize() {
 
     timer.start();
-    drivetrain.setCoordType(coordType.FIELD_CENTRIC);
-    drivetrain.setSpinLockAngle();
+    m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
+    m_gyro.setSpinLockAngle();
     drivetrain.setSpinLock(true);
   }
 

@@ -2,18 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auton;
+package team3176.robot.commands.auton;
 
 import java.sql.Driver;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Drivetrain.coordType;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 
 public class AutonRotate extends CommandBase {
 
   private Drivetrain drivetrain = Drivetrain.getInstance();
+  private CoordSys m_coordSys = CoordSys.getInstance();
+  private Gyro3176 m_gyro = Gyro3176.getInstance();
   private double rotationSpeed;
   private double degrees;
   private double initialAngle;
@@ -29,9 +33,9 @@ public class AutonRotate extends CommandBase {
 
   @Override
   public void initialize() {
-    drivetrain.setCoordType(coordType.FIELD_CENTRIC);
+    m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
     //initialAngle = -drivetrain.getNavxAngle_inDegrees();
-    initialAngle = drivetrain.getNavxAngle_inDegrees();
+    initialAngle = m_gyro.getNavxAngle_inDegrees();
     //rotation = Math.copySign(rotation, degrees);
     
     //goal = initialAngle + degrees;
@@ -41,7 +45,7 @@ public class AutonRotate extends CommandBase {
   @Override
   public void execute() {
     drivetrain.drive(0,0,-rotationSpeed);
-    currentAngle = -drivetrain.getNavxAngle_inDegrees();
+    currentAngle = -m_gyro.getNavxAngle_inDegrees();
     // SmartDashboard.putNumber("initialAngle", initialAngle);
     SmartDashboard.putNumber("currentAngle", currentAngle);
     // SmartDashboard.putNumber("goal", goal);
@@ -61,12 +65,12 @@ public class AutonRotate extends CommandBase {
   }*/
   public boolean isFinished() {
     if(rotationSpeed > 0){
-    if(drivetrain.getNavxAngle_inDegrees() >= initialAngle + degrees ){
+    if(m_gyro.getNavxAngle_inDegrees() >= initialAngle + degrees ){
       return true;
     }
   }
   if(rotationSpeed < 0){
-    if(drivetrain.getNavxAngle_inDegrees() <= initialAngle + -degrees ){
+    if(m_gyro.getNavxAngle_inDegrees() <= initialAngle + -degrees ){
       return true;
     }
   }

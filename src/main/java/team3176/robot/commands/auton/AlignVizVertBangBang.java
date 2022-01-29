@@ -13,7 +13,7 @@ import team3176.robot.commands.auton.AutonRotate;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.shooter.Flywheel;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.vision.Vision;
 
 
 /**
@@ -24,10 +24,8 @@ import team3176.robot.subsystems.Vision;
  */
 public class AlignVizVertBangBang extends CommandBase {
 
-  private Hood m_AngledShooter = Hood.getInstance();
-  private Drum m_Drum = Drum.getInstance();
-  private Flywheel m_Flywheel = Flywheel.getInstance();
-  private Vision m_Vision = Vision.getInstance();
+  //private Flywheel m_Flywheel = Flywheel.getInstance();
+  //private Vision m_Vision = Vision.getInstance();
   double upperDeadbandLimitForVision, lowerDeadbandLimitForVision;
   double distanceToTargetHorz, distanceToTargetVert;
   private double flywheelRPM, HoodPos, DrumVel;
@@ -38,9 +36,7 @@ public class AlignVizVertBangBang extends CommandBase {
   public AlignVizVertBangBang() {
 
     //SUBSYSTEM REQUIREMENTS
-    addRequirements(m_AngledShooter);
-    addRequirements(m_Drum);
-    addRequirements(m_Flywheel);
+    //addRequirements(m_Flywheel);
 
     //CLASS VARIABLES
     double flywheelRPM, drumVel, HoodPos;
@@ -48,7 +44,7 @@ public class AlignVizVertBangBang extends CommandBase {
 
   @Override
   public void initialize() {
-    m_Vision.turnLEDsOn();
+   // m_Vision.turnLEDsOn();
     this.upperDeadbandLimitForVision = 2;
     this.lowerDeadbandLimitForVision = -2; 
     iAmDone = false;
@@ -61,18 +57,20 @@ public class AlignVizVertBangBang extends CommandBase {
   @Override
   public void execute() {
     //Get Horizontal Distance and Vertical Distances to target from Vision
-    this.distanceToTargetHorz = m_Vision.getDeltaX();
-    this.distanceToTargetVert = m_Vision.getDeltaY();
+    //this.distanceToTargetHorz = m_Vision.getDeltaX();
+    //this.distanceToTargetVert = m_Vision.getDeltaY();
 
     // Convert Horz & Vert distances to indices that can be used with firingLookupTable
     // The Double values are rounded to the nearest Int value.
+    /*
     int horzIdx = (int) Math.round(this.distanceToTargetHorz);
     int vertIdx = (int) Math.round(this.distanceToTargetVert);
+    */
 
     // Lookup the corresponding values in the ShootingLookupTables at array position [horzIdx, vertIdx]
-    double flywheelRPMLookup = ShootingLookupTables.RPM[horzIdx][vertIdx];
-    double hoodPosLookup = ShootingLookupTables.HOODPOS_for2PosHood[horzIdx][vertIdx];
-    double drumVelLookup = ShootingLookupTables.DRUMVEL[horzIdx][vertIdx];
+   // double flywheelRPMLookup = ShootingLookupTables.RPM[horzIdx][vertIdx];
+    //double hoodPosLookup = ShootingLookupTables.HOODPOS_for2PosHood[horzIdx][vertIdx];
+    //double drumVelLookup = ShootingLookupTables.DRUMVEL[horzIdx][vertIdx];
 
     // Set DRUM, FLYWHEEL, & HOOD to appropriate positions
 
@@ -96,7 +94,7 @@ public class AlignVizVertBangBang extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_Vision.turnLEDsOff();
+      //m_Vision.turnLEDsOff();
   }
 
   // Returns true when the command should end.
