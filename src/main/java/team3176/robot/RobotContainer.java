@@ -4,10 +4,16 @@
 
 package team3176.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
+import team3176.robot.commands.teleop.ExtendIntake;
+import team3176.robot.commands.teleop.IntakeSpin;
+import team3176.robot.commands.teleop.IntakeSpint;
+import team3176.robot.commands.teleop.RetractIntake;
 import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.subsystems.intake.*;
 import team3176.robot.subsystems.controller.*;
@@ -29,7 +35,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_Pneumatics = Pneumatics.getInstance();
+    m_Intake = Intake.getInstance();
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
@@ -45,8 +51,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_Controller.getDuke_XButton().whenPressed(new Extend());
-    m_Controller.getDuke_YButton().whenPressed(new Retract());
+    m_Controller.getDuke_XButton().whenPressed(new ExtendIntake());
+    m_Controller.getDuke_YButton().whenPressed(new RetractIntake());
+    m_Controller.getDuke_AButton().whenPressed(new IntakeSpin());
+    m_Controller.getDuke_BButton().whenPressed(new IntakeSpint());
   }
 
   /**

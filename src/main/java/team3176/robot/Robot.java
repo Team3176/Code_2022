@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+// Test Mode Imports
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import team3176.robot.subsystems.intake.Intake;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -16,6 +20,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Intake m_Intake;
+  private double intakeSpeed;
+  private boolean pistonSetting;
 
   private RobotContainer m_robotContainer;
 
@@ -87,9 +94,23 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_Intake = Intake.getInstance();
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() 
+  {
+    SmartDashboard.putNumber("Intake Speed", intakeSpeed);
+    m_Intake.spinVelocityPercent(intakeSpeed);
+    SmartDashboard.putBoolean("Piston Setting", pistonSetting);
+    if (pistonSetting)
+    {
+      m_Intake.Extend();
+    }
+    else
+    {
+      m_Intake.Retract();
+    }
+  }
 }
