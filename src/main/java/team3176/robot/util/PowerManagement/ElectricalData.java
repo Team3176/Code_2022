@@ -1,4 +1,4 @@
-package team3176.robot.util;
+package team3176.robot.util.PowerManagement;
 
 import java.util.Arrays;
 import edu.wpi.first.wpilibj.PowerDistribution;
