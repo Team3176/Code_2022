@@ -23,8 +23,15 @@ public class CoordSys extends SubsystemBase {
 
 
   /** Creates a new ExampleSubsystem. */
-  //public CoordSys() {}    //<-- WTF is this. -char
-  
+  public CoordSys() {}    
+  public void setCoordTypeToFieldCentric() {
+    this.currentCoordType = coordType.FIELD_CENTRIC;}
+    public void setCoordTypeToRobotCentric() {
+      this.currentCoordType = coordType.ROBOT_CENTRIC;}
+  public void setCoordType(coordType wantedType) {
+    currentCoordType = wantedType;
+  }
+
   public coordType getCurrentCoordType() {
     return currentCoordType;
   }
