@@ -7,6 +7,8 @@ package team3176.robot.subsystems.vision;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
+  private static Vision instance = new Vision();
+
   /** Creates a new ExampleSubsystem. */
   public Vision() {}
 
@@ -18,5 +20,8 @@ public class Vision extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+  public static Vision getInstance() {
+    return instance;
   }
 }
