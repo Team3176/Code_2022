@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
+import team3176.robot.commands.common.I2CTest;
 import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.subsystems.controller.Controller;
 import team3176.robot.util.instantPrintTest;
@@ -38,7 +39,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    m_Controller.getOp_A().whenActive(new I2CTest());
   }
 
   /**
