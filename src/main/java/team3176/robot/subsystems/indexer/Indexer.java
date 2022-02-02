@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 
 public class Indexer extends SubsystemBase
@@ -24,6 +25,7 @@ public class Indexer extends SubsystemBase
   private RelativeEncoder encoder2;
   private byte[] sensorByteArray;
   private boolean[] sensorBoolArray;
+  private DigitalInput input;
 
   private I2C m_I2C;
 
@@ -32,6 +34,7 @@ public class Indexer extends SubsystemBase
     indexerMotor = new CANSparkMax(IndexerConstants.INDEXER_NEO1_CAN_ID, MotorType.kBrushless);
     pidController1 = indexerMotor.getPIDController();
     encoder2 = indexerMotor.getEncoder();
+    //input = new DigitalInput(0);
 
     m_I2C = new I2C(I2C.Port.kMXP, 8);
     
@@ -76,6 +79,7 @@ public class Indexer extends SubsystemBase
   {
     // This method will be called once per scheduler run
     // I2CReciever();
+    //System.out.println("Input: " + input.get());
   }
 
   @Override
