@@ -5,16 +5,11 @@
 package team3176.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.Command;
-import team3176.robot.commands.*;
 import team3176.robot.commands.common.CalculateTargetDistance;
 import team3176.robot.commands.common.SwitchVisionPipeline;
 import team3176.robot.commands.common.SwitchVisionSDMode;
-import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.subsystems.vision.*;
 
 /**

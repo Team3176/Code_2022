@@ -58,18 +58,18 @@ public class VisionClient{
     /**
      * Creates the default references for VisionClient, specifically for Limelight values
      */
-    public VisionClient(){
+    /*public VisionClient(){
         tableInstance = NetworkTableInstance.getDefault();
         limelightTable = tableInstance.getTable("limelight");
         updateVisionData();
 
         limelightTable.getEntry("pipeline").setNumber(activePipeline);
-    }
+    }*/
 
     /**
      * Can be called to force update of VisionClient data structure
      */
-    public void updateVisionData(){
+    /*public void updateVisionData(){
         tv = limelightTable.getEntry("tv");
         tx = limelightTable.getEntry("tx");
         ty = limelightTable.getEntry("ty");
@@ -84,7 +84,7 @@ public class VisionClient{
         camMode = limelightTable.getEntry("camMode");
         ledMode = limelightTable.getEntry("ledMode");
         activePipeline = pipeline.getDouble(0);
-    }
+    }*/
     
     /**
      * All calculations for everything are done in this method.
@@ -96,7 +96,7 @@ public class VisionClient{
      * -initial angle of ball to make it into target
      * -initial velocity of ball to make it into target
      */
-    public void targetRecogControlLoop(){
+    /*public void targetRecogControlLoop(){
         // used to calculate latency
         double startTime = Timer.getFPGATimestamp();
 
@@ -114,19 +114,19 @@ public class VisionClient{
         findInitialAngleAndVelocity(0);
 
         SmartDashboard.putNumber("Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
-    }
+    }*/
 
 
     /**
      * Publishes "Has Targets", tshort, tvert, and tcornxy (under "Length" keyname value) to SmartDashboard
      */
-    public void publishPrelimTargetRecogData(){
+    /*public void publishPrelimTargetRecogData(){
         SmartDashboard.putBoolean("Has Targets", (tv.getDouble(2) == 1));
         SmartDashboard.putNumber("tshort", tshort.getDouble(0));
         SmartDashboard.putNumber("tvert", tvert.getDouble(0));
         double numCorners = tcornx.getDoubleArray(new double[1]).length * 2;
         SmartDashboard.putNumber("Number of Corners", (numCorners > 1) ? numCorners : null);
-    }
+    }*/
 
     /**
      * Calculates distances (deltaX and deltaY) to target from Target Recog Data
@@ -145,20 +145,20 @@ public class VisionClient{
     }*/
 
 
-    public void calcTargetRecogDistances(){
+    /*public void calcTargetRecogDistances(){
         deltaXCam = calculateDeltaX();
 
         SmartDashboard.putNumber("DeltaXCam", deltaXCam);
-    }
+    }*/
 
     /**
      * Publishes Target Recog Data to SmartDashboard.  Variables published are: radius, deltaX, deltaY.
      */
-    public void publishTargetRecogDistances(){
+    /*public void publishTargetRecogDistances(){
         SmartDashboard.putNumber("Radius", radius);
         SmartDashboard.putNumber("deltaX", deltaX);
         SmartDashboard.putNumber("deltaY", deltaY);
-    }
+    }*/
     
     /**
      * Calculates the difference in the two points furthest away from each other
@@ -166,11 +166,11 @@ public class VisionClient{
      * @param array array to find the range of
      * @return double that represents the range of the array
      */
-    public double calculateDeltaX(){
+    /*public double calculateDeltaX(){
         double[] array = tcornx.getDoubleArray(new double[1]);
         Arrays.sort(array);
         return array[array.length - 1] - array[0];
-    }
+    }*/
 
 
     /**
@@ -225,9 +225,9 @@ public class VisionClient{
     /** 
      * Publishes initialAngle to SmartDashboard under key value "initialTheta".
      */
-    public void publishInitialTheta(){
+    /*public void publishInitialTheta(){
         SmartDashboard.putNumber("initialTheta", initialTheta);
-    }
+    }*/
 
 
     /**
@@ -293,25 +293,25 @@ public class VisionClient{
     /**
      * Turns on Limelight's LEDs.  Duh.
      */
-    public void turnLEDsOn(){
+    /*public void turnLEDsOn(){
         ledMode.setNumber(3);
-    }
+    }*/
 
 
     /**
      * Blinks Limelight's LEDs.  Double duh.
      */
-    public void blinkLEDs(){
+    /*public void blinkLEDs(){
         ledMode.setNumber(2);
-    }
+    }*/
 
 
     /**
      * Seriously, man? Method's name says it all. It turns off Limelight's LEDs
      */
-    public void turnLEDsOff(){
+    /*public void turnLEDsOff(){
         ledMode.setNumber(1);
-    }
+    }*/
 
 
     /**
