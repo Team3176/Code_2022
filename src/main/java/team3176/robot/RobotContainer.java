@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
+import team3176.robot.commands.teleop.SwerveDrive;
 import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.subsystems.controller.Controller;
 import team3176.robot.util.instantPrintTest;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,6 +24,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Controller m_Controller = Controller.getInstance();
+  private final Drivetrain m_Drivetrain;
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -29,6 +32,15 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    m_Drivetrain = Drivetrain.getInstance();
+    m_Drivetrain.setDefaultCommand(new SwerveDrive(
+      () -> m_Controller.getForward(), 
+      () -> m_Controller.getStrafe(),
+      () -> m_Controller.getSpin()
+      //() -> m_Controller.isFieldCentricButtonPressed(),
+      //() -> m_Controller.isRobotCentricButtonPressed()
+    ));
   }
 
   /**
@@ -38,7 +50,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    
   }
 
   /**
