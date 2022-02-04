@@ -23,6 +23,11 @@ import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.intake.*;
 import team3176.robot.subsystems.controller.*;
 import team3176.robot.subsystems.climb.Climb;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import team3176.robot.commands.common.CalculateTargetDistance;
+import team3176.robot.commands.common.SwitchVisionPipeline;
+import team3176.robot.commands.common.SwitchVisionSDMode;
+import team3176.robot.subsystems.vision.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,10 +40,8 @@ public class RobotContainer {
   private Controller m_Controller;
   private Compressor m_Compressor;
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final Drivetrain m_Drivetrain;
-
+  private final Vision mVision = new Vision();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -76,6 +79,9 @@ public class RobotContainer {
     m_Controller.getOp_Y().whenActive(new RetractIntake());
     m_Controller.getOp_A().whenActive(new IntakeSpin());
     m_Controller.getOp_B().whenActive(new IntakeSpint());
+    //aButton.whenPressed(new SwitchVisionPipeline(mVision));
+    //bButton.whenPressed(new SwitchVisionSDMode(mVision));
+    //yButton.whenPressed(new CalculateTargetDistance(mVision));
   }
 
   /**
@@ -83,7 +89,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  /*public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
