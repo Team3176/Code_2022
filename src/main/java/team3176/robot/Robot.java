@@ -11,7 +11,12 @@ import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
 import org.littletonrobotics.junction.io.*;
+import team3176.robot.subsystems.intake.Intake;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+// Test Mode Imports
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import team3176.robot.subsystems.intake.Intake;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,8 +26,12 @@ import org.littletonrobotics.junction.io.*;
  */
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
+ 
 
   private RobotContainer m_robotContainer;
+  private Intake m_Intake;
+  private double intakeSpeed;
+  private boolean pistonSetting;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -107,9 +116,24 @@ public class Robot extends LoggedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_Intake = Intake.getInstance();
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() 
+  {
+    SmartDashboard.putNumber("IntakeSpeed", intakeSpeed);
+    SmartDashboard.putBoolean("PistonSetting", pistonSetting);
+    m_Intake.spinVelocityPercent(intakeSpeed);
+    if (pistonSetting)
+    {
+      m_Intake.Extend();
+    }
+    else
+    {
+      m_Intake.Retract();
+    }
+    
+  }
 }

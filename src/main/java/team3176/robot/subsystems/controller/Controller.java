@@ -9,15 +9,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import team3176.robot.constants.ControllerConstants;
+import team3176.robot.util.XboxAxisAsButton;
+import team3176.robot.util.XboxLoneButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import team3176.robot.util.XboxController.*;
 
 public class Controller {
-
-  /* Creates one Version of the Controller class that can be Used Everywhere else with creating a new version */
-
   private static Controller instance = new Controller();
   public static Controller getInstance() {return instance;}
 

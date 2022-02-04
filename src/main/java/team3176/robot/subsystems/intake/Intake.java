@@ -5,10 +5,63 @@
 package team3176.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Compressor;
+
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public Intake() {}
+    private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+    private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
+    private TalonFX intakeMotor = new TalonFX(70);
+    private static Intake instance = new Intake();
+    private boolean pistonSetting = false;
+    
+
+  public Intake() {
+  }
+
+  public void Extend() 
+  {
+    pistonSetting = true;
+    piston1.set(Value.kForward);
+    piston2.set(Value.kForward);
+  }
+
+  public void Retract() 
+  {
+    pistonSetting = false;
+    piston1.set(Value.kReverse);
+    piston2.set(Value.kReverse);
+  }
+
+  public void spinVelocityPercent(double pct)
+  {
+    intakeMotor.set(TalonFXControlMode.PercentOutput, pct);
+  }
+
+  public void stopMotor()
+  {
+    intakeMotor.set(TalonFXControlMode.PercentOutput, 0.0);
+  }
+
+  public boolean getPistonSetting()
+  {
+    return pistonSetting;
+  }
+
+  public static Intake getInstance() {
+    return instance;
+  }
 
   @Override
   public void periodic() {
