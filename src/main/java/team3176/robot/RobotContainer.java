@@ -15,9 +15,11 @@ import team3176.robot.commands.teleop.ExtendIntake;
 import team3176.robot.commands.teleop.IntakeSpin;
 import team3176.robot.commands.teleop.IntakeSpint;
 import team3176.robot.commands.teleop.RetractIntake;
+import team3176.robot.commands.teleop.SwerveDrive;
 import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.subsystems.controller.Controller;
 import team3176.robot.util.instantPrintTest;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.intake.*;
 import team3176.robot.subsystems.controller.*;
 
@@ -33,6 +35,8 @@ public class RobotContainer {
   private Compressor m_Compressor;
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Controller m_Controller = Controller.getInstance();
+  private final Drivetrain m_Drivetrain;
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -45,6 +49,15 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    m_Drivetrain = Drivetrain.getInstance();
+    m_Drivetrain.setDefaultCommand(new SwerveDrive(
+      () -> m_Controller.getForward(), 
+      () -> m_Controller.getStrafe(),
+      () -> m_Controller.getSpin()
+      //() -> m_Controller.isFieldCentricButtonPressed(),
+      //() -> m_Controller.isRobotCentricButtonPressed()
+    ));
   }
 
   /**
