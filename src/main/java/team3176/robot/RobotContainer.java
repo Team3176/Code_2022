@@ -35,7 +35,7 @@ public class RobotContainer {
   private Compressor m_Compressor;
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Controller m_Controller = Controller.getInstance();
+
   private final Drivetrain m_Drivetrain;
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
