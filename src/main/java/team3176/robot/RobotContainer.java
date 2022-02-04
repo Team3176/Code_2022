@@ -22,6 +22,7 @@ import team3176.robot.util.instantPrintTest;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.intake.*;
 import team3176.robot.subsystems.controller.*;
+import team3176.robot.subsystems.climb.Climb;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -41,11 +42,15 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  Compressor m_Compressor;
+  Climb m_Climb;
+  
   public RobotContainer() {
     m_Intake = Intake.getInstance();
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
+    m_Climb = Climb.getInstance();
 
     // Configure the button bindings
     configureButtonBindings();
