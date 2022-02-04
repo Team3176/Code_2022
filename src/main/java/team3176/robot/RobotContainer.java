@@ -33,7 +33,6 @@ public class RobotContainer {
   private Compressor m_Compressor;
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Controller m_Controller = Controller.getInstance();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -55,11 +54,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_Controller.getOp_A().whenActive(new I2CTest());
-    m_Controller.getDuke_XButton().whenPressed(new ExtendIntake());
-    m_Controller.getDuke_YButton().whenPressed(new RetractIntake());
-    m_Controller.getDuke_AButton().whenPressed(new IntakeSpin());
-    m_Controller.getDuke_BButton().whenPressed(new IntakeSpint());
+    //m_Controller.getOp_A().whenActive(new I2CTest());
+    m_Controller.getOp_X().whenActive(new ExtendIntake());
+    m_Controller.getOp_Y().whenActive(new RetractIntake());
+    m_Controller.getOp_A().whenActive(new IntakeSpin());
+    m_Controller.getOp_B().whenActive(new IntakeSpint());
   }
 
   /**
