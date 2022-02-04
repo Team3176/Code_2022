@@ -13,12 +13,12 @@ public class SwitchVisionPipeline extends CommandBase {
 
     @Override
     public void initialize(){
-        mSubsystem.SetVisionProcessing(true);
+        //mSubsystem.SetVisionProcessing(true);
     }
 
     @Override
     public void execute(){
-        mSubsystem.changePipeline((mSubsystem.getCurrentPipeline() == 1) ? 2 : 1);
+        //mSubsystem.changePipeline((mSubsystem.getCurrentPipeline() == 1) ? 2 : 1);
     }
 
     @Override

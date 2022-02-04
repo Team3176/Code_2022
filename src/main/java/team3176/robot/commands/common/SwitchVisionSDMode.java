@@ -13,7 +13,7 @@ public class SwitchVisionSDMode extends CommandBase {
 
     @Override
     public void execute(){
-        mSubsystem.SetVisionProcessing(!mSubsystem.getVisionProcessing());
+        //mSubsystem.SetVisionProcessing(!mSubsystem.getVisionProcessing());
     }
 
     @Override

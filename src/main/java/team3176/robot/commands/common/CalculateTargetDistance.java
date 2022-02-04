@@ -14,7 +14,7 @@ public class CalculateTargetDistance extends CommandBase {
 
     @Override
     public void execute(){
-        mSubsystem.calculateDistance();
+        //mSubsystem.calculateDistance();
     }
 
     @Override

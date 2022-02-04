@@ -185,7 +185,7 @@ public class VisionClient{
         }
 
         findInitialAngle(initialVelocity[speedIdx]);
-        publishPrelimTargetRecogData();
+        //publishPrelimTargetRecogData();
 
         if(!(initialTheta >= 0 && initialTheta <= (29.2 * VisionConstants.DEG2RAD))){
             if(speedIdx < initialVelocity.length - 1){

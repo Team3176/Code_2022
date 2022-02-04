@@ -18,7 +18,6 @@ public class Vision extends SubsystemBase {
 
 
   /** Creates a new ExampleSubsystem. */
-  public Vision() {}
 
   public NetworkTableInstance tableInstance;
   public NetworkTable limelightTable;
@@ -86,6 +85,7 @@ public class Vision extends SubsystemBase {
     camMode = limelightTable.getEntry("camMode");
     ledMode = limelightTable.getEntry("ledMode");
     activePipeline = pipeline.getDouble(0);
+  }
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
@@ -93,7 +93,6 @@ public class Vision extends SubsystemBase {
   public static Vision getInstance() {
     return instance;
   }
-}
 
   public void targetRecogControlLoop(){
     // used to calculate latency
