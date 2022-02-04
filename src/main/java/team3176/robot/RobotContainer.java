@@ -28,6 +28,12 @@ import team3176.robot.commands.common.CalculateTargetDistance;
 import team3176.robot.commands.common.SwitchVisionPipeline;
 import team3176.robot.commands.common.SwitchVisionSDMode;
 import team3176.robot.subsystems.vision.*;
+import team3176.robot.subsystems.shooter.Angler;
+import team3176.robot.subsystems.shooter.Transfer;
+import team3176.robot.subsystems.shooter.Flywheel;
+
+import team3176.robot.commands.teleop.AnglerShuffleboardTest;
+import team3176.robot.constants.AnglerConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,7 +50,14 @@ public class RobotContainer {
 
   private final Vision mVision = new Vision();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
+  private final Angler m_Angler = Angler.getInstance();
+  // private final Transfer m_Transfer = Transfer.getInstance();
+  // private final Flywheel m_Flywheel = Flywheel.getInstance();
+
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
+  private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   Climb m_Climb;
@@ -84,6 +97,9 @@ public class RobotContainer {
     //aButton.whenPressed(new SwitchVisionPipeline(mVision));
     //bButton.whenPressed(new SwitchVisionSDMode(mVision));
     //yButton.whenPressed(new CalculateTargetDistance(mVision));
+
+    m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
+
   }
 
   /**

@@ -3,8 +3,8 @@ package team3176.robot.util.PowerManagement;
 import java.util.Arrays;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-//import frc.robot.constants.PowerManagementConstants;
-//import frc.robot.subsystems.PowerManagement;
+//import team3176.robot.constants.PowerManagementConstants;
+//import team3176.robot.subsystems.PowerManagement;
 
 public class ElectricalData {
     String subsystemName = "UNKNOWN";  // Unique identifier that is readable and understandable to humans

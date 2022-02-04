@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 
@@ -42,11 +43,32 @@ public class Indexer extends SubsystemBase
 
   }
   public void indexer1Position(double position)
+=======
+public class Indexer extends SubsystemBase
+{
+  private static Indexer m_indexer = new Indexer();
+  private CANSparkMax indexerMotor1;
+  private SparkMaxPIDController pidController1;
+  private RelativeEncoder encoder1;
+  private RelativeEncoder encoder2;
+
+  public Indexer()
+  {
+    indexerMotor1 = new CANSparkMax(IndexerConstants.INDEXER_NEO1_CAN_ID, MotorType.kBrushless);
+    pidController1 = indexerMotor1.getPIDController();
+    encoder2 = indexerMotor1.getEncoder();
+    
+    indexerMotor1.setClosedLoopRampRate(IndexerConstants.kRampRate);
+  }
+
+  public void motor1Position(double position)
+>>>>>>> shooter
   {
     pidController1.setReference(position, ControlType.kPosition);
   }
 
   public void  motorStop() {
+<<<<<<< HEAD
     indexerMotor.set(0.0);
   }
 
@@ -80,6 +102,14 @@ public class Indexer extends SubsystemBase
     // This method will be called once per scheduler run
     // I2CReciever();
     //System.out.println("Input: " + input.get());
+=======
+    indexerMotor1.set(0.0);
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+>>>>>>> shooter
   }
 
   @Override
@@ -88,7 +118,11 @@ public class Indexer extends SubsystemBase
   }
 
   public static Indexer getInstance() {
+<<<<<<< HEAD
     return instance;
+=======
+    return m_indexer;
+>>>>>>> shooter
   }
 
 }
