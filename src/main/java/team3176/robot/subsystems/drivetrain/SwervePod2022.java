@@ -142,6 +142,7 @@ public class SwervePod2022 {
 
         this.driveController = driveController;
         this.spinController = spinController;
+        this.spinPIDController = spinController.getPIDController();
 
         this.driveController.configFactoryDefault();
         this.spinController.restoreFactoryDefaults();
@@ -182,14 +183,22 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("F", kF_Drive);
        // SmartDashboard.putNumber("driveSet",0);
 
+        this.spinPIDController.setP(kP_Spin);
+        this.spinPIDController.setI(kI_Spin);
+        this.spinPIDController.setD(kD_Spin);
+        this.spinPIDController.setFF(kFF_Spin);
+        this.spinPIDController.setIZone(kIz_Spin);
+        this.spinPIDController.setOutputRange(kMinOutput,kMaxOutput);
+
+        /*
         this.spinPIDController.setP(kP_Spin, kPIDLoopIdx_spin);
         this.spinPIDController.setI(kI_Spin, kPIDLoopIdx_spin);
         this.spinPIDController.setD(kD_Spin, kPIDLoopIdx_spin);
         this.spinPIDController.setFF(kFF_Spin, kPIDLoopIdx_spin);
         this.spinPIDController.setIZone(kIz_Spin, kPIDLoopIdx_spin);
         this.spinPIDController.setOutputRange(kMinOutput, kMaxOutput);
+        */
 
-      ;
         // SmartDashboard.putNumber("startTics", startTics);
 
         // SmartDashboard.putBoolean("pod" + (id + 1) + " inversion", isInverted());

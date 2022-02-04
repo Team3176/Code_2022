@@ -194,7 +194,7 @@ public class Angler extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
+    //System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
 
     // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
     if (!limitSwitch1.get() && setValue < 0) {

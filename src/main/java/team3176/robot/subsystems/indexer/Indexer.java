@@ -60,6 +60,7 @@ public class Indexer extends SubsystemBase
     {
       sensorBoolArray[i] = sensorByteArray[i]!=0;
     }
+    /*
     System.out.println(sensorBoolArray);
     for (int i = 0; i < sensorBoolArray.length; i++)
     {
@@ -72,6 +73,7 @@ public class Indexer extends SubsystemBase
         System.out.println("Disabled " + i);
       }
     }
+    */
   }
 
   @Override
