@@ -1,3 +1,4 @@
+
 package team3176.robot.subsystems.drivetrain;
 
 import java.util.function.DoubleSupplier;
@@ -42,7 +43,7 @@ public class SwervePod2022 {
 
     private TalonFX driveController;
     private CANSparkMax spinController;
-    private SparkMaxPIDController spinPIDController;
+    //private SparkMaxPIDController spinPIDController;
 
     private int id;
     private int kEncoderOffset; 
@@ -142,7 +143,7 @@ public class SwervePod2022 {
 
         this.driveController = driveController;
         this.spinController = spinController;
-        this.spinPIDController = spinController.getPIDController();
+       // this.spinPIDController = spinController.getPIDController();
 
         this.driveController.configFactoryDefault();
         this.spinController.restoreFactoryDefaults();
@@ -183,12 +184,14 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("F", kF_Drive);
        // SmartDashboard.putNumber("driveSet",0);
 
+       /*
         this.spinPIDController.setP(kP_Spin);
         this.spinPIDController.setI(kI_Spin);
         this.spinPIDController.setD(kD_Spin);
         this.spinPIDController.setFF(kFF_Spin);
         this.spinPIDController.setIZone(kIz_Spin);
         this.spinPIDController.setOutputRange(kMinOutput,kMaxOutput);
+        */
 
         /*
         this.spinPIDController.setP(kP_Spin, kPIDLoopIdx_spin);
@@ -223,7 +226,7 @@ public class SwervePod2022 {
         
         
         // SmartDashboard.putNumber("P" + (id + 1) + " podDrive", this.podDrive);
-        // SmartDashboard.putNumber("P" + (id + 1) + " podSpin", this.podSpin);
+         SmartDashboard.putNumber("P" + (id + 1) + " podSpin", this.podSpin);
             // TODO: need check ether output values. speed vs %-values
         // this.maxVelTicsPer100ms = 1 * 987.2503 * kDriveEncoderUnitsPerRevolution / 600.0;
         // this.velTicsPer100ms = this.podDrive * 2000.0 * kDriveEncoderUnitsPerRevolution / 600.0;  //TODO: rework "podDrive * 2000.0"
@@ -238,10 +241,10 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("P" + (id + 1) + " absTics", spinController.getSelectedSensorPosition());
         //if (this.id == 3) {spinController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
         if (this.podDrive > (-Math.pow(10,-10)) && this.podDrive < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(podDrive) != 0 is notationally sloppy math
-            spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
+            //spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
             // SmartDashboard.putNumber("P" + (id + 1) + " lastEncoderPos", this.lastEncoderPos);
         } else {
-            spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
+            //spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
             this.lastEncoderPos = encoderSetPos;
             // SmartDashboard.putNumber("P" + (id + 1) + " lastEncoderPos", this.lastEncoderPos);
         }    
@@ -257,6 +260,8 @@ public class SwervePod2022 {
         //     SmartDashboard.putNumber("Tics Error2", driveController.getSelectedSensorVelocity()-velTicsPer100ms);
         //     SmartDashboard.putNumber("DriveController Velocity", driveController.getSelectedSensorVelocity());
         // } 
+        spinController.set(podSpin/10.0); //3.5);// * 100);
+        System.out.println(podSpin);
         driveController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
         // SmartDashboard.putNumber("P" + (id + 1) + " velTicsPer100ms", velTicsPer100ms);
         // SmartDashboard.putNumber("P" + (id + 1) + " encoderSetPos_end", encoderSetPos);
@@ -303,7 +308,7 @@ public class SwervePod2022 {
 
     public void goHome() {
         double homePos = 0 + this.kEncoderOffset;
-        this.spinPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
+        //this.spinPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
     }
 
     private int rads2Tics(double rads) {        //TODO: put a modulo cap limit like in tics2Rads (range[-pi,pi])  (Is it returning 0-2pi somehow?)
