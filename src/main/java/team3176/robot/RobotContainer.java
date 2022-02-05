@@ -11,11 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
 import team3176.robot.commands.common.I2CTest;
-import team3176.robot.commands.teleop.ExtendIntake;
-import team3176.robot.commands.teleop.IntakeSpin;
-import team3176.robot.commands.teleop.IntakeSpint;
-import team3176.robot.commands.teleop.RetractIntake;
-import team3176.robot.commands.teleop.SwerveDrive;
+import team3176.robot.commands.teleop.*;
 import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.subsystems.controller.Controller;
 import team3176.robot.util.instantPrintTest;
@@ -24,15 +20,10 @@ import team3176.robot.subsystems.intake.*;
 import team3176.robot.subsystems.controller.*;
 import team3176.robot.subsystems.climb.Climb;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import team3176.robot.commands.common.CalculateTargetDistance;
-import team3176.robot.commands.common.SwitchVisionPipeline;
-import team3176.robot.commands.common.SwitchVisionSDMode;
 import team3176.robot.subsystems.vision.*;
 import team3176.robot.subsystems.shooter.Angler;
 import team3176.robot.subsystems.shooter.Transfer;
 import team3176.robot.subsystems.shooter.Flywheel;
-
-import team3176.robot.commands.teleop.AnglerShuffleboardTest;
 import team3176.robot.constants.AnglerConstants;
 
 /**
@@ -48,14 +39,11 @@ public class RobotContainer {
   private Drivetrain m_Drivetrain;
   // The robot's subsystems and commands are defined here...
 
-  private final Vision mVision = new Vision();
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Vision m_Vision = Vision.getInstance();
 
   private final Angler m_Angler = Angler.getInstance();
   // private final Transfer m_Transfer = Transfer.getInstance();
   // private final Flywheel m_Flywheel = Flywheel.getInstance();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
@@ -89,17 +77,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //m_Controller.getOp_A().whenActive(new I2CTest());
+    /*//m_Controller.getOp_A().whenActive(new I2CTest());
     m_Controller.getOp_X().whenActive(new ExtendIntake());
     m_Controller.getOp_Y().whenActive(new RetractIntake());
     m_Controller.getOp_A().whenActive(new IntakeSpin());
     m_Controller.getOp_B().whenActive(new IntakeSpint());
-    //aButton.whenPressed(new SwitchVisionPipeline(mVision));
-    //bButton.whenPressed(new SwitchVisionSDMode(mVision));
-    //yButton.whenPressed(new CalculateTargetDistance(mVision));
 
-    m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
+    m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);*/
 
+    m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
+    m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
+    m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
   }
 
   /**
@@ -107,8 +95,5 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+  //public Command getAutonomousCommand() {}
 }
