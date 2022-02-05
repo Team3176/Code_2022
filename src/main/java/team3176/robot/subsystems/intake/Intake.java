@@ -16,7 +16,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends SubsystemBase {
@@ -28,6 +27,9 @@ public class Intake extends SubsystemBase {
     
 
   public Intake() {
+
+    SmartDashboard.putNumber("percentIntake", 0.0);
+
   }
 
   public void Extend() 
@@ -57,6 +59,12 @@ public class Intake extends SubsystemBase {
   public boolean getPistonSetting()
   {
     return pistonSetting;
+  }
+
+  public void percentOutput() 
+  {
+    double output = SmartDashboard.getNumber("percentIntake", 0.0);
+    if (output >= -1 && output <= 1) { intakeMotor.set(TalonFXControlMode.PercentOutput, output); }
   }
 
   public static Intake getInstance() {

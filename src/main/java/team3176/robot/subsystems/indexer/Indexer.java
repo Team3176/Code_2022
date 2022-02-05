@@ -12,6 +12,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
@@ -40,7 +41,9 @@ public class Indexer extends SubsystemBase
     
     indexerMotor.setClosedLoopRampRate(IndexerConstants.kRampRate);
 
+    SmartDashboard.putNumber("percentIndexer", 0.0);
   }
+
   public void indexer1Position(double position)
   {
     pidController1.setReference(position, ControlType.kPosition);
@@ -74,6 +77,12 @@ public class Indexer extends SubsystemBase
       }
     }
     */
+  }
+
+  public void percentOutput() 
+  {
+    double output = SmartDashboard.getNumber("percentIndexer", 0.0);
+    if (output >= -1 && output <= 1) { indexerMotor.set(output); }
   }
 
   @Override

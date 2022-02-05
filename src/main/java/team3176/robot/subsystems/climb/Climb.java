@@ -84,6 +84,8 @@ public class Climb extends SubsystemBase {
     isPrimaryPistonEngaged = false;
     isSecondaryPistonEngaged = false;
     isSmartDashboardTestTimesShown = false;
+
+    SmartDashboard.putNumber("percentWinch", 0.0);
   }
 
   /**
@@ -221,6 +223,12 @@ public class Climb extends SubsystemBase {
   public void setValuesFromSmartDashboard() {
     winchMotor.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Winch Falcon PCT", 0));
     // wincSecondaryMotor.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Secondary Winch Falcon PCT", 0));
+  }
+
+  public void percentOutput() 
+  {
+    double output = SmartDashboard.getNumber("percentClimb", 0.0);
+    if (output >= -1 && output <= 1) { winchMotor.set(ControlMode.PercentOutput, output); }
   }
 
   @Override

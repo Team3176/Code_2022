@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class Flywheel extends SubsystemBase {
 
@@ -21,8 +23,10 @@ public class Flywheel extends SubsystemBase {
 
   public Flywheel()
   {
-    flywheelMotor1 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON1_CAN_ID);
+    // flywheelMotor1 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON1_CAN_ID);
     flywheelMotor2 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON2_CAN_ID);
+    // used with test motors that have different CAN IDs
+    flywheelMotor1 = new TalonFX(5);
 
     flywheelMotor1.configFactoryDefault();
     flywheelMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, FlywheelConstants.kPIDLoopIndex, FlywheelConstants.kTimeoutMS);
@@ -36,6 +40,9 @@ public class Flywheel extends SubsystemBase {
     // This will (hopefully) invert the second motor
     flywheelMotor2.setSensorPhase(false);
     flywheelMotor2.configClosedloopRamp(FlywheelConstants.kRampRate, FlywheelConstants.kTimeoutMS);
+
+    SmartDashboard.putNumber("percentFlywheel_1", 0.0);
+    SmartDashboard.putNumber("percentFlywheel_2", 0.0);    
   }
 
   public void spinMotors(double ticksPer100ms)
@@ -52,6 +59,18 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100ms);
   }
   */
+
+  public void percentOutput_1() 
+  {
+    double output = SmartDashboard.getNumber("percentFlywheel_1", 0.0);
+    if (output >= -1 && output <= 1) { flywheelMotor1.set(ControlMode.PercentOutput, output); }
+  }
+
+  public void percentOutput_2() 
+  {
+    double output = SmartDashboard.getNumber("percentFlywheel_2", 0.0);
+    if (output >= -1 && output <= 1) { flywheelMotor2.set(ControlMode.PercentOutput, output); }
+  }
 
   public void stopMotors()
   {

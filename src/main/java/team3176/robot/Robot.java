@@ -15,9 +15,12 @@ import team3176.robot.subsystems.intake.Intake;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // Test Mode Imports
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import team3176.robot.subsystems.intake.Intake;
-import team3176.robot.subsystems.climb.Climb;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import team3176.robot.subsystems.intake.Intake;
+// import team3176.robot.subsystems.climb.Climb;
+import team3176.robot.subsystems.shooter.Flywheel;
+// import team3176.robot.subsystems.shooter.Transfer;
+import team3176.robot.util.PowerManagement.PowerManagement;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,12 +30,19 @@ import team3176.robot.subsystems.climb.Climb;
  */
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
+  private RobotContainer m_robotContainer;
+
+  /*
   private Climb m_Climb = Climb.getInstance();
 
-  private RobotContainer m_robotContainer;
   private Intake m_Intake;
   private double intakeSpeed;
   private boolean pistonSetting;
+  */
+
+  // private Transfer m_Transfer;
+  private Flywheel m_Flywheel;
+  private PowerManagement m_PowerManagement;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -56,7 +66,7 @@ public class Robot extends LoggedRobot {
     }
 
     Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-    
+
     m_robotContainer = new RobotContainer();
   }
 
@@ -92,7 +102,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    m_Climb.mode = "auto";
+    // m_Climb.mode = "auto";
   }
 
   /** This function is called periodically during autonomous. */
@@ -108,7 +118,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_Climb.mode = "teleop";
+    // m_Climb.mode = "teleop";
   }
 
   /** This function is called periodically during operator control. */
@@ -119,14 +129,23 @@ public class Robot extends LoggedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    /*
     m_Intake = Intake.getInstance();
     m_Climb.mode = "test";
+    */
+
+    m_Flywheel = Flywheel.getInstance();
+    // m_Transfer = Transfer.getInstance();
+    
+    m_PowerManagement = PowerManagement.getInstance();
+    // m_PowerManagement.clearStickyFaults();
   }
 
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() 
   {
+    /*
     SmartDashboard.putNumber("IntakeSpeed", intakeSpeed);
     SmartDashboard.putBoolean("PistonSetting", pistonSetting);
     m_Intake.spinVelocityPercent(intakeSpeed);
@@ -138,6 +157,9 @@ public class Robot extends LoggedRobot {
     {
       m_Intake.Retract();
     }
-    
+    */
+
+    m_Flywheel.percentOutput_1();
+
   }
 }

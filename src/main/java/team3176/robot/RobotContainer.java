@@ -15,11 +15,11 @@ import team3176.robot.commands.teleop.ExtendIntake;
 import team3176.robot.commands.teleop.IntakeSpin;
 import team3176.robot.commands.teleop.IntakeSpint;
 import team3176.robot.commands.teleop.RetractIntake;
-import team3176.robot.commands.teleop.SwerveDrive;
+// import team3176.robot.commands.teleop.SwerveDrive;
 import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.subsystems.controller.Controller;
 import team3176.robot.util.instantPrintTest;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
+// import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.intake.*;
 import team3176.robot.subsystems.controller.*;
 import team3176.robot.subsystems.climb.Climb;
@@ -28,12 +28,12 @@ import team3176.robot.commands.common.CalculateTargetDistance;
 import team3176.robot.commands.common.SwitchVisionPipeline;
 import team3176.robot.commands.common.SwitchVisionSDMode;
 import team3176.robot.subsystems.vision.*;
-import team3176.robot.subsystems.shooter.Angler;
-import team3176.robot.subsystems.shooter.Transfer;
+// import team3176.robot.subsystems.shooter.Angler;
+// import team3176.robot.subsystems.shooter.Transfer;
 import team3176.robot.subsystems.shooter.Flywheel;
 
-import team3176.robot.commands.teleop.AnglerShuffleboardTest;
-import team3176.robot.constants.AnglerConstants;
+// import team3176.robot.commands.teleop.AnglerShuffleboardTest;
+// import team3176.robot.constants.AnglerConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,33 +45,36 @@ public class RobotContainer {
   private Intake m_Intake;
   private Controller m_Controller;
   private Compressor m_Compressor;
-  private Drivetrain m_Drivetrain;
+  // private Drivetrain m_Drivetrain;
   // The robot's subsystems and commands are defined here...
 
   private final Vision mVision = new Vision();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final Angler m_Angler = Angler.getInstance();
+  // private final Angler m_Angler = Angler.getInstance();
   // private final Transfer m_Transfer = Transfer.getInstance();
   // private final Flywheel m_Flywheel = Flywheel.getInstance();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
+  // private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   Climb m_Climb;
   
   public RobotContainer() {
+    /*
     m_Intake = Intake.getInstance();
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
     m_Climb = Climb.getInstance();
+    */
 
     // Configure the button bindings
     configureButtonBindings();
 
+    /*
     m_Drivetrain = Drivetrain.getInstance();
     m_Drivetrain.setDefaultCommand(new SwerveDrive(
       () -> m_Controller.getForward(), 
@@ -80,6 +83,7 @@ public class RobotContainer {
       //() -> m_Controller.isFieldCentricButtonPressed(),
       //() -> m_Controller.isRobotCentricButtonPressed()
     ));
+    */
   }
 
   /**
@@ -89,6 +93,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    /*
     //m_Controller.getOp_A().whenActive(new I2CTest());
     m_Controller.getOp_X().whenActive(new ExtendIntake());
     m_Controller.getOp_Y().whenActive(new RetractIntake());
@@ -97,8 +102,9 @@ public class RobotContainer {
     //aButton.whenPressed(new SwitchVisionPipeline(mVision));
     //bButton.whenPressed(new SwitchVisionSDMode(mVision));
     //yButton.whenPressed(new CalculateTargetDistance(mVision));
+    */
 
-    m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
+    // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
 
   }
 

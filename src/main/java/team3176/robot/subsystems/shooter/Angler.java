@@ -23,12 +23,9 @@ public class Angler extends SubsystemBase {
   private SparkMaxPIDController PIDController;
   private RelativeEncoder encoder;
 
+  private double positionAt45Deg;
   private DigitalInput limitSwitch1;
   private DigitalInput limitSwitch2;
-
-  private int ticsPerRevolution;
-  private double positionAt45Deg;
-
   private boolean PIDLoopEngaged;
   private boolean limiter1Engaged;
   private boolean limiter2Engaged;
@@ -36,9 +33,6 @@ public class Angler extends SubsystemBase {
   // Used to help us allow the angler to be touching a limit switch and move away from it. This value is only used for its sign.
   // This value is whatever value we have set the motor to, and we don't care what the ControlType is.
   private double setValue;
-
-  // used for Shuffleboard velocity + limit switch testing
-  private double smartdashboardVelocity;
 
   public Angler() {
 
@@ -49,27 +43,20 @@ public class Angler extends SubsystemBase {
 
     // stop the motor on enable
     anglerMotor.set(0.0);
-    PIDController.setReference(0.0, ControlType.kVelocity);
 
     PIDController.setP(0.001);
     PIDController.setI(0.0);
     PIDController.setD(0.0);
-    PIDController.setFF(0.0);
-
-    ticsPerRevolution = encoder.getCountsPerRevolution();
 
     limitSwitch1 = new DigitalInput(AnglerConstants.limiter1Channel);
     limitSwitch2 = new DigitalInput(AnglerConstants.limiter2Channel);
 
-    PIDLoopEngaged = true;
+    PIDLoopEngaged = false;
     limiter1Engaged = false;
     limiter2Engaged = false;
     setValue = 0;
 
-    // used for Shuffleboard velocity + limit switch testing
-    // smartdashboardVelocity = 0.0;
-    // SmartDashboard.putNumber("Velocity (RPM)", smartdashboardVelocity);
-    // SmartDashboard.putNumber("Angler FF", 0.0);
+    SmartDashboard.putNumber("percentAngler", 0.0);
   }
 
   /**
@@ -78,6 +65,11 @@ public class Angler extends SubsystemBase {
    */
   public void reengagePIDLoop()
   {
+    // Yes, this DOES set velocity control. However, this line is only called to reengage the PID loop before any of the PID position
+    // control lines are called. This line will only be active for an instant. The reason for this is because if the set() method is
+    // called on the motor, it stops using the PID loop as reference. When the PID loop is called for a reference the next time, the motor
+    // may instantly try to jump to whatever speed or position it needs to be at. This is necessary for velocity control, but it may
+    // not be necessary for position control. Will have to test.
     PIDController.setReference(encoder.getVelocity(), ControlType.kVelocity);
     PIDLoopEngaged = true;
   }
@@ -89,22 +81,27 @@ public class Angler extends SubsystemBase {
    * @param controlType
    * @author Jared Brown
    */
-  public void engagePIDMotor(double value, ControlType controlType)
+  public void engagePIDMotorPosition(double value)
   {
     if (!limiter1Engaged && !limiter2Engaged) {
       this.setValue = value;
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
-      PIDController.setReference(value, controlType);
+      PIDController.setReference(value, ControlType.kPosition);
     }
   }
 
   public void engageRawMotor(double percentOutput)
   {
     this.setValue = percentOutput;
-    if (!limiter1Engaged && !limiter2Engaged) {
+    if (!limiter1Engaged && !limiter2Engaged && percentOutput >= -1 && percentOutput <= 1) {
       PIDLoopEngaged = false;
       anglerMotor.set(percentOutput);
     }
+  }
+
+  public void testPercentOutput() 
+  {
+    engageRawMotor(SmartDashboard.getNumber("percentAngler", 0.0));
   }
 
   // Does the same thing as engageRawMotor(), except it ignores the limiter conditional so it can stop the motors no matter what
@@ -122,7 +119,7 @@ public class Angler extends SubsystemBase {
     double rotationsOfMotor = angleChange * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO;
     if ((encoder.getPosition() + rotationsOfMotor <= 80 * AnglerConstants.ROTATIONS_PER_DEGREE) &&
         (encoder.getPosition() + rotationsOfMotor >= 45 * AnglerConstants.ROTATIONS_PER_DEGREE)) {
-      this.engagePIDMotor(rotationsOfMotor, ControlType.kPosition);
+      this.engagePIDMotorPosition(rotationsOfMotor);
     }
   }
 
@@ -131,20 +128,8 @@ public class Angler extends SubsystemBase {
     double oldAngleInRotationsOfMotor = encoder.getPosition();
     double differenceInRotations = (positionAt45Deg + (newAngle * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO)) - oldAngleInRotationsOfMotor;
     if ((newAngle <= 80) && (newAngle >= 45)) {
-      this.engagePIDMotor(differenceInRotations, ControlType.kPosition);
+      this.engagePIDMotorPosition(differenceInRotations);
     }
-  }
-
-
-  /**
-   * Sets the velocity of the angler in degrees/sec
-   * @param velocity deg/s
-   * @author Jared Brown and Christian Schweitzer
-   */
-  public void setVelocity(double degreesPerSecond)
-  {
-    double rotationsPerMin = degreesPerSecond * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO * 60;
-    this.engagePIDMotor(rotationsPerMin, ControlType.kVelocity);
   }
 
 
@@ -167,46 +152,24 @@ public class Angler extends SubsystemBase {
     positionAt45Deg = encoder.getPosition();
   }
 
-  public void shuffleboardVelocity()  
-  {
-    double newVelocity = SmartDashboard.getNumber("Velocity (RPM)", this.smartdashboardVelocity);
-    if (newVelocity != this.smartdashboardVelocity) 
-    {
-      this.smartdashboardVelocity = newVelocity;
-      engagePIDMotor(this.smartdashboardVelocity, ControlType.kVelocity);
-    }
-  }
-
-  public void tunePID()
-  {
-    double newFF = SmartDashboard.getNumber("Angler FF", 0.0);
-    if (newFF != PIDController.getFF()) {
-      PIDController.setFF(newFF);
-    }
-  }
-
-  public void setFF(double newFF)
-  {
-    PIDController.setFF(newFF);
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    //System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
+    // System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
+    SmartDashboard.putNumber("RPM", encoder.getVelocity());
 
     // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
     if (!limitSwitch1.get() && setValue < 0) {
       limiterStopMotor();
       limiter1Engaged = true;
       limiter2Engaged = false;
-      System.out.println("LEFT LIMITER PRESSED ---------------");
+      // System.out.println("LEFT LIMITER PRESSED ---------------");
     } else if (!limitSwitch2.get() && setValue > 0) {
       limiterStopMotor();
       limiter2Engaged = true;
       limiter1Engaged = false;
-      System.out.println("RIGHT LIMITER PRESSED ---------------");
+      // System.out.println("RIGHT LIMITER PRESSED ---------------");
     } else {
       limiter1Engaged = false;
       limiter2Engaged = false;
