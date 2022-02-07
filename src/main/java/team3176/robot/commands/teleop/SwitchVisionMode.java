@@ -1,20 +1,19 @@
-package team3176.robot.commands.common;
+package team3176.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.vision.Vision;
 
-public class CalculateTargetDistance extends CommandBase {
+public class SwitchVisionMode extends CommandBase {
+    private final Vision mSubsystem;
 
-    private final Vision mSubsystem;    
-
-    public CalculateTargetDistance(Vision subsystem){
+    public SwitchVisionMode(Vision subsystem){
         mSubsystem = subsystem;
         addRequirements(subsystem);
     }
 
     @Override
     public void execute(){
-        //mSubsystem.calculateDistance();
+        mSubsystem.setVisionProcessing(!mSubsystem.getVisionProcessing());
     }
 
     @Override
