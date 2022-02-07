@@ -14,5 +14,9 @@ package team3176.robot.constants;
  */
 public final class IntakeConstants 
 {
-    private final int INTAKE_CAN_ID = 70;
+    public static final int INTAKE_MOTOR_CAN_ID = 70;
+    public static final int DSOLENOID1_FWD_CHAN = 0;
+    public static final int DSOLENOID1_REV_CHAN = 1;
+    public static final int DSOLENOID2_FWD_CHAN = 2;
+    public static final int DSOLENOID2_REV_CHAN = 3;
 }
