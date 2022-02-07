@@ -12,12 +12,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import team3176.robot.VisionClient;
+import team3176.robot.constants.VisionConstants;
 public class Vision extends SubsystemBase {
+  
   private static Vision instance = new Vision();
-
-
-  /** Creates a new ExampleSubsystem. */
 
   public NetworkTableInstance tableInstance;
   public NetworkTable limelightTable;
@@ -45,8 +43,8 @@ public class Vision extends SubsystemBase {
   private final double gravity = -9.81; // m/s^2
   private double deltaX; // m
   private double deltaY; // m
-  private double[] initialVelocity = {4.0, 3.0, 2.0}; // m/s
-  private double initialAngle; // radians
+  private double initialVelocity; // m/s
+  private double[] initialAngle = {45, 50, 55, 60, 65, 70, 75, 80, 85, 90}; // deg from horizontal
   private double finalAngle; // radians
   private double xVelocity; // m/s
   private double initialYVelocity; // m/s
@@ -65,6 +63,10 @@ public class Vision extends SubsystemBase {
     updateVisionData();
 
     limelightTable.getEntry("pipeline").setNumber(activePipeline);
+  }
+
+  public static Vision getInstance(){
+    return instance;
   }
 
   /**
@@ -90,9 +92,6 @@ public class Vision extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-  public static Vision getInstance() {
-    return instance;
-  }
 
   public void targetRecogControlLoop(){
     // used to calculate latency
@@ -112,14 +111,46 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
   }
 
-  private double calculateDeltaX(){
+  public double calculateDeltaX(){
     double[] array = tcornx.getDoubleArray(new double[1]);
     Arrays.sort(array);
-    return array[array.length - 1] - array[0];
+    deltaXCam = array[array.length - 1] - array[0] + (10 * VisionConstants.INCHES2METERS);
+    return deltaXCam;
   }
 
-  public void findInitialAngleAndVelocity(int angleIdx){
-
+  public double[] findInitialAngleAndVelocity(int angleIdx){
+    if(angleIdx >= initialAngle.length || angleIdx < 0){
+      return null;
+    }
+    
+    initialVelocity = findInitialVelocity(angleIdx);
+    
+    // Haha, get it? Because this variable "doublechecks" the result. Programming jokes are the best. 
+    double check = Math.sqrt(Math.pow(initialVelocity * Math.sin(initialAngle[angleIdx]), 2) + 2 * gravity * deltaY);
+    
+    if(check > 0){
+      double calculatedTOF = (check - initialVelocity) / gravity;
+      double fullCalculatedDistance = initialVelocity * Math.cos(initialAngle[angleIdx]) * calculatedTOF;
+      if(fullCalculatedDistance > deltaX){
+        return findInitialAngleAndVelocity(angleIdx + 1);
+      } else{
+        return findInitialAngleAndVelocity(angleIdx - 1);
+      }
+    }
+    
+    solveOtherVariablesFromVelocity();
+    
+    double[] arrayToSend = {initialVelocity, initialAngle[angleIdx]};
+    return arrayToSend;
+  }
+  
+  private double findInitialVelocity(int angleIdx){
+    double term1 = deltaX / (Math.cos(initialAngle[angleIdx]));
+    double term2 = gravity / (2 * (deltaY - deltaX * Math.tan(initialAngle[angleIdx])));
+    return term1 * Math.sqrt(term2);
+  }
+  
+  private void solveOtherVariablesFromVelocity(){
   }
 
   public void setVisionProcessing(boolean imageProcessing){
@@ -144,7 +175,7 @@ public class Vision extends SubsystemBase {
   }
 
   private void publishAllData(){
-    SmartDashboard.putNumber("initialAngle", initialAngle);
+    SmartDashboard.putNumber("initialVelocity", initialVelocity);
 
     SmartDashboard.putBoolean("Has Targets", (tv.getDouble(0) == 1));
     SmartDashboard.putNumber("tshort", tshort.getDouble(0));
