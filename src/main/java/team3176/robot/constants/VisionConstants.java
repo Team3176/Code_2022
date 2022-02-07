@@ -18,5 +18,5 @@ public final class VisionConstants{
 
     public static final double DEG2RAD = (2 * Math.PI)/360;
     public static final int VISION_CONSTANT = 269; // TEST THIS VALUE
-
+    public static final double INCHES2METERS = 1 / 0.0254;
 }
