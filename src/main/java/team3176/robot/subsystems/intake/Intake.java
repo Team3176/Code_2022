@@ -9,21 +9,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Compressor;
-
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import team3176.robot.constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
-    private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-    private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
-    private TalonFX intakeMotor = new TalonFX(70);
     private static Intake instance = new Intake();
+    private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
+    private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
+    private TalonFX intakeMotor = new TalonFX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
     private boolean pistonSetting = false;
     
 
@@ -72,4 +70,5 @@ public class Intake extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
 }
