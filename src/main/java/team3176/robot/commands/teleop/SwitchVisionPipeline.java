@@ -1,4 +1,4 @@
-package team3176.robot.commands.common;
+package team3176.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.vision.Vision;
@@ -13,12 +13,12 @@ public class SwitchVisionPipeline extends CommandBase {
 
     @Override
     public void initialize(){
-        //mSubsystem.SetVisionProcessing(true);
+        mSubsystem.setVisionProcessing(true);
     }
 
     @Override
     public void execute(){
-        //mSubsystem.changePipeline((mSubsystem.getCurrentPipeline() == 1) ? 2 : 1);
+        mSubsystem.setActivePipeline((mSubsystem.getCurrentPipeline() == 1) ? 2 : 1);
     }
 
     @Override
