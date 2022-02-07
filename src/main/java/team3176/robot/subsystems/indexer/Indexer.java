@@ -52,7 +52,10 @@ public class Indexer extends SubsystemBase
   public void  motorStop() {
     indexerMotor.set(0.0);
   }
-
+  /**
+   * Recieves Line Breaker Data from Uno and Arranges them in a Byte Array.
+   * Then it changes the Bytes into Booleans and then puts the values into a Boolean Array
+   */
   public void I2CReciever()
   {
     sensorByteArray = new byte[2];
