@@ -4,6 +4,8 @@
 
 package team3176.robot.subsystems.intake;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -17,15 +19,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.constants.IntakeConstants;
 
+import team3176.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
+
 public class Intake extends SubsystemBase {
-    private static Intake instance = new Intake();
     private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
     private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
     private TalonFX intakeMotor = new TalonFX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
     private boolean pistonSetting = false;
-    
 
-  public Intake() {
+    private final IntakeIO io;
+    private final IntakeIOInputs inputs = new IntakeIOInputs();
+    private static Intake instance = new Intake();   
+
+  public Intake(IntakeIO io) 
+  {
+    this.io = io;
   }
 
   public void Extend() 
@@ -64,6 +72,35 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    io.updateInputs(inputs);
+    Logger.getInstance().processInputs("Intake", inputs);
+    Logger.getInstance().recordOutput("Intake/Velocity", getIntakeVelocity());
+    Logger.getInstance().recordOutput("Intake/PistonState", getPistonState());
+  }
+
+  public void runVoltage(double volts) 
+  {
+    io.setVoltage(volts);
+  }
+
+  public void setVelocity(double intakeVelocity)
+  {
+    io.setVelocity(intakeMotor.set(TalonFXControlMode.PercentOutput, intakeVelocity), ffVolts);
+  }
+
+  public void setPiston(boolean isExtend)
+  {
+    io.setPiston(isExtend);
+  }
+
+  public double getIntakeVelocity() 
+  {
+    return inputs.velocity;
+  }
+
+  public boolean getPistonState()
+  {
+    return inputs.isExtend;
   }
 
   @Override

@@ -17,27 +17,26 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 public interface IntakeIO{
   /** Contains all of the input data received from hardware. */
   public static class IntakeIOInputs implements LoggableInputs {
-    public double positionRad = 0.0;
-    public double velocityRadPerSec = 0.0;
+    public double velocity = 0.0;
     public double appliedVolts = 0.0;
+    public boolean isExtend = false;
     public double[] currentAmps = new double[] {};
-    public double[] tempCelcius = new double[] {};
+    //public double[] tempCelcius = new double[] {};
 
     public void toLog(LogTable table) {
-      table.put("PositionRad", positionRad);
-      table.put("VelocityRadPerSec", velocityRadPerSec);
+      table.put("VelocityRadPerSec", velocity);
+      table.put("isExtend", isExtend);
       table.put("AppliedVolts", appliedVolts);
       table.put("CurrentAmps", currentAmps);
-      table.put("TempCelcius", tempCelcius);
+      //table.put("TempCelcius", tempCelcius);
     }
 
     public void fromLog(LogTable table) {
-      positionRad = table.getDouble("PositionRad", positionRad);
-      velocityRadPerSec =
-          table.getDouble("VelocityRadPerSec", velocityRadPerSec);
+      velocity = table.getDouble("Velocity", velocity);
+      isExtend = table.getBoolean("isExtend", isExtend);
       appliedVolts = table.getDouble("AppliedVolts", appliedVolts);
       currentAmps = table.getDoubleArray("CurrentAmps", currentAmps);
-      tempCelcius = table.getDoubleArray("TempCelcius", tempCelcius);
+      //tempCelcius = table.getDoubleArray("TempCelcius", tempCelcius);
     }
   }
 
@@ -55,12 +54,15 @@ public interface IntakeIO{
    */
   public default void setVelocity(double velocityRadPerSec, double ffVolts) {}
 
+  /** Retract or Extend pistons */
+  public default void setPiston(boolean isExtend) {}
+
   /** Enable or disable brake mode. */
-  public default void setBrakeMode(boolean enable) {}
+  //public default void setBrakeMode(boolean enable) {}
 
   /** Set velocity PID constants. */
-  public default void configurePID(double kp, double ki, double kd) {}
+  //public default void configurePID(double kp, double ki, double kd) {}
 
   /** Reset the encoder(s) to a known position. */
-  public default void resetPosition(double positionRad) {}
+  //public default void resetPosition(double positionRad) {}
 }
