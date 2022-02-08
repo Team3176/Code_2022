@@ -5,6 +5,7 @@
 package team3176.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team3176.robot.constants.IntakeConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -21,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends SubsystemBase {
     private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
     private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
-    private TalonFX intakeMotor = new TalonFX(70);
+    private TalonFX intakeMotor = new TalonFX(IntakeConstants.INTAKE_CAN_ID);
     private static Intake instance = new Intake();
     private boolean pistonSetting = false;
     

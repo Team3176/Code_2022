@@ -14,5 +14,5 @@ package team3176.robot.constants;
  */
 public final class IntakeConstants 
 {
-    private final int INTAKE_CAN_ID = 70;
+    public static final int INTAKE_CAN_ID = 70;
 }

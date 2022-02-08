@@ -32,7 +32,7 @@ public class Indexer extends SubsystemBase
 
   public Indexer()
   {
-    indexerMotor = new CANSparkMax(IndexerConstants.INDEXER_NEO1_CAN_ID, MotorType.kBrushless);
+    indexerMotor = new CANSparkMax(IndexerConstants.INDEXER_NEO_CAN_ID, MotorType.kBrushless);
     pidController1 = indexerMotor.getPIDController();
     encoder2 = indexerMotor.getEncoder();
     //input = new DigitalInput(0);

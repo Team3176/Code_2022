@@ -1,10 +1,10 @@
 #CAN IDs: Drive (1 - 49); Falcon (50 - 59); Spark (60 - 69); Talon (70 - 79)
 	- Intake Talon:			Test (70)
 	- Climb Falcon:			Test (52)
-	- Shooter Falcon 1:		Test (50)
-	- Shooter Falcon 2:		Test (51)
-	- Transfer Spark 1:		Test (60)
-	- Transfer Spark 2:		Test (61)
+	- Flywheel Falcon 1:		Test (50)
+	- Flywheel Falcon 2:		Test (51)
+	- Transfer Spark:		Test (60)
+	- Indexer Spark:		Test (61)
 	- Angler Spark:			Test (62)
 	- Drive: 1, 2, 3, 4
 	- Turn: 11, 22, 33, 44

@@ -94,9 +94,11 @@ public class RobotContainer {
 
     m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);*/
 
+    /*
     m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
     m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
     m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
+    */
   }
 
   /**

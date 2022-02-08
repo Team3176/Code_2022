@@ -23,7 +23,7 @@ public class Transfer extends SubsystemBase
 
   public Transfer()
   {
-    transferMotor = new CANSparkMax(TransferConstants.TRANSFER_NEO1_CAN_ID, MotorType.kBrushless);
+    transferMotor = new CANSparkMax(TransferConstants.TRANSFER_NEO_CAN_ID, MotorType.kBrushless);
     pidController = transferMotor.getPIDController();
     encoder = transferMotor.getEncoder();
     
