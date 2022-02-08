@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Test Mode Imports
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.subsystems.intake.Intake;
-import team3176.robot.subsystems.climb.Climb;
+import team3176.robot.subsystems.climb.ActiveClimb;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,7 +27,7 @@ import team3176.robot.subsystems.climb.Climb;
  */
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
-  private Climb m_Climb = Climb.getInstance();
+  private ActiveClimb m_Climb = ActiveClimb.getInstance();
 
   private RobotContainer m_robotContainer;
   private Intake m_Intake;

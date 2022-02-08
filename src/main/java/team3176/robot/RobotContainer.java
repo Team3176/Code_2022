@@ -53,14 +53,14 @@ public class RobotContainer {
   private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  Climb m_Climb;
+  ActiveClimb m_Climb;
   
   public RobotContainer() {
     m_Intake = Intake.getInstance();
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
-    m_Climb = Climb.getInstance();
+    m_Climb = ActiveClimb.getInstance();
 
     // Configure the button bindings
     configureButtonBindings();

@@ -12,7 +12,7 @@ package team3176.robot.constants;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class ClimbConstants{
+public final class ActiveClimbConstants{
     public final static int FALCON_CAN_ID = 52;
     public final static int FALCON2_CAN_ID = 53; //Might change
     public final static int SLOTIDX = 0;
