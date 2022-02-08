@@ -13,6 +13,7 @@ import team3176.robot.commands.ExampleCommand;
 import team3176.robot.commands.auton.*;
 import team3176.robot.commands.common.*;
 import team3176.robot.commands.teleop.*;
+import team3176.robot.commands.activeClimb.*;
 import team3176.robot.constants.*;
 import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.subsystems.climb.*;
