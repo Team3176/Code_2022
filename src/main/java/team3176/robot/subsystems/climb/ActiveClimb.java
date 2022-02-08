@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import team3176.robot.constants.ClimbConstants;
+import team3176.robot.constants.ActiveClimbConstants;
 
-public class Climb extends SubsystemBase {
-  private static Climb instance = new Climb();
-  public static Climb getInstance() {return instance;}
+public class ActiveClimb extends SubsystemBase {
+  private static ActiveClimb instance = new ActiveClimb();
+  public static ActiveClimb getInstance() {return instance;}
 
   private TalonFX winchMotor;
   //TalonFX winchSecondaryMotor;
@@ -41,8 +41,8 @@ public class Climb extends SubsystemBase {
   private boolean isSmartDashboardTestTimesShown;
   public String mode = ""; //auto, teleop, test
 
-  public Climb() {
-    winchMotor = new TalonFX(ClimbConstants.FALCON_CAN_ID);
+  public ActiveClimb() {
+    winchMotor = new TalonFX(ActiveClimbConstants.FALCON_CAN_ID);
     //winchSecondaryMotor = new TalonFX(ClimbConstants.FALCON2_CAN_ID /*Available Number*/); //TODO:CHECK IF WE NEED MORE NUMBERS
     primaryOne = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5);
     primaryTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, 6, 7);
@@ -64,18 +64,18 @@ public class Climb extends SubsystemBase {
     winchMotor.configFactoryDefault();
     // winchSecondaryMotor.configFactoryDefault();
 
-    winchMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, ClimbConstants.SLOTIDX, ClimbConstants.TIMEOUT_MS);
-    winchMotor.config_kP(ClimbConstants.SLOTIDX, ClimbConstants.PID_MAIN[0], ClimbConstants.TIMEOUT_MS);
-    winchMotor.config_kI(ClimbConstants.SLOTIDX, ClimbConstants.PID_MAIN[1], ClimbConstants.TIMEOUT_MS);
-    winchMotor.config_kD(ClimbConstants.SLOTIDX, ClimbConstants.PID_MAIN[2], ClimbConstants.TIMEOUT_MS);
+    winchMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, ActiveClimbConstants.SLOTIDX, ActiveClimbConstants.TIMEOUT_MS);
+    winchMotor.config_kP(ActiveClimbConstants.SLOTIDX, ActiveClimbConstants.PID_MAIN[0], ActiveClimbConstants.TIMEOUT_MS);
+    winchMotor.config_kI(ActiveClimbConstants.SLOTIDX, ActiveClimbConstants.PID_MAIN[1], ActiveClimbConstants.TIMEOUT_MS);
+    winchMotor.config_kD(ActiveClimbConstants.SLOTIDX, ActiveClimbConstants.PID_MAIN[2], ActiveClimbConstants.TIMEOUT_MS);
     /*
     winchSecondaryMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, ClimbConstants.SLOTIDX, ClimbConstants.TIMEOUT_MS);
     winchSecondaryMotor.config_kP(ClimbConstants.SLOTIDX, ClimbConstants.PID_SECONDARY[0], ClimbConstants.TIMEOUT_MS);
     winchSecondaryMotor.config_kI(ClimbConstants.SLOTIDX, ClimbConstants.PID_SECONDARY[1], ClimbConstants.TIMEOUT_MS);
     winchSecondaryMotor.config_kD(ClimbConstants.SLOTIDX, ClimbConstants.PID_SECONDARY[2], ClimbConstants.TIMEOUT_MS);
     */
-    winchMotor.configPeakOutputForward(.05, ClimbConstants.TIMEOUT_MS); //TODO: TUNNNNNNNEEEEEEEEEEEEEEEEEEEEEEEE
-    winchMotor.configPeakOutputReverse(-.05, ClimbConstants.TIMEOUT_MS); //TODO: TUNNNNNNNEEEEEEEEEEEEEEEEEEEEEEEE
+    winchMotor.configPeakOutputForward(.05, ActiveClimbConstants.TIMEOUT_MS); //TODO: TUNNNNNNNEEEEEEEEEEEEEEEEEEEEEEEE
+    winchMotor.configPeakOutputReverse(-.05, ActiveClimbConstants.TIMEOUT_MS); //TODO: TUNNNNNNNEEEEEEEEEEEEEEEEEEEEEEEE
     /*
     winchSecondaryMotor.configPeakOutputForward(.05, ClimbConstants.TIMEOUT_MS);
     winchSecondaryMotor.configPeakOutputReverse(-.05, ClimbConstants.TIMEOUT_MS);
@@ -109,7 +109,7 @@ public class Climb extends SubsystemBase {
    */
 
   public void winchUp() {
-    winchMotor.set(ControlMode.Position, ClimbConstants.WINCH_MAX_LENGTH_POS); //TODO:CHANGE CONSTANT
+    winchMotor.set(ControlMode.Position, ActiveClimbConstants.WINCH_MAX_LENGTH_POS); //TODO:CHANGE CONSTANT
     // winchSecondaryMotor.set(ControlMode.Position, ClimbConstants.WINCH_MAX_LENGTH_POS); //TODO: Add displacement from starting tic
   }
 
@@ -118,7 +118,7 @@ public class Climb extends SubsystemBase {
    */
 
   public void winchDown() {
-    winchMotor.set(ControlMode.Position, ClimbConstants.WINCH_MIN_LENGTH_POS); //TODO:CHANGE CONSTANT
+    winchMotor.set(ControlMode.Position, ActiveClimbConstants.WINCH_MIN_LENGTH_POS); //TODO:CHANGE CONSTANT
     // winchSecondaryMotor.set(ControlMode.Position, ClimbConstants.WINCH_MIN_LENGTH_POS); //TODO: Add displacement from starting tic
   }
 
