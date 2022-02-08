@@ -18,10 +18,18 @@ public class PassiveClimb extends SubsystemBase {
         passiveClimbPiston2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, PassiveClimbConstants.PASSIVE_PISTON_TWO_OPEN_ID, PassiveClimbConstants.PASSIVE_PISTON_TWO_CLOSE_ID);
     }
 
+    /**
+     * Extends both of the Pistons on PassiveClimb
+     */
+
     public void extendPistons() {
         passiveClimbPiston1.set(Value.kForward);
         passiveClimbPiston2.set(Value.kForward);
     }
+
+    /**
+     * Retracts both of the Pistons on PassiveClimb
+     */
 
     public void retractPistons() {
         passiveClimbPiston1.set(Value.kReverse);
