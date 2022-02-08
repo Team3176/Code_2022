@@ -44,6 +44,7 @@ public class RobotContainer {
   private final Vision m_Vision = Vision.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
+  private final PassiveClimb m_Climb;
 
   private final Angler m_Angler = Angler.getInstance();
   // private final Transfer m_Transfer = Transfer.getInstance();
@@ -54,14 +55,13 @@ public class RobotContainer {
   private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  ActiveClimb m_Climb;
   
   public RobotContainer() {
     m_Intake = Intake.getInstance();
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
-    m_Climb = ActiveClimb.getInstance();
+    m_Climb = PassiveClimb.getInstance(); //Is ActiveClimb or PassiveClimb depending on the system
 
     // Configure the button bindings
     configureButtonBindings();
