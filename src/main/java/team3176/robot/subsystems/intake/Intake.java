@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
 
     private final IntakeIO io;
     private final IntakeIOInputs inputs = new IntakeIOInputs();
-    private static Intake instance = new Intake();   
+    // private static Intake instance = new Intake();   
 
   public Intake(IntakeIO io) 
   {
@@ -65,12 +65,16 @@ public class Intake extends SubsystemBase {
     return pistonSetting;
   }
 
-  public static Intake getInstance() {
-    return instance;
-  }
+  // public static Intake getInstance() {
+  //   if (instance == null) {
+  //     instance = new Intake(io);
+  //   }
+  //     return instance;
+  // }
 
   @Override
-  public void periodic() {
+  public void periodic() 
+  {
     // This method will be called once per scheduler run
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Intake", inputs);
@@ -85,7 +89,7 @@ public class Intake extends SubsystemBase {
 
   public void setVelocity(double intakeVelocity)
   {
-    io.setVelocity(intakeMotor.set(TalonFXControlMode.PercentOutput, intakeVelocity), ffVolts);
+    io.setVelocity(intakeVelocity);
   }
 
   public void setPiston(boolean isExtend)

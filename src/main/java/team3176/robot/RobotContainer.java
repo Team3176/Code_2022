@@ -56,7 +56,7 @@ public class RobotContainer {
   Climb m_Climb;
   
   public RobotContainer() {
-    m_Intake = Intake.getInstance();
+    // m_Intake = Intake.getInstance();
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
@@ -82,13 +82,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    /*//m_Controller.getOp_A().whenActive(new I2CTest());
-    m_Controller.getOp_X().whenActive(new ExtendIntake());
-    m_Controller.getOp_Y().whenActive(new RetractIntake());
-    m_Controller.getOp_A().whenActive(new IntakeSpin());
-    m_Controller.getOp_B().whenActive(new IntakeSpint());
+    // m_Controller.getOp_A().whenActive(new I2CTest());
+    m_Controller.getOp_X().whenActive(new ExtendIntake(m_Intake));
+    m_Controller.getOp_Y().whenActive(new RetractIntake(m_Intake));
+    m_Controller.getOp_A().whenActive(new IntakeSpin(m_Intake));
+    m_Controller.getOp_B().whenActive(new IntakeSpint(m_Intake));
 
-    m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);*/
+    // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
 
     m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
     m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));

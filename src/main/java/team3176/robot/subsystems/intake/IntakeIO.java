@@ -21,22 +21,22 @@ public interface IntakeIO{
     public double appliedVolts = 0.0;
     public boolean isExtend = false;
     public double[] currentAmps = new double[] {};
-    //public double[] tempCelcius = new double[] {};
+    public double[] tempCelcius = new double[] {};
 
     public void toLog(LogTable table) {
-      table.put("VelocityRadPerSec", velocity);
+      table.put("VelocityOutputPercent", velocity);
       table.put("isExtend", isExtend);
       table.put("AppliedVolts", appliedVolts);
       table.put("CurrentAmps", currentAmps);
-      //table.put("TempCelcius", tempCelcius);
+      table.put("TempCelcius", tempCelcius);
     }
 
     public void fromLog(LogTable table) {
-      velocity = table.getDouble("Velocity", velocity);
+      velocity = table.getDouble("VelocityOutputPercent", velocity);
       isExtend = table.getBoolean("isExtend", isExtend);
       appliedVolts = table.getDouble("AppliedVolts", appliedVolts);
       currentAmps = table.getDoubleArray("CurrentAmps", currentAmps);
-      //tempCelcius = table.getDoubleArray("TempCelcius", tempCelcius);
+      tempCelcius = table.getDoubleArray("TempCelcius", tempCelcius);
     }
   }
 
@@ -50,19 +50,9 @@ public interface IntakeIO{
    * Run closed loop at the specified velocity.
    * 
    * @param velocityRadPerSec Velocity setpoint.
-   * @param ffVolts Feed forward voltage from model.
    */
-  public default void setVelocity(double velocityRadPerSec, double ffVolts) {}
+  public default void setVelocity(double velocityRadPerSec) {}
 
   /** Retract or Extend pistons */
   public default void setPiston(boolean isExtend) {}
-
-  /** Enable or disable brake mode. */
-  //public default void setBrakeMode(boolean enable) {}
-
-  /** Set velocity PID constants. */
-  //public default void configurePID(double kp, double ki, double kd) {}
-
-  /** Reset the encoder(s) to a known position. */
-  //public default void resetPosition(double positionRad) {}
 }
