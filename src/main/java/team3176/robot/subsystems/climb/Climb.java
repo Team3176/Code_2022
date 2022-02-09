@@ -44,10 +44,10 @@ public class Climb extends SubsystemBase {
   public Climb() {
     winchMotor = new TalonFX(ClimbConstants.FALCON_CAN_ID);
     //winchSecondaryMotor = new TalonFX(ClimbConstants.FALCON2_CAN_ID /*Available Number*/); //TODO:CHECK IF WE NEED MORE NUMBERS
-    primaryOne = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5);
-    primaryTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, 6, 7);
-    secondaryOne = new DoubleSolenoid(PneumaticsModuleType.REVPH, 8, 9);
-    secondaryTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10, 11);
+    primaryOne = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
+    primaryTwo = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
+    secondaryOne = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 8, 9);
+    secondaryTwo = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 10, 11);
     
     armOneLimitOne = new DigitalInput(2);
     armOneLimitTwo = new DigitalInput(3);

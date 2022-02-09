@@ -27,7 +27,7 @@ import team3176.robot.subsystems.climb.Climb;
  */
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
-  private Climb m_Climb = Climb.getInstance();
+  // private Climb m_Climb = Climb.getInstance();
 
   private RobotContainer m_robotContainer;
   private Intake m_Intake;
@@ -92,7 +92,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    m_Climb.mode = "auto";
+    // m_Climb.mode = "auto";
   }
 
   /** This function is called periodically during autonomous. */
@@ -108,7 +108,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_Climb.mode = "teleop";
+    // m_Climb.mode = "teleop";
   }
 
   /** This function is called periodically during operator control. */
@@ -120,7 +120,7 @@ public class Robot extends LoggedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     // m_Intake = Intake.getInstance();
-    m_Climb.mode = "test";
+    // m_Climb.mode = "test";
   }
 
   /** This function is called periodically during test mode. */
