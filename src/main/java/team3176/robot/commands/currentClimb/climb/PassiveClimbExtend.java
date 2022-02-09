@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.commands.activeClimb.climb;
+package team3176.robot.commands.currentClimb.climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.climb.PassiveClimb;
@@ -11,16 +11,16 @@ import team3176.robot.subsystems.climb.PassiveClimb;
  * Retracts the Pistons on the Passive Climb
  */
 
-public class PassiveClimbRetract extends InstantCommand {
+public class PassiveClimbExtend extends InstantCommand {
   private PassiveClimb m_Climb = PassiveClimb.getInstance();
 
-  public PassiveClimbRetract() {
+  public PassiveClimbExtend() {
     addRequirements(m_Climb);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Climb.retractPistons();
+    m_Climb.extendPistons();
   }
 }
