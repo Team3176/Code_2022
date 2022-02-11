@@ -6,8 +6,9 @@
 	- Transfer Spark 1:		Test (60)
 	- Transfer Spark 2:		Test (61)
 	- Angler Spark:			Test (62)
-	- Drive: 1, 2, 3, 4
+	- Drive: 10, 20, 30, 40
 	- Turn: 11, 22, 33, 44
+	- SwerveCanCoders: 12, 23, 34, 45
 
 #PCH Ports: 16 Total
 	- Intake 1: ,			Test (0, 1)
