@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
 import team3176.robot.commands.auton.*;
+import team3176.robot.commands.climbActive.*;
+import team3176.robot.commands.climbPassive.*;
 import team3176.robot.commands.common.*;
 import team3176.robot.commands.teleop.*;
 import team3176.robot.constants.*;
@@ -40,6 +42,8 @@ public class RobotContainer {
   private Drivetrain m_Drivetrain;
   // The robot's subsystems and commands are defined here...
 
+  private ClimbActive m_ClimbActive;
+  private ClimbPassive m_ClimbPassive;
   private final Vision m_Vision = Vision.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -54,15 +58,19 @@ public class RobotContainer {
   private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  // Climb m_Climb;
   
   public RobotContainer() {
     // m_Intake = Intake.getInstance();
     // m_Intake = new Intake(new IntakeIO() {});
     m_Controller = Controller.getInstance();
-    // m_Compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
-    // m_Compressor.enableDigital();
-    // m_Climb = Climb.getInstance();
+    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    m_Compressor.enableDigital();
+    if ( MasterConstants.ISCLIMBPASSIVE ) {
+      m_ClimbPassive = ClimbPassive.getInstance();
+    } else {
+      m_ClimbActive = ClimbActive.getInstance();
+    }
+    
 
     // Configure the button bindings
     configureButtonBindings();
