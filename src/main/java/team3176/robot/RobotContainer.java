@@ -36,7 +36,7 @@ import team3176.robot.subsystems.drivetrain.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private Intake m_Intake = Intake.getInstance();
+  private Intake m_Intake;
   private Controller m_Controller;
   private Compressor m_Compressor;
   private Drivetrain m_Drivetrain;
@@ -44,12 +44,12 @@ public class RobotContainer {
 
   private ClimbActive m_ClimbActive;
   private ClimbPassive m_ClimbPassive;
-  private final Vision m_Vision = Vision.getInstance();
+  private final Vision m_Vision;
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
   private final Angler m_Angler = Angler.getInstance();
-  private final Indexer m_Indexer = Indexer.getInstance();
+  private final Indexer m_Indexer;
   // private final Transfer m_Transfer = Transfer.getInstance();
   // private final Flywheel m_Flywheel = Flywheel.getInstance();
 
@@ -69,8 +69,11 @@ public class RobotContainer {
       m_ClimbPassive = ClimbPassive.getInstance();
     } else {
       m_ClimbActive = ClimbActive.getInstance();
-    }
-    
+    }  
+    m_Indexer = Indexer.getInstance();
+    m_Intake = Intake.getInstance();
+
+    m_Vision = Vision.getInstance();
 
     // Configure the button bindings
     configureButtonBindings();
