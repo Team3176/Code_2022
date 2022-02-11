@@ -5,12 +5,12 @@
     Left Joy X: 
     Right Joy Y: 
     Right Joy X: 
-    DPAD UP: Climb MID
-    DPAD LEFT: Climb HIGH
-    DPAD DOWN: Climb TRAVERSAL
+    DPAD UP: Climb MID                  //Climb Extend
+    DPAD LEFT: Climb HIGH               //DISABLED IN MODE
+    DPAD DOWN: Climb TRAVERSAL          //Climb Retract
     DPAD RIGHT: Climb Disable Toggle
     Left Trigger: Flywheel Toggle
-    Right Trigger: Shoot Sequence
+    Right Trigger: Shoot Sequence (needs target)
     ##Main
         A: 
         B: 
@@ -21,9 +21,9 @@
     ##Shift
         A: Indexer Forward
         B: Indexer Back
-        X: 
-        Y: 
-        Start: 
+        X: Flywheel Velocity Toggle
+        Y: Transfer Toggle
+        Start: Shoot w/o Target
         Back: Shoot Reset
     ##Double Shift
         A: Winch Up
