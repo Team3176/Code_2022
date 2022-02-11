@@ -21,7 +21,7 @@ public class PowerManagement extends SubsystemBase {
     private PowerDistribution powerDistributionHub;
 
     public PowerManagement() {
-        powerDistributionHub = new PowerDistribution(1, ModuleType.kRev);
+        powerDistributionHub = new PowerDistribution(1, ModuleType.kCTRE);
     }
 
     private ArrayList<Double> getPortData() {

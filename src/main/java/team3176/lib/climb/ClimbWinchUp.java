@@ -5,14 +5,14 @@
 package team3176.lib.climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.climb.ActiveClimb;
+import team3176.robot.subsystems.climb.ClimbActive;
 
 /**
  * Winches to the Longest Position
  */
 
 public class ClimbWinchUp extends InstantCommand{
-  ActiveClimb m_Climb = ActiveClimb.getInstance();
+  ClimbActive m_Climb = ClimbActive.getInstance();
 
   public ClimbWinchUp() {
     addRequirements(m_Climb);

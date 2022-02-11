@@ -4,18 +4,18 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import team3176.robot.constants.PassiveClimbConstants;
+import team3176.robot.constants.ClimbPassiveConstants;
 
-public class PassiveClimb extends SubsystemBase {
-    private static PassiveClimb instance = new PassiveClimb();
-    public static PassiveClimb getInstance() {return instance;}
+public class ClimbPassive extends SubsystemBase {
+    private static ClimbPassive instance = new ClimbPassive();
+    public static ClimbPassive getInstance() {return instance;}
 
     DoubleSolenoid passiveClimbPiston1;
     DoubleSolenoid passiveClimbPiston2;
 
-    public PassiveClimb() {
-        passiveClimbPiston1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, PassiveClimbConstants.PASSIVE_PISTON_ONE_OPEN_ID, PassiveClimbConstants.PASSIVE_PISTON_ONE_CLOSE_ID);
-        passiveClimbPiston2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, PassiveClimbConstants.PASSIVE_PISTON_TWO_OPEN_ID, PassiveClimbConstants.PASSIVE_PISTON_TWO_CLOSE_ID);
+    public ClimbPassive() {
+        passiveClimbPiston1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbPassiveConstants.PASSIVE_PISTON_ONE_OPEN_ID, ClimbPassiveConstants.PASSIVE_PISTON_ONE_CLOSE_ID);
+        passiveClimbPiston2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbPassiveConstants.PASSIVE_PISTON_TWO_OPEN_ID, ClimbPassiveConstants.PASSIVE_PISTON_TWO_CLOSE_ID);
     }
 
     /**

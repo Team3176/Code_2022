@@ -5,14 +5,14 @@
 package team3176.lib.climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.climb.ActiveClimb;
+import team3176.robot.subsystems.climb.ClimbActive;
 
 /**
  * Extends the Secondary Pistons
  */
 
 public class ClimbSecondaryPistonEngage extends InstantCommand {
-  private ActiveClimb m_Climb = ActiveClimb.getInstance();
+  private ClimbActive m_Climb = ClimbActive.getInstance();
   
   public ClimbSecondaryPistonEngage() {
     addRequirements(m_Climb);
