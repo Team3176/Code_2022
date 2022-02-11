@@ -18,9 +18,15 @@ public class DrivetrainConstants {
 
     //CAN IDs
     public static final int STEER_ONE_CID = 11;
-    public static final int STEER_TWO_CID = 22;
-    public static final int STEER_THREE_CID = 33;
-    public static final int STEER_FOUR_CID = 44;
+    public static final int STEER_TWO_CID = 21;
+    public static final int STEER_THREE_CID = 31;
+    public static final int STEER_FOUR_CID = 41;
+
+    public static final int STEER_CANCODER_ONE_CID = 12;
+    public static final int STEER_CANCODER_TWO_CID = 22;
+    public static final int STEER_CANCODER_THREE_CID = 32;
+    public static final int STEER_CANCODER_FOUR_CID = 42;
+
 
     // Drivetrain dimensions for kinematics and odometry
     public static final double LENGTH_IN_METERS_2021 = 0.581; // measured in cm as 58.1cm
