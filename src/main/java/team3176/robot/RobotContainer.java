@@ -45,6 +45,7 @@ public class RobotContainer {
 
 
   private final Angler m_Angler = Angler.getInstance();
+  private final Indexer m_Indexer = Indexer.getInstance();
   // private final Transfer m_Transfer = Transfer.getInstance();
   // private final Flywheel m_Flywheel = Flywheel.getInstance();
 

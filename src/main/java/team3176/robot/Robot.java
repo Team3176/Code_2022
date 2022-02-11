@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Test Mode Imports
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.subsystems.intake.Intake;
-import team3176.robot.subsystems.climb.Climb;
+// import team3176.robot.subsystems.climb.Climb;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
