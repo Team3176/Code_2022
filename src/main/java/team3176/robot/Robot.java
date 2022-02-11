@@ -11,13 +11,14 @@ import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
 import org.littletonrobotics.junction.io.*;
-import team3176.robot.subsystems.intake.Intake;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import team3176.robot.constants.MasterConstants;
+
+import team3176.robot.subsystems.intake.Intake;
 
 // Test Mode Imports
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import team3176.robot.subsystems.intake.Intake;
-import team3176.robot.subsystems.climb.Climb;
+import team3176.robot.subsystems.climb.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,8 +28,7 @@ import team3176.robot.subsystems.climb.Climb;
  */
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
-  private Climb m_Climb = Climb.getInstance();
-
+ 
   private RobotContainer m_robotContainer;
   private Intake m_Intake;
   private double intakeSpeed;
@@ -56,7 +56,9 @@ public class Robot extends LoggedRobot {
     }
 
     Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-    
+
+  
+
     m_robotContainer = new RobotContainer();
   }
 
@@ -92,7 +94,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    m_Climb.mode = "auto";
+    // m_Climb.mode = "auto";
   }
 
   /** This function is called periodically during autonomous. */
@@ -108,7 +110,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_Climb.mode = "teleop";
+    // m_Climb.mode = "teleop";
   }
 
   /** This function is called periodically during operator control. */
@@ -119,8 +121,8 @@ public class Robot extends LoggedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    m_Intake = Intake.getInstance();
-    m_Climb.mode = "test";
+    // m_Intake = Intake.getInstance();
+    // m_Climb.mode = "test";
   }
 
   /** This function is called periodically during test mode. */

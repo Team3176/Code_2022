@@ -13,24 +13,33 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
+import team3176.robot.subsystems.indexer.IndexerIO.IndexerIOInputs;
 
 public class Indexer extends SubsystemBase
 {
-  private static Indexer instance = new Indexer();
+  // private static Indexer instance = new Indexer();
+  private static Indexer instance;
+
   private CANSparkMax indexerMotor;
   private SparkMaxPIDController pidController1;
   private RelativeEncoder encoder1;
   private RelativeEncoder encoder2;
   private byte[] sensorByteArray;
-  private boolean[] sensorBoolArray;
+  private boolean[] sensorBoolArray = {false, false};
   private DigitalInput input;
+
+  private final IndexerIO io;
+  private final IndexerIOInputs inputs = new IndexerIOInputs();
 
   private I2C m_I2C;
 
-  public Indexer()
-  {
+  private Indexer(IndexerIO io) {
+    this.io = io;
+
     indexerMotor = new CANSparkMax(IndexerConstants.INDEXER_NEO1_CAN_ID, MotorType.kBrushless);
     pidController1 = indexerMotor.getPIDController();
     encoder2 = indexerMotor.getEncoder();
@@ -41,14 +50,14 @@ public class Indexer extends SubsystemBase
     indexerMotor.setClosedLoopRampRate(IndexerConstants.kRampRate);
 
   }
-  public void indexer1Position(double position)
-  {
+  public void setIndexerPosition(double position) {
     pidController1.setReference(position, ControlType.kPosition);
   }
 
   public void  motorStop() {
     indexerMotor.set(0.0);
   }
+
   /**
    * Recieves Line Breaker Data from Uno and Arranges them in a Byte Array.
    * Then it changes the Bytes into Booleans and then puts the values into a Boolean Array
@@ -82,6 +91,16 @@ public class Indexer extends SubsystemBase
   @Override
   public void periodic() 
   {
+    io.updateInputs(inputs);
+    Logger.getInstance().processInputs("Indexer", inputs);
+    // Logger.getInstance().recordOutput("Indexer/Bool0", sensorBoolArray[0]);
+    // Logger.getInstance().recordOutput("Indexer/Bool1", sensorBoolArray[1]);
+    // Logger.getInstance().recordOutput("Indexer/Bool2", sensorBoolArray[2]);
+    // for(int i = 0; i <= sensorBoolArray.length; i++) {
+    //   String key = "Indexer/Bool" + i;
+    //   Logger.getInstance().recordOutput(key, sensorBoolArray[i]);
+    // }
+
     // This method will be called once per scheduler run
     // I2CReciever();
     //System.out.println("Input: " + input.get());
@@ -92,7 +111,12 @@ public class Indexer extends SubsystemBase
     // This method will be called once per scheduler run during simulation
   }
 
+  // public static Indexer getInstance() {
+  //   return instance;
+  // }
+
   public static Indexer getInstance() {
+    if(instance == null) {instance = new Indexer(new IndexerIO() {});}
     return instance;
   }
 

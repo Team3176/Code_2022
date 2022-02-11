@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
 import team3176.robot.commands.auton.*;
+import team3176.robot.commands.climbActive.*;
+import team3176.robot.commands.climbPassive.*;
 import team3176.robot.commands.common.*;
 import team3176.robot.commands.teleop.*;
 import team3176.robot.constants.*;
@@ -40,11 +42,14 @@ public class RobotContainer {
   private Drivetrain m_Drivetrain;
   // The robot's subsystems and commands are defined here...
 
-  private final Vision m_Vision = Vision.getInstance();
+  private ClimbActive m_ClimbActive;
+  private ClimbPassive m_ClimbPassive;
+  private final Vision m_Vision;
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
-  private final Angler m_Angler = Angler.getInstance();
+  private final Angler m_Angler;
+  private final Indexer m_Indexer;
   // private final Transfer m_Transfer = Transfer.getInstance();
   // private final Flywheel m_Flywheel = Flywheel.getInstance();
 
@@ -53,14 +58,25 @@ public class RobotContainer {
   private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  Climb m_Climb;
   
   public RobotContainer() {
-    m_Intake = Intake.getInstance();
+    // m_Intake = Intake.getInstance();
+    // m_Intake = new Intake(new IntakeIO() {});
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
-    m_Climb = Climb.getInstance();
+    if ( MasterConstants.ISCLIMBPASSIVE ) {
+      m_ClimbPassive = ClimbPassive.getInstance();
+    } else {
+      m_ClimbActive = ClimbActive.getInstance();
+    }  
+    m_Indexer = Indexer.getInstance();
+    m_Intake = Intake.getInstance();
+    
+    m_Angler = Angler.getInstance();
+
+
+    m_Vision = Vision.getInstance();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -82,13 +98,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    /*//m_Controller.getOp_A().whenActive(new I2CTest());
+    // m_Controller.getOp_A().whenActive(new I2CTest());
     m_Controller.getOp_X().whenActive(new ExtendIntake());
     m_Controller.getOp_Y().whenActive(new RetractIntake());
     m_Controller.getOp_A().whenActive(new IntakeSpin());
     m_Controller.getOp_B().whenActive(new IntakeSpint());
 
-    m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);*/
+    // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
 
     m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
     m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
