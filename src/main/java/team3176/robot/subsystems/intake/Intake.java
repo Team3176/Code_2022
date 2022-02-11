@@ -22,16 +22,16 @@ import team3176.robot.constants.IntakeConstants;
 import team3176.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
 
 public class Intake extends SubsystemBase {
-    private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
-    private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
+    // private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
+    // private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
     private TalonFX intakeMotor = new TalonFX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
     private boolean pistonSetting = false;
 
     private final IntakeIO io;
     private final IntakeIOInputs inputs = new IntakeIOInputs();
-    // private static Intake instance = new Intake();   
+    private static Intake instance;
 
-  public Intake(IntakeIO io) 
+  private Intake(IntakeIO io) 
   {
     this.io = io;
   }
@@ -39,15 +39,15 @@ public class Intake extends SubsystemBase {
   public void Extend() 
   {
     pistonSetting = true;
-    piston1.set(Value.kForward);
-    piston2.set(Value.kForward);
+    // piston1.set(Value.kForward);
+    // piston2.set(Value.kForward);
   }
 
   public void Retract() 
   {
     pistonSetting = false;
-    piston1.set(Value.kReverse);
-    piston2.set(Value.kReverse);
+    // piston1.set(Value.kReverse);
+    // piston2.set(Value.kReverse);
   }
 
   public void spinVelocityPercent(double pct)
@@ -65,12 +65,10 @@ public class Intake extends SubsystemBase {
     return pistonSetting;
   }
 
-  // public static Intake getInstance() {
-  //   if (instance == null) {
-  //     instance = new Intake(io);
-  //   }
-  //     return instance;
-  // }
+  public static Intake getInstance() {
+    if(instance == null) {instance = new Intake(new IntakeIO() {});}
+    return instance;
+  }
 
   @Override
   public void periodic() 
@@ -78,8 +76,8 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Intake", inputs);
-    Logger.getInstance().recordOutput("Intake/Velocity", getIntakeVelocity());
-    Logger.getInstance().recordOutput("Intake/PistonState", getPistonState());
+    // Logger.getInstance().recordOutput("Intake/Velocity", getIntakeVelocity());
+    // Logger.getInstance().recordOutput("Intake/PistonState", getPistonState());
   }
 
   public void runVoltage(double volts) 

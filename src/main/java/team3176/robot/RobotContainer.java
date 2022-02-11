@@ -34,7 +34,7 @@ import team3176.robot.subsystems.drivetrain.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private Intake m_Intake;
+  private Intake m_Intake = Intake.getInstance();
   private Controller m_Controller;
   private Compressor m_Compressor;
   private Drivetrain m_Drivetrain;
@@ -58,10 +58,10 @@ public class RobotContainer {
   
   public RobotContainer() {
     // m_Intake = Intake.getInstance();
-    m_Intake = new Intake(new IntakeIO() {});
+    // m_Intake = new Intake(new IntakeIO() {});
     m_Controller = Controller.getInstance();
-    m_Compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
-    m_Compressor.enableDigital();
+    // m_Compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
+    // m_Compressor.enableDigital();
     // m_Climb = Climb.getInstance();
 
     // Configure the button bindings
@@ -85,10 +85,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // m_Controller.getOp_A().whenActive(new I2CTest());
-    m_Controller.getOp_X().whenActive(new ExtendIntake(m_Intake));
-    m_Controller.getOp_Y().whenActive(new RetractIntake(m_Intake));
-    m_Controller.getOp_A().whenActive(new IntakeSpin(m_Intake));
-    m_Controller.getOp_B().whenActive(new IntakeSpint(m_Intake));
+    m_Controller.getOp_X().whenActive(new ExtendIntake());
+    m_Controller.getOp_Y().whenActive(new RetractIntake());
+    m_Controller.getOp_A().whenActive(new IntakeSpin());
+    m_Controller.getOp_B().whenActive(new IntakeSpint());
 
     // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
 
