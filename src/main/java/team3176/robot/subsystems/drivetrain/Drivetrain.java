@@ -41,13 +41,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
+import org.littletonrobotics.junction.Logger;
+import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
 
 
 
   
 
 public class Drivetrain extends SubsystemBase {
-  private static Drivetrain instance = new Drivetrain();
+  private static Drivetrain instance;
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
 
@@ -116,7 +118,13 @@ public class Drivetrain extends SubsystemBase {
 
   private double lockP, lockI, lockD;
 
-  private Drivetrain() {
+  private final DrivetrainIO io;
+  private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
+
+  private Drivetrain(DrivetrainIO io) 
+  {
+    this.io = io;
+    
     // Instantiate pods
     podFR = new SwervePod2022(0, driveControllers[0], spinControllers[0]);
     podFL = new SwervePod2022(1, driveControllers[1], spinControllers[1]);
@@ -167,6 +175,7 @@ public class Drivetrain extends SubsystemBase {
 
   // Prevents more than one instance of drivetrian
   public static Drivetrain getInstance() {
+    if(instance == null) {instance = new Drivetrain(new DrivetrainIO() {});}
     return instance;
   }
 

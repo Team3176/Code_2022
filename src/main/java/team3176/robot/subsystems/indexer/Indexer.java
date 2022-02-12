@@ -37,7 +37,8 @@ public class Indexer extends SubsystemBase
 
   private I2C m_I2C;
 
-  private Indexer(IndexerIO io) {
+  private Indexer(IndexerIO io) 
+  {
     this.io = io;
 
     indexerMotor = new CANSparkMax(IndexerConstants.INDEXER_NEO1_CAN_ID, MotorType.kBrushless);
