@@ -64,9 +64,9 @@ public class Indexer extends SubsystemBase
    */
   public void I2CReciever()
   {
-    sensorByteArray = new byte[2];
+    sensorByteArray = new byte[IndexerConstants.NUM_OF_SENSORS];
     System.out.println("Begin");
-    m_I2C.readOnly(sensorByteArray, 2);
+    m_I2C.readOnly(sensorByteArray, IndexerConstants.NUM_OF_SENSORS);
     sensorBoolArray = new boolean[sensorByteArray.length];
     for(int i = 0; i < sensorByteArray.length; i++) 
     {
@@ -86,6 +86,7 @@ public class Indexer extends SubsystemBase
       }
     }
     */
+    
   }
 
   @Override
