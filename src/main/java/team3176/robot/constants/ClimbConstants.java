@@ -13,8 +13,8 @@ package team3176.robot.constants;
  * constants are needed, to reduce verbosity.
  */
 public final class ClimbConstants{
-    public final static int PASSIVE_PISTON_ONE_OPEN_ID = /*4*/1;
-    public final static int PASSIVE_PISTON_ONE_CLOSE_ID = /*5*/0;
+    public final static int PASSIVE_PISTON_ONE_OPEN_ID = 4;
+    public final static int PASSIVE_PISTON_ONE_CLOSE_ID = 5;
     public final static int PASSIVE_PISTON_TWO_OPEN_ID = 6;
     public final static int PASSIVE_PISTON_TWO_CLOSE_ID = 7;
 

@@ -2,17 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.commands.climbActive;
+package team3176.robot.commands.climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.climb.ClimbActive;
+import team3176.robot.constants.MasterConstants;
+import team3176.robot.subsystems.climb.Climb;
 
 /**
  * Winches to the Lowest Position
  */
 
 public class ClimbWinchDown extends InstantCommand {
-  ClimbActive m_Climb = ClimbActive.getInstance();
+  Climb m_Climb = Climb.getInstance();
 
   public ClimbWinchDown() {
     addRequirements(m_Climb);
@@ -20,6 +21,6 @@ public class ClimbWinchDown extends InstantCommand {
 
   @Override
   public void initialize() {
-    m_Climb.winchDown();
+    if(!MasterConstants.ISCLIMBPASSIVE) {m_Climb.winchDown();}
   }
 }
