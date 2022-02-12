@@ -33,103 +33,19 @@ import team3176.robot.subsystems.ExampleSubsystem;
 import team3176.robot.commands.ExampleCommand;
 
 public class RobotContainer {
-  private Intake m_Intake;
-  private Controller m_Controller;
-  private Compressor m_Compressor;
-  private Drivetrain m_Drivetrain;
-  // The robot's subsystems and commands are defined here...
 
-  private ClimbActive m_ClimbActive;
-  private ClimbPassive m_ClimbPassive;
-  private final Vision m_Vision;
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-
-  private final Angler m_Angler;
-  private final Indexer m_Indexer;
-  // private final Transfer m_Transfer = Transfer.getInstance();
-  // private final Flywheel m_Flywheel = Flywheel.getInstance();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-  private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  
-  public RobotContainer() {
-    // m_Intake = Intake.getInstance();
-    // m_Intake = new Intake(new IntakeIO() {});
-    m_Controller = Controller.getInstance();
-    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    m_Compressor.enableDigital();
-    if ( MasterConstants.ISCLIMBPASSIVE ) {
-      m_ClimbPassive = ClimbPassive.getInstance();
-    } else {
-      m_ClimbActive = ClimbActive.getInstance();
-    }  
-    m_Indexer = Indexer.getInstance();
-    m_Intake = Intake.getInstance();
-    
-    m_Angler = Angler.getInstance();
-
-
-    m_Vision = Vision.getInstance();
-
-    // Configure the button bindings
-    configureButtonBindings();
-
-    m_Drivetrain = Drivetrain.getInstance();
-    m_Drivetrain.setDefaultCommand(new SwerveDrive(
-      () -> m_Controller.getForward(), 
-      () -> m_Controller.getStrafe(),
-      () -> m_Controller.getSpin()
-      //() -> m_Controller.isFieldCentricButtonPressed(),
-      //() -> m_Controller.isRobotCentricButtonPressed()
-    ));
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    // m_Controller.getOp_A().whenActive(new I2CTest());
-    m_Controller.getOp_X().whenActive(new ExtendIntake());
-    m_Controller.getOp_Y().whenActive(new RetractIntake());
-    m_Controller.getOp_A().whenActive(new IntakeSpin());
-    m_Controller.getOp_B().whenActive(new IntakeSpint());
-
-    // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
-
-    m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
-    m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
-    m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-  */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
-}
-
-/**
-public class RobotContainer {
   private final Intake m_Intake;
   private final Controller m_Controller;
   private final Compressor m_Compressor;
   private final Drivetrain m_Drivetrain;
   private final Vision m_Vision;
-  private final PassiveClimb m_Climb;
   private final Angler m_Angler;
   private final Transfer m_Transfer;
   private final Flywheel m_Flywheel;
+  private final Indexer m_Indexer;
+
+  private ClimbActive m_ClimbActive;
+  private ClimbPassive m_ClimbPassive;
 
   private SendableChooser<String> m_autonChooser;
   private static final String m_autoOneRenameAfterAssigned = "s_optionOneRenameAlso";
@@ -140,13 +56,19 @@ public class RobotContainer {
     m_Intake = Intake.getInstance();
     m_Vision = Vision.getInstance();
     m_Controller = Controller.getInstance();
-    m_Climb = PassiveClimb.getInstance(); //Is ActiveClimb or PassiveClimb depending on the system
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
     m_Transfer = Transfer.getInstance();
+    m_Indexer = Indexer.getInstance();
+
+    // if (MasterConstants.ISCLIMBPASSIVE) {
+    //   m_ClimbPassive = ClimbPassive.getInstance();
+    // } else {
+    //   m_ClimbActive = ClimbActive.getInstance();
+    // }
 
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    m_Compressor.enableDigital();
+    m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     
     m_Drivetrain = Drivetrain.getInstance();
     m_Drivetrain.setDefaultCommand(new SwerveDrive(
@@ -164,6 +86,7 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
+  
   private void configureButtonBindings() {
     // m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
     // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
@@ -190,11 +113,11 @@ public class RobotContainer {
     // m_Controller.getOp_LeftTrigger().whenActive(new FlywheelToggle());
     // m_Controller.getOp_DPAD_RIGHT().whenActive(new ClimbDisableToggle());
 
-    Active Climb
+    // Active Climb
     // m_Controller.getOp_DPAD_UP().whenActive(new ClimbToMid());
     // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbToTraversal());
     // m_Controller.getOp_DPAD_LEFT().whenActive(new ClimbToHigh());
-    Passive Climb
+    // Passive Climb
     // m_Controller.getOp_DPAD_UP().whenActive(new ClimbExtend());
     // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbRetract());
 
@@ -202,8 +125,17 @@ public class RobotContainer {
 
 
     // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest); //TODO: INVESTIGATE
+
+    m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
+    m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
+    m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
   }
 
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+  */
   public Command getAutonomousCommand() {
     String chosen = m_autonChooser.getSelected();
     if(chosen.equals(m_autoOneRenameAfterAssigned)) return new auto1Hypo(); //TODO: Remove Autos that were game/strategy specific but more would be the same line but else if because efficient even though its not
@@ -216,5 +148,3 @@ public class RobotContainer {
     return new auto1Hypo(); //TODO: Also command should still not exist but I want to get rid of example command but this return should be the most common
   }
 }
-
- */
