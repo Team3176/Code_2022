@@ -6,7 +6,8 @@ public final class SwervePodConstants2022 {
     private static final double SPIN_GEAR_RATIO = 70.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
     private static final double DRIVE_GEAR_RATIO = (54.0 / 14.0) * (48.0 / 30.0);  // 216/35?
 
-   
+    public static final int[] STEER_CANCODER_CID = {12, 22, 32, 42};
+    
 	public static final int kSlotIdx = 0;
 
 	

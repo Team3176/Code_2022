@@ -37,12 +37,16 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.constants.SwervePodConstants2022;
 import team3176.robot.constants.MasterConstants;
+import com.ctre.phoenix.sensors.CANCoder;
+
 
 public class SwervePod2022 {
 
     private TalonFX driveController;
     private CANSparkMax spinController;
     private SparkMaxPIDController spinPIDController;
+    CANCoder spinEncoder;
+    double spinEncoderPosition;
 
     private int id;
     private int kEncoderOffset; 
@@ -92,6 +96,7 @@ public class SwervePod2022 {
 
     public SwervePod2022(int id, TalonFX driveController, CANSparkMax spinController) {
         this.id = id;
+        spinEncoder = new CANCoder(SwervePodConstants2022.STEER_CANCODER_CID[id]);
 
         this.kEncoderOffset = SwervePodConstants2022.SPIN_OFFSET[this.id];
         ///System.out.println("P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
@@ -385,6 +390,12 @@ public class SwervePod2022 {
         drivetrain.getRotation2d());*/       
         return state;                                                                         //Not sure if this works
   }                   
+
+    public void updateSpinEncoder() {
+        this.spinEncoderPosition = spinEncoder.getPosition();
+        SmartDashboard.putNumber("P"+this.id+".spinEncoderPosition",this.spinEncoderPosition);
+
+    }
 
  // public double getRate(){
  // }
