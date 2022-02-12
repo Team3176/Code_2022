@@ -44,6 +44,8 @@ public class RobotContainer {
 
   private ClimbActive m_ClimbActive;
   private ClimbPassive m_ClimbPassive;
+  private Climb m_Climb;
+
   private final Vision m_Vision;
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -65,11 +67,12 @@ public class RobotContainer {
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
-    if ( MasterConstants.ISCLIMBPASSIVE ) {
-      m_ClimbPassive = ClimbPassive.getInstance();
-    } else {
-      m_ClimbActive = ClimbActive.getInstance();
-    }  
+    // if ( MasterConstants.ISCLIMBPASSIVE ) {
+    //   m_ClimbPassive = ClimbPassive.getInstance();
+    // } else {
+    //   m_ClimbActive = ClimbActive.getInstance();
+    // }  
+    m_Climb = Climb.getInstance();
     m_Indexer = Indexer.getInstance();
     m_Intake = Intake.getInstance();
     
@@ -98,17 +101,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    m_Controller.getOp_A().whenActive(new ClimbPassivePistonsExtend());
+    m_Controller.getOp_B().whenActive(new ClimbPassivePistonsRetract());
     // m_Controller.getOp_A().whenActive(new I2CTest());
-    m_Controller.getOp_X().whenActive(new ExtendIntake());
-    m_Controller.getOp_Y().whenActive(new RetractIntake());
-    m_Controller.getOp_A().whenActive(new IntakeSpin());
-    m_Controller.getOp_B().whenActive(new IntakeSpint());
+    // m_Controller.getOp_X().whenActive(new ExtendIntake());
+    // m_Controller.getOp_Y().whenActive(new RetractIntake());
+    // m_Controller.getOp_A().whenActive(new IntakeSpin());
+    // m_Controller.getOp_B().whenActive(new IntakeSpint());
 
     // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);
 
-    m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
-    m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
-    m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
+    // m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
+    // m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
+    // m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
   }
 
   /**

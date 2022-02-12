@@ -22,8 +22,8 @@ import team3176.robot.constants.IntakeConstants;
 import team3176.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
 
 public class Intake extends SubsystemBase {
-    // private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
-    // private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
+    // private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
+    private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
     private TalonFX intakeMotor = new TalonFX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
     private boolean pistonSetting = false;
 
@@ -47,7 +47,7 @@ public class Intake extends SubsystemBase {
   {
     pistonSetting = false;
     // piston1.set(Value.kReverse);
-    // piston2.set(Value.kReverse);
+    piston2.set(Value.kReverse);
   }
 
   public void spinVelocityPercent(double pct)
