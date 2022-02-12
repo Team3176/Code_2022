@@ -90,7 +90,8 @@ public class SwervePod2022 {
     private double startTics;
 
     private final PIDController m_drivePIDController;
-    private final ProfiledPIDController m_turningPIDController;
+    //private final ProfiledPIDController m_turningPIDController;
+    private ProfiledPIDController m_turningPIDController;
     private SwerveModuleState state;
     private RelativeEncoder m_encoder;
 
@@ -215,6 +216,31 @@ public class SwervePod2022 {
         // SmartDashboard.putBoolean("pod" + (id + 1) + " inversion", isInverted());
     }
 
+    public void tune() {
+        kP_Spin = SmartDashboard.getNumber("P"+(this.id)+".kP_Spin",0);
+        kI_Spin = SmartDashboard.getNumber("P"+(this.id)+".kI_Spin",0);
+        kD_Spin = SmartDashboard.getNumber("P"+(this.id)+".kD_Spin",0);
+        double spinRampRate = SmartDashboard.getNumber("P"+(this.id)+".ramprate_Spin", 0);
+
+        m_turningPIDController = new ProfiledPIDController(
+            kP_Spin, kI_Spin, kD_Spin, 
+            new TrapezoidProfile.Constraints(
+                (SwervePodConstants2022.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND),
+                (SwervePodConstants2022.MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED)));
+        
+        m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+
+        m_turningPIDController.reset(0.0, 0.0);
+
+        this.spinController.setOpenLoopRampRate(spinRampRate);
+        this.spinController.setSmartCurrentLimit(20);
+        this.spinController.burnFlash();
+
+        this.podSpin = SmartDashboard.getNumber("P"+(this.id)+".podSpin_setpoint", 0);
+
+        set(0, this.podSpin);
+
+    }
     /**
      * @param podDrive represents desired thrust of swervepod Range = -1 to 1 or
      *                 ft-per-sec?
