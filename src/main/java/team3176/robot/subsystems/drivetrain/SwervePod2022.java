@@ -152,7 +152,9 @@ public class SwervePod2022 {
         //this.spinPIDController = spinController.getPIDController();
 
         this.driveController.configFactoryDefault();
-        this.spinController.restoreFactoryDefaults();
+        //this.spinController.restoreFactoryDefaults();
+        this.spinController.setOpenLoopRampRate(10);
+        this.spinController.burnFlash();
 
         this.driveController.configClosedloopRamp(0.5);    
 
@@ -250,11 +252,13 @@ public class SwervePod2022 {
 
         //if (this.id == 3) {spinController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
         if (this.podDrive > (-Math.pow(10,-10)) && this.podDrive < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(podDrive) != 0 is notationally sloppy math
-            spinController.set(turnOutput);
+            //spinController.set(turnOutput * SwervePodConstants2022.SPIN_SPARKMAX_MAX_OUTPUTPERCENT);
+            SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
             //spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
             // SmartDashboard.putNumber("P" + (id + 1) + " lastEncoderPos", this.lastEncoderPos);
         } else {
-            spinController.set(turnOutput);
+            //spinController.set(turnOutput * SwervePodConstants2022.SPIN_SPARKMAX_MAX_OUTPUTPERCENT);
+            SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
             //spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
             this.lastEncoderPos = desiredSpinEncoderPos;
             // SmartDashboard.putNumber("P" + (id + 1) + " lastEncoderPos", this.lastEncoderPos);
