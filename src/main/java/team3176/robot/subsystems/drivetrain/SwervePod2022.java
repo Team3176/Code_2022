@@ -90,8 +90,8 @@ public class SwervePod2022 {
     private double startTics;
 
     private final PIDController m_drivePIDController;
-    //private final ProfiledPIDController m_turningPIDController;
-    private ProfiledPIDController m_turningPIDController;
+    private final ProfiledPIDController m_turningPIDController;
+    //private ProfiledPIDController m_turningPIDController;
     private SwerveModuleState state;
     private RelativeEncoder m_encoder;
 
@@ -99,6 +99,8 @@ public class SwervePod2022 {
         this.id = id;
         spinEncoder = new CANCoder(SwervePodConstants2022.STEER_CANCODER_CID[id]);
 
+        initializeSmartDashboard();
+        
         this.kEncoderOffset = SwervePodConstants2022.SPIN_OFFSET[this.id];
         ///System.out.println("P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
@@ -123,6 +125,9 @@ public class SwervePod2022 {
         kMaxOutput = SwervePodConstants2022.SPIN_PID[5][id];
         kMinOutput = SwervePodConstants2022.SPIN_PID[6][id];
 
+        kP_Spin = 0.0;
+        kI_Spin = 0.0;
+        kD_Spin = 0.0;
         m_turningPIDController = new ProfiledPIDController(
             kP_Spin, kI_Spin, kD_Spin, 
             new TrapezoidProfile.Constraints(
@@ -155,7 +160,7 @@ public class SwervePod2022 {
         this.driveController.configFactoryDefault();
         //this.spinController.restoreFactoryDefaults();
         this.spinController.setOpenLoopRampRate(10);
-        this.spinController.burnFlash();
+        //this.spinController.burnFlash();
 
         this.driveController.configClosedloopRamp(0.5);    
 
@@ -220,25 +225,19 @@ public class SwervePod2022 {
         kP_Spin = SmartDashboard.getNumber("P"+(this.id)+".kP_Spin",0);
         kI_Spin = SmartDashboard.getNumber("P"+(this.id)+".kI_Spin",0);
         kD_Spin = SmartDashboard.getNumber("P"+(this.id)+".kD_Spin",0);
-        double spinRampRate = SmartDashboard.getNumber("P"+(this.id)+".ramprate_Spin", 0);
+        double spinRampRate = SmartDashboard.getNumber("P"+(this.id)+".kRampRate_Spin", 0);
 
-        m_turningPIDController = new ProfiledPIDController(
-            kP_Spin, kI_Spin, kD_Spin, 
-            new TrapezoidProfile.Constraints(
-                (SwervePodConstants2022.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND),
-                (SwervePodConstants2022.MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED)));
         
-        m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
-
-        m_turningPIDController.reset(0.0, 0.0);
+        
 
         this.spinController.setOpenLoopRampRate(spinRampRate);
-        this.spinController.setSmartCurrentLimit(20);
-        this.spinController.burnFlash();
+        //this.spinController.setSmartCurrentLimit(20);
+        //this.spinController.burnFlash();
 
         this.podSpin = SmartDashboard.getNumber("P"+(this.id)+".podSpin_setpoint", 0);
 
-        set(0, this.podSpin);
+        //this.podSpin = 0.2;
+        System.out.println("podSpin = "+this.podSpin);
 
     }
     /**
@@ -437,6 +436,14 @@ public class SwervePod2022 {
 
     }
 
+    public void initializeSmartDashboard() {
+
+        SmartDashboard.putNumber("P"+(this.id)+".podSpin_setpoint", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kP_Spin_setpoint", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kI_Spin_setpoint", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kD_Spin_setpoint", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Spin_setpoint", 0);
+    }
  // public double getRate(){
  // }
 }

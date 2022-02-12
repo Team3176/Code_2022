@@ -237,7 +237,11 @@ public class Drivetrain extends SubsystemBase {
     // this.strafeCommand);
     // TODO: Find out why this putNumber statement is making the spinLock work
     // SmartDashboard.putNumber("this.spinCom_Drivetrain.drive", this.spinCommand);
-    calculateNSetPodPositions(this.forwardCommand, this.strafeCommand, this.spinCommand);
+    //calculateNSetPodPositions(this.forwardCommand, this.strafeCommand, this.spinCommand);
+    //for (int idx = 0; idx < (pods.size()); idx++) {
+    //  pods.get(idx).tune();
+    //}
+    pods.get(0).tune();
   }
 
   /**
@@ -469,9 +473,9 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    for (int idx = 0; idx < (pods.size()); idx++) {
-      pods.get(idx).updateSpinEncoder();
-    }
+    //for (int idx = 0; idx < (pods.size()); idx++) {
+    //  pods.get(idx).updateSpinEncoder();
+    //}
     
     calcAngleAvgRollingWindow();
     this.arraytrack++;
