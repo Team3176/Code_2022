@@ -237,7 +237,7 @@ public class SwervePod2022 {
         this.podSpin = SmartDashboard.getNumber("P"+(this.id)+".podSpin_setpoint", 0);
 
         //this.podSpin = 0.2;
-        System.out.println("podSpin = "+this.podSpin);
+        //System.out.println("podSpin = "+this.podSpin);
 
     }
     /**
@@ -439,10 +439,10 @@ public class SwervePod2022 {
     public void initializeSmartDashboard() {
 
         SmartDashboard.putNumber("P"+(this.id)+".podSpin_setpoint", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kP_Spin_setpoint", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kI_Spin_setpoint", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kD_Spin_setpoint", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Spin_setpoint", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kP_Spin", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kI_Spin", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kD_Spin", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Spin", 0);
     }
  // public double getRate(){
  // }
