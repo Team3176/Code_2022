@@ -99,7 +99,7 @@ public class Drivetrain extends SubsystemBase {
 
   private boolean isTurboOn = false;
   
- 
+  private int spinEncoderIdxCount = 0;
 
   private int arraytrack;
   double[] angleHist = { 0.0, 0.0, 0.0, 0.0, 0.0 };
@@ -472,10 +472,13 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    //for (int idx = 0; idx < (pods.size()); idx++) {
-    //  pods.get(idx).updateSpinEncoder();
-    //}
+    // This method will be called once per scheduler every 500ms
+    if(spinEncoderIdxCount++ > 25) { 
+      for (int idx = 0; idx < (pods.size()); idx++) { 
+        spinEncoderIdxCount = 0;
+        pods.get(idx).updateSpinEncoder(); 
+      }
+    }
     
     calcAngleAvgRollingWindow();
     this.arraytrack++;

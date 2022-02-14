@@ -98,7 +98,7 @@ public class SwervePod2022 {
     public SwervePod2022(int id, TalonFX driveController, CANSparkMax spinController) {
         this.id = id;
         spinEncoder = new CANCoder(SwervePodConstants2022.STEER_CANCODER_CID[id]);
-
+        updateSpinEncoder();
         initializeSmartDashboard();
         
         this.kEncoderOffset = SwervePodConstants2022.SPIN_OFFSET[this.id];
@@ -228,6 +228,15 @@ public class SwervePod2022 {
         //this.podSpin = 0.2;
         //System.out.println("podSpin = "+this.podSpin);
 
+        double optmizdSpinPos = optimizeSpinPos(this.podSpin);
+
+        SmartDashboard.putNumber("P"+(this.id)+".optmizdSpinPos", optmizdSpinPos);
+
+        final double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, optmizdSpinPos);
+
+        SmartDashboard.putNumber("P"+(this.id)+".turnOutput", turnOutput);
+
+
     }
     /**
      * @param podDrive represents desired thrust of swervepod Range = -1 to 1 or
@@ -253,10 +262,10 @@ public class SwervePod2022 {
         this.maxVelTicsPer100ms = fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
         this.velTicsPer100ms = fps2ums(this.podDrive);
        // velTicsPer100ms = SmartDashboard.getNumber("driveSet",velTicsPer100ms);
-        double desiredSpinEncoderPos = optimizeSpinPos(this.podSpin);
+        double optmizdSpinPos = optimizeSpinPos(this.podSpin);
         //double tics = rads2Tics(this.podSpin);
 
-        final double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, desiredSpinEncoderPos);
+        final double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, optmizdSpinPos);
 
         //if (this.id == 3) {spinController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
         if (this.podDrive > (-Math.pow(10,-10)) && this.podDrive < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(podDrive) != 0 is notationally sloppy math
@@ -267,7 +276,7 @@ public class SwervePod2022 {
             //spinController.set(turnOutput * SwervePodConstants2022.SPIN_SPARKMAX_MAX_OUTPUTPERCENT);
             SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
             //spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
-            this.lastEncoderPos = desiredSpinEncoderPos;
+            this.lastEncoderPos = optmizdSpinPos;
         }    
 
         driveController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
@@ -392,12 +401,16 @@ public class SwervePod2022 {
 
     public void initializeSmartDashboard() {
 
-        SmartDashboard.putNumber("P"+(this.id)+".podSpin_setpoint", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".podSpin_setpoint_angle", 0);
         SmartDashboard.putNumber("P"+(this.id)+".kP_Spin", 0);
         SmartDashboard.putNumber("P"+(this.id)+".kI_Spin", 0);
         SmartDashboard.putNumber("P"+(this.id)+".kD_Spin", 0);
         SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Spin", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".podSpin_encoder", this.spinEncoderPosition);
+        SmartDashboard.putBoolean("P"+(this.id)+".On", false);
     }
+
+
     public void SwervePod2022SmartDashboardComments () {
         //SwervePod2022 comments start
         // SmartDashboard.putNumber("P", kP_Drive);
