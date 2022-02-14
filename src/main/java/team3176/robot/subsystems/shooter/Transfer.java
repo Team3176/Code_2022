@@ -13,15 +13,22 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import team3176.robot.subsystems.shooter.TransferIO.TransferIOInputs;
+
 public class Transfer extends SubsystemBase
 {
-  private static Transfer m_transfer = new Transfer();
   private CANSparkMax transferMotor1;
   private SparkMaxPIDController pidController1;
   private RelativeEncoder encoder1;
 
-  public Transfer()
+  private final TransferIO io;
+  private final TransferIOInputs inputs = new TransferIOInputs();
+  private static Transfer instance;
+
+  public Transfer(TransferIO io)
   {
+    this.io = io;
+
     transferMotor1 = new CANSparkMax(TransferConstants.TRANSFER_NEO1_CAN_ID, MotorType.kBrushless);
     pidController1 = transferMotor1.getPIDController();
     encoder1 = transferMotor1.getEncoder();
@@ -47,7 +54,8 @@ public class Transfer extends SubsystemBase
   }
 
   public static Transfer getInstance() {
-    return m_transfer;
+    if(instance == null) {instance = new Transfer(new TransferIO() {});}
+    return instance;
   }
 
 }

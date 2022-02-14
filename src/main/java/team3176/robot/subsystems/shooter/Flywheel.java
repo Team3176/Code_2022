@@ -13,14 +13,21 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 
+import team3176.robot.subsystems.shooter.FlywheelIO.FlywheelIOInputs;
+
 public class Flywheel extends SubsystemBase {
 
-  private static Flywheel m_flywheel = new Flywheel();
   private TalonFX flywheelMotor1;
   private TalonFX flywheelMotor2;
 
-  public Flywheel()
+  private final FlywheelIO io;
+  private final FlywheelIOInputs inputs = new FlywheelIOInputs();
+  private static Flywheel instance;
+
+  public Flywheel(FlywheelIO io)
   {
+    this.io = io;
+
     flywheelMotor1 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON1_CAN_ID);
     flywheelMotor2 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON2_CAN_ID);
 
@@ -70,7 +77,8 @@ public class Flywheel extends SubsystemBase {
   }
 
   public static Flywheel getInstance() {
-    return m_flywheel;
+    if(instance == null) {instance = new Flywheel(new FlywheelIO() {});}
+    return instance;
   }
   
 }
