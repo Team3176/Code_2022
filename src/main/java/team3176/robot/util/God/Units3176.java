@@ -30,4 +30,18 @@ public class Units3176{
         tics -= (EncoderUnitsPerRevolution / 2);
         return ((tics / EncoderUnitsPerRevolution) * (2 * Math.PI));
 	}
+
+     /**
+      * Given feet per second, returns Falcon500 units (ie tics per 100ms)  
+     * @param i feet per second
+     * @return tics per 100ms
+     */
+    public static double fps2ums(double i) {
+        
+        // input * inchesPerFoot * circumfrenceOfWheel * ticsPerRev * gearRatio * secTo100ms
+        return i * 12.0 * (1.0/10.21) * 2048.0 *6.17 * .1;
+        
+        // return i * 100;
+    }
+
 }
