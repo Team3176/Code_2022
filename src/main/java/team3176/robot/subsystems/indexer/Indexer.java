@@ -18,6 +18,7 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
+import team3176.robot.subsystems.indexer.*;
 import team3176.robot.subsystems.indexer.IndexerIO.IndexerIOInputs;
 
 public class Indexer extends SubsystemBase
