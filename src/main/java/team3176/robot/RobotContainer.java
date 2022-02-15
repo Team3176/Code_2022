@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.ExampleCommand;
 import team3176.robot.commands.auton.*;
 import team3176.robot.commands.climb.*;
-import team3176.robot.commands.climbPassive.*;
 import team3176.robot.commands.common.*;
 import team3176.robot.commands.teleop.*;
 import team3176.robot.constants.*;
@@ -28,6 +27,7 @@ import team3176.robot.util.Joystick.*;
 import team3176.robot.util.PowerManagement.*;
 import team3176.robot.util.XboxController.*;
 import team3176.robot.subsystems.drivetrain.*;
+import team3176.robot.commands.climb.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -101,8 +101,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_Controller.getOp_A().whenActive(new ClimbPassivePistonsExtend());
-    m_Controller.getOp_B().whenActive(new ClimbPassivePistonsRetract());
+    m_Controller.getOp_A().whenActive(new ClimbPassivePistonEngage());
+    m_Controller.getOp_B().whenActive(new ClimbPassivePistonRetract());
     // m_Controller.getOp_A().whenActive(new I2CTest());
     // m_Controller.getOp_X().whenActive(new ExtendIntake());
     // m_Controller.getOp_Y().whenActive(new RetractIntake());
