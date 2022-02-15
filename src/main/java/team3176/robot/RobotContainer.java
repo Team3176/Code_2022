@@ -62,9 +62,9 @@ public class RobotContainer {
     // m_Intake = Intake.getInstance();
     // m_Intake = new Intake(new IntakeIO() {});
     m_Controller = Controller.getInstance();
-    // m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     // m_Compressor.enableDigital();
-    // m_Compressor.disable();
+    m_Compressor.disable();
     // if ( MasterConstants.ISCLIMBPASSIVE) {
     //   m_ClimbPassive = ClimbPassive.getInstance();
     // } else {
@@ -83,8 +83,8 @@ public class RobotContainer {
     //   m_ClimbActive = ClimbActive.getInstance();
     // }
 
-    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
+    //m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    //m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     
     m_Drivetrain = Drivetrain.getInstance();
     if (!MasterConstants.IS_TUNING_MODE) { 
