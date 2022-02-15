@@ -1,11 +1,16 @@
-#CAN IDs: Drive (1 - 49); Falcon (50 - 59); Spark (60 - 69); Talon (70 - 79)
-	- Intake Talon:			Test (70)
-	- Climb Falcon:			Test (52)
-	- Shooter Falcon 1:		Test (50)
-	- Shooter Falcon 2:		Test (51)
-	- Transfer Spark 1:		Test (60)
-	- Transfer Spark 2:		Test (61)
-	- Angler Spark:			Test (62)
+#CAN IDs:
+10 11 12 13 14
+20 21 22 23 24
+30 31 32 33 34
+40 41 42 43 44
+	- Intake Talon:			Test (14)
+	- Climb Falcon:			Test (34)
+	- Climb Possible 2nd:	Test (44)
+	- Shooter Falcon 1:		Test (13)
+	- Shooter Falcon 2:		Test (23)
+	- Transfer Spark 1:		Test (33)
+	- Transfer Spark 2:		Test (43)
+	- Angler Spark:			Test (24)
 	- Drive: 10, 20, 30, 40  (FR, FL, BL, BR)
 	- Turn: 11, 21, 31, 41	(FR, FL, BL, BR)
 	- SwerveCanCoders: 12, 22, 32, 42	(FR, FL, BL, BR)

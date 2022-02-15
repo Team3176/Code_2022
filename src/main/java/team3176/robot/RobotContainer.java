@@ -32,9 +32,15 @@ import team3176.robot.constants.*;
 import team3176.robot.util.Joystick.*;
 import team3176.robot.util.PowerManagement.*;
 import team3176.robot.util.XboxController.*;
-import team3176.robot.subsystems.ExampleSubsystem;
-import team3176.robot.commands.ExampleCommand;
+import team3176.robot.subsystems.drivetrain.*;
+import team3176.robot.commands.climb.*;
 
+/**
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * subsystems, commands, and button mappings) should be declared here.
+ */
 public class RobotContainer {
 
   private final Intake m_Intake;
@@ -49,6 +55,10 @@ public class RobotContainer {
 
   private ClimbActive m_ClimbActive;
   private ClimbPassive m_ClimbPassive;
+  private Climb m_Climb;
+
+  private final Vision m_Vision;
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private SendableChooser<String> m_autonChooser;
   private static final String m_autoOneRenameAfterAssigned = "s_optionOneRenameAlso";
