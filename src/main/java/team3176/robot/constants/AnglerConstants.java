@@ -29,7 +29,9 @@ public final class AnglerConstants {
     public static final double kDegreesPerSecondForAngleFind = 5.0; // Degrees per second that the angler should move when finding the position of 45 degrees
 
     public static final int limiter1Channel = 0;
-
     public static final int limiter2Channel = 1;
+
+    // So commands and the subsystem using Shuffleboard reference the same name for the numbers it's trying to use
+    public static final String kShuffleboardPercentName = "Angler%Set";
 
 }

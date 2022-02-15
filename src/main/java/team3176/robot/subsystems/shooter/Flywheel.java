@@ -39,10 +39,7 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor2.configAllowableClosedloopError(0, FlywheelConstants.kPIDLoopIndex, FlywheelConstants.kTimeoutMS);
     // This will (hopefully) invert the second motor
     flywheelMotor2.setSensorPhase(false);
-    flywheelMotor2.configClosedloopRamp(FlywheelConstants.kRampRate, FlywheelConstants.kTimeoutMS);
-
-    SmartDashboard.putNumber("percentFlywheel_1", 0.0);
-    SmartDashboard.putNumber("percentFlywheel_2", 0.0);    
+    flywheelMotor2.configClosedloopRamp(FlywheelConstants.kRampRate, FlywheelConstants.kTimeoutMS);   
   }
 
   public void spinMotors(double ticksPer100ms)
@@ -62,14 +59,16 @@ public class Flywheel extends SubsystemBase {
 
   public void percentOutput_1() 
   {
-    double output = SmartDashboard.getNumber("percentFlywheel_1", 0.0);
+    double output = SmartDashboard.getNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
     if (output >= -1 && output <= 1) { flywheelMotor1.set(ControlMode.PercentOutput, output); }
+    SmartDashboard.putNumber("Fly1Tics/100msOut", flywheelMotor1.getSelectedSensorVelocity());
   }
 
   public void percentOutput_2() 
   {
-    double output = SmartDashboard.getNumber("percentFlywheel_2", 0.0);
+    double output = SmartDashboard.getNumber(FlywheelConstants.kShuffleboardPercentName2, 0.0);
     if (output >= -1 && output <= 1) { flywheelMotor2.set(ControlMode.PercentOutput, output); }
+    SmartDashboard.putNumber("Fly2Tics/100msOut", flywheelMotor2.getSelectedSensorVelocity());
   }
 
   public void stopMotors()

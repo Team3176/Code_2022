@@ -55,8 +55,6 @@ public class Angler extends SubsystemBase {
     limiter1Engaged = false;
     limiter2Engaged = false;
     setValue = 0;
-
-    SmartDashboard.putNumber("percentAngler", 0.0);
   }
 
   /**
@@ -101,7 +99,8 @@ public class Angler extends SubsystemBase {
 
   public void testPercentOutput() 
   {
-    engageRawMotor(SmartDashboard.getNumber("percentAngler", 0.0));
+    engageRawMotor(SmartDashboard.getNumber(AnglerConstants.kShuffleboardPercentName, 0.0));
+    SmartDashboard.putNumber("AnglerRPMOut", encoder.getVelocity());
   }
 
   // Does the same thing as engageRawMotor(), except it ignores the limiter conditional so it can stop the motors no matter what
@@ -155,9 +154,6 @@ public class Angler extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
-    // System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
-    SmartDashboard.putNumber("RPM", encoder.getVelocity());
 
     // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
     if (!limitSwitch1.get() && setValue < 0) {

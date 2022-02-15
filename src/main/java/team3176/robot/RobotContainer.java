@@ -99,6 +99,19 @@ public class RobotContainer {
     m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
     m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
     */
+
+    /*
+    m_Controller.getOp_A().whenActive(new AnglerPctOutput());
+    m_Controller.getOp_X().cancelWhenActive(new AnglerPctOutput());
+    */
+    /*
+    m_Controller.getOp_A().whenActive(new FlywheelPctOutput());
+    m_Controller.getOp_X().cancelWhenActive(new FlywheelPctOutput());
+    */
+    /*
+    m_Controller.getOp_A().whenActive(new TransferPctOutput());
+    m_Controller.getOp_X().cancelWhenActive(new TransferPctOutput());
+    */
   }
 
   /**

@@ -28,14 +28,13 @@ public class Transfer extends SubsystemBase
     encoder = transferMotor.getEncoder();
     
     transferMotor.setClosedLoopRampRate(TransferConstants.kRampRate);
-
-    SmartDashboard.putNumber("percentTransfer", 0.0);
   }
 
   public void percentOutput() 
   {
-    double output = SmartDashboard.getNumber("percentTransfer", 0.0);
+    double output = SmartDashboard.getNumber(TransferConstants.kShuffleboardPercentName, 0.0);
     if (output >= -1 && output <= 1) { transferMotor.set(output); }
+    SmartDashboard.putNumber("TransferRPMOut", encoder.getVelocity());
   }
 
   public void motor2Velocity(double velocity)
@@ -43,8 +42,11 @@ public class Transfer extends SubsystemBase
     pidController.setReference(velocity, ControlType.kVelocity);
   }
 
-  
+  public void stopMotor() {
+    transferMotor.set(0.0);
+  }
 
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
