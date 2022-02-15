@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.auton.*;
 import team3176.robot.commands.common.*;
 import team3176.robot.commands.teleop.*;
-import team3176.robot.commands.climbActive.*;
-import team3176.robot.commands.climbPassive.*;
 import team3176.robot.subsystems.controller.*;
 import team3176.robot.subsystems.drivetrain.*;
 import team3176.robot.subsystems.indexer.*;
@@ -35,12 +33,6 @@ import team3176.robot.util.XboxController.*;
 import team3176.robot.subsystems.drivetrain.*;
 import team3176.robot.commands.climb.*;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
 
   private final Intake m_Intake;
@@ -57,46 +49,24 @@ public class RobotContainer {
   private ClimbPassive m_ClimbPassive;
   private Climb m_Climb;
 
-  private final Vision m_Vision;
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
   private SendableChooser<String> m_autonChooser;
   private static final String m_autoOneRenameAfterAssigned = "s_optionOneRenameAlso";
 
   private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest(); //TODO: GET RID OF THIS and INVESTIGATE
-
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   
   public RobotContainer() {
-    // m_Intake = Intake.getInstance();
-    // m_Intake = new Intake(new IntakeIO() {});
     m_Controller = Controller.getInstance();
-    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    // m_Compressor.enableDigital();
-    m_Compressor.disable();
-    // if ( MasterConstants.ISCLIMBPASSIVE) {
-    //   m_ClimbPassive = ClimbPassive.getInstance();
-    // } else {
-    //   m_ClimbActive = ClimbActive.getInstance();
-    // }  
     m_Indexer = Indexer.getInstance();
     m_Intake = Intake.getInstance();
     m_Vision = Vision.getInstance();
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
     m_Transfer = Transfer.getInstance();
-
-    // if (MasterConstants.ISCLIMBPASSIVE) {
-    //   m_ClimbPassive = ClimbPassive.getInstance();
-    // } else {
-    //   m_ClimbActive = ClimbActive.getInstance();
-    // }
-
-    //m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    //m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
-    
     m_Drivetrain = Drivetrain.getInstance();
+
+    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
+
     if (!MasterConstants.IS_TUNING_MODE) { 
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
         () -> m_Controller.getForward(), 
@@ -151,21 +121,12 @@ public class RobotContainer {
     // m_Controller.getOp_DPAD_UP().whenActive(new ClimbExtend());
     // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbRetract());
 
-    // m_Angler.setAngle(m_Controller.getOp_LeftY());
+    // m_Angler.setAngle(m_Controller.getOp_LeftY()); (make CMD formatting)
 
 
     // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest); //TODO: INVESTIGATE
-
-    m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
-    m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
-    m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-  */
   public Command getAutonomousCommand() {
     String chosen = m_autonChooser.getSelected();
     if(chosen.equals(m_autoOneRenameAfterAssigned)) return new auto1Hypo(); //TODO: Remove Autos that were game/strategy specific but more would be the same line but else if because efficient even though its not
