@@ -12,8 +12,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
-
 import team3176.robot.subsystems.shooter.FlywheelIO.FlywheelIOInputs;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Flywheel extends SubsystemBase {
 
@@ -23,6 +23,8 @@ public class Flywheel extends SubsystemBase {
   private final FlywheelIO io;
   private final FlywheelIOInputs inputs = new FlywheelIOInputs();
   private static Flywheel instance;
+  private boolean isSmartDashboardTestControlsShown;
+  public String mode = "";
 
   public Flywheel(FlywheelIO io)
   {
@@ -66,9 +68,25 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor2.set(TalonFXControlMode.PercentOutput, 0.0);
   }
 
+    public void putSmartDashboardControlCommands() {
+    SmartDashboard.putNumber("Flywheel 1 PCT", 0);
+    SmartDashboard.putNumber("Flywheel 2 PCT", 0);
+    isSmartDashboardTestControlsShown = true;
+    }
+
+    public void setValuesFromSmartDashboard() 
+    {
+      flywheelMotor1.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 1 PCT", 0));
+      flywheelMotor2.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 2 PCT", 0));
+    }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if(mode.equals("test"))
+    {
+      if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
+      setValuesFromSmartDashboard();
+    }
   }
 
   @Override
