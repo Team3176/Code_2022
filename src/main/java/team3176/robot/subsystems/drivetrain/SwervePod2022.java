@@ -38,6 +38,7 @@ import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.constants.SwervePodConstants2022;
 import team3176.robot.constants.MasterConstants;
 import com.ctre.phoenix.sensors.CANCoder;
+import team3176.robot.util.God.*;
 
 
 public class SwervePod2022 {
@@ -116,6 +117,7 @@ public class SwervePod2022 {
         this.kEncoderOffset = Math.toRadians(SwervePodConstants2022.SPIN_OFFSET[this.id]);
         ///System.out.println("P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
+        
         //kSpinEncoderUnitsPerRevolution = SwervePodConstants2022.SPIN_ENCODER_UNITS_PER_REVOLUTION;
         kSlotIdx_spin = SwervePodConstants2022.TALON_SPIN_PID_SLOT_ID;
         kPIDLoopIdx_spin = SwervePodConstants2022.TALON_SPIN_PID_LOOP_ID;
@@ -279,8 +281,8 @@ public class SwervePod2022 {
             // TODO: need check ether output values. speed vs %-values
         // this.maxVelTicsPer100ms = 1 * 987.2503 * kDriveEncoderUnitsPerRevolution / 600.0;
         // this.velTicsPer100ms = this.podDrive * 2000.0 * kDriveEncoderUnitsPerRevolution / 600.0;  //TODO: rework "podDrive * 2000.0"
-        this.maxVelTicsPer100ms = fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
-        this.velTicsPer100ms = fps2ums(this.podDrive);
+        this.maxVelTicsPer100ms = Units3176.fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
+        this.velTicsPer100ms = Units3176.fps2ums(this.podDrive);
        // velTicsPer100ms = SmartDashboard.getNumber("driveSet",velTicsPer100ms);
         double optmizdSpinPos = optimizeSpinPos(this.podSpin);
         //double tics = rads2Tics(this.podSpin);
@@ -341,38 +343,7 @@ public class SwervePod2022 {
 
     }
 
-    /*
-    private int rads2Tics(double rads) {        //TODO: put a modulo cap limit like in tics2Rads (range[-pi,pi])  (Is it returning 0-2pi somehow?)
-        //rads = rads * (2 * Math.PI);
-        double rads_clamped = (Math.min((Math.max(rads,(-Math.PI))), (Math.PI)));        
-        double tics = ((rads_clamped / (2.0*Math.PI)) * kSpinEncoderUnitsPerRevolution);
-        return (int) tics;
-    }
-    */
-
-    /*
-    private double tics2Rads(double tics) {
-        tics = tics % kSpinEncoderUnitsPerRevolution;
-        if(tics < 0) {
-            tics += kSpinEncoderUnitsPerRevolution;
-        }
-        tics -= (kSpinEncoderUnitsPerRevolution / 2);
-        return ((tics / kSpinEncoderUnitsPerRevolution) * (2 * PI));
-    }
-    */
-
-    /**
-     * @param i feet per second
-     * @return tics per 100ms
-     */
-    private double fps2ums(double i) {
-        
-        // input * inchesPerFoot * circumfrenceOfWheel * ticsPerRev * gearRatio * secTo100ms
-        return i * 12.0 * (1.0/10.21) * 2048.0 *6.17 * .1;
-        
-        // return i * 100;
-    }
-
+   
     public boolean isInverted() { return spinController.getInverted(); }
     public void setInverted() { spinController.setInverted(!isInverted()); }
 
