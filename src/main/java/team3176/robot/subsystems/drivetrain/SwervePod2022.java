@@ -42,15 +42,26 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 public class SwervePod2022 {
 
+    /** Class Object holding the Motor controller for Drive Motor on the SwervePod */
     private TalonFX driveController;
+    /** Class Object holding the Motor controller for Spin (aka Azimuth) Motor on the SwervePod */
     private CANSparkMax spinController;
-    //private SparkMaxPIDController spinPIDController;
+    /** Class Object holding the CAN-based encoder for Spin (aka Azimuth) position of the SwervePod */
     CANCoder spinEncoder;
+    /** Current value in radians of the spinEncoder's position */
     double spinEncoderPosition;
 
+    /** Numerical identifier to differentiate between pods.
+     *     For 4 Pods:  0 = FrontRight (FR),
+     *                  1 = FrontLeft (FL),
+     *                  2 = BackLeft (BL),
+     *                  3 = BackRight (BR)
+     */
     private int id;
-    private int kEncoderOffset; 
-    private double kSpinEncoderUnitsPerRevolution;
+   
+    /** Represents the value of the spinEncoder reading in radians when positioned with the positive Thurst vector of the Pod's Drive wheel pointing towards front of robot */
+    private double kEncoderOffset; 
+    //private double kSpinEncoderUnitsPerRevolution;
     private double kDriveEncoderUnitsPerRevolution;
     private int off = 0;
 
@@ -75,6 +86,7 @@ public class SwervePod2022 {
     private double kMaxOutput;
     private double kMinOutput;
 
+    private double kSpinRampRate;
 
     private double kP_Drive;
     private double kI_Drive;
@@ -101,10 +113,10 @@ public class SwervePod2022 {
         updateSpinEncoder();
         initializeSmartDashboard();
         
-        this.kEncoderOffset = SwervePodConstants2022.SPIN_OFFSET[this.id];
+        this.kEncoderOffset = Math.toRadians(SwervePodConstants2022.SPIN_OFFSET[this.id]);
         ///System.out.println("P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
-        kSpinEncoderUnitsPerRevolution = SwervePodConstants2022.SPIN_ENCODER_UNITS_PER_REVOLUTION;
+        //kSpinEncoderUnitsPerRevolution = SwervePodConstants2022.SPIN_ENCODER_UNITS_PER_REVOLUTION;
         kSlotIdx_spin = SwervePodConstants2022.TALON_SPIN_PID_SLOT_ID;
         kPIDLoopIdx_spin = SwervePodConstants2022.TALON_SPIN_PID_LOOP_ID;
         kTimeoutMs_spin = SwervePodConstants2022.TALON_SPIN_PID_TIMEOUT_MS;
@@ -211,15 +223,23 @@ public class SwervePod2022 {
     }
 
     public void tune() {
-        kP_Spin = SmartDashboard.getNumber("P"+(this.id)+".kP_Spin",0);
-        kI_Spin = SmartDashboard.getNumber("P"+(this.id)+".kI_Spin",0);
-        kD_Spin = SmartDashboard.getNumber("P"+(this.id)+".kD_Spin",0);
-        double spinRampRate = SmartDashboard.getNumber("P"+(this.id)+".kRampRate_Spin", 0);
+        this.kP_Spin = SmartDashboard.getNumber("P"+(this.id)+".kP_Spin",0);
+        this.kI_Spin = SmartDashboard.getNumber("P"+(this.id)+".kI_Spin",0);
+        this.kD_Spin = SmartDashboard.getNumber("P"+(this.id)+".kD_Spin",0);
+        m_turningPIDController.setP(this.kP_Spin);
+        m_turningPIDController.setI(this.kP_Spin);
+        m_turningPIDController.setD(this.kP_Spin);
+        SmartDashboard.putNumber("P"+(this.id)+".kP_Spin",this.kP_Spin);
+        SmartDashboard.putNumber("P"+(this.id)+".kI_Spin",this.kI_Spin);
+        SmartDashboard.putNumber("P"+(this.id)+".kD_Spin",this.kD_Spin);
+        
+        
+        this.kSpinRampRate = SmartDashboard.getNumber("P"+(this.id)+".kRampRate_Spin", 0);
 
         
         
 
-        this.spinController.setOpenLoopRampRate(spinRampRate);
+        this.spinController.setOpenLoopRampRate(this.kSpinRampRate);
         //this.spinController.setSmartCurrentLimit(20);
         //this.spinController.burnFlash();
 
@@ -232,7 +252,7 @@ public class SwervePod2022 {
 
         SmartDashboard.putNumber("P"+(this.id)+".optmizdSpinPos", optmizdSpinPos);
 
-        final double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, optmizdSpinPos);
+        double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, optmizdSpinPos);
 
         SmartDashboard.putNumber("P"+(this.id)+".turnOutput", turnOutput);
 
@@ -290,9 +310,10 @@ public class SwervePod2022 {
     private double optimizeSpinPos(double angle) {
         //System.out.println("calcSpinPos - P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
-        this.encoderPos = m_encoder.getPosition();
+        this.encoderPos = getEncoderPos();;
         //this.encoderPos = spinController.getSelectedSensorPosition() - this.kEncoderOffset;
-        radianPos = tics2Rads(this.encoderPos);
+        //radianPos = tics2Rads(this.encoderPos);
+        radianPos = (this.encoderPos);
         radianError = angle - radianPos;
         // FYI: Math.copySign(magnitudeVar, signVar) = magnitude value with same sign as signvar
 
@@ -308,7 +329,8 @@ public class SwervePod2022 {
                 this.velTicsPer100ms = -this.velTicsPer100ms;
             }
         }
-        encoderError = rads2Tics(radianError);
+        //encoderError = rads2Tics(radianError);
+        encoderError = (radianError);
         azimuthCommand = encoderError + this.encoderPos + this.kEncoderOffset;
         return (azimuthCommand);
     }
@@ -319,13 +341,16 @@ public class SwervePod2022 {
 
     }
 
+    /*
     private int rads2Tics(double rads) {        //TODO: put a modulo cap limit like in tics2Rads (range[-pi,pi])  (Is it returning 0-2pi somehow?)
         //rads = rads * (2 * Math.PI);
         double rads_clamped = (Math.min((Math.max(rads,(-Math.PI))), (Math.PI)));        
         double tics = ((rads_clamped / (2.0*Math.PI)) * kSpinEncoderUnitsPerRevolution);
         return (int) tics;
     }
+    */
 
+    /*
     private double tics2Rads(double tics) {
         tics = tics % kSpinEncoderUnitsPerRevolution;
         if(tics < 0) {
@@ -334,6 +359,7 @@ public class SwervePod2022 {
         tics -= (kSpinEncoderUnitsPerRevolution / 2);
         return ((tics / kSpinEncoderUnitsPerRevolution) * (2 * PI));
     }
+    */
 
     /**
      * @param i feet per second
@@ -350,53 +376,15 @@ public class SwervePod2022 {
     public boolean isInverted() { return spinController.getInverted(); }
     public void setInverted() { spinController.setInverted(!isInverted()); }
 
-    public void setDesiredState(SwerveModuleState desiredState) {
-        //this.isAutonSwerveControllerOptimizingSpinPos = true;
-        // Optimize the reference state to avoid spinning further than 90 degrees
-        SwerveModuleState newDesiredState = new SwerveModuleState(desiredState.speedMetersPerSecond, desiredState.angle.times(-1));
-        Rotation2d rotation = new Rotation2d(-tics2Rads(m_encoder.getPosition()));
-        state = newDesiredState;
-        //SwerveModuleState.optimize(desiredState, rotation); //I do not know if this is the angle of the encoder.
-        double driveOutput =    
-            m_drivePIDController.calculate(getVelocity_metersPerSec(), state.speedMetersPerSecond);
-
-        driveOutput = .25 * driveOutput/DrivetrainConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND;   //TODO: <-- Ask Chase, why we multiply by 0.25?
-
-        final var turnOutput = 
-            m_turningPIDController.calculate(tics2Rads(m_encoder.getPosition()), state.angle.getRadians());
-
-        Rotation2d tempTurnOutput = new Rotation2d(turnOutput);
-
-        SwerveModuleState calculatedState = new SwerveModuleState(driveOutput, tempTurnOutput);
-        //if (this.isAutonSwerveControllerOptimizingSpinPos == true) { 
-        //    SwerveModuleState optimizedState = SwerveModuleState.optimize(calculatedState, tempTurnOutput);
-        //    set(driveOutput,optimizedState.angle.getRadians());//Units.metersToFeet(driveOutput),turnOutput);     
-        //} else {
-            set(-driveOutput, calculatedState.angle.getRadians());//Units.metersToFeet(driveOutput),turnOutput);
-            // set(driveOutput, state.angle.getRadians());     
-        //}   
-        this.isAutonSwerveControllerOptimizingSpinPos = false;
-    }
-
-    public double getVelocity_metersPerSec() {
-        double sensoredVelInTicsPer100ms = driveController.getSelectedSensorVelocity(1);
-        double wheelCircumference = Units.inchesToMeters(DrivetrainConstants.WHEEL_DIAMETER_INCHES * Math.PI);
-        double metersPer100ms = sensoredVelInTicsPer100ms * 1 * wheelCircumference / (SwervePodConstants2022.DRIVE_ENCODER_UNITS_PER_REVOLUTION * 6.17);  //6.17 = gear ratio  <--should this be 6.17 here, or (1 / 6.17)?
-        double metersPerSecond = metersPer100ms * 10 /*ms*/ / 1 /*sec*/;
-        return metersPerSecond;     
-    }
-
-    public SwerveModuleState getState() {
-        state = new SwerveModuleState(getVelocity_metersPerSec(), new Rotation2d(tics2Rads(m_encoder.getPosition())));
-                /*drivetrain.gyro.getRate() * DrivetrainConstants.DEGREES_PER_SECOND_TO_METERS_PER_SECOND_OF_WHEEL,
-        drivetrain.getRotation2d());*/       
-        return state;                                                                         //Not sure if this works
-  }                   
-
     public void updateSpinEncoder() {
         this.spinEncoderPosition = spinEncoder.getPosition();
         SmartDashboard.putNumber("P"+this.id+".spinEncoderPosition",this.spinEncoderPosition);
 
+    }
+
+    public double getEncoderPos() {
+        updateSpinEncoder();
+        return this.spinEncoderPosition;
     }
 
     public void initializeSmartDashboard() {

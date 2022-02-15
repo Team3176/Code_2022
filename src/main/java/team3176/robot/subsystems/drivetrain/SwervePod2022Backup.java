@@ -49,7 +49,7 @@ public class SwervePod2022Backup {
     double spinEncoderPosition;
 
     private int id;
-    private int kEncoderOffset; 
+    private double kEncoderOffset; 
     private double kSpinEncoderUnitsPerRevolution;
     private double kDriveEncoderUnitsPerRevolution;
     private int off = 0;

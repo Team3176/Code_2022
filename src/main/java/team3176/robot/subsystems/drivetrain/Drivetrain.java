@@ -31,11 +31,10 @@ import team3176.robot.constants.DrivetrainConstants;
 //import team3176.robot.constants.PowerManagementConstants;
 import team3176.robot.subsystems.controller.Controller;
 import team3176.robot.subsystems.vision.Vision;
+import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
 
 import java.util.ArrayList;
-
-import team3176.robot.util.PIDLoop;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.subsystems.drivetrain.CoordSys;
@@ -96,7 +95,7 @@ public class Drivetrain extends SubsystemBase {
 
   private double spinLockAngle;
   private boolean isSpinLocked = false;
-  private PIDLoop spinLockPID;
+  private PID3176 spinLockPID;
   // private PIDController spinLockPID;
 
   private boolean isTurboOn = false;
@@ -459,11 +458,11 @@ public class Drivetrain extends SubsystemBase {
 
 
   
-
+/*
   public ChassisSpeeds getChassisSpeed() {
     return DrivetrainConstants.DRIVE_KINEMATICS.toChassisSpeeds(podFR.getState(), podFL.getState(), podBL.getState(), podBR.getState());
   }
-
+*/
 
 
  /* public void setModuleStates(SwerveModuleState[] desiredStates) {
