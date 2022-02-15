@@ -12,6 +12,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -31,7 +32,9 @@ public class Indexer extends SubsystemBase
   private RelativeEncoder encoder2;
   private byte[] sensorByteArray;
   private boolean[] sensorBoolArray = {false, false};
+  private boolean isSmartDashboardTestControlsShown;
   private DigitalInput input;
+  public String mode = "";
 
   private final IndexerIO io;
   private final IndexerIOInputs inputs = new IndexerIOInputs();
@@ -91,6 +94,15 @@ public class Indexer extends SubsystemBase
     
   }
 
+    public void putSmartDashboardControlCommands() {
+    SmartDashboard.putNumber("Indexer PCT", 0);
+    isSmartDashboardTestControlsShown = true;
+    }
+
+    public void setValuesFromSmartDashboard() {
+      indexerMotor.set(SmartDashboard.getNumber("Indexer PCT", 0));
+    }
+
   @Override
   public void periodic() 
   {
@@ -103,6 +115,11 @@ public class Indexer extends SubsystemBase
     //   String key = "Indexer/Bool" + i;
     //   Logger.getInstance().recordOutput(key, sensorBoolArray[i]);
     // }
+    if(mode.equals("test"))
+    {
+      if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
+      setValuesFromSmartDashboard();
+    }
 
     // This method will be called once per scheduler run
     // I2CReciever();
