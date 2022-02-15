@@ -34,23 +34,23 @@ public class Transfer extends SubsystemBase
     pidController1 = transferMotor1.getPIDController();
     encoder1 = transferMotor1.getEncoder();
     
-    transferMotor.setClosedLoopRampRate(TransferConstants.kRampRate);
+    transferMotor1.setClosedLoopRampRate(TransferConstants.kRampRate);
   }
 
   public void percentOutput() 
   {
     double output = SmartDashboard.getNumber(TransferConstants.kShuffleboardPercentName, 0.0);
-    if (output >= -1 && output <= 1) { transferMotor.set(output); }
-    SmartDashboard.putNumber("TransferRPMOut", encoder.getVelocity());
+    if (output >= -1 && output <= 1) { transferMotor1.set(output); }
+    SmartDashboard.putNumber("TransferRPMOut", encoder1.getVelocity());
   }
 
   public void motor2Velocity(double velocity)
   {
-    pidController.setReference(velocity, ControlType.kVelocity);
+    pidController1.setReference(velocity, ControlType.kVelocity);
   }
 
   public void stopMotor() {
-    transferMotor.set(0.0);
+    transferMotor1.set(0.0);
   }
 
   

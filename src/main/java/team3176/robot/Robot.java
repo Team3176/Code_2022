@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.constants.MasterConstants;
 
 import team3176.robot.subsystems.intake.Intake;
+import team3176.robot.subsystems.indexer.Indexer;
 import team3176.robot.subsystems.shooter.Angler;
 import team3176.robot.subsystems.shooter.Flywheel;
 // Test Mode Imports

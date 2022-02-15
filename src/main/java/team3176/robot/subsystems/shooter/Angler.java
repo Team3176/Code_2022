@@ -142,7 +142,7 @@ public class Angler extends SubsystemBase {
     double rotationsOfMotor = angleChange * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO;
     if ((encoder.getPosition() + rotationsOfMotor <= 80 * AnglerConstants.ROTATIONS_PER_DEGREE) &&
         (encoder.getPosition() + rotationsOfMotor >= 45 * AnglerConstants.ROTATIONS_PER_DEGREE)) {
-      this.engagePIDMotor(rotationsOfMotor, ControlType.kPosition);
+      //this.engagePIDMotor(rotationsOfMotor, ControlType.kPosition);
     }
   }
 
@@ -151,7 +151,7 @@ public class Angler extends SubsystemBase {
     double oldAngleInRotationsOfMotor = encoder.getPosition();
     double differenceInRotations = (positionAt45Deg + (newAngle * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO)) - oldAngleInRotationsOfMotor;
     if ((newAngle <= 80) && (newAngle >= 45)) {
-      this.engagePIDMotor(differenceInRotations, ControlType.kPosition);
+      //this.engagePIDMotor(differenceInRotations, ControlType.kPosition);
     }
   }
 
@@ -164,7 +164,7 @@ public class Angler extends SubsystemBase {
   public void setVelocity(double degreesPerSecond)
   {
     double rotationsPerMin = degreesPerSecond * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO * 60;
-    this.engagePIDMotor(rotationsPerMin, ControlType.kVelocity);
+    //this.engagePIDMotor(rotationsPerMin, ControlType.kVelocity);
   }
 
 
@@ -193,7 +193,7 @@ public class Angler extends SubsystemBase {
     if (newVelocity != this.smartdashboardVelocity) 
     {
       this.smartdashboardVelocity = newVelocity;
-      engagePIDMotor(this.smartdashboardVelocity, ControlType.kVelocity);
+      //engagePIDMotor(this.smartdashboardVelocity, ControlType.kVelocity);
     }
   }
 

@@ -14,7 +14,7 @@ package team3176.robot.constants;
  */
 public final class IndexerConstants{
 
-    public static final int INDEXER_NEO_CAN_ID = 61;
+    public static final int INDEXER_NEO1_CAN_ID = 61;
 
     public static final int NUM_OF_SENSORS = 3;
 
