@@ -21,6 +21,7 @@ public class PowerManagement extends SubsystemBase {
     private PowerDistribution powerDistributionHub;
 
     public PowerManagement() {
+        // Change ModuleType to kCTRE if working with a CTRE PDP!!!!!
         powerDistributionHub = new PowerDistribution(1, ModuleType.kCTRE);
     }
 
@@ -38,6 +39,11 @@ public class PowerManagement extends SubsystemBase {
     public void periodic() {
         int ports = powerDistributionHub.getNumChannels();
         
+    }
+
+    public void clearStickyFaults()
+    {
+        powerDistributionHub.clearStickyFaults();
     }
     
 }

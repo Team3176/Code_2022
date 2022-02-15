@@ -22,4 +22,8 @@ public final class FlywheelConstants{
 
     public static final double kRampRate = 0.5; // seconds from 0 to full speed...?
 
+    public static final int TICKS_PER_REV = 2048;
+
+    public static final String kShuffleboardPercentName1 = "Flywheel1%Set";
+    public static final String kShuffleboardPercentName2 = "Flywheel2%Set";
 }

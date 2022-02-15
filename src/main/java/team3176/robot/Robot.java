@@ -19,8 +19,8 @@ import team3176.robot.subsystems.shooter.Angler;
 import team3176.robot.subsystems.shooter.Flywheel;
 // Test Mode Imports
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import team3176.robot.subsystems.climb.*;
-import team3176.robot.subsystems.indexer.Indexer;
+import team3176.robot.subsystems.intake.Intake;
+import team3176.robot.subsystems.climb.Climb;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -63,8 +63,6 @@ public class Robot extends LoggedRobot {
     }
 
     Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-
-  
 
     m_robotContainer = new RobotContainer();
   }

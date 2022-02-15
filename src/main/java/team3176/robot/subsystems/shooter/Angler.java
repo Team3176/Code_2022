@@ -51,8 +51,8 @@ public class Angler extends SubsystemBase {
  {
    this.io = io;
 
-   anglerMotor = new CANSparkMax(AnglerConstants.ANGLER_SPARK_CAN_ID, MotorType.kBrushless);
-   PIDController = anglerMotor.getPIDController();
+    anglerMotor = new CANSparkMax(AnglerConstants.ANGLER_SPARK_CAN_ID, MotorType.kBrushless);
+    PIDController = anglerMotor.getPIDController();
     encoder = anglerMotor.getEncoder();
     anglerMotor.setClosedLoopRampRate(AnglerConstants.kRampRate);
 
@@ -70,7 +70,7 @@ public class Angler extends SubsystemBase {
     limitSwitch1 = new DigitalInput(AnglerConstants.limiter1Channel);
     limitSwitch2 = new DigitalInput(AnglerConstants.limiter2Channel);
 
-    PIDLoopEngaged = true;
+    PIDLoopEngaged = false;
     limiter1Engaged = false;
     limiter2Engaged = false;
     setValue = 0;
@@ -87,6 +87,11 @@ public class Angler extends SubsystemBase {
    */
   public void reengagePIDLoop()
   {
+    // Yes, this DOES set velocity control. However, this line is only called to reengage the PID loop before any of the PID position
+    // control lines are called. This line will only be active for an instant. The reason for this is because if the set() method is
+    // called on the motor, it stops using the PID loop as reference. When the PID loop is called for a reference the next time, the motor
+    // may instantly try to jump to whatever speed or position it needs to be at. This is necessary for velocity control, but it may
+    // not be necessary for position control. Will have to test.
     PIDController.setReference(encoder.getVelocity(), ControlType.kVelocity);
     PIDLoopEngaged = true;
   }
@@ -98,7 +103,7 @@ public class Angler extends SubsystemBase {
    * @param controlType
    * @author Jared Brown
    */
-  public void engagePIDMotor(double value, ControlType controlType)
+  public void engagePIDMotorPosition(double value)
   {
     if (!limiter1Engaged && !limiter2Engaged) {
       this.setValue = value;
@@ -110,10 +115,16 @@ public class Angler extends SubsystemBase {
   public void engageRawMotor(double percentOutput)
   {
     this.setValue = percentOutput;
-    if (!limiter1Engaged && !limiter2Engaged) {
+    if (!limiter1Engaged && !limiter2Engaged && percentOutput >= -1 && percentOutput <= 1) {
       PIDLoopEngaged = false;
       anglerMotor.set(percentOutput);
     }
+  }
+
+  public void testPercentOutput() 
+  {
+    engageRawMotor(SmartDashboard.getNumber(AnglerConstants.kShuffleboardPercentName, 0.0));
+    SmartDashboard.putNumber("AnglerRPMOut", encoder.getVelocity());
   }
 
   // Does the same thing as engageRawMotor(), except it ignores the limiter conditional so it can stop the motors no matter what
@@ -219,12 +230,12 @@ public class Angler extends SubsystemBase {
       limiterStopMotor();
       limiter1Engaged = true;
       limiter2Engaged = false;
-      System.out.println("LEFT LIMITER PRESSED ---------------");
+      // System.out.println("LEFT LIMITER PRESSED ---------------");
     } else if (!limitSwitch2.get() && setValue > 0) {
       limiterStopMotor();
       limiter2Engaged = true;
       limiter1Engaged = false;
-      System.out.println("RIGHT LIMITER PRESSED ---------------");
+      // System.out.println("RIGHT LIMITER PRESSED ---------------");
     } else {
       limiter1Engaged = false;
       limiter2Engaged = false;
