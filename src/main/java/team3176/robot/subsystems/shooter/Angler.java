@@ -16,9 +16,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import team3176.robot.subsystems.shooter.AnglerIO.AnglerIOInputs;
+
 public class Angler extends SubsystemBase {
   
-  private static Angler m_Angler = new Angler();
   private CANSparkMax anglerMotor;
   private SparkMaxPIDController PIDController;
   private RelativeEncoder encoder;
@@ -33,6 +34,10 @@ public class Angler extends SubsystemBase {
   private boolean limiter1Engaged;
   private boolean limiter2Engaged;
 
+  private final AnglerIO io;
+  private final AnglerIOInputs inputs = new AnglerIOInputs();
+  private static Angler instance;
+
   // Used to help us allow the angler to be touching a limit switch and move away from it. This value is only used for its sign.
   // This value is whatever value we have set the motor to, and we don't care what the ControlType is.
   private double setValue;
@@ -40,10 +45,12 @@ public class Angler extends SubsystemBase {
   // used for Shuffleboard velocity + limit switch testing
   private double smartdashboardVelocity;
 
-  public Angler() {
+ public Angler(AnglerIO io) 
+ {
+   this.io = io;
 
-    anglerMotor = new CANSparkMax(AnglerConstants.ANGLER_SPARK_CAN_ID, MotorType.kBrushless);
-    PIDController = anglerMotor.getPIDController();
+   anglerMotor = new CANSparkMax(AnglerConstants.ANGLER_SPARK_CAN_ID, MotorType.kBrushless);
+   PIDController = anglerMotor.getPIDController();
     encoder = anglerMotor.getEncoder();
     anglerMotor.setClosedLoopRampRate(AnglerConstants.kRampRate);
 
@@ -220,7 +227,8 @@ public class Angler extends SubsystemBase {
   }
 
   public static Angler getInstance() {
-    return m_Angler;
+    if(instance == null) {instance = new Angler(new AnglerIO() {});}
+    return instance;
   }
 
 }

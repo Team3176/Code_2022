@@ -31,23 +31,24 @@ import team3176.robot.constants.DrivetrainConstants;
 //import team3176.robot.constants.PowerManagementConstants;
 import team3176.robot.subsystems.controller.Controller;
 import team3176.robot.subsystems.vision.Vision;
+import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
 
 import java.util.ArrayList;
-
-import team3176.robot.util.PIDLoop;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
+import org.littletonrobotics.junction.Logger;
+import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
 
 
 
   
 
 public class Drivetrain extends SubsystemBase {
-  private static Drivetrain instance = new Drivetrain();
+  private static Drivetrain instance;
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
 
@@ -94,12 +95,12 @@ public class Drivetrain extends SubsystemBase {
 
   private double spinLockAngle;
   private boolean isSpinLocked = false;
-  private PIDLoop spinLockPID;
+  private PID3176 spinLockPID;
   // private PIDController spinLockPID;
 
   private boolean isTurboOn = false;
   
- 
+  private int spinEncoderIdxCount = 0;
 
   private int arraytrack;
   double[] angleHist = { 0.0, 0.0, 0.0, 0.0, 0.0 };
@@ -116,7 +117,13 @@ public class Drivetrain extends SubsystemBase {
 
   private double lockP, lockI, lockD;
 
-  private Drivetrain() {
+  private final DrivetrainIO io;
+  private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
+
+  private Drivetrain(DrivetrainIO io) 
+  {
+    this.io = io;
+    
     // Instantiate pods
     podFR = new SwervePod2022(0, driveControllers[0], spinControllers[0]);
     podFL = new SwervePod2022(1, driveControllers[1], spinControllers[1]);
@@ -167,6 +174,7 @@ public class Drivetrain extends SubsystemBase {
 
   // Prevents more than one instance of drivetrian
   public static Drivetrain getInstance() {
+    if(instance == null) {instance = new Drivetrain(new DrivetrainIO() {});}
     return instance;
   }
 
@@ -237,7 +245,11 @@ public class Drivetrain extends SubsystemBase {
     // this.strafeCommand);
     // TODO: Find out why this putNumber statement is making the spinLock work
     // SmartDashboard.putNumber("this.spinCom_Drivetrain.drive", this.spinCommand);
-    calculateNSetPodPositions(this.forwardCommand, this.strafeCommand, this.spinCommand);
+    //calculateNSetPodPositions(this.forwardCommand, this.strafeCommand, this.spinCommand);
+    //for (int idx = 0; idx < (pods.size()); idx++) {
+    //  pods.get(idx).tune();
+    //}
+    pods.get(0).tune();
   }
 
   /**
@@ -446,11 +458,11 @@ public class Drivetrain extends SubsystemBase {
 
 
   
-
+/*
   public ChassisSpeeds getChassisSpeed() {
     return DrivetrainConstants.DRIVE_KINEMATICS.toChassisSpeeds(podFR.getState(), podFL.getState(), podBL.getState(), podBR.getState());
   }
-
+*/
 
 
  /* public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -468,7 +480,13 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler every 500ms
+    if(spinEncoderIdxCount++ > 25) { 
+      for (int idx = 0; idx < (pods.size()); idx++) { 
+        spinEncoderIdxCount = 0;
+        pods.get(idx).updateSpinEncoder(); 
+      }
+    }
     
     calcAngleAvgRollingWindow();
     this.arraytrack++;

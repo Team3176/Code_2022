@@ -8,7 +8,10 @@ import team3176.robot.constants.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.auton.*;
 import team3176.robot.commands.common.*;
@@ -52,14 +55,27 @@ public class RobotContainer {
 
   private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest(); //TODO: GET RID OF THIS and INVESTIGATE
 
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  
   public RobotContainer() {
+    // m_Intake = Intake.getInstance();
+    // m_Intake = new Intake(new IntakeIO() {});
+    m_Controller = Controller.getInstance();
+    // m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    // m_Compressor.enableDigital();
+    // m_Compressor.disable();
+    // if ( MasterConstants.ISCLIMBPASSIVE) {
+    //   m_ClimbPassive = ClimbPassive.getInstance();
+    // } else {
+    //   m_ClimbActive = ClimbActive.getInstance();
+    // }  
+    m_Indexer = Indexer.getInstance();
     m_Intake = Intake.getInstance();
     m_Vision = Vision.getInstance();
-    m_Controller = Controller.getInstance();
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
     m_Transfer = Transfer.getInstance();
-    m_Indexer = Indexer.getInstance();
 
     // if (MasterConstants.ISCLIMBPASSIVE) {
     //   m_ClimbPassive = ClimbPassive.getInstance();
@@ -71,13 +87,17 @@ public class RobotContainer {
     m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     
     m_Drivetrain = Drivetrain.getInstance();
-    m_Drivetrain.setDefaultCommand(new SwerveDrive(
-      () -> m_Controller.getForward(), 
-      () -> m_Controller.getStrafe(),
-      () -> m_Controller.getSpin()
-      //() -> m_Controller.isFieldCentricButtonPressed(),
-      //() -> m_Controller.isRobotCentricButtonPressed()
-    ));
+    if (!MasterConstants.IS_TUNING_MODE) { 
+      m_Drivetrain.setDefaultCommand(new SwerveDrive(
+        () -> m_Controller.getForward(), 
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin()
+        //() -> m_Controller.isFieldCentricButtonPressed(),
+        //() -> m_Controller.isRobotCentricButtonPressed()
+        ));
+    } else {
+      m_Drivetrain.setDefaultCommand(new SwerveDriveTune());
+    }
 
     m_autonChooser = new SendableChooser<>(); //TODO: Put them in the order of frequency that they will be used
     m_autonChooser.addOption("Auto: Rename This Version that should display understandably", m_autoOneRenameAfterAssigned);

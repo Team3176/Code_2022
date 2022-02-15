@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems.indexer;
+package team3176.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -10,9 +10,9 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /** Template hardware interface for a closed loop subsystem. */
-public interface IndexerIO{
+public interface AnglerIO{
   /** Contains all of the input data received from hardware. */
-  public static class IndexerIOInputs implements LoggableInputs {
+  public static class AnglerIOInputs implements LoggableInputs {
     public double position = 0.0;
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
@@ -34,12 +34,12 @@ public interface IndexerIO{
   }
 
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(IndexerIOInputs inputs) {}
+  public default void updateInputs(AnglerIOInputs inputs) {}
 
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
 
   /** Encoder Position of the Indexer */
 
-  public default void setIndexerPosition(double position) {}
+  public default void setAnglerPosition(double position) {}
 }
