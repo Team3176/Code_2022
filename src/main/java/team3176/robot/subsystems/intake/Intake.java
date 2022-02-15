@@ -25,11 +25,7 @@ import team3176.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
 public class Intake extends SubsystemBase {
     private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
     private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
-<<<<<<< HEAD
     private TalonSRX intakeMotor = new TalonSRX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
-=======
-    private TalonFX intakeMotor = new TalonFX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
->>>>>>> SWPTunnerPlusPlogger2
     private boolean pistonSetting = false;
     private boolean isSmartDashboardTestControlsShown;
     public String mode = "";
