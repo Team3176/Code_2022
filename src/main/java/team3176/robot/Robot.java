@@ -15,10 +15,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.constants.MasterConstants;
 
 import team3176.robot.subsystems.intake.Intake;
-
+import team3176.robot.subsystems.shooter.Angler;
+import team3176.robot.subsystems.shooter.Flywheel;
 // Test Mode Imports
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.subsystems.climb.*;
+import team3176.robot.subsystems.indexer.Indexer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -31,8 +33,9 @@ public class Robot extends LoggedRobot {
  
   private RobotContainer m_robotContainer;
   private Intake m_Intake;
-  private double intakeSpeed;
-  private boolean pistonSetting;
+  private Indexer m_Indexer;
+  private Angler m_Angler;
+  private Flywheel m_Flywheel;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -42,6 +45,10 @@ public class Robot extends LoggedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    m_Intake = Intake.getInstance();
+    m_Indexer = Indexer.getInstance();
+    m_Angler = Angler.getInstance();
+    m_Flywheel = Flywheel.getInstance();
     setUseTiming(isReal()); // Run as fast as possible during replay
     LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
     Logger.getInstance().recordMetadata("ProjectName", "MyProject"); // Set a metadata value
@@ -95,6 +102,10 @@ public class Robot extends LoggedRobot {
       m_autonomousCommand.schedule();
     }
     // m_Climb.mode = "auto";
+    m_Intake.mode = "auto";
+    m_Indexer.mode = "auto";
+    m_Angler.mode = "auto";
+    m_Flywheel.mode = "auto";
   }
 
   /** This function is called periodically during autonomous. */
@@ -111,6 +122,10 @@ public class Robot extends LoggedRobot {
       m_autonomousCommand.cancel();
     }
     // m_Climb.mode = "teleop";
+    m_Intake.mode = "teleop";
+    m_Indexer.mode = "teleop";
+    m_Angler.mode = "teleop";
+    m_Flywheel.mode = "teleop";
   }
 
   /** This function is called periodically during operator control. */
@@ -123,23 +138,19 @@ public class Robot extends LoggedRobot {
     CommandScheduler.getInstance().cancelAll();
     // m_Intake = Intake.getInstance();
     // m_Climb.mode = "test";
+    m_Intake.mode = "test";
+    m_Indexer.mode = "test";
+    m_Angler.mode = "test";
+    m_Flywheel.mode = "test";
   }
 
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() 
   {
-    SmartDashboard.putNumber("IntakeSpeed", intakeSpeed);
-    SmartDashboard.putBoolean("PistonSetting", pistonSetting);
-    m_Intake.spinVelocityPercent(intakeSpeed);
-    if (pistonSetting)
-    {
-      m_Intake.Extend();
-    }
-    else
-    {
-      m_Intake.Retract();
-    }
-    
+    m_Intake.periodic();
+    m_Indexer.periodic(); 
+    m_Angler.periodic();
+    m_Flywheel.periodic();
   }
 }
