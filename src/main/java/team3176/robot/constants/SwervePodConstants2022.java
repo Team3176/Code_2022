@@ -93,7 +93,8 @@ public final class SwervePodConstants2022 {
     // public static final int[] SPIN_OFFSET = {47762, 4189, 388129, -50897};
     // public static final int[] SPIN_OFFSET = {49844, 55384, 58418, 73442};
 
-    public static final double[] SPIN_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
+    public static final double[] SPIN_OFFSET_2022 = {0.0, 0.0, 0.0, 0.0}; // 2021 Bot //WTFOffsets
+    //public static final double[] SPIN_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
     public static final double[] SPIN_OFFSET =SPIN_OFFSET_2022;
 
     public static final double DRIVE_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 13.79;

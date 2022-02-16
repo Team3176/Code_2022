@@ -37,6 +37,8 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.constants.SwervePodConstants2022;
 import team3176.robot.constants.MasterConstants;
+
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import team3176.robot.util.God.*;
 
@@ -111,6 +113,7 @@ public class SwervePod2022 {
     public SwervePod2022(int id, TalonFX driveController, CANSparkMax spinController) {
         this.id = id;
         spinEncoder = new CANCoder(SwervePodConstants2022.STEER_CANCODER_CID[id]);
+        spinEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         updateSpinEncoder();
         initializeSmartDashboard();
         
@@ -316,7 +319,9 @@ public class SwervePod2022 {
         //this.encoderPos = spinController.getSelectedSensorPosition() - this.kEncoderOffset;
         //radianPos = tics2Rads(this.encoderPos);
         radianPos = (this.encoderPos);
+        SmartDashboard.putNumber("P"+(this.id)+".radianPos",radianPos);
         radianError = angle - radianPos;
+        SmartDashboard.putNumber("P"+(this.id)+".radianError_preOpt",radianError);
         // FYI: Math.copySign(magnitudeVar, signVar) = magnitude value with same sign as signvar
 
         //if (Math.abs(radianError) > (5 * (PI / 2))) {
@@ -331,9 +336,12 @@ public class SwervePod2022 {
                 this.velTicsPer100ms = -this.velTicsPer100ms;
             }
         }
+        SmartDashboard.putNumber("P"+(this.id)+".radianError_postOpt",radianError);
         //encoderError = rads2Tics(radianError);
         encoderError = (radianError);
+        SmartDashboard.putNumber("P"+(this.id)+".encoderError",encoderError);
         azimuthCommand = encoderError + this.encoderPos + this.kEncoderOffset;
+        SmartDashboard.putNumber("P"+(this.id)+".azimuthCmd",azimuthCommand);
         return (azimuthCommand);
     }
 
@@ -348,7 +356,7 @@ public class SwervePod2022 {
     public void setInverted() { spinController.setInverted(!isInverted()); }
 
     public void updateSpinEncoder() {
-        this.spinEncoderPosition = spinEncoder.getPosition();
+        this.spinEncoderPosition = Math.toRadians(spinEncoder.getPosition());
         SmartDashboard.putNumber("P"+this.id+".spinEncoderPosition",this.spinEncoderPosition);
 
     }
