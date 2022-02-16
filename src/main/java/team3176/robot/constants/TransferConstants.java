@@ -19,4 +19,7 @@ public final class TransferConstants{
     public static final double kRampRate = 0.5; // seconds to go from 0 to full
 
     public static final String kShuffleboardPercentName = "Transfer%Set";
+
+    // Constant order: P, I, D, FF, IZone
+    public static final double[][] PIDFConstants = { { 0.0, 0.0, 0.0, 0.0, 0.0 } };
 }

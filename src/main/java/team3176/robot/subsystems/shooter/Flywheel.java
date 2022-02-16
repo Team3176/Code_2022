@@ -39,7 +39,19 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor2.configAllowableClosedloopError(0, FlywheelConstants.kPIDLoopIndex, FlywheelConstants.kTimeoutMS);
     // This will (hopefully) invert the second motor
     flywheelMotor2.setSensorPhase(false);
-    flywheelMotor2.configClosedloopRamp(FlywheelConstants.kRampRate, FlywheelConstants.kTimeoutMS);   
+    flywheelMotor2.configClosedloopRamp(FlywheelConstants.kRampRate, FlywheelConstants.kTimeoutMS);
+    
+    flywheelMotor1.config_kP(0, FlywheelConstants.PIDFConstants[0][0]);
+    flywheelMotor1.config_kI(0, FlywheelConstants.PIDFConstants[0][1]);
+    flywheelMotor1.config_kD(0, FlywheelConstants.PIDFConstants[0][2]);
+    flywheelMotor1.config_kF(0, FlywheelConstants.PIDFConstants[0][3]);
+    flywheelMotor1.config_IntegralZone(0, FlywheelConstants.PIDFConstants[0][4]);
+
+    flywheelMotor1.config_kP(0, FlywheelConstants.PIDFConstants[0][0]);
+    flywheelMotor1.config_kI(0, FlywheelConstants.PIDFConstants[0][1]);
+    flywheelMotor1.config_kD(0, FlywheelConstants.PIDFConstants[0][2]);
+    flywheelMotor1.config_kF(0, FlywheelConstants.PIDFConstants[0][3]);
+    flywheelMotor1.config_IntegralZone(0, FlywheelConstants.PIDFConstants[0][4]);
   }
 
   public void spinMotors(double ticksPer100ms)
@@ -51,7 +63,7 @@ public class Flywheel extends SubsystemBase {
   /*
   public void spinMotors2(double metersPerSecond)
   {
-    // double ticsPer100ms = --MATH!--
+    // double ticsPer100ms = --MATH!-- (will need radius of flywheel for v = r(omega))
     flywheelMotor1.set(TalonFXControlMode.Velocity, ticksPer100ms);
     flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100ms);
   }

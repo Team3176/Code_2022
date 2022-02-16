@@ -44,9 +44,10 @@ public class Angler extends SubsystemBase {
     // stop the motor on enable
     anglerMotor.set(0.0);
 
-    PIDController.setP(0.001);
-    PIDController.setI(0.0);
-    PIDController.setD(0.0);
+    PIDController.setP(AnglerConstants.PIDFConstants[0][0]);
+    PIDController.setI(AnglerConstants.PIDFConstants[0][1]);
+    PIDController.setD(AnglerConstants.PIDFConstants[0][2]);
+    PIDController.setIZone(AnglerConstants.PIDFConstants[0][3]);
 
     limitSwitch1 = new DigitalInput(AnglerConstants.limiter1Channel);
     limitSwitch2 = new DigitalInput(AnglerConstants.limiter2Channel);

@@ -28,6 +28,12 @@ public class Transfer extends SubsystemBase
     encoder = transferMotor.getEncoder();
     
     transferMotor.setClosedLoopRampRate(TransferConstants.kRampRate);
+    
+    pidController.setP(TransferConstants.PIDFConstants[0][0], 0);
+    pidController.setI(TransferConstants.PIDFConstants[0][1], 0);
+    pidController.setD(TransferConstants.PIDFConstants[0][2], 0);
+    pidController.setFF(TransferConstants.PIDFConstants[0][3], 0);
+    pidController.setIZone(TransferConstants.PIDFConstants[0][4], 0);
   }
 
   public void percentOutput() 

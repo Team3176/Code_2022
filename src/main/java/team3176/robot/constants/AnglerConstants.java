@@ -34,4 +34,6 @@ public final class AnglerConstants {
     // So commands and the subsystem using Shuffleboard reference the same name for the numbers it's trying to use
     public static final String kShuffleboardPercentName = "Angler%Set";
 
+    // Constant order: P, I, D, IZone
+    public static final double[][] PIDFConstants = { { 0.0, 0.0, 0.0, 0.0 } };
 }
