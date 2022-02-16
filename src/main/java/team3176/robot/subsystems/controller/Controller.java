@@ -82,10 +82,9 @@ public class Controller {
   private final Trigger op_Back;
   private final Trigger op_Back_Shift;
   private final Trigger op_Back_Double_Shift;
-  private final Trigger op_LTrigger; //TODO: SEE IF WE WANT SHIFTED TRIGGERS
+  private final Trigger op_LTrigger;
   private final Trigger op_RTrigger;
-
-  private final POVButton op_DPAD_Up; //TODO: SHIFTED DPAD ANYONE
+  private final POVButton op_DPAD_Up;
   private final POVButton op_DPAD_Left;
   private final POVButton op_DPAD_Down;
   private final POVButton op_DPAD_Right;

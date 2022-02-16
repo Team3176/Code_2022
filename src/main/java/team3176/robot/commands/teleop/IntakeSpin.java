@@ -9,9 +9,11 @@ import team3176.robot.subsystems.intake.Intake;
 
 /** An example command that uses an example subsystem. */
 public class IntakeSpin extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private Intake m_Intake = Intake.getInstance();
 
-  Intake m_Intake = Intake.getInstance();
+  // @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
+  // Intake m_Intake = Intake.getInstance();
   /**
    * Creates a new ExampleCommand.
    *

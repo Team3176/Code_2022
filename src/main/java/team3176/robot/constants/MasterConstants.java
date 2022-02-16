@@ -12,4 +12,9 @@ package team3176.robot.constants;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class MasterConstants{}
+public final class MasterConstants{
+
+    public static final boolean ISCLIMBPASSIVE = false;
+
+    public static final boolean IS_TUNING_MODE = false;
+}

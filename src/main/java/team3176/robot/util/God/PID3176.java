@@ -1,14 +1,9 @@
-package team3176.robot.util;
+package team3176.robot.util.God;
 
 import edu.wpi.first.wpilibj.Timer;
 import team3176.robot.*;
 
-/**
- * Custom PID Loop Class
- * @author Harrison McCarty
- */
-
-public class PIDLoop {
+public class PID3176 {
 	private double kP;
 	private double kI;
 	private double kD;
@@ -19,20 +14,20 @@ public class PIDLoop {
 	private double lastTime = Timer.getFPGATimestamp();
 	private double deltaTime;
 
-	public PIDLoop(double pG, double iG, double dG){
+	public PID3176(double pG, double iG, double dG){
 		kP = pG;
 		kI = iG;
 		kD = dG;
 	}
 
-	public PIDLoop(double pG, double iG, double dG, double mS){
+	public PID3176(double pG, double iG, double dG, double mS){
 		kP = pG;
 		kI = iG;
 		kD = dG;
 		max_speed = mS;
 	}
 
-	public PIDLoop(double pG, double iG, double dG, double mS, double f){
+	public PID3176(double pG, double iG, double dG, double mS, double f){
 		kP = pG;
 		kI = iG;
 		kD = dG;
@@ -40,7 +35,7 @@ public class PIDLoop {
 		kF = f;
 	}
 
-	public PIDLoop(double pG, double iG, double dG, double mS, double f, double iMax){
+	public PID3176(double pG, double iG, double dG, double mS, double f, double iMax){
 		kP = pG;
 		kI = iG;
 		kD = dG;

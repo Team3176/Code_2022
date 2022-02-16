@@ -2,88 +2,149 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot;
+package team3176.robot;       //TODO: SO UNDERLINE -- DO NOT OVERWRITE --
 
+import team3176.robot.constants.*;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import team3176.robot.commands.ExampleCommand;
-import team3176.robot.commands.common.I2CTest;
+import team3176.robot.commands.auton.*;
+import team3176.robot.commands.common.*;
 import team3176.robot.commands.teleop.*;
-import team3176.robot.subsystems.ExampleSubsystem;
-import team3176.robot.subsystems.controller.Controller;
-import team3176.robot.util.instantPrintTest;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.intake.*;
+import team3176.robot.commands.climbActive.*;
+import team3176.robot.commands.climbPassive.*;
 import team3176.robot.subsystems.controller.*;
-import team3176.robot.subsystems.climb.Climb;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import team3176.robot.subsystems.drivetrain.*;
+import team3176.robot.subsystems.indexer.*;
+import team3176.robot.subsystems.intake.*;
+import team3176.robot.subsystems.shooter.*;
 import team3176.robot.subsystems.vision.*;
-import team3176.robot.subsystems.shooter.Angler;
-import team3176.robot.subsystems.shooter.Transfer;
-import team3176.robot.subsystems.shooter.Flywheel;
-import team3176.robot.constants.AnglerConstants;
+import team3176.robot.subsystems.climb.*;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
+import edu.wpi.first.wpilibj.GenericHID; //TODO: SEE IF WE NEED THESE IMPORTS
+import edu.wpi.first.wpilibj.XboxController;
+import team3176.robot.constants.*;
+import team3176.robot.util.Joystick.*;
+import team3176.robot.util.PowerManagement.*;
+import team3176.robot.util.XboxController.*;
+import team3176.robot.subsystems.ExampleSubsystem;
+import team3176.robot.commands.ExampleCommand;
+
 public class RobotContainer {
-  private Intake m_Intake;
-  private Controller m_Controller;
-  private Compressor m_Compressor;
-  private Drivetrain m_Drivetrain;
-  // The robot's subsystems and commands are defined here...
 
-  private final Vision m_Vision = Vision.getInstance();
+  private final Intake m_Intake;
+  private final Controller m_Controller;
+  private final Compressor m_Compressor;
+  private final Drivetrain m_Drivetrain;
+  private final Vision m_Vision;
+  private final Angler m_Angler;
+  private final Transfer m_Transfer;
+  private final Flywheel m_Flywheel;
+  private final Indexer m_Indexer;
 
-  private final Angler m_Angler = Angler.getInstance();
-  // private final Transfer m_Transfer = Transfer.getInstance();
-  // private final Flywheel m_Flywheel = Flywheel.getInstance();
+  private ClimbActive m_ClimbActive;
+  private ClimbPassive m_ClimbPassive;
 
-  private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
+  private SendableChooser<String> m_autonChooser;
+  private static final String m_autoOneRenameAfterAssigned = "s_optionOneRenameAlso";
+
+  private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest(); //TODO: GET RID OF THIS and INVESTIGATE
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  Climb m_Climb;
   
   public RobotContainer() {
-    m_Intake = Intake.getInstance();
+    // m_Intake = Intake.getInstance();
+    // m_Intake = new Intake(new IntakeIO() {});
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    m_Compressor.enableDigital();
-    m_Climb = Climb.getInstance();
+    // m_Compressor.enableDigital();
+    m_Compressor.disable();
+    // if ( MasterConstants.ISCLIMBPASSIVE) {
+    //   m_ClimbPassive = ClimbPassive.getInstance();
+    // } else {
+    //   m_ClimbActive = ClimbActive.getInstance();
+    // }  
+    m_Indexer = Indexer.getInstance();
+    m_Intake = Intake.getInstance();
+    m_Vision = Vision.getInstance();
+    m_Angler = Angler.getInstance();
+    m_Flywheel = Flywheel.getInstance();
+    m_Transfer = Transfer.getInstance();
 
-    // Configure the button bindings
-    configureButtonBindings();
+    // if (MasterConstants.ISCLIMBPASSIVE) {
+    //   m_ClimbPassive = ClimbPassive.getInstance();
+    // } else {
+    //   m_ClimbActive = ClimbActive.getInstance();
+    // }
 
+    //m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    //m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
+    
     m_Drivetrain = Drivetrain.getInstance();
-    m_Drivetrain.setDefaultCommand(new SwerveDrive(
-      () -> m_Controller.getForward(), 
-      () -> m_Controller.getStrafe(),
-      () -> m_Controller.getSpin()
-      //() -> m_Controller.isFieldCentricButtonPressed(),
-      //() -> m_Controller.isRobotCentricButtonPressed()
-    ));
+    if (!MasterConstants.IS_TUNING_MODE) { 
+      m_Drivetrain.setDefaultCommand(new SwerveDrive(
+        () -> m_Controller.getForward(), 
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin()
+        //() -> m_Controller.isFieldCentricButtonPressed(),
+        //() -> m_Controller.isRobotCentricButtonPressed()
+        ));
+    } else {
+      m_Drivetrain.setDefaultCommand(new SwerveDriveTune());
+    }
+
+    m_autonChooser = new SendableChooser<>(); //TODO: Put them in the order of frequency that they will be used
+    m_autonChooser.addOption("Auto: Rename This Version that should display understandably", m_autoOneRenameAfterAssigned);
+    SmartDashboard.putData("Auton Choice", m_autonChooser);
+
+    configureButtonBindings();
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
+  
   private void configureButtonBindings() {
-    /*//m_Controller.getOp_A().whenActive(new I2CTest());
-    m_Controller.getOp_X().whenActive(new ExtendIntake());
-    m_Controller.getOp_Y().whenActive(new RetractIntake());
-    m_Controller.getOp_A().whenActive(new IntakeSpin());
-    m_Controller.getOp_B().whenActive(new IntakeSpint());
+    // m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
+    // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
+    // m_Controller.getOp_Start().whenActive(new TransferToggle());
+    // m_Controller.getOp_Back().whenActive(new ShooterReset());
 
-    m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);*/
+    // m_Controller.getOp_A_FS().whenActive(new IndexerForward());
+    // m_Controller.getOp_B_FS().whenActive(new IndexerBack());
+    // m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
+    // m_Controller.getOp_Y_FS().whenActive(new TransferToggle());
+    // m_Controller.getOp_Start_FS().whenActive(new ShootWithoutTarget());
+    // m_Controller.getOp_Back_FS().whenActive(new ShootReset());
+
+    // m_Controller.getOp_A_DS().whenActive(new WinchUp());
+    // m_Controller.getOp_B_DS().whenActive(new PrimaryPistonToggle());
+    // m_Controller.getOp_X_DS().whenActive(new SecondaryPistonToggle());
+    // m_Controller.getOp_Y_DS().whenActive(new WinchDown());
+    // m_Controller.getOp_Start_DS().whenActive(new ClimbDisableToggle());
+    // m_Controller.getOp_Back_DS().whenActive(new ShootReset());
+
+
+
+    // m_Controller.getOp_RightTrigger().whenActive(new ShootSequence());
+    // m_Controller.getOp_LeftTrigger().whenActive(new FlywheelToggle());
+    // m_Controller.getOp_DPAD_RIGHT().whenActive(new ClimbDisableToggle());
+
+    // Active Climb
+    // m_Controller.getOp_DPAD_UP().whenActive(new ClimbToMid());
+    // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbToTraversal());
+    // m_Controller.getOp_DPAD_LEFT().whenActive(new ClimbToHigh());
+    // Passive Climb
+    // m_Controller.getOp_DPAD_UP().whenActive(new ClimbExtend());
+    // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbRetract());
+
+    // m_Angler.setAngle(m_Controller.getOp_LeftY());
+
+
+    // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest); //TODO: INVESTIGATE
 
     m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
     m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
@@ -95,5 +156,15 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
   */
-  //public Command getAutonomousCommand() {}
+  public Command getAutonomousCommand() {
+    String chosen = m_autonChooser.getSelected();
+    if(chosen.equals(m_autoOneRenameAfterAssigned)) return new auto1Hypo(); //TODO: Remove Autos that were game/strategy specific but more would be the same line but else if because efficient even though its not
+
+
+
+
+
+
+    return new auto1Hypo(); //TODO: Also command should still not exist but I want to get rid of example command but this return should be the most common
+  }
 }

@@ -16,9 +16,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import team3176.robot.subsystems.shooter.AnglerIO.AnglerIOInputs;
+
 public class Angler extends SubsystemBase {
   
-  private static Angler m_Angler = new Angler();
   private CANSparkMax anglerMotor;
   private SparkMaxPIDController PIDController;
   private RelativeEncoder encoder;
@@ -32,6 +33,12 @@ public class Angler extends SubsystemBase {
   private boolean PIDLoopEngaged;
   private boolean limiter1Engaged;
   private boolean limiter2Engaged;
+  private boolean isSmartDashboardTestControlsShown;
+
+  private final AnglerIO io;
+  private final AnglerIOInputs inputs = new AnglerIOInputs();
+  private static Angler instance;
+  public String mode = "";
 
   // Used to help us allow the angler to be touching a limit switch and move away from it. This value is only used for its sign.
   // This value is whatever value we have set the motor to, and we don't care what the ControlType is.
@@ -40,10 +47,12 @@ public class Angler extends SubsystemBase {
   // used for Shuffleboard velocity + limit switch testing
   private double smartdashboardVelocity;
 
-  public Angler() {
+ public Angler(AnglerIO io) 
+ {
+   this.io = io;
 
-    anglerMotor = new CANSparkMax(AnglerConstants.ANGLER_SPARK_CAN_ID, MotorType.kBrushless);
-    PIDController = anglerMotor.getPIDController();
+   anglerMotor = new CANSparkMax(AnglerConstants.ANGLER_SPARK_CAN_ID, MotorType.kBrushless);
+   PIDController = anglerMotor.getPIDController();
     encoder = anglerMotor.getEncoder();
     anglerMotor.setClosedLoopRampRate(AnglerConstants.kRampRate);
 
@@ -94,7 +103,7 @@ public class Angler extends SubsystemBase {
     if (!limiter1Engaged && !limiter2Engaged) {
       this.setValue = value;
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
-      PIDController.setReference(value, controlType);
+      PIDController.setReference(value, ControlType.kPosition);
     }
   }
 
@@ -190,6 +199,15 @@ public class Angler extends SubsystemBase {
     PIDController.setFF(newFF);
   }
 
+    public void putSmartDashboardControlCommands() {
+    SmartDashboard.putNumber("Angler Position", 0);
+    isSmartDashboardTestControlsShown = true;
+    }
+
+    public void setValuesFromSmartDashboard() {
+      PIDController.setReference(SmartDashboard.getNumber("Angler Position", 0), ControlType.kPosition);
+    }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -211,6 +229,11 @@ public class Angler extends SubsystemBase {
       limiter1Engaged = false;
       limiter2Engaged = false;
     }
+    if(mode.equals("test"))
+    {
+      if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
+      setValuesFromSmartDashboard();
+    }
 
   }
 
@@ -220,7 +243,8 @@ public class Angler extends SubsystemBase {
   }
 
   public static Angler getInstance() {
-    return m_Angler;
+    if(instance == null) {instance = new Angler(new AnglerIO() {});}
+    return instance;
   }
 
 }

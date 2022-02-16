@@ -9,16 +9,17 @@ import team3176.robot.subsystems.intake.Intake;
 
 /** An example command that uses an example subsystem. */
 public class ExtendIntake extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private Intake m_Intake = Intake.getInstance();
 
-  Intake m_Intake = Intake.getInstance();
+  // @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
+  // Intake m_Intake = Intake.getInstance();
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   public ExtendIntake() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Intake);
   }
 
