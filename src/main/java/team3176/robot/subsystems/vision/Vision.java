@@ -4,6 +4,7 @@
 
 package team3176.robot.subsystems.vision;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -211,5 +212,17 @@ public class Vision extends SubsystemBase {
 
   public enum LEDState {
     OFF, ON, BLINK, NULL
+  }
+
+  ArrayList<Double> testValues = new ArrayList<Double>();
+
+  public void averageMeasurements(double newValue){
+    testValues.add(newValue);
+    double total = 0;
+    for(double value : testValues) {
+      total += value;
+    }
+    SmartDashboard.putNumber("Average Distance", total / testValues.size());
+    System.out.println("DONE!");
   }
 }

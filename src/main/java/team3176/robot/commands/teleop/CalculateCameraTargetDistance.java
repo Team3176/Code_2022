@@ -6,7 +6,8 @@ import team3176.robot.subsystems.vision.Vision;
 
 public class CalculateCameraTargetDistance extends CommandBase {
 
-    private final Vision mSubsystem;    
+    private final Vision mSubsystem;
+    private double result;
 
     public CalculateCameraTargetDistance(Vision subsystem){
         mSubsystem = subsystem;
@@ -15,12 +16,15 @@ public class CalculateCameraTargetDistance extends CommandBase {
 
     @Override
     public void execute(){
-        double result = mSubsystem.calculateDeltaX();
-        SmartDashboard.putNumber("Camera Distance", result);
+        result = mSubsystem.calculateDeltaX();
+        System.out.println("I RAN!!!");
+        SmartDashboard.putNumber("Result", result);
     }
 
     @Override
     public boolean isFinished(){
-        return false;
+        System.out.println("I FINISHED!!!");
+        mSubsystem.averageMeasurements(result);
+        return true;
     }
 }
