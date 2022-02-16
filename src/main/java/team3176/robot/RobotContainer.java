@@ -63,8 +63,8 @@ public class RobotContainer {
     // m_Intake = new Intake(new IntakeIO() {});
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    // m_Compressor.enableDigital();
-    m_Compressor.disable();
+    m_Compressor.enableDigital();
+    // m_Compressor.disable();
     // if ( MasterConstants.ISCLIMBPASSIVE) {
     //   m_ClimbPassive = ClimbPassive.getInstance();
     // } else {
@@ -96,7 +96,7 @@ public class RobotContainer {
         //() -> m_Controller.isRobotCentricButtonPressed()
         ));
     } else {
-      m_Drivetrain.setDefaultCommand(new SwerveDriveTune());
+      // m_Drivetrain.setDefaultCommand(new SwerveDriveTune());
     }
 
     m_autonChooser = new SendableChooser<>(); //TODO: Put them in the order of frequency that they will be used
@@ -146,9 +146,12 @@ public class RobotContainer {
 
     // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest); //TODO: INVESTIGATE
 
-    m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
-    m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
-    m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
+    // m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
+    // m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
+    // m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
+    m_Controller.getOp_A().whenActive(new ExtendIntake());
+    m_Controller.getOp_B().whenActive(new RetractIntake());
+    m_Controller.getOp_X().whenActive(new I2CTest());
   }
 
   /**

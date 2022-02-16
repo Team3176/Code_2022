@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.vision.Vision;
-import team3176.robot.util.God.PID3176;
+// import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
 
@@ -22,7 +22,7 @@ public class SwerveVision extends CommandBase {
   private DoubleSupplier forwardCommand;
   private DoubleSupplier strafeCommand;
 
-  private PID3176 spinPID;
+  // private PID3176 spinPID;
   private double spinOutput;
 
   public SwerveVision(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand) {
@@ -30,7 +30,7 @@ public class SwerveVision extends CommandBase {
     this.strafeCommand = strafeCommand;
     addRequirements(drivetrain);
 
-    spinPID = new PID3176(0.3, 0.0, 0.0, 0.0);
+    // spinPID = new PID3176(0.3, 0.0, 0.0, 0.0);
   }
 
   @Override
