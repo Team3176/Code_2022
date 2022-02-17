@@ -11,4 +11,14 @@ public class CalculateTargetDistance extends CommandBase {
     public CalculateTargetDistance(Vision subsystem) {
         mSubsystem = subsystem;
     }
+    
+    @Override
+    public void execute(){
+        mSubsystem.targetRecogControlLoop();
+    }
+    
+    @Override
+    public boolean isFinished(){
+        return false;
+    }
 }
