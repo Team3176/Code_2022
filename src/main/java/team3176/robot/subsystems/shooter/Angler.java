@@ -33,10 +33,12 @@ public class Angler extends SubsystemBase {
   private boolean PIDLoopEngaged;
   private boolean limiter1Engaged;
   private boolean limiter2Engaged;
+  private boolean isSmartDashboardTestControlsShown;
 
   private final AnglerIO io;
   private final AnglerIOInputs inputs = new AnglerIOInputs();
   private static Angler instance;
+  public String mode = "";
 
   // Used to help us allow the angler to be touching a limit switch and move away from it. This value is only used for its sign.
   // This value is whatever value we have set the motor to, and we don't care what the ControlType is.
@@ -101,7 +103,7 @@ public class Angler extends SubsystemBase {
     if (!limiter1Engaged && !limiter2Engaged) {
       this.setValue = value;
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
-      PIDController.setReference(value, controlType);
+      PIDController.setReference(value, ControlType.kPosition);
     }
   }
 
@@ -197,6 +199,15 @@ public class Angler extends SubsystemBase {
     PIDController.setFF(newFF);
   }
 
+    public void putSmartDashboardControlCommands() {
+    SmartDashboard.putNumber("Angler Position", 0);
+    isSmartDashboardTestControlsShown = true;
+    }
+
+    public void setValuesFromSmartDashboard() {
+      PIDController.setReference(SmartDashboard.getNumber("Angler Position", 0), ControlType.kPosition);
+    }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -217,6 +228,11 @@ public class Angler extends SubsystemBase {
     } else {
       limiter1Engaged = false;
       limiter2Engaged = false;
+    }
+    if(mode.equals("test"))
+    {
+      if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
+      setValuesFromSmartDashboard();
     }
 
   }
