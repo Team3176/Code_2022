@@ -142,9 +142,6 @@ public class SwervePod2022 {
         kMaxOutput = SwervePodConstants2022.SPIN_PID[5][id];
         kMinOutput = SwervePodConstants2022.SPIN_PID[6][id];
 
-        kP_Spin = 0.0;
-        kI_Spin = 0.0;
-        kD_Spin = 0.0;
         m_turningPIDController = new ProfiledPIDController(
             kP_Spin, kI_Spin, kD_Spin, 
             new TrapezoidProfile.Constraints(
@@ -176,7 +173,7 @@ public class SwervePod2022 {
 
         this.driveController.configFactoryDefault();
         //this.spinController.restoreFactoryDefaults();
-        this.spinController.setOpenLoopRampRate(10);
+        this.spinController.setOpenLoopRampRate(0.5);
         //this.spinController.burnFlash();
 
         this.driveController.configClosedloopRamp(0.5);    
