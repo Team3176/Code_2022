@@ -18,6 +18,8 @@ public final class AnglerConstants {
     // public static final int ANGLER_SPARK_CAN_ID = 62;
     // This is a CAN ID used for TESTING with different controllers/motors
     public static final int ANGLER_SPARK_CAN_ID = 62;
+    // for testing
+    // public static final int ANGLER_SPARK_CAN_ID = 6;
 
     public static final double kRampRate = 2.0; // seconds to go from 0 to full power
 

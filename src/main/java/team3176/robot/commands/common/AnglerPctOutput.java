@@ -35,6 +35,7 @@ public class AnglerPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_angler.engageRawMotor(0.0);
+    SmartDashboard.delete(AnglerConstants.kShuffleboardPercentName);
   }
 
   // Returns true when the command should end.

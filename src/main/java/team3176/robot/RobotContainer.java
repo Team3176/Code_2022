@@ -35,25 +35,29 @@ import team3176.robot.subsystems.drivetrain.*;
  */
 public class RobotContainer {
   private Intake m_Intake;
-  private Controller m_Controller;
+  private Controller m_Controller = Controller.getInstance();
   private Compressor m_Compressor;
   // private Drivetrain m_Drivetrain;
   // The robot's subsystems and commands are defined here...
 
-  private final Vision m_Vision = Vision.getInstance();
+  // private final Vision m_Vision = Vision.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
-  private final Angler m_Angler = Angler.getInstance();
+  // private final Angler m_Angler = Angler.getInstance();
   // private final Transfer m_Transfer = Transfer.getInstance();
-  // private final Flywheel m_Flywheel = Flywheel.getInstance();
+  private final Flywheel m_Flywheel = Flywheel.getInstance();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   // private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest();
 
+  // private final TransferPctOutput m_TransferPctOutput = new TransferPctOutput();
+  // private final AnglerPctOutput m_AnglerPctOutput = new AnglerPctOutput();
+  private final FlywheelPctOutput m_FlywheelPctOutput = new FlywheelPctOutput();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  Climb m_Climb;
+  // Climb m_Climb;
   
   public RobotContainer() {
     /*
@@ -101,17 +105,17 @@ public class RobotContainer {
     */
 
     /*
-    m_Controller.getOp_A().whenActive(new AnglerPctOutput());
-    m_Controller.getOp_X().cancelWhenActive(new AnglerPctOutput());
+    m_Controller.getOp_A().whenActive(m_AnglerPctOutput);
+    m_Controller.getOp_X().cancelWhenActive(m_AnglerPctOutput);
     */
     /*
-    m_Controller.getOp_A().whenActive(new FlywheelPctOutput());
-    m_Controller.getOp_X().cancelWhenActive(new FlywheelPctOutput());
+    m_Controller.getOp_A().whenActive(m_TransferPctOutput);
+    m_Controller.getOp_X().cancelWhenActive(m_TransferPctOutput);
     */
-    /*
-    m_Controller.getOp_A().whenActive(new TransferPctOutput());
-    m_Controller.getOp_X().cancelWhenActive(new TransferPctOutput());
-    */
+    
+    m_Controller.getOp_A().whenActive(m_FlywheelPctOutput);
+    m_Controller.getOp_X().cancelWhenActive(m_FlywheelPctOutput);
+    
   }
 
   /**

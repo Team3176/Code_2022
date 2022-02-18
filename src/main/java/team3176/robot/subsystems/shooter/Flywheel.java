@@ -25,8 +25,6 @@ public class Flywheel extends SubsystemBase {
   {
     flywheelMotor1 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON1_CAN_ID);
     flywheelMotor2 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON2_CAN_ID);
-    // used with test motors that have different CAN IDs
-    // flywheelMotor1 = new TalonFX(5);
 
     flywheelMotor1.configFactoryDefault();
     flywheelMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, FlywheelConstants.kPIDLoopIndex, FlywheelConstants.kTimeoutMS);
