@@ -79,7 +79,7 @@ public class SwervePod2022 {
 
     public int kSlotIdx_spin, kPIDLoopIdx_spin, kTimeoutMs_spin,kSlotIdx_drive, kPIDLoopIdx_drive, kTimeoutMs_drive;
 
-    private double podDrive, podSpin;
+    public double podDrive, podSpin;
 
     private double kP_Spin;
     private double kI_Spin;
@@ -245,9 +245,9 @@ public class SwervePod2022 {
         //this.spinController.setSmartCurrentLimit(20);
         //this.spinController.burnFlash();
 
-        this.podSpin = SmartDashboard.getNumber("P"+(this.id)+".podSpin_setpoint", 0);
+        this.podSpin = SmartDashboard.getNumber("P"+(this.id)+".podSpin_setpoint_angle", 0);
 
-        //this.podSpin = 0.2;
+        //this.podSpin = 1;
         //System.out.println("podSpin = "+this.podSpin);
 
         double optmizdSpinPos = optimizeSpinPos(this.podSpin);
@@ -255,9 +255,10 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(this.id)+".optmizdSpinPos", optmizdSpinPos);
 
         double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, optmizdSpinPos);
+        //double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, this.podSpin);
 
         SmartDashboard.putNumber("P"+(this.id)+".turnOutput", turnOutput);
-
+        spinController.set(turnOutput * SwervePodConstants2022.SPIN_SPARKMAX_MAX_OUTPUTPERCENT);
 
     }
     /**

@@ -66,26 +66,19 @@
               "_title": "P3.kI_Spin"
             }
           },
-          "1,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P3.spinEncoderPosition",
-              "_title": "P3.spinEncoderPosition"
-            }
-          },
           "3,0": {
             "size": [
               2,
               1
             ],
             "content": {
-              "_type": "Text View",
+              "_type": "Number Slider",
               "_source0": "network_table:///SmartDashboard/P0.podSpin_setpoint_angle",
-              "_title": "P0.podSpin_setpoint_angle"
+              "_title": "P0.podSpin_setpoint_angle",
+              "Slider Settings/Min": -3.14,
+              "Slider Settings/Max": 3.14,
+              "Slider Settings/Block increment": 0.0625,
+              "Visuals/Display value": true
             }
           },
           "7,1": {
@@ -132,70 +125,15 @@
               "_title": "P0.spinEncoderPosition"
             }
           },
-          "3,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P3.podSpin_setpoint_angle",
-              "_title": "P3.podSpin_setpoint_angle"
-            }
-          },
-          "5,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P3.kRampRate_Spin",
-              "_title": "P3.kRampRate_Spin"
-            }
-          },
           "0,4": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/P0.podSpin_encoder",
               "_title": "P0.podSpin_encoder"
-            }
-          },
-          "2,4": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P1.podSpin_encoder",
-              "_title": "P1.podSpin_encoder"
-            }
-          },
-          "4,4": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P2.podSpin_encoder",
-              "_title": "P2.podSpin_encoder"
-            }
-          },
-          "6,4": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P3.podSpin_encoder",
-              "_title": "P3.podSpin_encoder"
             }
           },
           "0,1": {
@@ -374,15 +312,22 @@
               "_title": "P0.optmizdSpinPos"
             }
           },
-          "12,0": {
+          "1,3": {
             "size": [
-              1,
-              1
+              6,
+              3
             ],
             "content": {
-              "_type": "Text View",
+              "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/P0.turnOutput",
-              "_title": "P0.turnOutput"
+              "_title": "P0.turnOutput",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": false,
+              "Y-axis/Upper bound": 3.0,
+              "Y-axis/Lower bound": -3.0,
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/P0.turnOutput": true
             }
           },
           "8,4": {
@@ -416,6 +361,83 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/P0.optimizeSpinPos.angle",
               "_title": "/SmartDashboard/P0.optimizeSpinPos.angle"
+            }
+          },
+          "10,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auton Choice",
+              "_title": "Auton Choice"
+            }
+          },
+          "10,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0.radianPos",
+              "_title": "P0.radianPos"
+            }
+          },
+          "11,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0.radianError_preOpt",
+              "_title": "P0.radianError_preOpt"
+            }
+          },
+          "11,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0.radianError_postOpt",
+              "_title": "P0.radianError_postOpt"
+            }
+          },
+          "11,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0.encoderError",
+              "_title": "P0.encoderError"
+            }
+          },
+          "10,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0.azimuthCmd",
+              "_title": "P0.azimuthCmd"
+            }
+          },
+          "12,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0.turnOutput",
+              "_title": "SmartDashboard/P0.turnOutput"
             }
           }
         }
@@ -622,6 +644,30 @@
                   "_type": "Text View",
                   "_source0": "network_table:///LiveWindow/Ungrouped/PowerDistribution[1]/Chan6",
                   "_title": "PowerDistribution[1]/Chan6"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[1,2]/Value",
+                  "_title": "LiveWindow/Ungrouped/DoubleSolenoid[1,2]/Value"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[1,0]/Value",
+                  "_title": "LiveWindow/Ungrouped/DoubleSolenoid[1,0]/Value"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Compressor[1]/Pressure switch",
+                  "_title": "LiveWindow/Ungrouped/Compressor[1]/Pressure switch",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Compressor[1]/Enabled",
+                  "_title": "LiveWindow/Ungrouped/Compressor[1]/Enabled",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
                 }
               ]
             }
@@ -696,8 +742,8 @@
     }
   ],
   "windowGeometry": {
-    "x": -10.0,
-    "y": -1077.0,
+    "x": 0.0,
+    "y": -1079.0,
     "width": 1920.0,
     "height": 1040.0
   }

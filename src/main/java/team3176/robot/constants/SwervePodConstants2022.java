@@ -106,7 +106,9 @@ public final class SwervePodConstants2022 {
     public static final double P_MODULE_DRIVE_CONTROLLER = 1;
     public static final double[] P_MODULE_TURNING_CONTROLLER = {/*OLD P VALUES 1, 0, 0.3, 0.03*/ 0.08 /*kP*/, 0.0 /*kI*/, 0, 0.0};
     public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI;
+    //public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 1;
     public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2* Math.PI;
+    //public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 1;
 
     public static final double SPIN_SPARKMAX_MAX_OUTPUTPERCENT = 0.2;
 }
