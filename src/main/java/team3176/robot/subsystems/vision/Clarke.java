@@ -4,6 +4,7 @@
 
 package team3176.robot.subsystems.vision;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -19,7 +20,7 @@ public class Clarke extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
   public NetworkTableInstance tableInstance;
-  public NetworkTable limelightTable;
+  public NetworkTable piTable;
   public NetworkTableEntry tv;
   public NetworkTableEntry tx;
   public NetworkTableEntry ty;
@@ -33,6 +34,11 @@ public class Clarke extends SubsystemBase {
   private NetworkTableEntry pipeline;
   private NetworkTableEntry camMode;
   private NetworkTableEntry ledMode;
+  private NetworkTableEntry minX;
+  private NetworkTableEntry maxX;
+  private NetworkTableEntry miny;
+  private NetworkTableEntry maxY;
+  private NetworkTableEntry detections;
     
   private double activePipeline = 1;
   private double startTime;
@@ -53,37 +59,39 @@ public class Clarke extends SubsystemBase {
   private double time; // seconds
 
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
-  //private double ballDegrees = -999; // degrees away from Limelight where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
+  //private double ballDegrees = -999; // degrees away from pi where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
 
   /**
-   * Creates the default references for VisionClient, specifically for Limelight values
+   * Creates the default references for VisionClient, specifically for pi values
    */
   public Clarke(){
     tableInstance = NetworkTableInstance.getDefault();
-    limelightTable = tableInstance.getTable("limelight");
+    piTable = tableInstance.getTable("vision");
+    detections = piTable.getEntry("detections");
     updateVisionData();
-
-    limelightTable.getEntry("pipeline").setNumber(activePipeline);
+    //piTable.getEntry("pipeline").setNumber(activePipeline);
+    //System.out.println(detections);
   }
-
+  public void updateMLData(){ 
+  }
   /**
    * Can be called to force update of VisionClient data structure
    */
   public void updateVisionData(){
-    tv = limelightTable.getEntry("tv");
-    tx = limelightTable.getEntry("tx");
-    ty = limelightTable.getEntry("ty");
-    tshort = limelightTable.getEntry("tshort");
-    tlong = limelightTable.getEntry("tlong");
-    thor = limelightTable.getEntry("thor");
-    tvert = limelightTable.getEntry("tvert");
-    tcornx = limelightTable.getEntry("tcornx");
-    tcorny = limelightTable.getEntry("tcorny");
-    tl = limelightTable.getEntry("tl");
-    pipeline = limelightTable.getEntry("pipeline");
-    camMode = limelightTable.getEntry("camMode");
-    ledMode = limelightTable.getEntry("ledMode");
-    activePipeline = pipeline.getDouble(0);
+    /*tv = piTable.getEntry("tv");
+    tx = piTable.getEntry("tx");
+    ty = piTable.getEntry("ty");
+    tshort = piTable.getEntry("tshort");
+    tlong = piTable.getEntry("tlong");
+    thor = piTable.getEntry("thor");
+    tvert = piTable.getEntry("tvert");
+    tcornx = piTable.getEntry("tcornx");
+    tcorny = piTable.getEntry("tcorny");
+    tl = piTable.getEntry("tl");
+    pipeline = piTable.getEntry("pipeline");
+    camMode = piTable.getEntry("camMode");
+    ledMode = piTable.getEntry("ledMode");
+    activePipeline = pipeline.getDouble(0);*/
   }
   @Override
   public void simulationPeriodic() {
