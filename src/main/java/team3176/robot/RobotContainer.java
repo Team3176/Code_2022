@@ -41,7 +41,7 @@ public class RobotContainer {
   private final Drivetrain m_Drivetrain;
   private final Vision m_Vision;
   private final Angler m_Angler;
-  private final Transfer m_Transfer;
+  private final Feeder m_Transfer;
   private final Flywheel m_Flywheel;
   private final Indexer m_Indexer;
 
@@ -61,7 +61,7 @@ public class RobotContainer {
     m_Vision = Vision.getInstance();
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
-    m_Transfer = Transfer.getInstance();
+    m_Transfer = Feeder.getInstance();
     m_Drivetrain = Drivetrain.getInstance();
 
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);

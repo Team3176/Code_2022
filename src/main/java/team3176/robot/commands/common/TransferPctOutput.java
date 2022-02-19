@@ -6,13 +6,13 @@ package team3176.robot.commands.common;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.TransferConstants;
-import team3176.robot.subsystems.shooter.Transfer;
+import team3176.robot.subsystems.shooter.Feeder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TransferPctOutput extends CommandBase {
   /** Creates a new TransferPctOutput. */
 
-  private Transfer m_Transfer = Transfer.getInstance();
+  private Feeder m_Transfer = Feeder.getInstance();
 
   public TransferPctOutput() {
     // Use addRequirements() here to declare subsystem dependencies.

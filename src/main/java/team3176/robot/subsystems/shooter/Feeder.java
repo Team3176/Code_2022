@@ -14,19 +14,19 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import team3176.robot.subsystems.shooter.TransferIO.TransferIOInputs;
+import team3176.robot.subsystems.shooter.FeederIO.TransferIOInputs;
 
-public class Transfer extends SubsystemBase
+public class Feeder extends SubsystemBase
 {
   private CANSparkMax transferMotor1;
   private SparkMaxPIDController pidController1;
   private RelativeEncoder encoder1;
 
-  private final TransferIO io;
+  private final FeederIO io;
   private final TransferIOInputs inputs = new TransferIOInputs();
-  private static Transfer instance;
+  private static Feeder instance;
 
-  public Transfer(TransferIO io)
+  public Feeder(FeederIO io)
   {
     this.io = io;
 
@@ -64,8 +64,8 @@ public class Transfer extends SubsystemBase
     // This method will be called once per scheduler run during simulation
   }
 
-  public static Transfer getInstance() {
-    if(instance == null) {instance = new Transfer(new TransferIO() {});}
+  public static Feeder getInstance() {
+    if(instance == null) {instance = new Feeder(new FeederIO() {});}
     return instance;
   }
 

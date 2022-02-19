@@ -14,7 +14,7 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /** Template hardware interface for a closed loop subsystem. */
-public interface TransferIO{
+public interface FeederIO{
   /** Contains all of the input data received from hardware. */
   public static class TransferIOInputs implements LoggableInputs {
     public double velocity = 0.0;
