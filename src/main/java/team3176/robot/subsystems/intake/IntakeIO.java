@@ -4,12 +4,6 @@
 
 package team3176.robot.subsystems.intake;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Compressor;
-
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
