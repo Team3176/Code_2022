@@ -19,13 +19,11 @@ public class CalculateCameraTargetDistance extends CommandBase {
 
     @Override
     public void execute(){
-        double result = mSubsystem.calculateDeltaX();
-        System.out.println("I RAN!!!");
+        double result = mSubsystem.calculateDeltaXCam();
         addDistance(result);
     }
 
     private void addDistance(double newDistance){
-        System.out.println("I RAN TOO!!!");
         for(int i = 0; i < 10; i++){
             if(distances[i] == 0){
                 distances[i] = newDistance;
@@ -34,24 +32,20 @@ public class CalculateCameraTargetDistance extends CommandBase {
     }
 
     private boolean checkIfFinished(){
-        System.out.println("I RAN THREE!!!");
         double sum = 0;
         for(double currValue : distances){
             if(currValue == 0){
-                System.out.println("I CAME BACK FALSE!!!");
                 return false;
             }
             sum += currValue;
         }
         averageDistance = sum / 10;
-        System.out.println("I CAME BACK TRUE!!!");
         return true;
     }
 
     @Override
     public boolean isFinished(){
         if(checkIfFinished()){
-            System.out.println("I FINISHED!!!");
             SmartDashboard.putNumber("Average Distance", averageDistance);
             return true;
         }

@@ -27,8 +27,7 @@ public class Vision extends SubsystemBase {
   public NetworkTableEntry tlong;
   public NetworkTableEntry thor;
   public NetworkTableEntry tvert;
-  public NetworkTableEntry tcornx;
-  private NetworkTableEntry tcorny;
+  public NetworkTableEntry tcornxy;
   private NetworkTableEntry tl;
   private NetworkTableEntry pipeline;
   private NetworkTableEntry camMode;
@@ -51,6 +50,9 @@ public class Vision extends SubsystemBase {
   private double initialYVelocity; // m/s
   private double finalYVelocity; // m/s
   private double time; // seconds
+
+  private double[] tcornx;
+  private double[] tcorny;
 
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
   //private double ballDegrees = -999; // degrees away from Limelight where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
@@ -81,8 +83,7 @@ public class Vision extends SubsystemBase {
     tlong = limelightTable.getEntry("tlong");
     thor = limelightTable.getEntry("thor");
     tvert = limelightTable.getEntry("tvert");
-    tcornx = limelightTable.getEntry("tcornx");
-    tcorny = limelightTable.getEntry("tcorny");
+    tcornxy = limelightTable.getEntry("tcornxy");
     tl = limelightTable.getEntry("tl");
     pipeline = limelightTable.getEntry("pipeline");
     camMode = limelightTable.getEntry("camMode");
@@ -98,11 +99,13 @@ public class Vision extends SubsystemBase {
     // used to calculate latency
     startTime = Timer.getFPGATimestamp();
 
-    if(tcornx.getDoubleArray(new double[1]).length != 4){
+    if(tcornxy.getDoubleArray(new double[1]).length != 8){
       return;
     }
 
-    deltaXCam = calculateDeltaX();
+    calculateDeltaXCam();
+
+    calculateTargetDistance();
 
     // get the initial velocity and angle of ball
     findInitialAngleAndVelocity(0);
@@ -112,11 +115,27 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
   }
 
-  public double calculateDeltaX(){
-    double[] array = tcornx.getDoubleArray(new double[1]);
+  public double calculateDeltaXCam(){
+    separateCornArray();
+    double[] array = tcornx;
     Arrays.sort(array);
-    deltaXCam = array[array.length - 1] - array[0] + (10 * VisionConstants.INCHES2METERS);
+    deltaXCam = array[array.length - 1] - array[0];
     return deltaXCam;
+  }
+
+  public void separateCornArray(){
+    double[] tempCorn = tcornxy.getDoubleArray(new double[0]);
+    for(int i = 0; i < 8; i++){
+      if(i % 2 == 0){
+        tcornx[i/2] = tempCorn[i];
+      } else {
+        tcorny[i/2 - 1] = tempCorn[i];
+      }
+    }
+  }
+
+  public void calculateTargetDistance(){
+    //deltaX = ()
   }
 
   public double[] findInitialAngleAndVelocity(int angleIdx){
@@ -182,7 +201,7 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("tshort", tshort.getDouble(0));
     SmartDashboard.putNumber("tvert", tvert.getDouble(0));
 
-    double numCorners = tcornx.getDoubleArray(new double[0]).length * 2;
+    double numCorners = tcornx.length * 2;
     SmartDashboard.putNumber("Number of Corners", (numCorners > 1) ? numCorners : null);
 
     SmartDashboard.putNumber("Radius", radius);
@@ -216,7 +235,7 @@ public class Vision extends SubsystemBase {
 
   ArrayList<Double> testValues = new ArrayList<Double>();
 
-  public void averageMeasurements(double newValue){
+  /*public void averageMeasurements(double newValue){
     testValues.add(newValue);
     double total = 0;
     for(double value : testValues) {
@@ -224,5 +243,5 @@ public class Vision extends SubsystemBase {
     }
     SmartDashboard.putNumber("Average Distance", total / testValues.size());
     System.out.println("DONE!");
-  }
+  }*/
 }
