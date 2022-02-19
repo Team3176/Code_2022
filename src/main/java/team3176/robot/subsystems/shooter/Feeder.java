@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.TransferConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.littletonrobotics.junction.Logger; 
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
@@ -57,6 +59,22 @@ public class Feeder extends SubsystemBase
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    Logger.getInstance().processInputs("Feeder", inputs);
+    Logger.getInstance().recordOutput("Feeder/Velocity", getFeederVelocity());
+  }
+
+  public void runVoltage(double volts) {
+    io.setVoltage(volts);
+  }
+
+  public void setFeederVelocity(double feederVelocity) 
+  {
+    io.setFeederVelocity(feederVelocity);
+  }
+
+  public double getFeederVelocity()
+  {
+    return inputs.velocity;
   }
 
   @Override

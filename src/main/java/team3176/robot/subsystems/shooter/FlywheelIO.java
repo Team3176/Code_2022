@@ -4,12 +4,6 @@
 
 package team3176.robot.subsystems.shooter;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Compressor;
-
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
@@ -17,20 +11,23 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 public interface FlywheelIO{
   /** Contains all of the input data received from hardware. */
   public static class FlywheelIOInputs implements LoggableInputs {
-    public double position = 0.0;
+    public double velocity_1 = 0.0;
+    public double velocity_2 = 0.0;
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
     public double[] tempCelcius = new double[] {};
 
     public void toLog(LogTable table) {
-      table.put("Position", position);
+      table.put("Velocity 1", velocity_1);
+      table.put("Velocity 2", velocity_2);
       table.put("AppliedVolts", appliedVolts);
       table.put("CurrentAmps", currentAmps);
       table.put("TempCelcius", tempCelcius);
     }
 
     public void fromLog(LogTable table) {
-      position = table.getDouble("Position", position);
+      velocity_1 = table.getDouble("Velocity 1", velocity_1);
+      velocity_2 = table.getDouble("Velocity 2", velocity_2);
       appliedVolts = table.getDouble("AppliedVolts", appliedVolts);
       currentAmps = table.getDoubleArray("CurrentAmps", currentAmps);
       tempCelcius = table.getDoubleArray("TempCelcius", tempCelcius);
@@ -45,5 +42,7 @@ public interface FlywheelIO{
 
   /** Encoder Position of the Indexer */
 
-  public default void setIndexerPosition(double position) {}
+  public default void setFlywheelVelocity1(double velocity) {}
+
+  public default void setFlywheelVelocity2(double velocity) {}
 }

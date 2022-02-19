@@ -2,16 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot;       //TODO: SO UNDERLINE -- DO NOT OVERWRITE --
+package team3176.robot;
 
 import team3176.robot.constants.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.auton.*;
 import team3176.robot.commands.common.*;
@@ -23,15 +20,6 @@ import team3176.robot.subsystems.intake.*;
 import team3176.robot.subsystems.shooter.*;
 import team3176.robot.subsystems.vision.*;
 import team3176.robot.subsystems.climb.*;
-
-import edu.wpi.first.wpilibj.GenericHID; //TODO: SEE IF WE NEED THESE IMPORTS
-import edu.wpi.first.wpilibj.XboxController;
-import team3176.robot.constants.*;
-import team3176.robot.util.Joystick.*;
-import team3176.robot.util.PowerManagement.*;
-import team3176.robot.util.XboxController.*;
-import team3176.robot.subsystems.drivetrain.*;
-import team3176.robot.commands.climb.*;
 
 public class RobotContainer {
 
@@ -45,8 +33,6 @@ public class RobotContainer {
   private final Flywheel m_Flywheel;
   private final Indexer m_Indexer;
 
-  private ClimbActive m_ClimbActive;
-  private ClimbPassive m_ClimbPassive;
   private Climb m_Climb;
 
   private SendableChooser<String> m_autonChooser;

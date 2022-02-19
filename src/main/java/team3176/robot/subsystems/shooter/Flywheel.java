@@ -7,6 +7,8 @@ package team3176.robot.subsystems.shooter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.FlywheelConstants;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -96,11 +98,39 @@ public class Flywheel extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Logger.getInstance().processInputs("Flywheel", inputs);
+    Logger.getInstance().recordOutput("Flywheel/Velocity 1", getFlywheelVelocity1());
+    Logger.getInstance().recordOutput("Flywheel/Velocity 2", getFlywheelVelocity2());
+
     if(mode.equals("test"))
     {
       if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
       setValuesFromSmartDashboard();
     }
+  }
+
+  public void runVoltage(double volts) {
+    io.setVoltage(volts);
+  }
+
+  public double getFlywheelVelocity1()
+  {
+    return inputs.velocity_1;
+  }
+  
+  public double getFlywheelVelocity2()
+  {
+    return inputs.velocity_2;
+  }
+
+  public void setFlywheelVelocity1(double velocity)
+  {
+    io.setFlywheelVelocity1(velocity);
+  }
+
+  public void setFlywheelVelocity2(double velocity)
+  {
+    io.setFlywheelVelocity2(velocity);
   }
 
   @Override

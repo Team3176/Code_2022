@@ -7,6 +7,8 @@ package team3176.robot.subsystems.shooter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.AnglerConstants;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
@@ -222,7 +224,8 @@ public class Angler extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    Logger.getInstance().processInputs("Angler", inputs);
+    Logger.getInstance().recordOutput("Angler/Position", getAnglerPosition());
     //System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
 
     // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
@@ -246,6 +249,20 @@ public class Angler extends SubsystemBase {
       setValuesFromSmartDashboard();
     }
 
+  }
+
+  public void runVoltage(double volts) {
+    io.setVoltage(volts);
+  }
+
+  public double getAnglerPosition()
+  {
+    return inputs.position;
+  }
+
+  public void setAnglerPosition(double position)
+  {
+    io.setAnglerPosition(position);
   }
 
   @Override
