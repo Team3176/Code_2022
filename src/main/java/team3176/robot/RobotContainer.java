@@ -38,6 +38,7 @@ public class RobotContainer {
   private Controller m_Controller;
   private Compressor m_Compressor;
   private Drivetrain m_Drivetrain;
+  private Clarke m_Clarke;
   // The robot's subsystems and commands are defined here...
 
   private final Vision m_Vision = Vision.getInstance();
@@ -56,23 +57,24 @@ public class RobotContainer {
   Climb m_Climb;
   
   public RobotContainer() {
-    m_Intake = Intake.getInstance();
+    /*m_Intake = Intake.getInstance();
     m_Controller = Controller.getInstance();
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     m_Compressor.enableDigital();
-    m_Climb = Climb.getInstance();
+    m_Climb = Climb.getInstance();*/
+    m_Clarke = Clarke.getInstance();
 
     // Configure the button bindings
     configureButtonBindings();
 
-    m_Drivetrain = Drivetrain.getInstance();
+    /*m_Drivetrain = Drivetrain.getInstance();
     m_Drivetrain.setDefaultCommand(new SwerveDrive(
       () -> m_Controller.getForward(), 
       () -> m_Controller.getStrafe(),
       () -> m_Controller.getSpin()
       //() -> m_Controller.isFieldCentricButtonPressed(),
       //() -> m_Controller.isRobotCentricButtonPressed()
-    ));
+    ));*/
   }
 
   /**
@@ -90,9 +92,9 @@ public class RobotContainer {
 
     m_Angler.setDefaultCommand(m_AnglerShuffleboardTest);*/
 
-    m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
+    /*m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
     m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
-    m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
+    m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));*/
   }
 
   /**

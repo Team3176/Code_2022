@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Clarke extends SubsystemBase {
-  private static Vision instance = new Vision();
+  private static Clarke instance = new Clarke();
 
+  String[] def = new String[1];
 
   /** Creates a new ExampleSubsystem. */
 
@@ -66,13 +67,17 @@ public class Clarke extends SubsystemBase {
    */
   public Clarke(){
     tableInstance = NetworkTableInstance.getDefault();
-    piTable = tableInstance.getTable("vision");
-    detections = piTable.getEntry("detections");
+    piTable = tableInstance.getTable("ML");
+    
     updateVisionData();
     //piTable.getEntry("pipeline").setNumber(activePipeline);
-    //System.out.println(detections);
+    
   }
   public void updateMLData(){ 
+    detections = piTable.getEntry("detections");
+
+    String myvalue = detections.getString("dipshit"); 
+    System.out.println(myvalue);
   }
   /**
    * Can be called to force update of VisionClient data structure
@@ -97,7 +102,12 @@ public class Clarke extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-  public static Vision getInstance() {
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run during simulation
+    updateMLData();
+  }
+  public static Clarke getInstance() {
     return instance;
   }
 
