@@ -13,6 +13,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+
 public class Clarke extends SubsystemBase {
   private static Clarke instance = new Clarke();
 
@@ -59,6 +61,8 @@ public class Clarke extends SubsystemBase {
   private double finalYVelocity; // m/s
   private double time; // seconds
 
+  private int idxCounter = 0; 
+
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
   //private double ballDegrees = -999; // degrees away from pi where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
 
@@ -76,8 +80,9 @@ public class Clarke extends SubsystemBase {
   public void updateMLData(){ 
     detections = piTable.getEntry("detections");
 
-    String myvalue = detections.getString("dipshit"); 
-    System.out.println(myvalue);
+    //String myvalue = detections.getStringArray("detections"); 
+    String[] myvalueArr = detections.getStringArray(new String[1]); 
+    System.out.println(Arrays.deepToString(myvalueArr));
   }
   /**
    * Can be called to force update of VisionClient data structure
@@ -105,7 +110,11 @@ public class Clarke extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run during simulation
-    updateMLData();
+    if (idxCounter++ > 100) {
+      // A value of 100 in the above conditionals means execution block of conditional will execute every ~2seconds.
+      updateMLData();
+      this.idxCounter = 0;
+    } 
   }
   public static Clarke getInstance() {
     return instance;
