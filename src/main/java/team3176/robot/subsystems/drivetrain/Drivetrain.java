@@ -63,9 +63,9 @@ public class Drivetrain extends SubsystemBase {
 
   private boolean autonVision;
 
-  public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.DRIVE_ONE_CID),
-      new TalonFX(DrivetrainConstants.DRIVE_TWO_CID), new TalonFX(DrivetrainConstants.DRIVE_THREE_CID),
-      new TalonFX(DrivetrainConstants.DRIVE_FOUR_CID) };
+  public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_ONE_CID),
+      new TalonFX(DrivetrainConstants.THRUST_TWO_CID), new TalonFX(DrivetrainConstants.THRUST_THREE_CID),
+      new TalonFX(DrivetrainConstants.THRUST_FOUR_CID) };
 
   public CANSparkMax[] spinControllers = { new CANSparkMax(DrivetrainConstants.STEER_ONE_CID, MotorType.kBrushless),
       new CANSparkMax(DrivetrainConstants.STEER_TWO_CID, MotorType.kBrushless), new CANSparkMax(DrivetrainConstants.STEER_THREE_CID, MotorType.kBrushless),

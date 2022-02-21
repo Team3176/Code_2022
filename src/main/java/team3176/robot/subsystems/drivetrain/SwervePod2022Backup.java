@@ -85,7 +85,7 @@ public class SwervePod2022Backup {
     private boolean isAutonSwerveControllerOptimizingSpinPos = false;
 
     private double PI = Math.PI;
-    private double maxFps = SwervePodConstants2022.DRIVE_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND;
+    private double maxFps = SwervePodConstants2022.CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND;
 
     private double startTics;
 
@@ -106,7 +106,7 @@ public class SwervePod2022Backup {
         kPIDLoopIdx_spin = SwervePodConstants2022.TALON_SPIN_PID_LOOP_ID;
         kTimeoutMs_spin = SwervePodConstants2022.TALON_SPIN_PID_TIMEOUT_MS;
 
-        m_drivePIDController = new PIDController(SwervePodConstants2022.P_MODULE_DRIVE_CONTROLLER, 0, 0);
+        m_drivePIDController = new PIDController(SwervePodConstants2022.P_MODULE_THRUST_CONTROLLER, 0, 0);
 
         m_turningPIDController = new ProfiledPIDController(
             SwervePodConstants2022.P_MODULE_TURNING_CONTROLLER[0], 0, SwervePodConstants2022.P_MODULE_TURNING_CONTROLLER[2],
@@ -125,10 +125,10 @@ public class SwervePod2022Backup {
 		 */
         //spinController.configAllowableClosedloopError(0, SwervePodConstants.kPIDLoopIdx, SwervePodConstants.kTimeoutMs);
 
-        kDriveEncoderUnitsPerRevolution = SwervePodConstants2022.DRIVE_ENCODER_UNITS_PER_REVOLUTION;
-        kSlotIdx_drive = SwervePodConstants2022.TALON_DRIVE_PID_SLOT_ID;
-        kPIDLoopIdx_drive = SwervePodConstants2022.TALON_DRIVE_PID_LOOP_ID;
-        kTimeoutMs_drive = SwervePodConstants2022.TALON_DRIVE_PID_TIMEOUT_MS;
+        kDriveEncoderUnitsPerRevolution = SwervePodConstants2022.THRUST_ENCODER_UNITS_PER_REVOLUTION;
+        kSlotIdx_drive = SwervePodConstants2022.TALON_THRUST_PID_SLOT_ID[this.id];
+        kPIDLoopIdx_drive = SwervePodConstants2022.TALON_THRUST_PID_LOOP_ID[this.id];
+        kTimeoutMs_drive = SwervePodConstants2022.TALON_THRUST_PID_TIMEOUT_MS[this.id];
 
         m_encoder = spinController.getEncoder();
 
@@ -378,7 +378,7 @@ public class SwervePod2022Backup {
         double sensoredVelInTicsPer100ms = driveController.getSelectedSensorVelocity(1);
         //SmartDashboard.putNumber("GetSensorVelocity", speed);
         double wheelCircumference = Units.inchesToMeters(DrivetrainConstants.WHEEL_DIAMETER_INCHES * Math.PI);
-        double metersPer100ms = sensoredVelInTicsPer100ms * 1 * wheelCircumference / (SwervePodConstants2022.DRIVE_ENCODER_UNITS_PER_REVOLUTION * 6.17);  //6.17 = gear ratio  <--should this be 6.17 here, or (1 / 6.17)?
+        double metersPer100ms = sensoredVelInTicsPer100ms * 1 * wheelCircumference / (SwervePodConstants2022.THRUST_ENCODER_UNITS_PER_REVOLUTION * 6.17);  //6.17 = gear ratio  <--should this be 6.17 here, or (1 / 6.17)?
         double metersPerSecond = metersPer100ms * 10 /*ms*/ / 1 /*sec*/;
         // SmartDashboard.putNumber("Velocity", metersPerSecond);
         return metersPerSecond;     

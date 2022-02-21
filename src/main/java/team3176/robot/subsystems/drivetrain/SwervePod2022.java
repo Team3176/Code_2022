@@ -77,7 +77,7 @@ public class SwervePod2022 {
     private double azimuthCommand;
     private double velTicsPer100ms;
 
-    public int kSlotIdx_spin, kPIDLoopIdx_spin, kTimeoutMs_spin,kSlotIdx_drive, kPIDLoopIdx_drive, kTimeoutMs_drive;
+    public int kSlotIdx_Spin, kPIDLoopIdx_Spin, kTimeoutMs_Spin,kSlotIdx_Thrust, kPIDLoopIdx_Thrust, kTimeoutMs_Thrust;
 
     public double podDrive, podSpin;
 
@@ -86,25 +86,24 @@ public class SwervePod2022 {
     private double kD_Spin;
     private double kFF_Spin;
     private double kIz_Spin;
-    private double kMaxOutput;
-    private double kMinOutput;
+    private double kMaxOutput_Spin;
+    private double kMinOutput_Spin;
+    private double kRampRate_Spin;
 
-    private double kSpinRampRate;
-
-    private double kP_Drive;
-    private double kI_Drive;
-    private double kD_Drive;
-    private double kF_Drive;
+    private double kP_Thrust;
+    private double kI_Thrust;
+    private double kD_Thrust;
+    private double kF_Thrust;
 
     private double maxVelTicsPer100ms;
     private boolean isAutonSwerveControllerOptimizingSpinPos = false;
 
     private double PI = Math.PI;
-    private double maxFps = SwervePodConstants2022.DRIVE_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND;
+    private double maxFps = SwervePodConstants2022.CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND;
 
     private double startTics;
 
-    private final PIDController m_drivePIDController;
+    private final PIDController m_ThrustPIDController;
     private final ProfiledPIDController m_turningPIDController;
     //private ProfiledPIDController m_turningPIDController;
     private SwerveModuleState state;
@@ -122,25 +121,26 @@ public class SwervePod2022 {
 
         
         //kSpinEncoderUnitsPerRevolution = SwervePodConstants2022.SPIN_ENCODER_UNITS_PER_REVOLUTION;
-        kSlotIdx_spin = SwervePodConstants2022.TALON_SPIN_PID_SLOT_ID;
-        kPIDLoopIdx_spin = SwervePodConstants2022.TALON_SPIN_PID_LOOP_ID;
-        kTimeoutMs_spin = SwervePodConstants2022.TALON_SPIN_PID_TIMEOUT_MS;
+        kSlotIdx_Spin = SwervePodConstants2022.TALON_SPIN_PID_SLOT_ID;
+        kPIDLoopIdx_Spin = SwervePodConstants2022.TALON_SPIN_PID_LOOP_ID;
+        kTimeoutMs_Spin = SwervePodConstants2022.TALON_SPIN_PID_TIMEOUT_MS;
         
-        kP_Drive = 0.03; // SwervePodConstants.DRIVE_PID[0][id];
-        kI_Drive = 0.0; // SwervePodConstants.DRIVE_PID[1][id];
-        kD_Drive = 0.0; // SwervePodConstants.DRIVE_PID[2][id];
-        kF_Drive = .045; // SwervePodConstants.DRIVE_PID[3][id];
+        kP_Thrust = 0.03; // SwervePodConstants.DRIVE_PID[0][id];
+        kI_Thrust = 0.0; // SwervePodConstants.DRIVE_PID[1][id];
+        kD_Thrust = 0.0; // SwervePodConstants.DRIVE_PID[2][id];
+        kF_Thrust = .045; // SwervePodConstants.DRIVE_PID[3][id];
 
 
-        m_drivePIDController = new PIDController(SwervePodConstants2022.P_MODULE_DRIVE_CONTROLLER, 0, 0);
+        m_ThrustPIDController = new PIDController(SwervePodConstants2022.P_MODULE_THRUST_CONTROLLER, 0, 0);
 
-        kP_Spin = SwervePodConstants2022.SPIN_PID[0][id];
-        kI_Spin = SwervePodConstants2022.SPIN_PID[1][id];
-        kD_Spin = SwervePodConstants2022.SPIN_PID[2][id];
-        kFF_Spin = SwervePodConstants2022.SPIN_PID[3][id];
-        kIz_Spin = SwervePodConstants2022.SPIN_PID[4][id];
-        kMaxOutput = SwervePodConstants2022.SPIN_PID[5][id];
-        kMinOutput = SwervePodConstants2022.SPIN_PID[6][id];
+        this.kP_Spin = SwervePodConstants2022.SPIN_PID[0][id];
+        this.kI_Spin = SwervePodConstants2022.SPIN_PID[1][id];
+        this.kD_Spin = SwervePodConstants2022.SPIN_PID[2][id];
+        this.kFF_Spin = SwervePodConstants2022.SPIN_PID[3][id];
+        this.kIz_Spin = SwervePodConstants2022.SPIN_PID[4][id];
+        this.kMaxOutput_Spin = SwervePodConstants2022.SPIN_PID[5][id];
+        this.kMinOutput_Spin = SwervePodConstants2022.SPIN_PID[6][id];
+        this.kRampRate_Spin = SwervePodConstants2022.SPIN_RAMPRATE[id];
 
         m_turningPIDController = new ProfiledPIDController(
             kP_Spin, kI_Spin, kD_Spin, 
@@ -152,6 +152,11 @@ public class SwervePod2022 {
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
         m_turningPIDController.reset(0.0, 0.0);
+        m_turningPIDController.setP(this.kP_Spin);
+        m_turningPIDController.setP(this.kI_Spin);
+        m_turningPIDController.setP(this.kD_Spin);
+
+        this.spinController.setOpenLoopRampRate(this.kRampRate_Spin); 
         
 
         /**
@@ -161,10 +166,12 @@ public class SwervePod2022 {
 		 */
         //spinController.configAllowableClosedloopError(0, SwervePodConstants.kPIDLoopIdx, SwervePodConstants.kTimeoutMs);
 
-        kDriveEncoderUnitsPerRevolution = SwervePodConstants2022.DRIVE_ENCODER_UNITS_PER_REVOLUTION;
-        kSlotIdx_drive = SwervePodConstants2022.TALON_DRIVE_PID_SLOT_ID;
-        kPIDLoopIdx_drive = SwervePodConstants2022.TALON_DRIVE_PID_LOOP_ID;
-        kTimeoutMs_drive = SwervePodConstants2022.TALON_DRIVE_PID_TIMEOUT_MS;
+        kDriveEncoderUnitsPerRevolution = SwervePodConstants2022.THRUST_ENCODER_UNITS_PER_REVOLUTION;
+        kSlotIdx_Thrust = SwervePodConstants2022.TALON_THRUST_PID_SLOT_ID[this.id];
+        kPIDLoopIdx_Thrust = SwervePodConstants2022.TALON_THRUST_PID_LOOP_ID[this.id];
+        kTimeoutMs_Thrust = SwervePodConstants2022.TALON_THRUST_PID_TIMEOUT_MS[this.id];
+
+
 
         m_encoder = spinController.getEncoder();
 
@@ -200,10 +207,10 @@ public class SwervePod2022 {
                 //this.spinController.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition), 0, 0);
                 //this.spinController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute), 0, 0);
 
-        this.driveController.config_kP(kPIDLoopIdx_drive, kP_Drive, kTimeoutMs_drive);
-        this.driveController.config_kI(kPIDLoopIdx_drive, kI_Drive, kTimeoutMs_drive);
-        this.driveController.config_kD(kPIDLoopIdx_drive, kD_Drive, kTimeoutMs_drive);
-        this.driveController.config_kF(kPIDLoopIdx_drive, kF_Drive, kTimeoutMs_drive);
+        this.driveController.config_kP(kPIDLoopIdx_Thrust, kP_Thrust, kTimeoutMs_Thrust);
+        this.driveController.config_kI(kPIDLoopIdx_Thrust, kI_Thrust, kTimeoutMs_Thrust);
+        this.driveController.config_kD(kPIDLoopIdx_Thrust, kD_Thrust, kTimeoutMs_Thrust);
+        this.driveController.config_kF(kPIDLoopIdx_Thrust, kF_Thrust, kTimeoutMs_Thrust);
 
         /*
         this.spinPIDController.setP(kP_Spin);
@@ -237,12 +244,12 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(this.id)+".kD_Spin",this.kD_Spin);
         
         
-        this.kSpinRampRate = SmartDashboard.getNumber("P"+(this.id)+".kRampRate_Spin", 0);
+        this.kRampRate_Spin = SmartDashboard.getNumber("P"+(this.id)+".kRampRate_Spin", 0);
 
         
         
 
-        this.spinController.setOpenLoopRampRate(this.kSpinRampRate);
+        this.spinController.setOpenLoopRampRate(this.kRampRate_Spin);
         //this.spinController.setSmartCurrentLimit(20);
         //this.spinController.burnFlash();
 
@@ -274,10 +281,10 @@ public class SwervePod2022 {
          //this.spinController.config_kI(kSlotIdx_spin, SmartDashboard.getNumber("I", kI_Spin), kTimeoutMs_spin);
          //this.spinController.config_kD(kSlotIdx_spin, SmartDashboard.getNumber("D", kD_Spin), kTimeoutMs_spin);
          //this.spinController.config_kF(kSlotIdx_spin, SmartDashboard.getNumber("F", kF_Spin), kTimeoutMs_spin);
-        // this.driveController.config_kP(kSlotIdx_drive, SmartDashboard.getNumber("P", kP_Drive), kTimeoutMs_spin);
-        // this.driveController.config_kI(kSlotIdx_drive, SmartDashboard.getNumber("I", kI_Drive), kTimeoutMs_spin);
-        // this.driveController.config_kD(kSlotIdx_drive, SmartDashboard.getNumber("D", kD_Drive), kTimeoutMs_spin);
-        // this.driveController.config_kF(kSlotIdx_drive, SmartDashboard.getNumber("F", kF_Drive), kTimeoutMs_spin);
+        // this.driveController.config_kP(kSlotIdx_Thrust, SmartDashboard.getNumber("P", kP_Thrust), kTimeoutMs_spin);
+        // this.driveController.config_kI(kSlotIdx_Thrust, SmartDashboard.getNumber("I", kI_Thrust), kTimeoutMs_spin);
+        // this.driveController.config_kD(kSlotIdx_Thrust, SmartDashboard.getNumber("D", kD_Thrust), kTimeoutMs_spin);
+        // this.driveController.config_kF(kSlotIdx_Thrust, SmartDashboard.getNumber("F", kF_Thrust), kTimeoutMs_spin);
         
 
             // TODO: need check ether output values. speed vs %-values
@@ -379,10 +386,10 @@ public class SwervePod2022 {
 
     public void SwervePod2022SmartDashboardComments () {
         //SwervePod2022 comments start
-        // SmartDashboard.putNumber("P", kP_Drive);
-        // SmartDashboard.putNumber("I", kI_Drive);
-        // SmartDashboard.putNumber("D", kD_Drive);
-        // SmartDashboard.putNumber("F", kF_Drive);
+        // SmartDashboard.putNumber("P", kP_Thrust);
+        // SmartDashboard.putNumber("I", kI_Thrust);
+        // SmartDashboard.putNumber("D", kD_Thrust);
+        // SmartDashboard.putNumber("F", kF_Thrust);
        // SmartDashboard.putNumber("driveSet",0);       
        
         // SmartDashboard.putNumber("P" + (id + 1) + " podDrive", this.podDrive);
@@ -446,7 +453,7 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("P"+this.id+".setdesiredState_sensoredDegrees", rotation.getDegrees());
 
         // SmartDashboard.putNumber("P"+this.id+".setDesiredState_TurnOutput",turnOutput);
-        // SmartDashboard.putNumber("P"+this.id+".setDesiredState_DriveOutput",driveOutput);
+        // SmartDashboard.putNumber("P"+this.id+".setDesiredState_ThrustOutput",driveOutput);
         //public void setDesiredState(SwerveModuleState desiredState) comments ends
 
 

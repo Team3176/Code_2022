@@ -11,10 +11,10 @@ public class DrivetrainConstants {
     // IDs for Drivetrain motors and solenoids
 
     //CAN IDs
-    public static final int DRIVE_ONE_CID = 10;
-    public static final int DRIVE_TWO_CID = 20;
-    public static final int DRIVE_THREE_CID = 30;
-    public static final int DRIVE_FOUR_CID = 40;
+    public static final int THRUST_ONE_CID = 10;
+    public static final int THRUST_TWO_CID = 20;
+    public static final int THRUST_THREE_CID = 30;
+    public static final int THRUST_FOUR_CID = 40;
 
     //CAN IDs
     public static final int STEER_ONE_CID = 11;
