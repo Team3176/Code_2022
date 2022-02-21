@@ -64,7 +64,7 @@ public class SwervePod2022 {
    
     /** Represents the value of the azimuthEncoder reading in radians when positioned with the positive Thurst vector of the Pod's Drive wheel pointing towards front of robot */
     private double kEncoderOffset; 
-    //private double kazimuthEncoderUnitsPerRevolution;
+    //private double kAzimuthEncoderUnitsPerRevolution;
     private double kThrustEncoderUnitsPerRevolution;
     private int off = 0;
 
@@ -96,7 +96,7 @@ public class SwervePod2022 {
     private double kF_Thrust;
 
     private double maxVelTicsPer100ms;
-    private boolean isAutonSwerveControllerOptimizingazimuthPos = false;
+    private boolean isAutonSwerveControllerOptimizingAzimuthPos = false;
 
     private double PI = Math.PI;
     private double maxFps = SwervePodConstants2022.CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND;
@@ -120,7 +120,7 @@ public class SwervePod2022 {
         ///System.out.println("P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
         
-        //kazimuthEncoderUnitsPerRevolution = SwervePodConstants2022.AZIMUTH_ENCODER_UNITS_PER_REVOLUTION;
+        //kAzimuthEncoderUnitsPerRevolution = SwervePodConstants2022.AZIMUTH_ENCODER_UNITS_PER_REVOLUTION;
         kSlotIdx_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_SLOT_ID;
         kPIDLoopIdx_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_LOOP_ID;
         kTimeoutMs_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_TIMEOUT_MS;
@@ -274,18 +274,18 @@ public class SwervePod2022 {
      *                 ft-per-sec?
      * @param podazimuth  represents desired angle of swervepod. Range = -pi to pi.
      */
-    public void set(double podDrive, double podazimuth) {
+    public void set(double podDrive, double podAzimuth) {
         this.podThrust = podDrive;
-        this.podAzimuth = podazimuth; 
+        this.podAzimuth = podAzimuth; 
 
             // TODO: need check ether output values. speed vs %-values
         this.maxVelTicsPer100ms = Units3176.fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
         this.velTicsPer100ms = Units3176.fps2ums(this.podThrust);
        // velTicsPer100ms = SmartDashboard.getNumber("thrustSet",velTicsPer100ms);
-        double optmizdazimuthPos = optimizeAzimuthPos(this.podAzimuth);
+        double optmizdAzimuthPos = optimizeAzimuthPos(this.podAzimuth);
         //double tics = rads2Tics(this.podAzimuth);
 
-        final double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdazimuthPos);
+        final double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
 
         //if (this.id == 3) {azimuthController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
         if (this.podThrust > (-Math.pow(10,-10)) && this.podThrust < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(thrustDrive) != 0 is notationally sloppy math
@@ -296,7 +296,7 @@ public class SwervePod2022 {
             //azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
             SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
             //azimuthPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
-            this.lastEncoderPos = optmizdazimuthPos;
+            this.lastEncoderPos = optmizdAzimuthPos;
         }    
 
         thrustController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
@@ -308,7 +308,7 @@ public class SwervePod2022 {
      * @return
      */
     private double optimizeAzimuthPos(double angle) {
-        //System.out.println("calcazimuthPos - P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
+        //System.out.println("calcAzimuthPos - P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
         this.encoderPos = getEncoderPos();;
         //this.encoderPos = azimuthController.getSelectedSensorPosition() - this.kEncoderOffset;
@@ -323,7 +323,7 @@ public class SwervePod2022 {
         //    System.out.println("Error: Overload");
         //} else if (Math.abs(radianError) > (3 * (PI / 2))) {
 
-        if (isAutonSwerveControllerOptimizingazimuthPos == false) { 
+        if (isAutonSwerveControllerOptimizingAzimuthPos == false) { 
             if (Math.abs(radianError) > (3 * (PI / 2))) {      // TODO: See if commenting out "Thrust-vector sign-flip" fixes
                 radianError -= Math.copySign(2 * PI, radianError);
             } else if (Math.abs(radianError) > (PI / 2)) {
@@ -363,12 +363,12 @@ public class SwervePod2022 {
 
     public void initializeSmartDashboard() {
 
-        SmartDashboard.putNumber("P"+(this.id)+".podazimuth_setpoint_angle", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_setpoint_angle", 0);
         SmartDashboard.putNumber("P"+(this.id)+".kP_Azimuth", 0);
         SmartDashboard.putNumber("P"+(this.id)+".kI_Azimuth", 0);
         SmartDashboard.putNumber("P"+(this.id)+".kD_Azimuth", 0);
         SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Azimuth", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".podazimuth_encoder", this.azimuthEncoderPosition);
+        SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_encoder", this.azimuthEncoderPosition);
         SmartDashboard.putBoolean("P"+(this.id)+".On", false);
     }
 
@@ -383,13 +383,13 @@ public class SwervePod2022 {
        
         // SmartDashboard.putNumber("P" + (id + 1) + " podDrive", this.podDrive);
 
-        // SmartDashboard.putNumber("P" + (id + 1) + " podazimuth", this.podAzimuth);
+        // SmartDashboard.putNumber("P" + (id + 1) + " podAzimuth", this.podAzimuth);
         //SwervePod2022 comments end
 
 
-        //set(double podThrust, double podazimuth) comments start
+        //set(double podThrust, double podAzimuth) comments start
         // SmartDashboard.putNumber("P" + (id + 1) + " podThrust", this.podThrust);
-        // SmartDashboard.putNumber("P" + (id + 1) + " podazimuth", this.podAzimuth);
+        // SmartDashboard.putNumber("P" + (id + 1) + " podAzimuth", this.podAzimuth);
 
         // SmartDashboard.putNumber("fps2ums:velTicsPer100ms", velTicsPer100ms);
         // SmartDashboard.putNumber("podThrust", this.podThrust);
@@ -417,15 +417,15 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("P" + (id + 1) + " velTicsPer100ms", velTicsPer100ms);
         // SmartDashboard.putNumber("P" + (id + 1) + " encoderSetPos_end", encoderSetPos);
         //}
-        //set(double podthrust, double podazimuth) comments start
+        //set(double podthrust, double podAzimuth) comments start
 
 
         //private double optimizeAzimuthPos(double angle) comments start
-        // SmartDashboard.putNumber("P" + (id + 1) + " calcazimuthPos_angle", angle);
+        // SmartDashboard.putNumber("P" + (id + 1) + " calcAzimuthPos_angle", angle);
         
         // SmartDashboard.putNumber("P" + (id + 1) + " kEncoderOffset", this.kEncoderOffset);
         // SmartDashboard.putNumber("P" + (id + 1) + " getSelectedSensorPosition", azimuthController.getSelectedSensorPosition());
-        // SmartDashboard.putNumber("P" + (id + 1) + " encoderPos_in_calcazimuthPos",this.encoderPos);
+        // SmartDashboard.putNumber("P" + (id + 1) + " encoderPos_in_calcAzimuthPos",this.encoderPos);
 
         // SmartDashboard.putNumber("P" + (id + 1) + " radianPos", radianPos);
 
