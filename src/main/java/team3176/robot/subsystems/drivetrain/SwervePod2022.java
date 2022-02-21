@@ -147,7 +147,8 @@ public class SwervePod2022 {
             new TrapezoidProfile.Constraints(
                 (SwervePodConstants2022.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND),
                 (SwervePodConstants2022.MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED)));
-        
+       
+        m_turningPIDController.setTolerance(0.1);
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
         m_turningPIDController.reset(0.0, 0.0);
@@ -229,8 +230,8 @@ public class SwervePod2022 {
         this.kI_Spin = SmartDashboard.getNumber("P"+(this.id)+".kI_Spin",0);
         this.kD_Spin = SmartDashboard.getNumber("P"+(this.id)+".kD_Spin",0);
         m_turningPIDController.setP(this.kP_Spin);
-        m_turningPIDController.setI(this.kP_Spin);
-        m_turningPIDController.setD(this.kP_Spin);
+        m_turningPIDController.setI(this.kI_Spin);
+        m_turningPIDController.setD(this.kD_Spin);
         SmartDashboard.putNumber("P"+(this.id)+".kP_Spin",this.kP_Spin);
         SmartDashboard.putNumber("P"+(this.id)+".kI_Spin",this.kI_Spin);
         SmartDashboard.putNumber("P"+(this.id)+".kD_Spin",this.kD_Spin);
