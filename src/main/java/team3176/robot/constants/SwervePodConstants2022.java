@@ -3,7 +3,7 @@ package team3176.robot.constants;
 public final class SwervePodConstants2022 {
 
     private static final double WHEEL_DIAMETER = DrivetrainConstants.WHEEL_DIAMETER;  // in inches
-    private static final double SPIN_GEAR_RATIO = 70.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
+    private static final double AZIMUTH_GEAR_RATIO = 70.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
     private static final double THRUST_GEAR_RATIO = (54.0 / 14.0) * (48.0 / 30.0);  // 216/35?
 
     public static final int[] STEER_CANCODER_CID = {12, 22, 32, 42};
@@ -19,10 +19,10 @@ public final class SwervePodConstants2022 {
 
 
 
-    public static final double SPIN_ENCODER_UNITS_PER_REVOLUTION = 4096;
-    public static final int TALON_SPIN_PID_SLOT_ID = 0; 
-    public static final int TALON_SPIN_PID_LOOP_ID = 0; 
-    public static final int TALON_SPIN_PID_TIMEOUT_MS = 0;  
+    public static final double AZIMUTH_ENCODER_UNITS_PER_REVOLUTION = 4096;
+    public static final int TALON_AZIMUTH_PID_SLOT_ID = 0; 
+    public static final int TALON_AZIMUTH_PID_LOOP_ID = 0; 
+    public static final int TALON_AZIMUTH_PID_TIMEOUT_MS = 0;  
 
     public static final double THRUST_ENCODER_UNITS_PER_REVOLUTION = 2048;
     public static final int[] TALON_THRUST_PID_SLOT_ID = {0, 0, 0, 0}; 
@@ -50,7 +50,7 @@ public final class SwervePodConstants2022 {
 
     // BR P: 2.41, I: 0.0, D: 152.0, F: 0.0
 
-    public static final double[][] SPIN_PID_2022 = {
+    public static final double[][] AZIMUTH_PID_2022 = {
         //           FR    FL    BL     BR
     //    /* kP */    {1.0, 2.0, 0.9, 0.1},
 //        /* kP */    {1.0, 2.0, 0.9, 2.0},
@@ -70,27 +70,27 @@ public final class SwervePodConstants2022 {
                 {-0.6000000238418579, -1.0, -1.0, -1.0}  //kMinOutput//<-Jared N550 internal encoder
     };
 
-    public static final double[] SPIN_RAMPRATE = { 0.0, 0.0, 0.0, 0.0 };
+    public static final double[] AZIMUTH_RAMPRATE = { 0.0, 0.0, 0.0, 0.0 };
 
-    public static double SPIN_PID[][] = SPIN_PID_2022;
+    public static double AZIMUTH_PID[][] = AZIMUTH_PID_2022;
 
 
     /* OFFSETS: Corresponds to selftest output from CTRE Phoenix tool.
     *  Look for the absolute position encoder value.  Should say something 
     like:  "Pulsewidth/MagEnc(abs)"
-    * Used solely for the Spin Encoder.
+    * Used solely for the AZIMUTH Encoder.
     */
     // public static final int[] OFFSETS = {4846, 6575, 2456, 7081};
-    //public static final int[] SPIN_OFFSET = {-5538, 44, 3135, -2963842}; 
-    //public static final int[] SPIN_OFFSET = {6821, 4143, -5071, 1765};
-    //public static final int[] SPIN_OFFSET = {2689, 86, 31117, 3802830};
-    //public static final int[] SPIN_OFFSET = {-1381, 63, -1019, 1740};
-    // public static final int[] SPIN_OFFSET = {47762, 4189, 388129, -50897};
-    // public static final int[] SPIN_OFFSET = {49844, 55384, 58418, 73442};
+    //public static final int[] AZIMUTH_OFFSET = {-5538, 44, 3135, -2963842}; 
+    //public static final int[] AZIMUTH_OFFSET = {6821, 4143, -5071, 1765};
+    //public static final int[] AZIMUTH_OFFSET = {2689, 86, 31117, 3802830};
+    //public static final int[] AZIMUTH_OFFSET = {-1381, 63, -1019, 1740};
+    // public static final int[] AZIMUTH_OFFSET = {47762, 4189, 388129, -50897};
+    // public static final int[] AZIMUTH_OFFSET = {49844, 55384, 58418, 73442};
 
-    public static final double[] SPIN_OFFSET_2022 = {0.0, 0.0, 0.0, 0.0}; // 2021 Bot //WTFOffsets
-    //public static final double[] SPIN_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
-    public static final double[] SPIN_OFFSET =SPIN_OFFSET_2022;
+    public static final double[] AZIMUTH_OFFSET_2022 = {0.0, 0.0, 0.0, 0.0}; // 2021 Bot //WTFOffsets
+    //public static final double[] AZIMUTH_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
+    public static final double[] AZIMUTH_OFFSET =AZIMUTH_OFFSET_2022;
 
     public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 13.79;
 
@@ -105,6 +105,6 @@ public final class SwervePodConstants2022 {
     public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2* Math.PI;
     //public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 1;
 
-    public static final double SPIN_SPARKMAX_MAX_OUTPUTPERCENT = 1.00;
+    public static final double AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT = 1.00;
 }
 

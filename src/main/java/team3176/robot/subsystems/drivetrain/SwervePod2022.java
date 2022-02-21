@@ -46,13 +46,13 @@ import team3176.robot.util.God.*;
 public class SwervePod2022 {
 
     /** Class Object holding the Motor controller for Drive Motor on the SwervePod */
-    private TalonFX driveController;
-    /** Class Object holding the Motor controller for Spin (aka Azimuth) Motor on the SwervePod */
-    private CANSparkMax spinController;
-    /** Class Object holding the CAN-based encoder for Spin (aka Azimuth) position of the SwervePod */
-    CANCoder spinEncoder;
-    /** Current value in radians of the spinEncoder's position */
-    double spinEncoderPosition;
+    private TalonFX thrustController;
+    /** Class Object holding the Motor controller for azimuth (aka azimuth) Motor on the SwervePod */
+    private CANSparkMax azimuthController;
+    /** Class Object holding the CAN-based encoder for azimuth (aka azimuth) position of the SwervePod */
+    CANCoder azimuthEncoder;
+    /** Current value in radians of the azimuthEncoder's position */
+    double azimuthEncoderPosition;
 
     /** Numerical identifier to differentiate between pods.
      *     For 4 Pods:  0 = FrontRight (FR),
@@ -62,10 +62,10 @@ public class SwervePod2022 {
      */
     private int id;
    
-    /** Represents the value of the spinEncoder reading in radians when positioned with the positive Thurst vector of the Pod's Drive wheel pointing towards front of robot */
+    /** Represents the value of the azimuthEncoder reading in radians when positioned with the positive Thurst vector of the Pod's Drive wheel pointing towards front of robot */
     private double kEncoderOffset; 
-    //private double kSpinEncoderUnitsPerRevolution;
-    private double kDriveEncoderUnitsPerRevolution;
+    //private double kazimuthEncoderUnitsPerRevolution;
+    private double kThrustEncoderUnitsPerRevolution;
     private int off = 0;
 
     private double lastEncoderPos;
@@ -77,18 +77,18 @@ public class SwervePod2022 {
     private double azimuthCommand;
     private double velTicsPer100ms;
 
-    public int kSlotIdx_Spin, kPIDLoopIdx_Spin, kTimeoutMs_Spin,kSlotIdx_Thrust, kPIDLoopIdx_Thrust, kTimeoutMs_Thrust;
+    public int kSlotIdx_Azimuth, kPIDLoopIdx_Azimuth, kTimeoutMs_Azimuth,kSlotIdx_Thrust, kPIDLoopIdx_Thrust, kTimeoutMs_Thrust;
 
-    public double podDrive, podSpin;
+    public double podThrust, podAzimuth;
 
-    private double kP_Spin;
-    private double kI_Spin;
-    private double kD_Spin;
-    private double kFF_Spin;
-    private double kIz_Spin;
-    private double kMaxOutput_Spin;
-    private double kMinOutput_Spin;
-    private double kRampRate_Spin;
+    private double kP_Azimuth;
+    private double kI_Azimuth;
+    private double kD_Azimuth;
+    private double kFF_Azimuth;
+    private double kIz_Azimuth;
+    private double kMaxOutput_Azimuth;
+    private double kMinOutput_Azimuth;
+    private double kRampRate_Azimuth;
 
     private double kP_Thrust;
     private double kI_Thrust;
@@ -96,7 +96,7 @@ public class SwervePod2022 {
     private double kF_Thrust;
 
     private double maxVelTicsPer100ms;
-    private boolean isAutonSwerveControllerOptimizingSpinPos = false;
+    private boolean isAutonSwerveControllerOptimizingazimuthPos = false;
 
     private double PI = Math.PI;
     private double maxFps = SwervePodConstants2022.CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND;
@@ -109,41 +109,41 @@ public class SwervePod2022 {
     private SwerveModuleState state;
     private RelativeEncoder m_encoder;
 
-    public SwervePod2022(int id, TalonFX driveController, CANSparkMax spinController) {
+    public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {
         this.id = id;
-        spinEncoder = new CANCoder(SwervePodConstants2022.STEER_CANCODER_CID[id]);
-        spinEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-        updateSpinEncoder();
+        azimuthEncoder = new CANCoder(SwervePodConstants2022.STEER_CANCODER_CID[id]);
+        azimuthEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+        updateAzimuthEncoder();
         initializeSmartDashboard();
         
-        this.kEncoderOffset = Math.toRadians(SwervePodConstants2022.SPIN_OFFSET[this.id]);
+        this.kEncoderOffset = Math.toRadians(SwervePodConstants2022.AZIMUTH_OFFSET[this.id]);
         ///System.out.println("P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
         
-        //kSpinEncoderUnitsPerRevolution = SwervePodConstants2022.SPIN_ENCODER_UNITS_PER_REVOLUTION;
-        kSlotIdx_Spin = SwervePodConstants2022.TALON_SPIN_PID_SLOT_ID;
-        kPIDLoopIdx_Spin = SwervePodConstants2022.TALON_SPIN_PID_LOOP_ID;
-        kTimeoutMs_Spin = SwervePodConstants2022.TALON_SPIN_PID_TIMEOUT_MS;
+        //kazimuthEncoderUnitsPerRevolution = SwervePodConstants2022.AZIMUTH_ENCODER_UNITS_PER_REVOLUTION;
+        kSlotIdx_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_SLOT_ID;
+        kPIDLoopIdx_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_LOOP_ID;
+        kTimeoutMs_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_TIMEOUT_MS;
         
-        kP_Thrust = 0.03; // SwervePodConstants.DRIVE_PID[0][id];
-        kI_Thrust = 0.0; // SwervePodConstants.DRIVE_PID[1][id];
-        kD_Thrust = 0.0; // SwervePodConstants.DRIVE_PID[2][id];
-        kF_Thrust = .045; // SwervePodConstants.DRIVE_PID[3][id];
+        kP_Thrust = 0.03; // SwervePodConstants.THRUST_PID[0][id];
+        kI_Thrust = 0.0; // SwervePodConstants.THRUST_PID[1][id];
+        kD_Thrust = 0.0; // SwervePodConstants.THRUST_PID[2][id];
+        kF_Thrust = .045; // SwervePodConstants.THRUST_PID[3][id];
 
 
         m_ThrustPIDController = new PIDController(SwervePodConstants2022.P_MODULE_THRUST_CONTROLLER, 0, 0);
 
-        this.kP_Spin = SwervePodConstants2022.SPIN_PID[0][id];
-        this.kI_Spin = SwervePodConstants2022.SPIN_PID[1][id];
-        this.kD_Spin = SwervePodConstants2022.SPIN_PID[2][id];
-        this.kFF_Spin = SwervePodConstants2022.SPIN_PID[3][id];
-        this.kIz_Spin = SwervePodConstants2022.SPIN_PID[4][id];
-        this.kMaxOutput_Spin = SwervePodConstants2022.SPIN_PID[5][id];
-        this.kMinOutput_Spin = SwervePodConstants2022.SPIN_PID[6][id];
-        this.kRampRate_Spin = SwervePodConstants2022.SPIN_RAMPRATE[id];
+        this.kP_Azimuth = SwervePodConstants2022.AZIMUTH_PID[0][id];
+        this.kI_Azimuth = SwervePodConstants2022.AZIMUTH_PID[1][id];
+        this.kD_Azimuth = SwervePodConstants2022.AZIMUTH_PID[2][id];
+        this.kFF_Azimuth = SwervePodConstants2022.AZIMUTH_PID[3][id];
+        this.kIz_Azimuth = SwervePodConstants2022.AZIMUTH_PID[4][id];
+        this.kMaxOutput_Azimuth = SwervePodConstants2022.AZIMUTH_PID[5][id];
+        this.kMinOutput_Azimuth = SwervePodConstants2022.AZIMUTH_PID[6][id];
+        this.kRampRate_Azimuth = SwervePodConstants2022.AZIMUTH_RAMPRATE[id];
 
         m_turningPIDController = new ProfiledPIDController(
-            kP_Spin, kI_Spin, kD_Spin, 
+            kP_Azimuth, kI_Azimuth, kD_Azimuth, 
             new TrapezoidProfile.Constraints(
                 (SwervePodConstants2022.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND),
                 (SwervePodConstants2022.MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED)));
@@ -152,11 +152,11 @@ public class SwervePod2022 {
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
         m_turningPIDController.reset(0.0, 0.0);
-        m_turningPIDController.setP(this.kP_Spin);
-        m_turningPIDController.setP(this.kI_Spin);
-        m_turningPIDController.setP(this.kD_Spin);
+        m_turningPIDController.setP(this.kP_Azimuth);
+        m_turningPIDController.setP(this.kI_Azimuth);
+        m_turningPIDController.setP(this.kD_Azimuth);
 
-        this.spinController.setOpenLoopRampRate(this.kRampRate_Spin); 
+        this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth); 
         
 
         /**
@@ -164,153 +164,142 @@ public class SwervePod2022 {
 		 * neutral within this range. See Table in Section 17.2.1 for native
 		 * units per rotation.
 		 */
-        //spinController.configAllowableClosedloopError(0, SwervePodConstants.kPIDLoopIdx, SwervePodConstants.kTimeoutMs);
+        //azimuthController.configAllowableClosedloopError(0, SwervePodConstants.kPIDLoopIdx, SwervePodConstants.kTimeoutMs);
 
-        kDriveEncoderUnitsPerRevolution = SwervePodConstants2022.THRUST_ENCODER_UNITS_PER_REVOLUTION;
+        kThrustEncoderUnitsPerRevolution = SwervePodConstants2022.THRUST_ENCODER_UNITS_PER_REVOLUTION;
         kSlotIdx_Thrust = SwervePodConstants2022.TALON_THRUST_PID_SLOT_ID[this.id];
         kPIDLoopIdx_Thrust = SwervePodConstants2022.TALON_THRUST_PID_LOOP_ID[this.id];
         kTimeoutMs_Thrust = SwervePodConstants2022.TALON_THRUST_PID_TIMEOUT_MS[this.id];
 
 
 
-        m_encoder = spinController.getEncoder();
+        m_encoder = azimuthController.getEncoder();
 
-        this.driveController = driveController;
-        this.spinController = spinController;
-        //this.spinPIDController = spinController.getPIDController();
+        this.thrustController = thrustController;
+        this.azimuthController = azimuthController;
+        //this.AZIMUTHPIDController = azimuthController.getPIDController();
 
-        this.driveController.configFactoryDefault();
-        //this.spinController.restoreFactoryDefaults();
-        this.spinController.setOpenLoopRampRate(0.5);
-        //this.spinController.burnFlash();
+        this.thrustController.configFactoryDefault();
+        //this.azimuthController.restoreFactoryDefaults();
+        this.azimuthController.setOpenLoopRampRate(0.5);
+        //this.azimuthController.burnFlash();
 
-        this.driveController.configClosedloopRamp(0.5);    
+        this.thrustController.configClosedloopRamp(0.5);    
 
-       // this.driveController.setNeutralMode(NeutralMode.Brake);
-       // this.driveController.setNeutralMode(NeutralMode.Brake);
+       // this.thrustController.setNeutralMode(NeutralMode.Brake);
+       // this.thrustController.setNeutralMode(NeutralMode.Brake);
 
-        this.driveController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-        //this.spinController.configSelectedFeedbackSensor(FeedbackDevice.m_encoder, 0, 0);   //TODO: investigate QuadEncoder vs CTRE_MagEncoder_Absolute.  Are the two equivalent?  Why QuadEncoder instead of CTRE_MagEncoder_Absolute
+        this.thrustController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        //this.azimuthController.configSelectedFeedbackSensor(FeedbackDevice.m_encoder, 0, 0);   //TODO: investigate QuadEncoder vs CTRE_MagEncoder_Absolute.  Are the two equivalent?  Why QuadEncoder instead of CTRE_MagEncoder_Absolute
 
         /*
         if (this.id == 0 || this.id == 1) {
-            this.spinController.setSensorPhase(SwervePodConstants2022.kSensorPhase);
-            this.spinController.setInverted(SwervePodConstants2022.kMotorInverted);
+            this.azimuthController.setSensorPhase(SwervePodConstants2022.kSensorPhase);
+            this.azimuthController.setInverted(SwervePodConstants2022.kMotorInverted);
         }
         if (this.id == 2 || this.id == 3) {
-            this.spinController.setSensorPhase(true);
-            this.spinController.setInverted(true);
+            this.azimuthController.setSensorPhase(true);
+            this.azimuthController.setInverted(true);
         }
         */
 
             //TODO: check out "Feedback Device Not Continuous"  under config tab in CTRE-tuner.  Is the available via API and set-able?  Caps encoder to range[-4096,4096], correct?
-                //this.spinController.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition), 0, 0);
-                //this.spinController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute), 0, 0);
+                //this.azimuthController.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition), 0, 0);
+                //this.azimuthController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute), 0, 0);
 
-        this.driveController.config_kP(kPIDLoopIdx_Thrust, kP_Thrust, kTimeoutMs_Thrust);
-        this.driveController.config_kI(kPIDLoopIdx_Thrust, kI_Thrust, kTimeoutMs_Thrust);
-        this.driveController.config_kD(kPIDLoopIdx_Thrust, kD_Thrust, kTimeoutMs_Thrust);
-        this.driveController.config_kF(kPIDLoopIdx_Thrust, kF_Thrust, kTimeoutMs_Thrust);
+        this.thrustController.config_kP(kPIDLoopIdx_Thrust, kP_Thrust, kTimeoutMs_Thrust);
+        this.thrustController.config_kI(kPIDLoopIdx_Thrust, kI_Thrust, kTimeoutMs_Thrust);
+        this.thrustController.config_kD(kPIDLoopIdx_Thrust, kD_Thrust, kTimeoutMs_Thrust);
+        this.thrustController.config_kF(kPIDLoopIdx_Thrust, kF_Thrust, kTimeoutMs_Thrust);
 
         /*
-        this.spinPIDController.setP(kP_Spin);
-        this.spinPIDController.setI(kI_Spin);
-        this.spinPIDController.setD(kD_Spin);
-        this.spinPIDController.setFF(kFF_Spin);
-        this.spinPIDController.setIZone(kIz_Spin);
-        this.spinPIDController.setOutputRange(kMinOutput,kMaxOutput);
+        this.AZIMUTHPIDController.setP(kP_Azimuth);
+        this.AZIMUTHPIDController.setI(kI_Azimuth);
+        this.AZIMUTHPIDController.setD(kD_Azimuth);
+        this.AZIMUTHPIDController.setFF(kFF_Azimuth);
+        this.AZIMUTHPIDController.setIZone(kIz_Azimuth);
+        this.AZIMUTHPIDController.setOutputRange(kMinOutput,kMaxOutput);
         */
 
         /*
-        this.spinPIDController.setP(kP_Spin, kPIDLoopIdx_spin);
-        this.spinPIDController.setI(kI_Spin, kPIDLoopIdx_spin);
-        this.spinPIDController.setD(kD_Spin, kPIDLoopIdx_spin);
-        this.spinPIDController.setFF(kFF_Spin, kPIDLoopIdx_spin);
-        this.spinPIDController.setIZone(kIz_Spin, kPIDLoopIdx_spin);
-        this.spinPIDController.setOutputRange(kMinOutput, kMaxOutput);
+        this.AZIMUTHPIDController.setP(kP_Azimuth, kPIDLoopIdx_Azimuth);
+        this.AZIMUTHPIDController.setI(kI_Azimuth, kPIDLoopIdx_Azimuth);
+        this.AZIMUTHPIDController.setD(kD_Azimuth, kPIDLoopIdx_Azimuth);
+        this.AZIMUTHPIDController.setFF(kFF_Azimuth, kPIDLoopIdx_Azimuth);
+        this.AZIMUTHPIDController.setIZone(kIz_Azimuth, kPIDLoopIdx_Azimuth);
+        this.AZIMUTHPIDController.setOutputRange(kMinOutput, kMaxOutput);
         */
 
     }
 
     public void tune() {
-        this.kP_Spin = SmartDashboard.getNumber("P"+(this.id)+".kP_Spin",0);
-        this.kI_Spin = SmartDashboard.getNumber("P"+(this.id)+".kI_Spin",0);
-        this.kD_Spin = SmartDashboard.getNumber("P"+(this.id)+".kD_Spin",0);
-        m_turningPIDController.setP(this.kP_Spin);
-        m_turningPIDController.setI(this.kI_Spin);
-        m_turningPIDController.setD(this.kD_Spin);
-        SmartDashboard.putNumber("P"+(this.id)+".kP_Spin",this.kP_Spin);
-        SmartDashboard.putNumber("P"+(this.id)+".kI_Spin",this.kI_Spin);
-        SmartDashboard.putNumber("P"+(this.id)+".kD_Spin",this.kD_Spin);
+        this.kP_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kP_Azimuth",0);
+        this.kI_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kI_Azimuth",0);
+        this.kD_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kD_Azimuth",0);
+        m_turningPIDController.setP(this.kP_Azimuth);
+        m_turningPIDController.setI(this.kI_Azimuth);
+        m_turningPIDController.setD(this.kD_Azimuth);
+        SmartDashboard.putNumber("P"+(this.id)+".kP_Azimuth",this.kP_Azimuth);
+        SmartDashboard.putNumber("P"+(this.id)+".kI_Azimuth",this.kI_Azimuth);
+        SmartDashboard.putNumber("P"+(this.id)+".kD_Azimuth",this.kD_Azimuth);
         
         
-        this.kRampRate_Spin = SmartDashboard.getNumber("P"+(this.id)+".kRampRate_Spin", 0);
+        this.kRampRate_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kRampRate_Azimuth", 0);
 
         
         
 
-        this.spinController.setOpenLoopRampRate(this.kRampRate_Spin);
-        //this.spinController.setSmartCurrentLimit(20);
-        //this.spinController.burnFlash();
+        this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth);
+        //this.azimuthController.setSmartCurrentLimit(20);
+        //this.azimuthController.burnFlash();
 
-        this.podSpin = SmartDashboard.getNumber("P"+(this.id)+".podSpin_setpoint_angle", 0);
+        this.podAzimuth = SmartDashboard.getNumber("P"+(this.id)+".podAzimuth_setpoint_angle", 0);
 
-        //this.podSpin = 1;
-        //System.out.println("podSpin = "+this.podSpin);
+        //this.podAzimuth = 1;
+        //System.out.println("podazimuth = "+this.podAzimuth);
 
-        double optmizdSpinPos = optimizeSpinPos(this.podSpin);
+        double optmizdAzimuthPos = optimizeAzimuthPos(this.podAzimuth);
 
-        SmartDashboard.putNumber("P"+(this.id)+".optmizdSpinPos", optmizdSpinPos);
+        SmartDashboard.putNumber("P"+(this.id)+".optmizdazimuthPos", optmizdAzimuthPos);
 
-        double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, optmizdSpinPos);
-        //double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, this.podSpin);
+        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
+        //double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, this.podAzimuth);
 
         SmartDashboard.putNumber("P"+(this.id)+".turnOutput", turnOutput);
-        spinController.set(turnOutput * SwervePodConstants2022.SPIN_SPARKMAX_MAX_OUTPUTPERCENT);
+        azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
 
     }
     /**
-     * @param podDrive represents desired thrust of swervepod Range = -1 to 1 or
+     * @param podThrust represents desired thrust of swervepod Range = -1 to 1 or
      *                 ft-per-sec?
-     * @param podSpin  represents desired angle of swervepod. Range = -pi to pi.
+     * @param podazimuth  represents desired angle of swervepod. Range = -pi to pi.
      */
-    public void set(double podDrive, double podSpin) {
-        this.podDrive = podDrive;
-        this.podSpin = podSpin; 
-         //this.spinController.config_kP(kSlotIdx_spin, SmartDashboard.getNumber("P", kP_Spin), kTimeoutMs_spin);
-         //this.spinController.config_kI(kSlotIdx_spin, SmartDashboard.getNumber("I", kI_Spin), kTimeoutMs_spin);
-         //this.spinController.config_kD(kSlotIdx_spin, SmartDashboard.getNumber("D", kD_Spin), kTimeoutMs_spin);
-         //this.spinController.config_kF(kSlotIdx_spin, SmartDashboard.getNumber("F", kF_Spin), kTimeoutMs_spin);
-        // this.driveController.config_kP(kSlotIdx_Thrust, SmartDashboard.getNumber("P", kP_Thrust), kTimeoutMs_spin);
-        // this.driveController.config_kI(kSlotIdx_Thrust, SmartDashboard.getNumber("I", kI_Thrust), kTimeoutMs_spin);
-        // this.driveController.config_kD(kSlotIdx_Thrust, SmartDashboard.getNumber("D", kD_Thrust), kTimeoutMs_spin);
-        // this.driveController.config_kF(kSlotIdx_Thrust, SmartDashboard.getNumber("F", kF_Thrust), kTimeoutMs_spin);
-        
+    public void set(double podDrive, double podazimuth) {
+        this.podThrust = podDrive;
+        this.podAzimuth = podazimuth; 
 
             // TODO: need check ether output values. speed vs %-values
-        // this.maxVelTicsPer100ms = 1 * 987.2503 * kDriveEncoderUnitsPerRevolution / 600.0;
-        // this.velTicsPer100ms = this.podDrive * 2000.0 * kDriveEncoderUnitsPerRevolution / 600.0;  //TODO: rework "podDrive * 2000.0"
         this.maxVelTicsPer100ms = Units3176.fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
-        this.velTicsPer100ms = Units3176.fps2ums(this.podDrive);
-       // velTicsPer100ms = SmartDashboard.getNumber("driveSet",velTicsPer100ms);
-        double optmizdSpinPos = optimizeSpinPos(this.podSpin);
-        //double tics = rads2Tics(this.podSpin);
+        this.velTicsPer100ms = Units3176.fps2ums(this.podThrust);
+       // velTicsPer100ms = SmartDashboard.getNumber("thrustSet",velTicsPer100ms);
+        double optmizdazimuthPos = optimizeAzimuthPos(this.podAzimuth);
+        //double tics = rads2Tics(this.podAzimuth);
 
-        final double turnOutput = m_turningPIDController.calculate(this.spinEncoderPosition, optmizdSpinPos);
+        final double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdazimuthPos);
 
-        //if (this.id == 3) {spinController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
-        if (this.podDrive > (-Math.pow(10,-10)) && this.podDrive < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(podDrive) != 0 is notationally sloppy math
-            //spinController.set(turnOutput * SwervePodConstants2022.SPIN_SPARKMAX_MAX_OUTPUTPERCENT);
+        //if (this.id == 3) {azimuthController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
+        if (this.podThrust > (-Math.pow(10,-10)) && this.podThrust < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(thrustDrive) != 0 is notationally sloppy math
+            //azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
             SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
-            //spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
+            //azimuthPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
         } else {
-            //spinController.set(turnOutput * SwervePodConstants2022.SPIN_SPARKMAX_MAX_OUTPUTPERCENT);
+            //azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
             SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
-            //spinPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
-            this.lastEncoderPos = optmizdSpinPos;
+            //azimuthPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
+            this.lastEncoderPos = optmizdazimuthPos;
         }    
 
-        driveController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
+        thrustController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
         }
     
 
@@ -318,11 +307,11 @@ public class SwervePod2022 {
      * @param angle desired angle of swerve pod in units of radians, range from -PI to +PI
      * @return
      */
-    private double optimizeSpinPos(double angle) {
-        //System.out.println("calcSpinPos - P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
+    private double optimizeAzimuthPos(double angle) {
+        //System.out.println("calcazimuthPos - P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
         this.encoderPos = getEncoderPos();;
-        //this.encoderPos = spinController.getSelectedSensorPosition() - this.kEncoderOffset;
+        //this.encoderPos = azimuthController.getSelectedSensorPosition() - this.kEncoderOffset;
         //radianPos = tics2Rads(this.encoderPos);
         radianPos = (this.encoderPos);
         SmartDashboard.putNumber("P"+(this.id)+".radianPos",radianPos);
@@ -334,7 +323,7 @@ public class SwervePod2022 {
         //    System.out.println("Error: Overload");
         //} else if (Math.abs(radianError) > (3 * (PI / 2))) {
 
-        if (isAutonSwerveControllerOptimizingSpinPos == false) { 
+        if (isAutonSwerveControllerOptimizingazimuthPos == false) { 
             if (Math.abs(radianError) > (3 * (PI / 2))) {      // TODO: See if commenting out "Thrust-vector sign-flip" fixes
                 radianError -= Math.copySign(2 * PI, radianError);
             } else if (Math.abs(radianError) > (PI / 2)) {
@@ -347,39 +336,39 @@ public class SwervePod2022 {
         encoderError = (radianError);
         SmartDashboard.putNumber("P"+(this.id)+".encoderError",encoderError);
         azimuthCommand = encoderError + this.encoderPos + this.kEncoderOffset;
-        SmartDashboard.putNumber("P"+(this.id)+".azimuthCmd",azimuthCommand);
+        SmartDashboard.putNumber("P"+(this.id)+".AZIMUTHCmd",azimuthCommand);
         return (azimuthCommand);
     }
 
     public void goHome() {
         double homePos = 0 + this.kEncoderOffset;
-        //this.spinPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
+        //this.AZIMUTHPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
 
     }
 
    
-    public boolean isInverted() { return spinController.getInverted(); }
-    public void setInverted() { spinController.setInverted(!isInverted()); }
+    public boolean isInverted() { return azimuthController.getInverted(); }
+    public void setInverted() { azimuthController.setInverted(!isInverted()); }
 
-    public void updateSpinEncoder() {
-        this.spinEncoderPosition = Math.toRadians(spinEncoder.getPosition());
-        SmartDashboard.putNumber("P"+this.id+".spinEncoderPosition",this.spinEncoderPosition);
+    public void updateAzimuthEncoder() {
+        this.azimuthEncoderPosition = Math.toRadians(azimuthEncoder.getPosition());
+        SmartDashboard.putNumber("P"+this.id+".azimuthEncoderPosition",this.azimuthEncoderPosition);
 
     }
 
     public double getEncoderPos() {
-        updateSpinEncoder();
-        return this.spinEncoderPosition;
+        updateAzimuthEncoder();
+        return this.azimuthEncoderPosition;
     }
 
     public void initializeSmartDashboard() {
 
-        SmartDashboard.putNumber("P"+(this.id)+".podSpin_setpoint_angle", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kP_Spin", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kI_Spin", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kD_Spin", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Spin", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".podSpin_encoder", this.spinEncoderPosition);
+        SmartDashboard.putNumber("P"+(this.id)+".podazimuth_setpoint_angle", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kP_Azimuth", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kI_Azimuth", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kD_Azimuth", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Azimuth", 0);
+        SmartDashboard.putNumber("P"+(this.id)+".podazimuth_encoder", this.azimuthEncoderPosition);
         SmartDashboard.putBoolean("P"+(this.id)+".On", false);
     }
 
@@ -394,49 +383,49 @@ public class SwervePod2022 {
        
         // SmartDashboard.putNumber("P" + (id + 1) + " podDrive", this.podDrive);
 
-        // SmartDashboard.putNumber("P" + (id + 1) + " podSpin", this.podSpin);
+        // SmartDashboard.putNumber("P" + (id + 1) + " podazimuth", this.podAzimuth);
         //SwervePod2022 comments end
 
 
-        //set(double podDrive, double podSpin) comments start
-        // SmartDashboard.putNumber("P" + (id + 1) + " podDrive", this.podDrive);
-        // SmartDashboard.putNumber("P" + (id + 1) + " podSpin", this.podSpin);
+        //set(double podThrust, double podazimuth) comments start
+        // SmartDashboard.putNumber("P" + (id + 1) + " podThrust", this.podThrust);
+        // SmartDashboard.putNumber("P" + (id + 1) + " podazimuth", this.podAzimuth);
 
         // SmartDashboard.putNumber("fps2ums:velTicsPer100ms", velTicsPer100ms);
-        // SmartDashboard.putNumber("podDrive", this.podDrive);
+        // SmartDashboard.putNumber("podThrust", this.podThrust);
 
         // SmartDashboard.putNumber("P" + (id + 1) + " tics", tics);
-        // SmartDashboard.putNumber("P" + (id + 1) + " absTics", spinController.getSelectedSensorPosition());
+        // SmartDashboard.putNumber("P" + (id + 1) + " absTics", azimuthController.getSelectedSensorPosition());
 
         // SmartDashboard.putNumber("P" + (id + 1) + " lastEncoderPos", this.lastEncoderPos);
 
         // SmartDashboard.putNumber("P" + (id + 1) + " lastEncoderPos", this.lastEncoderPos);
 
-        //SmartDashboard.putNumber("P" + (id) + "getSelSenPos", spinController.getSelectedSensorPosition());
+        //SmartDashboard.putNumber("P" + (id) + "getSelSenPos", azimuthController.getSelectedSensorPosition());
 
-        // SmartDashboard.putNumber("P"+this.id+".podDrive", podDrive);
-        //SmartDashboard.putNumber("actualVel", driveController.getVoltage());
+        // SmartDashboard.putNumber("P"+this.id+".podThrust", podThrust);
+        //SmartDashboard.putNumber("actualVel", thrustController.getVoltage());
         
         // if (this.id == 0){
-        //     SmartDashboard.putNumber("Pod3Distance", driveController.getSelectedSensorPosition());
+        //     SmartDashboard.putNumber("Pod3Distance", thrustController.getSelectedSensorPosition());
         //     SmartDashboard.putNumber("velTicsPer100ms", velTicsPer100ms);
-        //     SmartDashboard.putNumber("Tics Error", driveController.getSelectedSensorVelocity()-velTicsPer100ms);
-        //     SmartDashboard.putNumber("Tics Error2", driveController.getSelectedSensorVelocity()-velTicsPer100ms);
-        //     SmartDashboard.putNumber("DriveController Velocity", driveController.getSelectedSensorVelocity());
+        //     SmartDashboard.putNumber("Tics Error", thrustController.getSelectedSensorVelocity()-velTicsPer100ms);
+        //     SmartDashboard.putNumber("Tics Error2", thrustController.getSelectedSensorVelocity()-velTicsPer100ms);
+        //     SmartDashboard.putNumber("thrustController Velocity", thrustController.getSelectedSensorVelocity());
         // } 
         
         // SmartDashboard.putNumber("P" + (id + 1) + " velTicsPer100ms", velTicsPer100ms);
         // SmartDashboard.putNumber("P" + (id + 1) + " encoderSetPos_end", encoderSetPos);
         //}
-        //set(double podDrive, double podSpin) comments start
+        //set(double podthrust, double podazimuth) comments start
 
 
-        //private double optimizeSpinPos(double angle) comments start
-        // SmartDashboard.putNumber("P" + (id + 1) + " calcSpinPos_angle", angle);
+        //private double optimizeAzimuthPos(double angle) comments start
+        // SmartDashboard.putNumber("P" + (id + 1) + " calcazimuthPos_angle", angle);
         
         // SmartDashboard.putNumber("P" + (id + 1) + " kEncoderOffset", this.kEncoderOffset);
-        // SmartDashboard.putNumber("P" + (id + 1) + " getSelectedSensorPosition", spinController.getSelectedSensorPosition());
-        // SmartDashboard.putNumber("P" + (id + 1) + " encoderPos_in_calcSpinPos",this.encoderPos);
+        // SmartDashboard.putNumber("P" + (id + 1) + " getSelectedSensorPosition", azimuthController.getSelectedSensorPosition());
+        // SmartDashboard.putNumber("P" + (id + 1) + " encoderPos_in_calcazimuthPos",this.encoderPos);
 
         // SmartDashboard.putNumber("P" + (id + 1) + " radianPos", radianPos);
 
@@ -444,8 +433,8 @@ public class SwervePod2022 {
 
         // SmartDashboard.putNumber("P" + (id + 1) + " encoderError", encoderError);
 
-        // SmartDashboard.putNumber("P" + (id + 1) + "tics2radianDrivecommand", driveCommand);
-        //private double optimizeSpinPos(double angle) comments end
+        // SmartDashboard.putNumber("P" + (id + 1) + "tics2radianThrustcommand", thrustCommand);
+        //private double optimizeAzimuthPos(double angle) comments end
 
 
         //public void setDesiredState(SwerveModuleState desiredState) comments start
@@ -453,7 +442,7 @@ public class SwervePod2022 {
         // SmartDashboard.putNumber("P"+this.id+".setdesiredState_sensoredDegrees", rotation.getDegrees());
 
         // SmartDashboard.putNumber("P"+this.id+".setDesiredState_TurnOutput",turnOutput);
-        // SmartDashboard.putNumber("P"+this.id+".setDesiredState_ThrustOutput",driveOutput);
+        // SmartDashboard.putNumber("P"+this.id+".setDesiredState_ThrustOutput", thrustOutput);
         //public void setDesiredState(SwerveModuleState desiredState) comments ends
 
 

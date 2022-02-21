@@ -67,7 +67,7 @@ public class Drivetrain extends SubsystemBase {
       new TalonFX(DrivetrainConstants.THRUST_TWO_CID), new TalonFX(DrivetrainConstants.THRUST_THREE_CID),
       new TalonFX(DrivetrainConstants.THRUST_FOUR_CID) };
 
-  public CANSparkMax[] spinControllers = { new CANSparkMax(DrivetrainConstants.STEER_ONE_CID, MotorType.kBrushless),
+  public CANSparkMax[] azimuthControllers = { new CANSparkMax(DrivetrainConstants.STEER_ONE_CID, MotorType.kBrushless),
       new CANSparkMax(DrivetrainConstants.STEER_TWO_CID, MotorType.kBrushless), new CANSparkMax(DrivetrainConstants.STEER_THREE_CID, MotorType.kBrushless),
       new CANSparkMax(DrivetrainConstants.STEER_FOUR_CID, MotorType.kBrushless) };
 
@@ -125,10 +125,10 @@ public class Drivetrain extends SubsystemBase {
     this.io = io;
     
     // Instantiate pods
-    podFR = new SwervePod2022(0, driveControllers[0], spinControllers[0]);
-    podFL = new SwervePod2022(1, driveControllers[1], spinControllers[1]);
-    podBL = new SwervePod2022(2, driveControllers[2], spinControllers[2]);
-    podBR = new SwervePod2022(3, driveControllers[3], spinControllers[3]);
+    podFR = new SwervePod2022(0, driveControllers[0], azimuthControllers[0]);
+    podFL = new SwervePod2022(1, driveControllers[1], azimuthControllers[1]);
+    podBL = new SwervePod2022(2, driveControllers[2], azimuthControllers[2]);
+    podBR = new SwervePod2022(3, driveControllers[3], azimuthControllers[3]);
 
     // Instantiate array list then add instantiated pods to list
     pods = new ArrayList<SwervePod2022>();
@@ -366,7 +366,7 @@ public class Drivetrain extends SubsystemBase {
   public void stopMotors() {
     for (int idx = 0; idx < (pods.size()); idx++) {
       driveControllers[idx].set(ControlMode.PercentOutput, 0);
-      spinControllers[idx].set(0);
+      azimuthControllers[idx].set(0);
     }
 
   }
@@ -484,8 +484,8 @@ public class Drivetrain extends SubsystemBase {
     if(spinEncoderIdxCount++ > 25) { 
       for (int idx = 0; idx < (pods.size()); idx++) { 
         spinEncoderIdxCount = 0;
-        pods.get(idx).updateSpinEncoder(); 
-        pods.get(0).podSpin = SmartDashboard.getNumber("P0.podSpin_setpoint_angle",0);
+        pods.get(idx).updateAzimuthEncoder(); 
+        //pods.get(0).podAzimuth = SmartDashboard.getNumber("P0.podSpin_setpoint_angle",0);
       }
     }
     
