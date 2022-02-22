@@ -156,7 +156,7 @@ public class SwervePod2022 {
         m_turningPIDController.setP(this.kI_Azimuth);
         m_turningPIDController.setP(this.kD_Azimuth);
 
-        this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth); 
+        //this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth); 
         
 
         /**
