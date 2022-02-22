@@ -31,7 +31,10 @@ public class Indexer extends SubsystemBase
   private RelativeEncoder encoder1;
   private RelativeEncoder encoder2;
   private byte[] sensorByteArray;
-  private boolean[] sensorBoolArray = {false, false};
+  private boolean[] sensorBoolArray = {false, false, false};
+  private boolean firstPos;
+  private boolean secondPos;
+  private boolean thirdPos;
   private boolean isSmartDashboardTestControlsShown;
   private DigitalInput input;
   public String mode = "";
@@ -59,8 +62,28 @@ public class Indexer extends SubsystemBase
     pidController1.setReference(position, ControlType.kPosition);
   }
 
-  public void  motorStop() {
+  public void motorStop() {
     indexerMotor.set(0.0);
+  }
+
+  public void IndexerSpin()
+  {
+    indexerMotor.set(0.1);
+  }
+
+  public boolean isFirstPos()
+  {
+    return firstPos;
+  }
+
+  public boolean isSecondPos()
+  {
+    return secondPos;
+  }
+
+  public boolean isThirdPos()
+  {
+    return thirdPos;
   }
 
   /**
@@ -70,25 +93,26 @@ public class Indexer extends SubsystemBase
   public void I2CReciever()
   {
     sensorByteArray = new byte[IndexerConstants.NUM_OF_SENSORS];
-    System.out.println("Begin");
     m_I2C.readOnly(sensorByteArray, IndexerConstants.NUM_OF_SENSORS);
     sensorBoolArray = new boolean[sensorByteArray.length];
     for(int i = 0; i < sensorByteArray.length; i++) 
     {
       sensorBoolArray[i] = sensorByteArray[i]!=0;
     }
-    System.out.println(sensorBoolArray);
     for (int i = 0; i < sensorBoolArray.length; i++)
-    {
-      if (sensorBoolArray[i])
-      {
-        System.out.println("Enabled " + i);
-      }
-      else if (!sensorBoolArray[i])
-      {
-        System.out.println("Disabled " + i);
-      }
-    }
+    // {
+    //   if (sensorBoolArray[i])
+    //   {
+    //     System.out.println("Enabled " + i);
+    //   }
+    //   else if (!sensorBoolArray[i])
+    //   {
+    //     System.out.println("Disabled " + i);
+    //   }
+    // }
+    firstPos = sensorBoolArray[0];
+    secondPos = sensorBoolArray[1];
+    thirdPos = sensorBoolArray[2];
     
   }
 
