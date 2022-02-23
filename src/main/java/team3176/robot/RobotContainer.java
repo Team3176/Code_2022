@@ -27,8 +27,6 @@ import team3176.robot.constants.*;
 import team3176.robot.util.Joystick.*;
 import team3176.robot.util.PowerManagement.*;
 import team3176.robot.util.XboxController.*;
-import team3176.robot.subsystems.ExampleSubsystem;
-import team3176.robot.commands.ExampleCommand;
 
 public class RobotContainer {
 
