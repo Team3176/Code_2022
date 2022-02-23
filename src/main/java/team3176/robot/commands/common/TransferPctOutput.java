@@ -35,6 +35,7 @@ public class TransferPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Transfer.stopMotor();
+    SmartDashboard.delete(TransferConstants.kShuffleboardPercentName);
   }
 
   // Returns true when the command should end.

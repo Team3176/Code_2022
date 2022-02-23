@@ -62,12 +62,10 @@ public class Angler extends SubsystemBase {
     anglerMotor.set(0.0);
     PIDController.setReference(0.0, ControlType.kVelocity);
 
-    PIDController.setP(0.001);
-    PIDController.setI(0.0);
-    PIDController.setD(0.0);
-    PIDController.setFF(0.0);
-
-    ticsPerRevolution = encoder.getCountsPerRevolution();
+    PIDController.setP(AnglerConstants.PIDFConstants[0][0]);
+    PIDController.setI(AnglerConstants.PIDFConstants[0][1]);
+    PIDController.setD(AnglerConstants.PIDFConstants[0][2]);
+    PIDController.setIZone(AnglerConstants.PIDFConstants[0][3]);
 
     limitSwitch1 = new DigitalInput(AnglerConstants.limiter1Channel);
     limitSwitch2 = new DigitalInput(AnglerConstants.limiter2Channel);
@@ -144,7 +142,7 @@ public class Angler extends SubsystemBase {
     double rotationsOfMotor = angleChange * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO;
     if ((encoder.getPosition() + rotationsOfMotor <= 80 * AnglerConstants.ROTATIONS_PER_DEGREE) &&
         (encoder.getPosition() + rotationsOfMotor >= 45 * AnglerConstants.ROTATIONS_PER_DEGREE)) {
-      //this.engagePIDMotor(rotationsOfMotor, ControlType.kPosition);
+      this.engagePIDMotorPosition(rotationsOfMotor);
     }
   }
 
@@ -153,7 +151,7 @@ public class Angler extends SubsystemBase {
     double oldAngleInRotationsOfMotor = encoder.getPosition();
     double differenceInRotations = (positionAt45Deg + (newAngle * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO)) - oldAngleInRotationsOfMotor;
     if ((newAngle <= 80) && (newAngle >= 45)) {
-      //this.engagePIDMotor(differenceInRotations, ControlType.kPosition);
+      this.engagePIDMotorPosition(differenceInRotations);
     }
   }
 

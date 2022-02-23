@@ -37,6 +37,8 @@ public class FlywheelPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Flywheel.stopMotors();
+    SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName1);
+    SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName2);
   }
 
   // Returns true when the command should end.
