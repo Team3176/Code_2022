@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import team3176.robot.subsystems.drivetrain.SwervePod2022;
 
 public class Odometry3176 extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -32,7 +33,11 @@ public class Odometry3176 extends SubsystemBase {
     //odometry.resetPosition(pose, gyro.getRotation2d().times(1));  //Not sure, gyroAngle);a   // <-- Note getRotation2d is continuous, ie 360+1=361 not 0 or -359 
     odometry.resetPosition(pose, m_Gyro.getNavxAngle_inRadians_asRotation2d());  
   }
-      
+  
+  public void chassisSpeedConversion() {
+    var frontLeftState =
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  

@@ -106,5 +106,6 @@ public final class SwervePodConstants2022 {
     //public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 1;
 
     public static final double AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT = 1.00;
+
 }
 

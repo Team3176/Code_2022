@@ -103,6 +103,11 @@ public class SwervePod2022 {
 
     private double startTics;
 
+    private double frontLeftState;
+    private double frontRightState;
+    private double backLeftState;
+    private double backRightState;
+
     private final PIDController m_ThrustPIDController;
     private final ProfiledPIDController m_turningPIDController;
     //private ProfiledPIDController m_turningPIDController;
@@ -371,7 +376,6 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_encoder", this.azimuthEncoderPosition);
         SmartDashboard.putBoolean("P"+(this.id)+".On", false);
     }
-
 
     public void SwervePod2022SmartDashboardComments () {
         //SwervePod2022 comments start
