@@ -47,8 +47,52 @@ public class Indexer extends SubsystemBase
     indexerPIDController.setReference(position, ControlType.kPosition);
   }
 
-  public void  motorStop() {
+  public void motorStop() {
     indexerMotor.set(0.0);
+  }
+
+  public void IndexerSpin()
+  {
+    indexerMotor.set(0.1);
+  }
+
+  public int reportState()
+  {
+    int state = 0;
+    if (firstPos)
+      state += 100;
+    if (secondPos)
+      state += 10;
+    if (thirdPos)
+      state++;
+    
+    return state;
+  }
+
+  public void Up()
+  {
+    indexerMotor.set(0.1);
+  }
+
+  public void Down()
+  {
+    indexerMotor.set(-0.1);
+  }
+
+  public void requestState(int s)
+  {
+    int state = reportState();
+    if(state == 100 && s == 110) {
+      Up();
+    } else {
+      while (s < state && reportState() != s) {
+        Up();
+      }
+      while (s > state && reportState() != s) {
+        Down();
+      }
+    }
+    if(s == reportState()) {motorStop();}
   }
 
   /**

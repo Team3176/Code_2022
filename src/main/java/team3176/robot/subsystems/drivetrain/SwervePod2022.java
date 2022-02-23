@@ -38,7 +38,7 @@ import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.constants.SwervePodConstants2022;
 import team3176.robot.constants.MasterConstants;
 import com.ctre.phoenix.sensors.CANCoder;
-import team3176.robot.util.God.*;
+// import team3176.robot.util.God.*;
 
 
 public class SwervePod2022 {
@@ -281,8 +281,8 @@ public class SwervePod2022 {
             // TODO: need check ether output values. speed vs %-values
         // this.maxVelTicsPer100ms = 1 * 987.2503 * kDriveEncoderUnitsPerRevolution / 600.0;
         // this.velTicsPer100ms = this.podDrive * 2000.0 * kDriveEncoderUnitsPerRevolution / 600.0;  //TODO: rework "podDrive * 2000.0"
-        this.maxVelTicsPer100ms = Units3176.fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
-        this.velTicsPer100ms = Units3176.fps2ums(this.podDrive);
+        // this.maxVelTicsPer100ms = Units3176.fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
+        // this.velTicsPer100ms = Units3176.fps2ums(this.podDrive);
        // velTicsPer100ms = SmartDashboard.getNumber("driveSet",velTicsPer100ms);
         double optmizdSpinPos = optimizeSpinPos(this.podSpin);
         //double tics = rads2Tics(this.podSpin);

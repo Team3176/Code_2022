@@ -21,6 +21,15 @@ import team3176.robot.subsystems.shooter.*;
 import team3176.robot.subsystems.vision.*;
 import team3176.robot.subsystems.climb.*;
 
+import edu.wpi.first.wpilibj.GenericHID; //TODO: SEE IF WE NEED THESE IMPORTS
+import edu.wpi.first.wpilibj.XboxController;
+import team3176.robot.constants.*;
+import team3176.robot.util.Joystick.*;
+import team3176.robot.util.PowerManagement.*;
+import team3176.robot.util.XboxController.*;
+import team3176.robot.subsystems.ExampleSubsystem;
+import team3176.robot.commands.ExampleCommand;
+
 public class RobotContainer {
 
   private final Intake m_Intake;
@@ -107,10 +116,17 @@ public class RobotContainer {
     // m_Controller.getOp_DPAD_UP().whenActive(new ClimbExtend());
     // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbRetract());
 
-    // m_Angler.setAngle(m_Controller.getOp_LeftY()); (make CMD formatting)
+    // m_Angler.setAngle(m_Controller.getOp_LeftY());
 
 
     // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest); //TODO: INVESTIGATE
+
+    // m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
+    // m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
+    // m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
+    m_Controller.getOp_A().whenActive(new ExtendIntake());
+    m_Controller.getOp_B().whenActive(new RetractIntake());
+    m_Controller.getOp_X().whenActive(new I2CTest());
   }
 
   public Command getAutonomousCommand() {
