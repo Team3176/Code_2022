@@ -127,6 +127,7 @@ public class Robot extends LoggedRobot {
     m_Angler.mode = "teleop";
     m_Flywheel.mode = "teleop";
     SmartDashboard.putBoolean("Has Run?", false);
+    SmartDashboard.putNumber("Info", -999);
   }
 
   /** This function is called periodically during operator control. */

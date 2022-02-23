@@ -18,7 +18,7 @@ public class SwitchVisionPipeline extends CommandBase {
 
     @Override
     public void execute(){
-        mSubsystem.setActivePipeline((mSubsystem.getCurrentPipeline() == 1) ? 2 : 1);
+        mSubsystem.setActivePipeline((mSubsystem.getCurrentPipeline() == 2) ? 1 : 2);
     }
 
     @Override

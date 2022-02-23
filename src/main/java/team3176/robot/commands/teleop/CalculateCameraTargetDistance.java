@@ -19,8 +19,8 @@ public class CalculateCameraTargetDistance extends CommandBase {
 
     @Override
     public void execute(){
-        double result = mSubsystem.calculateDeltaXCam();
-        addDistance(result);
+        //double result = mSubsystem.calculateDeltaXCam();
+        //addDistance(result);
     }
 
     private void addDistance(double newDistance){

@@ -51,8 +51,8 @@ public class Vision extends SubsystemBase {
   private double finalYVelocity; // m/s
   private double time; // seconds
 
-  private double[] tcornx;
-  private double[] tcorny;
+  private ArrayList<Double> tcornx;
+  private ArrayList<Double> tcorny;
 
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
   //private double ballDegrees = -999; // degrees away from Limelight where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
@@ -90,52 +90,56 @@ public class Vision extends SubsystemBase {
     ledMode = limelightTable.getEntry("ledMode");
     activePipeline = pipeline.getDouble(0);
   }
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
 
   public void targetRecogControlLoop(){
     // used to calculate latency
     startTime = Timer.getFPGATimestamp();
 
-    if(tcornxy.getDoubleArray(new double[1]).length != 8){
+    updateVisionData();
+
+    SmartDashboard.putNumber("Info", tcornxy.getDoubleArray(new double[0]).length);
+    if(tcornxy.getDoubleArray(new double[0]).length != 8){
+      SmartDashboard.putBoolean("Has Run?", true);
       return;
     }
 
-    calculateDeltaXCam();
+    separateCornArray();
+
+    deltaXCam = findDeltaX();
 
     calculateTargetDistance();
 
     // get the initial velocity and angle of ball
-    findInitialAngleAndVelocity(0);
+    findInitialAngleAndVelocity((int) Math.ceil(initialAngle.length / 2));
 
     publishAllData();
 
     SmartDashboard.putNumber("Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
   }
 
-  public double calculateDeltaXCam(){
-    separateCornArray();
-    double[] array = tcornx;
-    Arrays.sort(array);
-    deltaXCam = array[array.length - 1] - array[0];
-    return deltaXCam;
+  public void separateCornArray(){
+    tcornx.clear();
+    tcorny.clear();
+    for(int i = 0; i < 5; i++){
+      tcornx.add(limelightTable.getEntry("x" + i).getDouble(-999.0));
+      tcorny.add(limelightTable.getEntry("y" + i).getDouble(-999.0));
+    }
+    tcornx.remove(-999.0);
+    tcorny.remove(-999.0);
   }
 
-  public void separateCornArray(){
-    double[] tempCorn = tcornxy.getDoubleArray(new double[0]);
-    for(int i = 0; i < 8; i++){
-      if(i % 2 == 0){
-        tcornx[i/2] = tempCorn[i];
-      } else {
-        tcorny[i/2 - 1] = tempCorn[i];
-      }
-    }
+  public double findDeltaX(){
+    Double[] tempCorn = (Double[]) tcornx.toArray();
+    Arrays.sort(tempCorn);
+    return tempCorn[tempCorn.length - 1] - tempCorn[0];
   }
 
   public void calculateTargetDistance(){
-    //deltaX = ()
+    double rawDistance = VisionConstants.VISION_CONSTANT / deltaXCam;
+    deltaX = rawDistance * Math.cos(VisionConstants.cameraAngle * VisionConstants.DEG2RAD) + 10 * VisionConstants.INCHES2METERS;
+    deltaY = rawDistance * Math.sin(VisionConstants.cameraAngle * VisionConstants.DEG2RAD);
+    SmartDashboard.putNumber("DeltaX", deltaX);
+    SmartDashboard.putNumber("DeltaY", deltaY);
   }
 
   public double[] findInitialAngleAndVelocity(int angleIdx){
@@ -143,14 +147,14 @@ public class Vision extends SubsystemBase {
       return null;
     }
     
-    initialVelocity = findInitialVelocity(angleIdx);
+    findInitialVelocity(angleIdx);
     
     // Haha, get it? Because this variable "doublechecks" the result. Programming jokes are the best. 
-    double check = Math.sqrt(Math.pow(initialVelocity * Math.sin(initialAngle[angleIdx]), 2) + 2 * gravity * deltaY);
+    double check = Math.sqrt(Math.pow(initialVelocity * Math.sin(initialAngle[angleIdx]), 2) + 2 * -gravity * deltaY);
     
     if(check > 0){
-      double calculatedTOF = (check - initialVelocity) / gravity;
-      double fullCalculatedDistance = initialVelocity * Math.cos(initialAngle[angleIdx]) * calculatedTOF;
+      time = (check - initialVelocity) / -gravity;
+      double fullCalculatedDistance = initialVelocity * Math.cos(initialAngle[angleIdx]) * time;
       if(fullCalculatedDistance > deltaX){
         return findInitialAngleAndVelocity(angleIdx + 1);
       } else{
@@ -164,13 +168,14 @@ public class Vision extends SubsystemBase {
     return arrayToSend;
   }
   
-  private double findInitialVelocity(int angleIdx){
+  private void findInitialVelocity(int angleIdx){
     double term1 = deltaX / (Math.cos(initialAngle[angleIdx]));
-    double term2 = gravity / (2 * (deltaY - deltaX * Math.tan(initialAngle[angleIdx])));
-    return term1 * Math.sqrt(term2);
+    double term2 = gravity / (2 * (deltaX * Math.tan(initialAngle[angleIdx]) - deltaY));
+    initialVelocity = term1 * Math.sqrt(term2);
   }
   
   private void solveOtherVariablesFromVelocity(){
+
   }
 
   public void setVisionProcessing(boolean imageProcessing){
@@ -201,8 +206,8 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("tshort", tshort.getDouble(0));
     SmartDashboard.putNumber("tvert", tvert.getDouble(0));
 
-    double numCorners = tcornx.length * 2;
-    SmartDashboard.putNumber("Number of Corners", (numCorners > 1) ? numCorners : null);
+    double numTargets = tcornx.size();
+    SmartDashboard.putNumber("Number of Targets", numTargets);
 
     SmartDashboard.putNumber("Radius", radius);
     SmartDashboard.putNumber("Horizontal Distance", deltaX);
