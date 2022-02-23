@@ -26,6 +26,7 @@ public class Indexer extends SubsystemBase
   private boolean[] sensorBoolArray = new boolean[IndexerConstants.NUM_OF_SENSORS];
   private boolean isSmartDashboardTestControlsShown;
   public String mode = "";
+  private boolean firstPos, secondPos, thirdPos;
 
   private final IndexerIO io;
   private final IndexerIOInputs inputs = new IndexerIOInputs();
@@ -107,6 +108,11 @@ public class Indexer extends SubsystemBase
     for(int i = 0; i < sensorByteArray.length; i++) {
       sensorBoolArray[i] = sensorByteArray[i]!=0;
     }
+    
+    firstPos = sensorBoolArray[0];
+    secondPos = sensorBoolArray[1];
+    thirdPos = sensorBoolArray[2];
+
   }
 
   public void putSmartDashboardControlCommands() {
