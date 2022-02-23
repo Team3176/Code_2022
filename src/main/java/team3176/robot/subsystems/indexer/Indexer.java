@@ -71,19 +71,43 @@ public class Indexer extends SubsystemBase
     indexerMotor.set(0.1);
   }
 
-  public boolean isFirstPos()
+  public int reportState()
   {
-    return firstPos;
+    int state = 0;
+    if (firstPos)
+      state += 100;
+    if (secondPos)
+      state += 10;
+    if (thirdPos)
+      state++;
+    
+    return state;
   }
 
-  public boolean isSecondPos()
+  public void Up()
   {
-    return secondPos;
+    indexerMotor.set(0.1);
   }
 
-  public boolean isThirdPos()
+  public void Down()
   {
-    return thirdPos;
+    indexerMotor.set(-0.1);
+  }
+
+  public void requestState(int s)
+  {
+    int state = reportState();
+    if(state == 100 && s == 110) {
+      Up();
+    } else {
+      while (s < state && reportState() != s) {
+        Up();
+      }
+      while (s > state && reportState() != s) {
+        Down();
+      }
+    }
+    if(s == reportState()) {motorStop();}
   }
 
   /**
