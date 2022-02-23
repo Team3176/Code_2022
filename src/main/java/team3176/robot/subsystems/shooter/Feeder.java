@@ -32,7 +32,7 @@ public class Feeder extends SubsystemBase
   {
     this.io = io;
 
-    transferMotor1 = new CANSparkMax(TransferConstants.TRANSFER_NEO1_CAN_ID, MotorType.kBrushless);
+    transferMotor1 = new CANSparkMax(TransferConstants.TRANSFER_NEO_CAN_ID, MotorType.kBrushless);
     pidController1 = transferMotor1.getPIDController();
     encoder1 = transferMotor1.getEncoder();
     

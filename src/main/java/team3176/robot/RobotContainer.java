@@ -38,7 +38,7 @@ public class RobotContainer {
   private SendableChooser<String> m_autonChooser;
   private static final String m_autoOneRenameAfterAssigned = "s_optionOneRenameAlso";
 
-  private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest(); //TODO: GET RID OF THIS and INVESTIGATE
+  // private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest(); //TODO: GET RID OF THIS and INVESTIGATE
   
   public RobotContainer() {
     m_Controller = Controller.getInstance();
