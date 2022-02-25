@@ -81,7 +81,7 @@ public class Clarke extends SubsystemBase {
     detections = piTable.getEntry("detections");
 
     //String myvalue = detections.getStringArray("detections"); 
-    String[] myvalueArr = detections.getStringArray(new String[1]); 
+    String[] myvalueArr = detections.getStringArray(new String[2]); 
     System.out.println(Arrays.deepToString(myvalueArr));
   }
   /**
@@ -115,6 +115,7 @@ public class Clarke extends SubsystemBase {
       updateMLData();
       this.idxCounter = 0;
     } 
+    //updateMLData();
   }
   public static Clarke getInstance() {
     return instance;
