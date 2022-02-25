@@ -62,10 +62,14 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor1.config_IntegralZone(0, FlywheelConstants.PIDFConstants[0][4]);
   }
 
-  public void spinMotors(double ticksPer100ms)
-  {
+  public void spinMotors(double ticksPer100ms) {
     flywheelMotor1.set(TalonFXControlMode.Velocity, ticksPer100ms);
     flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100ms);
+  }
+
+  public void spinMotors(double ticksPer100msForMotor1, double ticksPer100msForMotor2) {
+    flywheelMotor1.set(TalonFXControlMode.Velocity, ticksPer100msForMotor1);
+    flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100msForMotor2);
   }
 
   /*

@@ -20,6 +20,8 @@ public final class TransferConstants{
 
     public static final String kShuffleboardPercentName = "Transfer%Set";
 
+    public static final int MAX_VELOCITY = 10; //TODO: FIND MAX VELOCITY
+
     // Constant order: P, I, D, FF, IZone
     public static final double[][] PIDFConstants = { { 0.0, 0.0, 0.0, 0.0, 0.0 } };
 }
