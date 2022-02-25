@@ -27,6 +27,8 @@ public final class FlywheelConstants {
 
     public static final int TICKS_PER_REV = 2048;
 
+    public static final int MAX_TICKSPER100MS = 2048; //TODO: FIND THE ACTUAL MAX
+
     public static final String kShuffleboardPercentName1 = "Flywheel1%Set";
     public static final String kShuffleboardPercentName2 = "Flywheel2%Set";
 
