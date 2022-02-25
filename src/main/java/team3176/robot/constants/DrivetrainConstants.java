@@ -22,6 +22,14 @@ public class DrivetrainConstants {
     public static final int STEER_THREE_CID = 31;
     public static final int STEER_FOUR_CID = 41;
 
+    public static final double POD0_LOCATION_X = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD0_LOCATION_Y = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD1_LOCATION_X = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD1_LOCATION_Y = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD2_LOCATION_X = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD2_LOCATION_Y = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD3_LOCATION_X = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD3_LOCATION_Y = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
   
 
     // Drivetrain dimensions for kinematics and odometry

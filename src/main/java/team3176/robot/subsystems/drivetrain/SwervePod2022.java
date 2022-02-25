@@ -103,11 +103,6 @@ public class SwervePod2022 {
 
     private double startTics;
 
-    private double frontLeftState;
-    private double frontRightState;
-    private double backLeftState;
-    private double backRightState;
-
     private final PIDController m_ThrustPIDController;
     private final ProfiledPIDController m_turningPIDController;
     //private ProfiledPIDController m_turningPIDController;
@@ -364,6 +359,21 @@ public class SwervePod2022 {
     public double getEncoderPos() {
         updateAzimuthEncoder();
         return this.azimuthEncoderPosition;
+    }
+
+    public double getVelocity() {
+        double motorShaftVelocity = thrustController.getSelectedSensorVelocity();   
+        double wheelVelocityInFeetPerSecond = Units3176.ums2fps(motorShaftVelocity); 
+        double wheelVelocityInMetersPerSecond = Units3176.feetPerSecond2metersPerSecond(wheelVelocityInFeetPerSecond);
+        return wheelVelocityInMetersPerSecond;
+    }
+
+    /**
+     * Returns current Azimuth of pod in degrees, where 0 is straight forward.
+     * @return
+     */
+    public double getAzimuth() {
+        return azimuthEncoder.getPosition(); 
     }
 
     public void initializeSmartDashboard() {
