@@ -17,8 +17,10 @@ public class ShootTwoBall extends SequentialCommandGroup {
     addCommands(
       new IndexerPositionChange(110),
       // Angles
-      new IndexerPositionChange(011)
+      new IndexerPositionChange(011),
       // Start Feeder and Flywheels
+      new IndexerPositionChange(000)
+      // Stop Stuff
     );
   }
 }
