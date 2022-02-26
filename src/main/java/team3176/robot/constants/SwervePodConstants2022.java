@@ -3,8 +3,11 @@ package team3176.robot.constants;
 public final class SwervePodConstants2022 {
 
     private static final double WHEEL_DIAMETER = DrivetrainConstants.WHEEL_DIAMETER;  // in inches
+    //private static final double AZIMUTH_GEAR_RATIO = 70.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
     private static final double AZIMUTH_GEAR_RATIO = 70.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
-    private static final double THRUST_GEAR_RATIO = (54.0 / 14.0) * (48.0 / 30.0);  // 216/35?
+    //private static final double AZIMUTH_GEAR_RATIO = 1.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
+    //private static final double THRUST_GEAR_RATIO = (54.0 / 14.0) * (48.0 / 30.0);  // 216/35?
+    private static final double THRUST_GEAR_RATIO = (14.0/22.0) * (15.0/45.0);  
 
     public static final int[] STEER_CANCODER_CID = {12, 22, 32, 42};
     
@@ -56,12 +59,15 @@ public final class SwervePodConstants2022 {
 //        /* kP */    {1.0, 2.0, 0.9, 2.0},
                     // {2.0, 2.5, 3.0, 3.0},
                     //{0.58, 0.8, 0.8, 0.8},  //<-Jared N550 internal encoder
-                     {0.001, 0.0, 0.0, 0.0},
+                     //{0.001, 0.0, 0.0, 0.0},
+                     {0.8, 0.8, 0.8, 0.8},
         /* kI */    //{0.00065, 0.0, 0.0, 0.0},//<-Jared N550 internal encoder
-        /* kI */    {0.0, 0.0, 0.0, 0.0},
+        /* kI */    //{0.0, 0.0, 0.0, 0.0},
+        /* kI */    {0.2, 0.2, 0.2, 0.2},
         ///* kD */    {25.0, 50.0, 500.0, 50.0},
                     //{0.16, 50.0, 50.0, 50.0},//<-Jared N550 internal encoder
-                     {0.0, 0.0, 0.0, 0.0},
+                     //{0.0, 0.0, 0.0, 0.0},
+                     {0.009, 0.009, 0.009, 0.009},
     //    /* kD */    {25.0, 50.0, 500.0, 100.0},
     /* kF */    {0.0, 0.0, 0.0, 0.0},    // Feed forward gain constant//<-Jared N550 internal encoder
                 //{10, 0.0, 0.0, 0.0},   //kIz constant//<-Jared N550 internal encoder
@@ -88,11 +94,11 @@ public final class SwervePodConstants2022 {
     // public static final int[] AZIMUTH_OFFSET = {47762, 4189, 388129, -50897};
     // public static final int[] AZIMUTH_OFFSET = {49844, 55384, 58418, 73442};
 
-    public static final double[] AZIMUTH_OFFSET_2022 = {0.0, 0.0, 0.0, 0.0}; // 2021 Bot //WTFOffsets
+    public static final double[] AZIMUTH_OFFSET_2022 = {0.0, 0.0, 0.0, 0.0}; 
     //public static final double[] AZIMUTH_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
     public static final double[] AZIMUTH_OFFSET =AZIMUTH_OFFSET_2022;
 
-    public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 13.79;
+    public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 14.00;  //estimated loaded speed per Nathan;
 
     public static final double METERS_TO_FEET_CONSTANT = 3.28084;
     public static final double FEET_TO_METERS_CONSTANT = 0.3048;

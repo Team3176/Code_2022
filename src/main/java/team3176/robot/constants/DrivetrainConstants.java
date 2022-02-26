@@ -25,17 +25,17 @@ public class DrivetrainConstants {
   
 
     // Drivetrain dimensions for kinematics and odometry
-    public static final double LENGTH_IN_METERS_2021 = 0.581; // measured in cm as 58.1cm
+    public static final double LENGTH_IN_METERS_2021 = 0.581; // measured in inches as 24.75
     public static final double LENGTH_IN_INCHES_2021 = Units.metersToInches(LENGTH_IN_METERS_2021); //58.1 * (1.0/2.54); // 22.87 inches but measured in cm as 58.1cm
 
-    public static final double WIDTH_IN_METERS_2021 = 0.640; // measured in cm as 64.0cm
-    public static final double WIDTH_IN_INCHES_2021 = Units.metersToInches(WIDTH_IN_METERS_2021); //64.0 * (1.0/2.54); // 25.197 inches but measured in cm as 64.0cm
+    public static final double WIDTH_IN_METERS_2022 = 0.61595; // measured in inches as 24.25in   24.75
+    public static final double WIDTH_IN_INCHES_2022 = Units.metersToInches(WIDTH_IN_METERS_2022); //64.0 * (1.0/2.54); // 25.197 inches but measured in cm as 64.0cm
 
     public static double LENGTH = LENGTH_IN_INCHES_2021;
-    public static double WIDTH = WIDTH_IN_INCHES_2021;
+    public static double WIDTH = WIDTH_IN_INCHES_2022;
     public static double DRIVE_ENCODER_UNITS_PER_REVOLUTION;
 
-    public static final double WHEEL_DIAMETER_INCHES = 3.25; // Inches
+    public static final double WHEEL_DIAMETER_INCHES = 3.00; // Inches
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(WHEEL_DIAMETER_INCHES); // Inches
     public static final double WHEEL_DIAMETER_FEET = WHEEL_DIAMETER_INCHES / 12.0 ; // Inches
     public static final double WHEEL_DIAMETER = WHEEL_DIAMETER_INCHES;

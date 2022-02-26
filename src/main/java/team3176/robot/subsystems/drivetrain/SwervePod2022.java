@@ -88,7 +88,7 @@ public class SwervePod2022 {
     private double kIz_Azimuth;
     private double kMaxOutput_Azimuth;
     private double kMinOutput_Azimuth;
-    private double kRampRate_Azimuth;
+    private double kRampRate_Azimuth = 0.0;
 
     private double kP_Thrust;
     private double kI_Thrust;
@@ -153,11 +153,11 @@ public class SwervePod2022 {
 
         m_turningPIDController.reset(0.0, 0.0);
         m_turningPIDController.setP(this.kP_Azimuth);
-        m_turningPIDController.setP(this.kI_Azimuth);
-        m_turningPIDController.setP(this.kD_Azimuth);
+        m_turningPIDController.setI(this.kI_Azimuth);
+        m_turningPIDController.setD(this.kD_Azimuth);
 
-        //this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth); 
-        
+        //this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth);
+
 
         /**
 		 * Config the allowable closed-loop error, Closed-Loop output will be
@@ -285,16 +285,18 @@ public class SwervePod2022 {
         double optmizdAzimuthPos = optimizeAzimuthPos(this.podAzimuth);
         //double tics = rads2Tics(this.podAzimuth);
 
-        final double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
+        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
 
         //if (this.id == 3) {azimuthController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
         if (this.podThrust > (-Math.pow(10,-10)) && this.podThrust < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(thrustDrive) != 0 is notationally sloppy math
+            azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
             //azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
-            SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
+            //SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
             //azimuthPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
         } else {
+            azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
             //azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
-            SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
+            //SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
             //azimuthPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
             this.lastEncoderPos = optmizdAzimuthPos;
         }    
