@@ -7,12 +7,14 @@ package team3176.robot.subsystems.vision;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team3176.robot.util.PIDLoop;
 
 
 public class Clarke extends SubsystemBase {
@@ -41,6 +43,8 @@ public class Clarke extends SubsystemBase {
   private NetworkTableEntry maxX;
   private NetworkTableEntry miny;
   private NetworkTableEntry maxY;
+  private double centX;
+  private double center;
   private NetworkTableEntry detections;
     
   private double activePipeline = 1;
@@ -60,7 +64,7 @@ public class Clarke extends SubsystemBase {
   private double initialYVelocity; // m/s
   private double finalYVelocity; // m/s
   private double time; // seconds
-
+  PIDController peeEyeDee = new PIDController(1.0, 0.0, 0.0);
   private int idxCounter = 0; 
 
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
@@ -72,6 +76,7 @@ public class Clarke extends SubsystemBase {
   public Clarke(){
     tableInstance = NetworkTableInstance.getDefault();
     piTable = tableInstance.getTable("ML");
+   
     
     updateVisionData();
     //piTable.getEntry("pipeline").setNumber(activePipeline);
@@ -83,6 +88,13 @@ public class Clarke extends SubsystemBase {
     //String myvalue = detections.getStringArray("detections"); 
     String[] myvalueArr = detections.getStringArray(new String[2]); 
     System.out.println(Arrays.deepToString(myvalueArr));
+  }
+  public void getCenter(){
+    centX =  ( maxX.getDouble(-1) -  minX.getDouble(-1)) / 2;
+    center = (680.0/2.0) - centX;
+  } //Are they ints or doubles?
+  public double pidCalc(){
+    return peeEyeDee.calculate(center, 0);
   }
   /**
    * Can be called to force update of VisionClient data structure
