@@ -8,41 +8,43 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /** Template hardware interface for a closed loop subsystem. */
-public interface IndexerIO{
+public interface ClimbIO{
   /** Contains all of the input data received from hardware. */
-  public static class IndexerIOInputs implements LoggableInputs {
-    public double position = 0.0;
+  public static class ClimbIOInputs implements LoggableInputs {
+    public boolean extended = false;
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
     public double[] tempCelcius = new double[] {};
-    public boolean Bool0, Bool1;
+    public boolean limitSwitchOne = false;
+    public boolean limitSwitchTwo = false;
 
     public void toLog(LogTable table) {
-      table.put("Position", position);
+      table.put("Extended", extended);
       table.put("AppliedVolts", appliedVolts);
       table.put("CurrentAmps", currentAmps);
       table.put("TempCelcius", tempCelcius);
-      table.put("Indexer/Bool0", Bool0);
-      table.put("Indexer/Bool1", Bool1);
+      table.put("LimitSwitchOne", limitSwitchOne);
+      table.put("LimitSwitchTwo", limitSwitchTwo);
     }
 
     public void fromLog(LogTable table) {
-      position = table.getDouble("Position", position);
+      extended = table.getBoolean("extended", extended);
       appliedVolts = table.getDouble("AppliedVolts", appliedVolts);
       currentAmps = table.getDoubleArray("CurrentAmps", currentAmps);
       tempCelcius = table.getDoubleArray("TempCelcius", tempCelcius);
-      Bool0 = table.getBoolean("Indexer/Bool0", Bool0);
-      Bool1 = table.getBoolean("Indexer/Bool1", Bool1);
+      limitSwitchOne = table.getBoolean("LimitSwitchOne", limitSwitchOne);
+      limitSwitchTwo = table.getBoolean("LimitSwitchTwo", limitSwitchTwo);
     }
   }
 
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(IndexerIOInputs inputs) {}
+  public default void updateInputs(ClimbIOInputs inputs) {}
 
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
 
-  /** Encoder Position of the Indexer */
+  /** Pistons */
 
-  public default void setIndexerPosition(double position) {}
+  public default void passivePistonsEngage() {}
+  public default void passivePistonsRetract() {}
 }

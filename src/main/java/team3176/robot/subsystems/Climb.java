@@ -8,6 +8,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import org.littletonrobotics.junction.Logger;
+
+import team3176.robot.subsystems.ClimbIO.ClimbIOInputs;
+import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -18,8 +23,15 @@ import team3176.robot.constants.ClimbConstants;
 import team3176.robot.constants.MasterConstants;
 
 public class Climb extends SubsystemBase {
-  private static Climb instance = new Climb();
-  public static Climb getInstance() {return instance;}
+  private static Climb instance;
+  public static Climb getInstance() {
+    if(instance == null) {instance = new Climb(new ClimbIO() {});}
+    return instance;
+  }
+
+  private final ClimbIO io;
+  private final ClimbIOInputs inputs = new ClimbIOInputs();
+
 
   private TalonFX winchMotor;
   //TalonFX winchSecondaryMotor;
@@ -42,7 +54,9 @@ public class Climb extends SubsystemBase {
   private boolean isSmartDashboardTestControlsShown;
   public String mode = ""; //auto, teleop, test
 
-  public Climb() {
+  private Climb(ClimbIO io) {
+    this.io = io;
+
     if(!MasterConstants.ISCLIMBPASSIVE) {
       winchMotor = new TalonFX(ClimbConstants.FALCON_CAN_ID);
       //winchSecondaryMotor = new TalonFX(ClimbConstants.FALCON2_CAN_ID /*Available Number*/); //TODO:CHECK IF WE NEED MORE NUMBERS
@@ -260,6 +274,11 @@ public class Climb extends SubsystemBase {
     if(MasterConstants.ISCLIMBPASSIVE && !getArmOneLimitOne() && !getArmTwoLimitOne()) {
       passivePistonsEngage();
     }
+
+    io.updateInputs(inputs);
+    Logger.getInstance().processInputs("Climb", inputs);
+    Logger.getInstance().recordOutput("LimitSwitchOne", getArmOneLimitOne());
+    Logger.getInstance().recordOutput("LimitSwitchTwo", getArmTwoLimitOne());
   }
 
   @Override
