@@ -86,8 +86,8 @@ public class Clarke extends SubsystemBase {
     detections = piTable.getEntry("detections");
 
     //String myvalue = detections.getStringArray("detections"); 
-    String[] myvalueArr = detections.getStringArray(new String[2]); 
-    System.out.println(Arrays.deepToString(myvalueArr));
+    String myvalueArr = detections.getString("ABCD"); 
+    System.out.println(myvalueArr);
   }
   public void getCenter(){
     centX =  ( maxX.getDouble(-1) -  minX.getDouble(-1)) / 2;
