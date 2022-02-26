@@ -101,7 +101,7 @@ public class Odometry3176 extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  
-    // m_pose = m_odometry.update(m_Gyro.getNavxAngle_inRadians_asRotation2d(),m_pod0State. 
+    m_pose = m_odometry.update(m_Gyro.getNavxAngle_inRadians_asRotation2d(),m_pod0State); 
   }
 
   @Override
