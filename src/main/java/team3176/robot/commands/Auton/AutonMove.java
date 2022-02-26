@@ -13,7 +13,7 @@ public class AutonMove extends SequentialCommandGroup {
    * @param magnitude The distance in inches
    * @param direction The direction as a int (0 - Front; pi - Back; pi/2 - Left; 3pi/2 - Right)
    */
-  public AutonMove(double magnitude, int direction) {
+  public AutonMove(double magnitude, double direction) {
     addCommands(
       new TrapezoidDrive(magnitude * Math.cos(direction), magnitude * Math.sin(direction))
     ); 
