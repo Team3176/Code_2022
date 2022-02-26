@@ -2,10 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.commands.climb;
+package team3176.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import team3176.robot.commands.common.TimeDelay;
+import team3176.robot.commands.Util.TimeDelay;
 
 /**
  * Sequential Command Group to Climb to the Mid Rung 

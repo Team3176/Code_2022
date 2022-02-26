@@ -11,11 +11,7 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
 import org.littletonrobotics.junction.io.*;
 import team3176.robot.constants.MasterConstants;
-
-import team3176.robot.subsystems.intake.Intake;
-import team3176.robot.subsystems.indexer.Indexer;
-import team3176.robot.subsystems.shooter.Angler;
-import team3176.robot.subsystems.shooter.Flywheel;
+import team3176.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
