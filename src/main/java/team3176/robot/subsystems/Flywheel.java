@@ -7,17 +7,11 @@ package team3176.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.FlywheelConstants;
 import team3176.robot.subsystems.FlywheelIO.FlywheelIOInputs;
-
 import org.littletonrobotics.junction.Logger;
-
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class Flywheel extends SubsystemBase {
 
