@@ -6,10 +6,10 @@ package team3176.robot.commands.common;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.constants.TransferConstants;
-import team3176.robot.subsystems.shooter.Transfer;
+import team3176.robot.subsystems.shooter.Feeder;
 
 public class FeederReverse extends InstantCommand {
-  private Transfer m_Feeder = Transfer.getInstance();
+  private Feeder m_Feeder = Feeder.getInstance();
 
   public FeederReverse() {
     addRequirements(m_Feeder);

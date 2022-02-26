@@ -5,6 +5,7 @@
 package team3176.robot.constants;
 
 public final class IntakeConstants {
+    public static final double INTAKE_PCT = 1;
     public static final int INTAKE_MOTOR_CAN_ID = 5;
     public static final int DSOLENOID1_FWD_CHAN = 1; // RED WIRE
     public static final int DSOLENOID1_REV_CHAN = 0; // BLACK WIRE
