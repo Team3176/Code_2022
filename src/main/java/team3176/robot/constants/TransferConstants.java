@@ -14,9 +14,14 @@ package team3176.robot.constants;
  */
 public final class TransferConstants{
 
-    public static final int TRANSFER_NEO1_CAN_ID = 60;
+    public static final int TRANSFER_NEO_CAN_ID = 60;
 
     public static final double kRampRate = 0.5; // seconds to go from 0 to full
 
     public static final String kShuffleboardPercentName = "Transfer%Set";
+
+    public static final int MAX_VELOCITY = 10; //TODO: FIND MAX VELOCITY
+
+    // Constant order: P, I, D, FF, IZone
+    public static final double[][] PIDFConstants = { { 0.0, 0.0, 0.0, 0.0, 0.0 } };
 }

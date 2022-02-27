@@ -4,24 +4,14 @@
 
 package team3176.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
 import org.littletonrobotics.junction.io.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.constants.MasterConstants;
-
-import team3176.robot.subsystems.intake.Intake;
-import team3176.robot.subsystems.indexer.Indexer;
-import team3176.robot.subsystems.shooter.Angler;
-import team3176.robot.subsystems.shooter.Flywheel;
-// Test Mode Imports
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import team3176.robot.subsystems.intake.Intake;
-import team3176.robot.subsystems.climb.Climb;
+import team3176.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -31,7 +21,7 @@ import team3176.robot.subsystems.climb.Climb;
  */
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
- 
+
   private RobotContainer m_robotContainer;
   private Intake m_Intake;
   private Indexer m_Indexer;
@@ -45,25 +35,29 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
+    // autonomous chooser on the dashboard
+
+    if(MasterConstants.IS_LOGGING_MODE) {
+      setUseTiming(isReal()); // Run as fast as possible during replay
+      LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
+      Logger.getInstance().recordMetadata("ProjectName", "MyProject"); // Set a metadata value
+      
+      if (isReal()) {
+        Logger.getInstance().addDataReceiver(new ByteLogReceiver("/media/sda1/")); // Log to USB stick (name will be selected automatically)
+        Logger.getInstance().addDataReceiver(new LogSocketServer(5800)); // Provide log data over the network, viewable in Advantage Scope.
+      } else {
+        String path = ByteLogReplay.promptForPath(); // Prompt the user for a file path on the command line
+        Logger.getInstance().setReplaySource(new ByteLogReplay(path)); // Read log file for replay
+        Logger.getInstance().addDataReceiver(new ByteLogReceiver(ByteLogReceiver.addPathSuffix(path, "_sim"))); // Save replay results to a new log with the "_sim" suffix
+
+        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+      }
+    }
+
     m_Intake = Intake.getInstance();
     m_Indexer = Indexer.getInstance();
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
-    setUseTiming(isReal()); // Run as fast as possible during replay
-    LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
-    Logger.getInstance().recordMetadata("ProjectName", "MyProject"); // Set a metadata value
-
-    if (isReal()) {
-      Logger.getInstance().addDataReceiver(new ByteLogReceiver("/media/sda1/")); // Log to USB stick (name will be selected automatically)
-      Logger.getInstance().addDataReceiver(new LogSocketServer(5800)); // Provide log data over the network, viewable in Advantage Scope.
-    } else {
-      String path = ByteLogReplay.promptForPath(); // Prompt the user for a file path on the command line
-      Logger.getInstance().setReplaySource(new ByteLogReplay(path)); // Read log file for replay
-      Logger.getInstance().addDataReceiver(new ByteLogReceiver(ByteLogReceiver.addPathSuffix(path, "_sim"))); // Save replay results to a new log with the "_sim" suffix
-    }
-
-    Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
 
     m_robotContainer = new RobotContainer();
   }
@@ -100,7 +94,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    // m_Climb.mode = "auto";
+
     m_Intake.mode = "auto";
     m_Indexer.mode = "auto";
     m_Angler.mode = "auto";
@@ -120,7 +114,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    // m_Climb.mode = "teleop";
+
     m_Intake.mode = "teleop";
     m_Indexer.mode = "teleop";
     m_Angler.mode = "teleop";
@@ -135,8 +129,7 @@ public class Robot extends LoggedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    // m_Intake = Intake.getInstance();
-    // m_Climb.mode = "test";
+
     m_Intake.mode = "test";
     m_Indexer.mode = "test";
     m_Angler.mode = "test";
@@ -145,11 +138,18 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() 
-  {
+  public void testPeriodic() {
     m_Intake.periodic();
     m_Indexer.periodic(); 
     m_Angler.periodic();
     m_Flywheel.periodic();
   }
+
+  /** This function is called once when the robot is first started up. */
+  @Override
+  public void simulationInit() {}
+
+  /** This function is called periodically whilst in simulation. */
+  @Override
+  public void simulationPeriodic() {}
 }

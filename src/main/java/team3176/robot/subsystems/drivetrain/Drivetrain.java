@@ -28,15 +28,14 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import team3176.robot.constants.DrivetrainConstants;
-//import team3176.robot.constants.PowerManagementConstants;
-import team3176.robot.subsystems.controller.Controller;
-import team3176.robot.subsystems.vision.Vision;
-import team3176.robot.util.God.PID3176;
+// import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
 
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team3176.robot.subsystems.Controller;
+import team3176.robot.subsystems.Vision;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
@@ -95,7 +94,7 @@ public class Drivetrain extends SubsystemBase {
 
   private double spinLockAngle;
   private boolean isSpinLocked = false;
-  private PID3176 spinLockPID;
+  // private PID3176 spinLockPID;
   // private PIDController spinLockPID;
 
   private boolean isTurboOn = false;
@@ -215,7 +214,7 @@ public class Drivetrain extends SubsystemBase {
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
     if (this.isSpinLocked && !isOrbiting()) {
-      this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
+      // this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
     }

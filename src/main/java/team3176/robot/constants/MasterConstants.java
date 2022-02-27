@@ -17,4 +17,5 @@ public final class MasterConstants{
     public static final boolean ISCLIMBPASSIVE = true;
 
     public static final boolean IS_TUNING_MODE = false;
+    public static final boolean IS_LOGGING_MODE = false;
 }
