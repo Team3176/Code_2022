@@ -5,7 +5,7 @@
 package team3176.robot.commands.Test;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.TransferConstants;
+import team3176.robot.constants.FeederConstants;
 import team3176.robot.subsystems.Feeder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,7 +22,7 @@ public class FeederPctOutput extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putNumber(TransferConstants.kShuffleboardPercentName, 0.0);
+    SmartDashboard.putNumber(FeederConstants.kShuffleboardPercentName, 0.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +35,7 @@ public class FeederPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Transfer.stopMotor();
-    SmartDashboard.delete(TransferConstants.kShuffleboardPercentName);
+    SmartDashboard.delete(FeederConstants.kShuffleboardPercentName);
   }
 
   // Returns true when the command should end.
