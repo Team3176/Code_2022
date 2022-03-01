@@ -12,13 +12,15 @@ package team3176.robot.constants;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class TransferConstants{
+public final class FeederConstants{
 
-    public static final int TRANSFER_NEO_CAN_ID = 60;
+    public static final int FEEDER_NEO_CAN_ID = 60;
+
+    public static final double FEEDER_GEAR_RATIO = 1.0; //TODO: Find this out
 
     public static final double kRampRate = 0.5; // seconds to go from 0 to full
 
-    public static final String kShuffleboardPercentName = "Transfer%Set";
+    public static final String kShuffleboardPercentName = "Feeder%Set";
 
     public static final int MAX_VELOCITY = 10; //TODO: FIND MAX VELOCITY
 

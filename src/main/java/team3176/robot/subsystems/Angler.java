@@ -25,15 +25,15 @@ public class Angler extends SubsystemBase {
   private SparkMaxPIDController PIDController;
   private RelativeEncoder encoder;
 
-  private DigitalInput limitSwitch1;
-  private DigitalInput limitSwitch2;
+  private DigitalInput limitSwitchLow;
+  private DigitalInput limitSwitchHigh;
 
   private int ticsPerRevolution;
   private double positionAt45Deg;
 
   private boolean PIDLoopEngaged;
-  private boolean limiter1Engaged;
-  private boolean limiter2Engaged;
+  private boolean limiterLowEngaged;
+  private boolean limiterHighEngaged;
   private boolean isSmartDashboardTestControlsShown;
 
   private final AnglerIO io;
@@ -47,6 +47,9 @@ public class Angler extends SubsystemBase {
 
   // used for Shuffleboard velocity + limit switch testing
   private double smartdashboardVelocity;
+
+  // represents the angle of the Angler at which the encoder should read zero
+  private double motorZero;
 
  public Angler(AnglerIO io) 
  {
@@ -66,13 +69,14 @@ public class Angler extends SubsystemBase {
     PIDController.setD(AnglerConstants.PIDFConstants[0][2]);
     PIDController.setIZone(AnglerConstants.PIDFConstants[0][3]);
 
-    limitSwitch1 = new DigitalInput(AnglerConstants.limiter1Channel);
-    limitSwitch2 = new DigitalInput(AnglerConstants.limiter2Channel);
+    limitSwitchLow = new DigitalInput(AnglerConstants.limiter1Channel);
+    limitSwitchHigh = new DigitalInput(AnglerConstants.limiter2Channel);
 
     PIDLoopEngaged = false;
-    limiter1Engaged = false;
-    limiter2Engaged = false;
+    limiterLowEngaged = false;
+    limiterHighEngaged = false;
     setValue = 0;
+    motorZero = 0;
 
     // used for Shuffleboard velocity + limit switch testing
     // smartdashboardVelocity = 0.0;
@@ -104,7 +108,7 @@ public class Angler extends SubsystemBase {
    */
   public void engagePIDMotorPosition(double value)
   {
-    if (!limiter1Engaged && !limiter2Engaged) {
+    if (!limiterLowEngaged && !limiterHighEngaged) {
       this.setValue = value;
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
       PIDController.setReference(value, ControlType.kPosition);
@@ -114,7 +118,7 @@ public class Angler extends SubsystemBase {
   public void engageRawMotor(double percentOutput)
   {
     this.setValue = percentOutput;
-    if (!limiter1Engaged && !limiter2Engaged && percentOutput >= -1 && percentOutput <= 1) {
+    if (!limiterLowEngaged && !limiterHighEngaged && percentOutput >= -1 && percentOutput <= 1) {
       PIDLoopEngaged = false;
       anglerMotor.set(percentOutput);
     }
@@ -167,24 +171,26 @@ public class Angler extends SubsystemBase {
   }
 
 
-  /*
-  Proposed method for finding the position of the angler when robot starts (aka move to 45 degrees and set that as starting position
-  to use as a reference):
-
-    A command would do this. This command would initially call a method in this subsystem to set the velocity of the motor to the number
-    of degrees per second we want it to move backwards toward the 45 degree boundary. Then, this command constantly checks, using the
-    encoder, whether or not the motor is moving. The code to be written in periodic() of this subsystem will stop the motors when they
-    reach that limit switch. When the motors stop, the command that is running will end, and that command's end() method will call
-    a setter to be written in this subsystem that will set the position that the motor reads in rotations at that moment as the position
-    that corresponds to a 45 degree angle. Then, this can be used as a reference for setting other angles.
-
-    See method below \/\/\/
-  */
-
-  public void setPositionAt45Deg()
+  public void zeroAtMin()
   {
-    positionAt45Deg = encoder.getPosition();
+    encoder.setPosition(0.0);
+    motorZero = AnglerConstants.kAnglerMinDegrees;
   }
+
+  public void zeroAtMax()
+  {
+    encoder.setPosition(0.0);
+    motorZero = AnglerConstants.kAnglerMaxDegrees;
+  }
+
+  /**
+   * Returns a value of the angle above the horizontal at which the Angler's encoder should read zero. This zero position can be changed
+   * by running the command that sets the angler's zero position to either its minimum angle or maximum angle. If 0 is returned, the encoder
+   * has not been properly zeroed out and therefore has no reference point for position setting -- zero it out first.
+   * @return
+   */
+  public double getAnglerZero() { return motorZero; }
+
 
   public void shuffleboardVelocity()  
   {
@@ -204,19 +210,28 @@ public class Angler extends SubsystemBase {
     }
   }
 
-  public void setFF(double newFF)
-  {
-    PIDController.setFF(newFF);
-  }
+  /**
+   * Returns true if the lower limit switch is pressed
+   * @author Jared Brown
+   * @return Lower limiter value
+   */
+  public boolean getLimiterLow() { return limiterLowEngaged; }
+    /**
+   * Returns true if the higher limit switch is pressed
+   * @author Jared Brown
+   * @return Higher limiter value
+   */
+  public boolean getLimiterHigh() { return limiterHighEngaged; }
 
-    public void putSmartDashboardControlCommands() {
+
+  public void putSmartDashboardControlCommands() {
     SmartDashboard.putNumber("Angler Position", 0);
     isSmartDashboardTestControlsShown = true;
-    }
+  }
 
-    public void setValuesFromSmartDashboard() {
+  public void setValuesFromSmartDashboard() {
       PIDController.setReference(SmartDashboard.getNumber("Angler Position", 0), ControlType.kPosition);
-    }
+  }
 
   @Override
   public void periodic() {
@@ -226,19 +241,19 @@ public class Angler extends SubsystemBase {
     //System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
 
     // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
-    if (!limitSwitch1.get() && setValue < 0) {
+    if (!limitSwitchLow.get() && setValue < 0) {
       limiterStopMotor();
-      limiter1Engaged = true;
-      limiter2Engaged = false;
+      limiterLowEngaged = true;
+      limiterHighEngaged = false;
       // System.out.println("LEFT LIMITER PRESSED ---------------");
-    } else if (!limitSwitch2.get() && setValue > 0) {
+    } else if (!limitSwitchHigh.get() && setValue > 0) {
       limiterStopMotor();
-      limiter2Engaged = true;
-      limiter1Engaged = false;
+      limiterHighEngaged = true;
+      limiterLowEngaged = false;
       // System.out.println("RIGHT LIMITER PRESSED ---------------");
     } else {
-      limiter1Engaged = false;
-      limiter2Engaged = false;
+      limiterLowEngaged = false;
+      limiterHighEngaged = false;
     }
     if(mode.equals("test"))
     {

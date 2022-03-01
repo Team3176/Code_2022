@@ -5,7 +5,7 @@
 package team3176.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import team3176.robot.constants.TransferConstants;
+import team3176.robot.constants.FeederConstants;
 import team3176.robot.subsystems.FeederIO.FeederIOInputs;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,16 +31,16 @@ public class Feeder extends SubsystemBase
   {
     this.io = io;
 
-    feederMotor = new CANSparkMax(TransferConstants.TRANSFER_NEO_CAN_ID, MotorType.kBrushless);
+    feederMotor = new CANSparkMax(FeederConstants.FEEDER_NEO_CAN_ID, MotorType.kBrushless);
     pidController = feederMotor.getPIDController();
     encoder = feederMotor.getEncoder();
     
-    feederMotor.setClosedLoopRampRate(TransferConstants.kRampRate);
+    feederMotor.setClosedLoopRampRate(FeederConstants.kRampRate);
   }
 
   public void percentOutput() 
   {
-    double output = SmartDashboard.getNumber(TransferConstants.kShuffleboardPercentName, 0.0);
+    double output = SmartDashboard.getNumber(FeederConstants.kShuffleboardPercentName, 0.0);
     if (output >= -1 && output <= 1) { feederMotor.set(output); }
     SmartDashboard.putNumber("TransferRPMOut", encoder.getVelocity());
   }
