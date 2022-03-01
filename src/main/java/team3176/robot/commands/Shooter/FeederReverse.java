@@ -17,6 +17,6 @@ public class FeederReverse extends InstantCommand {
 
   @Override
   public void initialize() {
-    m_Feeder.motor2Velocity(-FeederConstants.MAX_VELOCITY);
+    m_Feeder.setVelocityPID(-FeederConstants.MAX_VELOCITY);
   }
 }

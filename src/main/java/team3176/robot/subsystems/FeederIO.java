@@ -10,7 +10,7 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 /** Template hardware interface for a closed loop subsystem. */
 public interface FeederIO{
   /** Contains all of the input data received from hardware. */
-  public static class TransferIOInputs implements LoggableInputs {
+  public static class FeederIOInputs implements LoggableInputs {
     public double velocity = 0.0;
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
@@ -32,7 +32,7 @@ public interface FeederIO{
   }
 
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(TransferIOInputs inputs) {}
+  public default void updateInputs(FeederIOInputs inputs) {}
 
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}

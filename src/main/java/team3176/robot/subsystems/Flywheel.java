@@ -5,6 +5,7 @@
 package team3176.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team3176.robot.constants.AnglerConstants;
 import team3176.robot.constants.FlywheelConstants;
 import team3176.robot.subsystems.FlywheelIO.FlywheelIOInputs;
 import org.littletonrobotics.junction.Logger;
@@ -79,14 +80,14 @@ public class Flywheel extends SubsystemBase {
   public void percentOutput_1() 
   {
     double output = SmartDashboard.getNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
-    //if (output >= -1 && output <= 1) { flywheelMotor1.set(ControlMode.PercentOutput, output); }
+    if (output >= -1 && output <= 1) { flywheelMotor1.set(TalonFXControlMode.PercentOutput, output); }
     SmartDashboard.putNumber("Fly1Tics/100msOut", flywheelMotor1.getSelectedSensorVelocity());
   }
 
   public void percentOutput_2() 
   {
     double output = SmartDashboard.getNumber(FlywheelConstants.kShuffleboardPercentName2, 0.0);
-    //if (output >= -1 && output <= 1) { flywheelMotor2.set(ControlMode.PercentOutput, output); }
+    if (output >= -1 && output <= 1) { flywheelMotor2.set(TalonFXControlMode.PercentOutput, output); }
     SmartDashboard.putNumber("Fly2Tics/100msOut", flywheelMotor2.getSelectedSensorVelocity());
   }
 
@@ -96,17 +97,17 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor2.set(TalonFXControlMode.PercentOutput, 0.0);
   }
 
-    public void putSmartDashboardControlCommands() {
+  public void putSmartDashboardControlCommands() {
     SmartDashboard.putNumber("Flywheel 1 PCT", 0);
     SmartDashboard.putNumber("Flywheel 2 PCT", 0);
     isSmartDashboardTestControlsShown = true;
-    }
+  }
 
-    public void setValuesFromSmartDashboard() 
-    {
+  public void setValuesFromSmartDashboard()
+  {
       flywheelMotor1.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 1 PCT", 0));
       flywheelMotor2.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 2 PCT", 0));
-    }
+  }
 
   @Override
   public void periodic() {
