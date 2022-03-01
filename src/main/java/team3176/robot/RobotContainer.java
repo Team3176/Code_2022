@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.drivetrain.*;
 
-import team3176.robot.commands.climb.*;
+import team3176.robot.commands.Climb.*;
 import team3176.robot.commands.CMD_Groups.*;
 // import team3176.robot.commands.Drivetrain.*;
 import team3176.robot.commands.Drivetrain.imported.*;
