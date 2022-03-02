@@ -60,14 +60,14 @@ public final class SwervePodConstants2022 {
                     // {2.0, 2.5, 3.0, 3.0},
                     //{0.58, 0.8, 0.8, 0.8},  //<-Jared N550 internal encoder
                      //{0.001, 0.0, 0.0, 0.0},
-                     {0.8, 0.8, 0.8, 0.8},
+                     {0.5, 0.5, 0.5, 0.5},
         /* kI */    //{0.00065, 0.0, 0.0, 0.0},//<-Jared N550 internal encoder
         /* kI */    //{0.0, 0.0, 0.0, 0.0},
-        /* kI */    {0.2, 0.2, 0.2, 0.2},
+        /* kI */    {0.05, 0.05, 0.05, 0.05},  //TODO: 0.05 looks good, but could go higher (still less than .1)
         ///* kD */    {25.0, 50.0, 500.0, 50.0},
                     //{0.16, 50.0, 50.0, 50.0},//<-Jared N550 internal encoder
                      //{0.0, 0.0, 0.0, 0.0},
-                     {0.009, 0.009, 0.009, 0.009},
+                     {0.00005, 0.00005, 0.00005, 0.00005},
     //    /* kD */    {25.0, 50.0, 500.0, 100.0},
     /* kF */    {0.0, 0.0, 0.0, 0.0},    // Feed forward gain constant//<-Jared N550 internal encoder
                 //{10, 0.0, 0.0, 0.0},   //kIz constant//<-Jared N550 internal encoder
