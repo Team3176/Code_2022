@@ -88,7 +88,7 @@ public class Clarke extends SubsystemBase {
     detections = piTable.getEntry("detections");
 
     //String myvalue = detections.getStringArray("detections"); 
-    String myvalueArr = detections.getString("FUCK"); 
+    String myvalueArr = detections.getString("ABCD"); 
     System.out.println(myvalueArr);
   }
   public void getCenter(){
