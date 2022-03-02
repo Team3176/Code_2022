@@ -389,3 +389,7 @@ public class SwervePod2022 {
  // public double getRate(){
  // }
 }
+
+Fuck
+Goddammit
+dipshit
