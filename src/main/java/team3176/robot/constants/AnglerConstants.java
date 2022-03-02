@@ -22,7 +22,7 @@ public final class AnglerConstants {
     public static final double kRampRate = 2.0; // seconds to go from 0 to full power
 
     // Number of rotations of the motor that makes one rotation of the screw (on the outer shaft)
-    public static final double ANGLER_GEAR_RATIO = 1.0; //TODO: FIND OUT THIS ACTUAL VALUE!!!
+    public static final double ANGLER_GEAR_RATIO = 35.0;
     // Number of rotations of the outer shaft to move the Angler by one degree
     public static final double ROTATIONS_PER_DEGREE = 1.0; //TODO: FIND OUT THIS ACTUAL VALUE!!!
 

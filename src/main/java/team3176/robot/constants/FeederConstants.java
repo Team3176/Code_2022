@@ -16,7 +16,7 @@ public final class FeederConstants{
 
     public static final int FEEDER_NEO_CAN_ID = 60;
 
-    public static final double FEEDER_GEAR_RATIO = 1.0; //TODO: Find this out
+    public static final double FEEDER_GEAR_RATIO = 7.0;
 
     public static final double kRampRate = 0.5; // seconds to go from 0 to full
 

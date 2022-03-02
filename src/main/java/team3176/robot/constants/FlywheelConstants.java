@@ -26,7 +26,7 @@ public final class FlywheelConstants {
     public static final double kRampRate = 0.5; // seconds from 0 to full speed...?
 
     public static final int TICKS_PER_REV = 2048;
-    public static final double FLYWHEEL_FALCON1_GEAR_RATIO = 1.0;   //TODO: Find these out
+    public static final double FLYWHEEL_FALCON1_GEAR_RATIO = 1.0;
     public static final double FLYWHEEL_FALCON2_GEAR_RATIO = 1.0;
 
     public static final int MAX_TICKSPER100MS = 2048; //TODO: FIND THE ACTUAL MAX
