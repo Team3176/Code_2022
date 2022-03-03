@@ -2,7 +2,6 @@ package team3176.robot.util.God;
 
 import edu.wpi.first.wpilibj.Timer;
 import team3176.robot.*;
-import team3176.robot.commands.auton.auto1Hypo;
 
 
 public class Units3176{
