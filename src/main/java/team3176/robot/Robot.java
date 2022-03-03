@@ -12,6 +12,7 @@ import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
 import org.littletonrobotics.junction.io.*;
 import team3176.robot.constants.MasterConstants;
 import team3176.robot.subsystems.*;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,6 +28,7 @@ public class Robot extends LoggedRobot {
   private Indexer m_Indexer;
   private Angler m_Angler;
   private Flywheel m_Flywheel;
+  private Feeder m_Feeder;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -58,6 +60,7 @@ public class Robot extends LoggedRobot {
     m_Indexer = Indexer.getInstance();
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
+    m_Feeder = Feeder.getInstance();
 
     m_robotContainer = new RobotContainer();
   }
@@ -76,6 +79,11 @@ public class Robot extends LoggedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    if (MasterConstants.IS_CMD_SCH_LOGGING) {
+      Logger.getInstance().recordOutput("Scheduler Commands", NetworkTableInstance.getDefault()
+        .getEntry("/LiveWindow/Ungrouped/Scheduler/Names").getStringArray(new String[] {}));
+    }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -99,6 +107,7 @@ public class Robot extends LoggedRobot {
     m_Indexer.mode = "auto";
     m_Angler.mode = "auto";
     m_Flywheel.mode = "auto";
+    m_Feeder.mode = "auto";
   }
 
   /** This function is called periodically during autonomous. */
@@ -119,8 +128,7 @@ public class Robot extends LoggedRobot {
     m_Indexer.mode = "teleop";
     m_Angler.mode = "teleop";
     m_Flywheel.mode = "teleop";
-    //SmartDashboard.putBoolean("Has Run?", false);
-    //SmartDashboard.putNumber("Info", -999);
+    m_Feeder.mode = "teleop";
   }
 
   /** This function is called periodically during operator control. */
@@ -131,11 +139,11 @@ public class Robot extends LoggedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-
     m_Intake.mode = "test";
     m_Indexer.mode = "test";
     m_Angler.mode = "test";
     m_Flywheel.mode = "test";
+    m_Feeder.mode = "test";
   }
 
   /** This function is called periodically during test mode. */
@@ -145,6 +153,7 @@ public class Robot extends LoggedRobot {
     m_Indexer.periodic(); 
     m_Angler.periodic();
     m_Flywheel.periodic();
+    m_Feeder.periodic();
   }
 
   /** This function is called once when the robot is first started up. */

@@ -5,7 +5,7 @@
 package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.constants.TransferConstants;
+import team3176.robot.constants.FeederConstants;
 import team3176.robot.subsystems.Feeder;
 
 public class FeederReverse extends InstantCommand {
@@ -17,6 +17,6 @@ public class FeederReverse extends InstantCommand {
 
   @Override
   public void initialize() {
-    m_Feeder.motor2Velocity(-TransferConstants.MAX_VELOCITY);
+    m_Feeder.setVelocityPID(-FeederConstants.MAX_VELOCITY);
   }
 }

@@ -22,11 +22,14 @@ public final class AnglerConstants {
     public static final double kRampRate = 2.0; // seconds to go from 0 to full power
 
     // Number of rotations of the motor that makes one rotation of the screw (on the outer shaft)
-    public static final double ANGLER_GEAR_RATIO = 1.0; //TODO: FIND OUT THIS ACTUAL VALUE!!!
+    public static final double ANGLER_GEAR_RATIO = 35.0;
     // Number of rotations of the outer shaft to move the Angler by one degree
     public static final double ROTATIONS_PER_DEGREE = 1.0; //TODO: FIND OUT THIS ACTUAL VALUE!!!
 
-    public static final double kDegreesPerSecondForAngleFind = 5.0; // Degrees per second that the angler should move when finding the position of 45 degrees
+    public static final double kAnglerMinDegrees = 45.0;
+    public static final double kAnglerMaxDegrees = 80.0;
+
+    public static final double kDegreesPerSecondForZeroing = 5.0; // Degrees per second that the angler should move when finding the position of 45 degrees
 
     public static final int limiter1Channel = 0;
     public static final int limiter2Channel = 1;

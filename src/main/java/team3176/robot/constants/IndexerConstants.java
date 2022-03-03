@@ -9,5 +9,6 @@ public final class IndexerConstants {
     public static final int NUM_OF_SENSORS = 3;
     public static final double RAMP_RATE = 0.5; //seconds to go from 0 to full
     public static final int I2C_DEVICE_ADDRESS = 8;
+    public static final double INDEXER_GEAR_RATIO = 7.0;
 
 }

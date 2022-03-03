@@ -53,10 +53,10 @@ public class Indexer extends SubsystemBase
     indexerMotor.set(0.0);
   }
 
-  public void IndexerSpin()
-  {
-    indexerMotor.set(0.1);
-  }
+  // public void IndexerSpin()
+  // {
+  //   indexerMotor.set(0.1);
+  // }
 
   public int reportState()
   {
