@@ -456,7 +456,14 @@ public class Drivetrain extends SubsystemBase {
   }
 
 
-  
+  public double getPodVelocity(int podID) {
+    return pods.get(podID).getVelocity();
+  }
+
+  public double  getPodAzimuth(int podID) {
+    return pods.get(podID).getAzimuth();
+  }
+
 /*
   public ChassisSpeeds getChassisSpeed() {
     return DrivetrainConstants.DRIVE_KINEMATICS.toChassisSpeeds(podFR.getState(), podFL.getState(), podBL.getState(), podBR.getState());
