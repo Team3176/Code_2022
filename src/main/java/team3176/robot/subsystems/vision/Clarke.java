@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.util.PIDLoop;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 
 public class Clarke extends SubsystemBase {
@@ -41,8 +43,6 @@ public class Clarke extends SubsystemBase {
   private NetworkTableEntry pipeline;
   private NetworkTableEntry camMode;
   private NetworkTableEntry ledMode;
-  private NetworkTableEntry minX;
-  private NetworkTableEntry maxX;
   private NetworkTableEntry miny;
   private NetworkTableEntry maxY;
   private double centX;
@@ -57,6 +57,8 @@ public class Clarke extends SubsystemBase {
 
   // initializing variables for kinematic calculations
   private final double gravity = -9.81; // m/s^2
+  private double minX;
+  private double maxX;
   private double deltaX; // m
   private double deltaY; // m
   private double[] initialVelocity = {4.0, 3.0, 2.0}; // m/s
@@ -68,7 +70,7 @@ public class Clarke extends SubsystemBase {
   private double time; // seconds
   PIDController peeEyeDee = new PIDController(1.0, 0.0, 0.0);
   private int idxCounter = 0; 
-
+  private ObjectMapper mapper;
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
   //private double ballDegrees = -999; // degrees away from pi where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
 
@@ -78,7 +80,9 @@ public class Clarke extends SubsystemBase {
   public Clarke(){
     tableInstance = NetworkTableInstance.getDefault();
     piTable = tableInstance.getTable("ML");
-   
+    mapper = new ObjectMapper();
+    minX = 0.0;
+    maxX = 0.0;
     
     updateVisionData();
     //piTable.getEntry("pipeline").setNumber(activePipeline);
@@ -88,16 +92,28 @@ public class Clarke extends SubsystemBase {
     detections = piTable.getEntry("detections");
 
     //String myvalue = detections.getStringArray("detections"); 
-    String myvalueArr = detections.getString("ABCD"); 
-    System.out.println(myvalueArr);
+    String jsonString = detections.getString("{\"xmax\":\"0\", \"xmin\":\"0.0\"}"); 
+    System.out.println(jsonString);
+    try{
+      JsonNode node = mapper.readTree(jsonString);
+      this.minX = node.get("xmin").asDouble();
+      this.minX = node.get("xmin").asDouble();
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+
   }
+
   public void getCenter(){
-    centX =  ( maxX.getDouble(-1) -  minX.getDouble(-1)) / 2;
+    centX =  ( maxX -  minX) / 2;
     center = (680.0/2.0) - centX;
-  } //Are they ints or doubles?
+  } 
+
   public double pidCalc(){
     return peeEyeDee.calculate(center, 0);
   }
+
+
   /**
    * Can be called to force update of VisionClient data structure
    */
