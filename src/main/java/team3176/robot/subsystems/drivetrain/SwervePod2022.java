@@ -283,6 +283,7 @@ public class SwervePod2022 {
         this.velTicsPer100ms = Units3176.fps2ums(this.podThrust);
        // velTicsPer100ms = SmartDashboard.getNumber("thrustSet",velTicsPer100ms);
         double optmizdAzimuthPos = optimizeAzimuthPos(this.podAzimuth);
+        //double optmizdAzimuthPos = this.podAzimuth;
         //double tics = rads2Tics(this.podAzimuth);
 
         double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
@@ -363,6 +364,21 @@ public class SwervePod2022 {
         return this.azimuthEncoderPosition;
     }
 
+    public double getVelocity() {
+        double motorShaftVelocity = thrustController.getSelectedSensorVelocity();   
+        double wheelVelocityInFeetPerSecond = Units3176.ums2fps(motorShaftVelocity); 
+        double wheelVelocityInMetersPerSecond = Units3176.feetPerSecond2metersPerSecond(wheelVelocityInFeetPerSecond);
+        return wheelVelocityInMetersPerSecond;
+    }
+
+    /**
+     * Returns current Azimuth of pod in degrees, where 0 is straight forward.
+     * @return
+     */
+    public double getAzimuth() {
+        return azimuthEncoder.getPosition(); 
+    }
+
     public void initializeSmartDashboard() {
 
         SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_setpoint_angle", 0);
@@ -373,7 +389,6 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_encoder", this.azimuthEncoderPosition);
         SmartDashboard.putBoolean("P"+(this.id)+".On", false);
     }
-
 
     public void SwervePod2022SmartDashboardComments () {
         //SwervePod2022 comments start

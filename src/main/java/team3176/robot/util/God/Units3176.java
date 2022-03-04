@@ -44,4 +44,13 @@ public class Units3176{
         // return i * 100;
     }
 
+    public static double ums2fps(double i) {
+        return i / .1 / 6.17 / 2048.0 / (1.0/10.21) / 12.0; 
+
+    }
+
+    public static double feetPerSecond2metersPerSecond(double i) {
+        return i / 3.2808; 
+    }
+
 }
