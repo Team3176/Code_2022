@@ -283,6 +283,7 @@ public class SwervePod2022 {
         this.velTicsPer100ms = Units3176.fps2ums(this.podThrust);
        // velTicsPer100ms = SmartDashboard.getNumber("thrustSet",velTicsPer100ms);
         double optmizdAzimuthPos = optimizeAzimuthPos(this.podAzimuth);
+        //double optmizdAzimuthPos = this.podAzimuth;
         //double tics = rads2Tics(this.podAzimuth);
 
         double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
