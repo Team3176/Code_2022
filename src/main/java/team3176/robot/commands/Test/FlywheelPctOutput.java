@@ -10,30 +10,23 @@ import team3176.robot.subsystems.Flywheel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FlywheelPctOutput extends CommandBase {
-  /** Creates a new FlywheelPctOutput. */
-
   private Flywheel m_Flywheel = Flywheel.getInstance();
-
   public FlywheelPctOutput() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Flywheel);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
     SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_Flywheel.percentOutput_1();
     m_Flywheel.percentOutput_2();
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_Flywheel.stopMotors();
@@ -41,7 +34,6 @@ public class FlywheelPctOutput extends CommandBase {
     SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName2);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

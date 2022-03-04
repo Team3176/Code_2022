@@ -18,7 +18,7 @@ public class AnglerVisionSet extends CommandBase {
 
   @Override
   public void initialize() {
-    double visionAngle = 55.0; //m_Vision.getBestAngle();
+    double visionAngle = 55.0; //m_Vision.getBestAngle(); //TODO: ADD VISION
     m_Angler.moveToAngle(visionAngle);
   }
 

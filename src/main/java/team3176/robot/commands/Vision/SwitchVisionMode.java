@@ -4,16 +4,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.Vision;
 
 public class SwitchVisionMode extends CommandBase {
-    private final Vision mSubsystem;
+    private final Vision m_Vision = Vision.getInstance();
 
-    public SwitchVisionMode(Vision subsystem){
-        mSubsystem = subsystem;
-        addRequirements(subsystem);
+    public SwitchVisionMode() {
+        addRequirements(m_Vision);
     }
 
     @Override
     public void execute(){
-        mSubsystem.setVisionProcessing(!mSubsystem.getVisionProcessing());
+        m_Vision.setVisionProcessing(!m_Vision.getVisionProcessing());
     }
 
     @Override

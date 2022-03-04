@@ -33,8 +33,7 @@ public class IntakeIndexerIntegration extends CommandBase {
   public void execute() {
     currState = lastState;
     currState = m_Indexer.reportState();
-    if (currState != lastState && currState == 100)
-    {
+    if (currState != lastState && currState == 100) {
       numTimes100++;
       m_Indexer.requestState(010);
     }
@@ -44,8 +43,7 @@ public class IntakeIndexerIntegration extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    if (numTimes100 == 1)
-    {
+    if (numTimes100 == 1) {
       m_Indexer.requestState(100);
     }
     m_Intake.Retract();
@@ -54,14 +52,8 @@ public class IntakeIndexerIntegration extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if (numTimes100 == 2)
-    {
-      return true;
-    }
-    else if (timeElasped.get() == 10)
-    {
-      return true;
-    }
+    if (numTimes100 == 2) {return true;}
+    else if (timeElasped.get() == 10) {return true;}
     return false;
   }
 }

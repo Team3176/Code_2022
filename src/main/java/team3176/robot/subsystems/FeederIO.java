@@ -37,6 +37,6 @@ public interface FeederIO{
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
 
-  /** Velocity of the Transfer */
+  /** Velocity of the Feeder */
   public default void setFeederVelocity(double velocity) {}
 }

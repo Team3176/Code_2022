@@ -1,6 +1,5 @@
 package team3176.robot.util.XboxController;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -20,7 +19,8 @@ public class XboxAxisAsButton extends Trigger {
    * @param xboxController The joystick
    * @param axis Axis input to convert into a button. 
    * @param threshold The axis value above which will return a "button press", and below which will return no "button press"
-   */ 
+   */
+  
   public XboxAxisAsButton( XboxController xboxController, int axis, double threshold) {
     this.m_XboxController = xboxController;
     this.m_Axis = axis;

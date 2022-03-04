@@ -51,8 +51,7 @@ public class Angler extends SubsystemBase {
   // represents the angle of the Angler at which the encoder should read zero
   private double motorZero;
 
- public Angler(AnglerIO io) 
- {
+ public Angler(AnglerIO io) {
    this.io = io;
 
     anglerMotor = new CANSparkMax(AnglerConstants.ANGLER_SPARK_CAN_ID, MotorType.kBrushless);
@@ -88,8 +87,7 @@ public class Angler extends SubsystemBase {
    * Should be called in this subsystem before any line that makes the motor move. This enables the PID controller after it is
    * automatically disabled when setting the motor to 0.0 speed with the simple set() method.
    */
-  public void reengagePIDLoop()
-  {
+  public void reengagePIDLoop() {
     // Yes, this DOES set velocity control. However, this line is only called to reengage the PID loop before any of the PID position
     // control lines are called. This line will only be active for an instant. The reason for this is because if the set() method is
     // called on the motor, it stops using the PID loop as reference. When the PID loop is called for a reference the next time, the motor
@@ -106,8 +104,7 @@ public class Angler extends SubsystemBase {
    * @param controlType
    * @author Jared Brown
    */
-  public void engagePIDMotorPosition(double value)
-  {
+  public void engagePIDMotorPosition(double value) {
     if (!limiterLowEngaged && !limiterHighEngaged) {
       this.setValue = value;
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
@@ -115,8 +112,7 @@ public class Angler extends SubsystemBase {
     }
   }
 
-  public void engageRawMotor(double percentOutput)
-  {
+  public void engageRawMotor(double percentOutput) {
     this.setValue = percentOutput;
     if (!limiterLowEngaged && !limiterHighEngaged && percentOutput >= -1 && percentOutput <= 1) {
       PIDLoopEngaged = false;
@@ -124,15 +120,13 @@ public class Angler extends SubsystemBase {
     }
   }
 
-  public void testPercentOutput() 
-  {
+  public void testPercentOutput() {
     engageRawMotor(SmartDashboard.getNumber(AnglerConstants.kShuffleboardPercentName, 0.0));
     SmartDashboard.putNumber("AnglerRPMOut", encoder.getVelocity());
   }
 
   // Does the same thing as engageRawMotor(), except it ignores the limiter conditional so it can stop the motors no matter what
-  public void limiterStopMotor()
-  {
+  public void limiterStopMotor() {
     PIDLoopEngaged = false;
     // Do NOT change the this.setValue variable for the limiter stopping the motor. It needs to remain where
     // it was so that we know which direction we were trying to go originally, and so that the motor doesn't
@@ -140,8 +134,7 @@ public class Angler extends SubsystemBase {
     anglerMotor.set(0.0);
   }
 
-  public void changeAngle(double angleChange)
-  {
+  public void changeAngle(double angleChange) {
     double rotationsOfMotor = angleChange * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO;
     if ((encoder.getPosition() + rotationsOfMotor <= 80 * AnglerConstants.ROTATIONS_PER_DEGREE) &&
         (encoder.getPosition() + rotationsOfMotor >= 45 * AnglerConstants.ROTATIONS_PER_DEGREE)) {
@@ -149,8 +142,7 @@ public class Angler extends SubsystemBase {
     }
   }
 
-  public void moveToAngle(double newAngle)
-  {
+  public void moveToAngle(double newAngle) {
     double oldAngleInRotationsOfMotor = encoder.getPosition();
     double differenceInRotations = (positionAt45Deg + (newAngle * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO)) - oldAngleInRotationsOfMotor;
     if ((newAngle <= 80) && (newAngle >= 45)) {
@@ -158,27 +150,22 @@ public class Angler extends SubsystemBase {
     }
   }
 
-
   /**
    * Sets the velocity of the angler in degrees/sec
    * @param velocity deg/s
    * @author Jared Brown and Christian Schweitzer
    */
-  public void setVelocity(double degreesPerSecond)
-  {
+  public void setVelocity(double degreesPerSecond) {
     double rotationsPerMin = degreesPerSecond * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO * 60;
     //this.engagePIDMotor(rotationsPerMin, ControlType.kVelocity);
   }
 
-
-  public void zeroAtMin()
-  {
+  public void zeroAtMin() {
     encoder.setPosition(0.0);
     motorZero = AnglerConstants.kAnglerMinDegrees;
   }
 
-  public void zeroAtMax()
-  {
+  public void zeroAtMax() {
     encoder.setPosition(0.0);
     motorZero = AnglerConstants.kAnglerMaxDegrees;
   }
@@ -189,21 +176,17 @@ public class Angler extends SubsystemBase {
    * has not been properly zeroed out and therefore has no reference point for position setting -- zero it out first.
    * @return
    */
-  public double getAnglerZero() { return motorZero; }
+  public double getAnglerZero() {return motorZero;}
 
-
-  public void shuffleboardVelocity()  
-  {
+  public void shuffleboardVelocity() {
     double newVelocity = SmartDashboard.getNumber("Velocity (RPM)", this.smartdashboardVelocity);
-    if (newVelocity != this.smartdashboardVelocity) 
-    {
+    if (newVelocity != this.smartdashboardVelocity) {
       this.smartdashboardVelocity = newVelocity;
       //engagePIDMotor(this.smartdashboardVelocity, ControlType.kVelocity);
     }
   }
 
-  public void tunePID()
-  {
+  public void tunePID() {
     double newFF = SmartDashboard.getNumber("Angler FF", 0.0);
     if (newFF != PIDController.getFF()) {
       PIDController.setFF(newFF);
@@ -215,13 +198,13 @@ public class Angler extends SubsystemBase {
    * @author Jared Brown
    * @return Lower limiter value
    */
-  public boolean getLimiterLow() { return limiterLowEngaged; }
+  public boolean getLimiterLow() {return limiterLowEngaged;}
     /**
    * Returns true if the higher limit switch is pressed
    * @author Jared Brown
    * @return Higher limiter value
    */
-  public boolean getLimiterHigh() { return limiterHighEngaged; }
+  public boolean getLimiterHigh() {return limiterHighEngaged;}
 
 
   public void putSmartDashboardControlCommands() {
@@ -255,25 +238,21 @@ public class Angler extends SubsystemBase {
       limiterLowEngaged = false;
       limiterHighEngaged = false;
     }
-    if(mode.equals("test"))
-    {
+    if(mode.equals("test")) {
       if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
       setValuesFromSmartDashboard();
     }
-
   }
 
   public void runVoltage(double volts) {
     io.setVoltage(volts);
   }
 
-  public double getAnglerPosition()
-  {
+  public double getAnglerPosition() {
     return inputs.position;
   }
 
-  public void setAnglerPosition(double position)
-  {
+  public void setAnglerPosition(double position) {
     io.setAnglerPosition(position);
   }
 
@@ -286,5 +265,4 @@ public class Angler extends SubsystemBase {
     if(instance == null) {instance = new Angler(new AnglerIO() {});}
     return instance;
   }
-
 }

@@ -14,7 +14,8 @@ public class LoneButton extends Trigger {
    * @param includeButton Button to be the "lone" button
    * @param excludeButton1 The first button in the pair to exclude
    * @param excludeButton2 The second button in the pair to exclude
-   */ 
+   */
+  
   public LoneButton(Joystick joystick, int includeButton, int excludeButton) {
     this.m_joystick = joystick;
     this.m_include = includeButton;

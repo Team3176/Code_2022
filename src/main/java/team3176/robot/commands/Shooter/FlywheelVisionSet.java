@@ -16,10 +16,9 @@ public class FlywheelVisionSet extends InstantCommand {
     addRequirements(m_Flywheel);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    int visionTicksPer100MS = 100; //m_Vision.getBestFlywheelTicksPer100MS();
+    int visionTicksPer100MS = 100; //m_Vision.getBestFlywheelTicksPer100MS(); //TODO: ADD VISION
     m_Flywheel.spinMotors(visionTicksPer100MS);
   }
 }

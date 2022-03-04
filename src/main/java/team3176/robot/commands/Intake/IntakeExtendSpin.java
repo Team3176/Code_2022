@@ -9,43 +9,28 @@ import team3176.robot.subsystems.Intake;
 
 /** An example command that uses an example subsystem. */
 public class IntakeExtendSpin extends CommandBase {
-  private Intake m_Intake;
+  private Intake m_Intake = Intake.getInstance();
 
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
-  // Intake m_Intake = Intake.getInstance();
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public IntakeExtendSpin(Intake m_Intake) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public IntakeExtendSpin() {
     addRequirements(m_Intake);
-    this.m_Intake = m_Intake;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() 
-  {
-    if (!(m_Intake.getPistonSetting()))
-    {
+  public void execute() {
+    if (!(m_Intake.getPistonSetting())) {
       m_Intake.Extend();
-      m_Intake.spinVelocityPercent(0.4); // <-- temporary value
+      m_Intake.spinVelocityPercent(0.4); // <-- temporary value //TODO: FIND ACTUAL VALUE
     }
   }
-  // Called once the command ends or is interrupted.
+
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true; //TODO: FIX LOGIC
   }
 }

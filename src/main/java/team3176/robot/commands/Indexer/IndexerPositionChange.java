@@ -33,7 +33,6 @@ public class IndexerPositionChange extends CommandBase {
     m_Indexer.motorStop();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return (wantedPos == m_Indexer.reportState());

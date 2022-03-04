@@ -16,9 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj.I2C;
 
-public class Indexer extends SubsystemBase
-{
-  // private static Indexer instance = new Indexer();
+public class Indexer extends SubsystemBase {
   private static Indexer instance;
 
   private CANSparkMax indexerMotor;
@@ -53,13 +51,11 @@ public class Indexer extends SubsystemBase
     indexerMotor.set(0.0);
   }
 
-  // public void IndexerSpin()
-  // {
+  // public void IndexerSpin() {
   //   indexerMotor.set(0.1);
   // }
 
-  public int reportState()
-  {
+  public int reportState() {
     int state = 0;
     if (firstPos)
       state += 100;
@@ -71,18 +67,15 @@ public class Indexer extends SubsystemBase
     return state;
   }
 
-  public void Up()
-  {
+  public void Up() { //TODO: RENAME TO SOMETHING BETTER
     indexerMotor.set(0.1);
   }
 
-  public void Down()
-  {
+  public void Down() { //TODO: RENAME TO SOMETHING BETTER
     indexerMotor.set(-0.1);
   }
 
-  public void requestState(int s)
-  {
+  public void requestState(int s) {
     int state = reportState();
     if(state == 100 && s == 110) {
       Up();

@@ -5,16 +5,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.Vision;
 
 public class CalculateCameraTargetDistance extends CommandBase {
-
-    private final Vision mSubsystem;
+    private final Vision m_Vision = Vision.getInstance();
     private double[] distances;
     private double averageDistance;
 
-    public CalculateCameraTargetDistance(Vision subsystem){
-        mSubsystem = subsystem;
+    public CalculateCameraTargetDistance() {
         distances = new double[10];
         averageDistance = 0;
-        addRequirements(subsystem);
+        addRequirements(m_Vision);
     }
 
     @Override
