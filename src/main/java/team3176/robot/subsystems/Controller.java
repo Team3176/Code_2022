@@ -203,6 +203,102 @@ public class Controller {
   }
 
   /**
+   * Joystick response curve: Linear 
+   * @return (f(x) = x) 
+   */
+  public static double joyResponseLinear(double joyInput) {
+    return Math.pow(joyInput, 1);
+  }
+
+  /**
+   * Joystick response curve: 8-2 Cubic 
+   * @return (f(x) = 0.8x+0.2x^3)
+   */
+  public static double joyResponse82Cubic(double joyInput) {
+    double a = 0.8;
+    double b = 0.2;
+    return ((a * Math.pow(joyInput,1)) + (b * Math.pow(joyInput,3)));
+  } 
+  
+  /**
+   * Joystick response curve: 6-4 Cubic 
+   * @return (f(x) = 0.6x+0.4x^3)
+   */
+  public static double joyResponse64Cubic(double joyInput) {
+    double a = 0.6;
+    double b = 0.4;
+    return ((a * Math.pow(joyInput,1)) + (b * Math.pow(joyInput,3)));
+  } 
+ 
+  /**
+   * Joystick response curve: 4-6 Cubic 
+   * @return (f(x) = 0.4x+0.6x^3)
+   */
+  public static double joyResponse46Cubic(double joyInput) {
+    double a = 0.4;
+    double b = 0.6;
+    return ((a * Math.pow(joyInput,1)) + (b * Math.pow(joyInput,3)));
+  } 
+ 
+  /**
+   * Joystick response curve: 2-8 Cubic 
+   * @return (f(x) = 0.4x+0.6x^3)
+   */
+  public static double joyResponse28Cubic(double joyInput) {
+    double a = 0.2;
+    double b = 0.8;
+    return ((a * Math.pow(joyInput,1)) + (b * Math.pow(joyInput,3)));
+  } 
+ 
+  /**
+   * Joystick response curve: Full Cubic 
+   * @return (f(x) = x^3)
+   */
+  public static double joyResponseFullCubic(double joyInput) {
+    return (Math.pow(joyInput,3));
+  }
+  
+  /**
+   * Joystick response curve: 2parm25
+   * @return (f(x) = a + (1 - a) * (b*x^3+b*x))
+   * a = 0.2  
+   * b = 0.5  
+   */
+  public static double joyResponse2parm25(double joyInput) {
+    double a = 0.2;
+    double b = 0.5;
+    if (joyInput < 0) { 
+      return ( -a + (1 - a) * (b * Math.pow(joyInput,3) + b * joyInput));
+    } else {
+      return ( a + (1 - a) * (b * Math.pow(joyInput,3) + b * joyInput));
+    }
+  }
+  
+  /**
+   * Joystick response curve: 2parm28
+   * @return (f(x) = a + (1 - a) * (b*x^3+b*x))
+   * a = 0.2  
+   * b = 0.8  
+   */
+  public static double joyResponse2parm28(double joyInput) {
+    double a = 0.2;
+    double b = 0.8;
+    if (joyInput < 0) { 
+      return ( -a + (1 - a) * (b * Math.pow(joyInput,3) + b * joyInput));
+    } else {
+      return ( a + (1 - a) * (b * Math.pow(joyInput,3) + b * joyInput));
+    }
+  }
+  
+  
+
+  
+
+
+
+
+
+  /**
    * Scale is the power of 1
    * Deadband of 0.06
    * @return The scales magnitude vector of the Y axis of RotStick if it breaks deadband
