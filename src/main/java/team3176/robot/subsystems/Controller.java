@@ -290,22 +290,22 @@ public class Controller {
   public JoystickButton getTransStick_Button15() {return transStick_Button15;}
   public JoystickButton getTransStick_Button16() {return transStick_Button16;}
 
-  public JoystickButton getrotStick_Button1() {return rotStick_Button1;}
-  public JoystickButton getrotStick_Button2() {return rotStick_Button2;}
-  public JoystickButton getrotStick_Button3() {return rotStick_Button3;}
-  public JoystickButton getrotStick_Button4() {return rotStick_Button4;}
-  public JoystickButton getrotStick_Button5() {return rotStick_Button5;}
-  public JoystickButton getrotStick_Button6() {return rotStick_Button6;}
-  public JoystickButton getrotStick_Button7() {return rotStick_Button7;}
-  public JoystickButton getrotStick_Button8() {return rotStick_Button8;}
-  public JoystickButton getrotStick_Button9() {return rotStick_Button9;}
-  public JoystickButton getrotStick_Button10() {return rotStick_Button10;}
-  public JoystickButton getrotStick_Button11() {return rotStick_Button11;}
-  public JoystickButton getrotStick_Button12() {return rotStick_Button12;}
-  public JoystickButton getrotStick_Button13() {return rotStick_Button13;}
-  public JoystickButton getrotStick_Button14() {return rotStick_Button14;}
-  public JoystickButton getrotStick_Button15() {return rotStick_Button15;}
-  public JoystickButton getrotStick_Button16() {return rotStick_Button16;}
+  public JoystickButton getRotStick_Button1() {return rotStick_Button1;}
+  public JoystickButton getRotStick_Button2() {return rotStick_Button2;}
+  public JoystickButton getRotStick_Button3() {return rotStick_Button3;}
+  public JoystickButton getRotStick_Button4() {return rotStick_Button4;}
+  public JoystickButton getRotStick_Button5() {return rotStick_Button5;}
+  public JoystickButton getRotStick_Button6() {return rotStick_Button6;}
+  public JoystickButton getRotStick_Button7() {return rotStick_Button7;}
+  public JoystickButton getRotStick_Button8() {return rotStick_Button8;}
+  public JoystickButton getRotStick_Button9() {return rotStick_Button9;}
+  public JoystickButton getRotStick_Button10() {return rotStick_Button10;}
+  public JoystickButton getRotStick_Button11() {return rotStick_Button11;}
+  public JoystickButton getRotStick_Button12() {return rotStick_Button12;}
+  public JoystickButton getRotStick_Button13() {return rotStick_Button13;}
+  public JoystickButton getRotStick_Button14() {return rotStick_Button14;}
+  public JoystickButton getRotStick_Button15() {return rotStick_Button15;}
+  public JoystickButton getRotStick_Button16() {return rotStick_Button16;}
 
   public Trigger getOp_A() {return op_A;}
   public Trigger getOp_A_FS() {return op_A_Shift;}

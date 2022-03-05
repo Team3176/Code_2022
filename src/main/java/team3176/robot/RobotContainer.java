@@ -95,8 +95,17 @@ public class RobotContainer {
 
   
   private void configureButtonBindings() {
-    m_Controller.getTransStick_Button4().whenActive(new ToggleCoordSys());
-    // m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
+    m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
+    m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
+    m_Controller.getTransStick_Button2().whenHeld(new SwerveDefense());
+    m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
+
+    m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
+    m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
+
+
+
+    //m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
     // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     // m_Controller.getOp_Start().whenActive(new TransferToggle());
     // m_Controller.getOp_Back().whenActive(new ShooterReset());
