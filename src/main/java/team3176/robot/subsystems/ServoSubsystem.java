@@ -13,9 +13,7 @@ import edu.wpi.first.wpilibj.Servo;
 
 public class ServoSubsystem extends SubsystemBase {
   private Servo servo;
-  /**
-   * Creates a new ExampleSubsystem.
-   */
+
   public ServoSubsystem() {
      servo = new Servo(VisionConstants.SERVO_PORT);
   }
@@ -33,7 +31,5 @@ public class ServoSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+  public void periodic() {}
 }

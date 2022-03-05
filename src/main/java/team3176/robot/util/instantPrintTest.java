@@ -6,16 +6,12 @@ package team3176.robot.util;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class instantPrintTest extends InstantCommand {
   private String stringToPrint;
   public instantPrintTest(String passThrough) {
     stringToPrint = passThrough;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     System.out.println(stringToPrint);

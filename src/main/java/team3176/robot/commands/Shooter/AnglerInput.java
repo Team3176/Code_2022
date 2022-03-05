@@ -16,7 +16,6 @@ public class AnglerInput extends InstantCommand {
     this.angle = angle;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_Angler.moveToAngle(this.angle);

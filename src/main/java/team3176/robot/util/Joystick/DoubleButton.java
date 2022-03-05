@@ -13,7 +13,8 @@ public class DoubleButton extends Trigger {
    * @param joystick The joystick
    * @param button1 The first button in the pair
    * @param button2 The second button in the pair
-   */ 
+   */
+  
   public DoubleButton(Joystick joystick, int button1, int button2) {
     this.m_joystick = joystick;
     this.m_button1 = button1;

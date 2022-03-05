@@ -9,9 +9,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import org.littletonrobotics.junction.Logger;
-
 import team3176.robot.subsystems.ClimbIO.ClimbIOInputs;
-import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;

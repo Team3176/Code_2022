@@ -44,7 +44,7 @@ public class Feeder extends SubsystemBase
   {
     double output = SmartDashboard.getNumber(FeederConstants.kShuffleboardPercentName, 0.0);
     if (output >= -1 && output <= 1) { feederMotor.set(output); }
-    SmartDashboard.putNumber("TransferRPMOut", encoder.getVelocity());
+    SmartDashboard.putNumber("FeederRPMOut", encoder.getVelocity());
   }
 
   public void setVelocityPID(double RPM)

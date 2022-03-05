@@ -8,17 +8,20 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.Flywheel;
 import team3176.robot.subsystems.Vision;
 
-public class FlywheelVisionSet extends InstantCommand {
+public class FlywheelBackSpinSet extends InstantCommand {
   private Flywheel m_Flywheel = Flywheel.getInstance();
   private Vision m_Vision = Vision.getInstance();
+  private double front;
+  private double back;
 
-  public FlywheelVisionSet() {
+  public FlywheelBackSpinSet(double front, double back) {
+    this.front = front;
+    this.back = back;
     addRequirements(m_Flywheel);
   }
 
   @Override
   public void initialize() {
-    int visionTicksPer100MS = 100; //m_Vision.getBestFlywheelTicksPer100MS(); //TODO: ADD VISION
-    m_Flywheel.spinMotors(visionTicksPer100MS);
+    m_Flywheel.spinMotors(this.front, this.back);
   }
 }

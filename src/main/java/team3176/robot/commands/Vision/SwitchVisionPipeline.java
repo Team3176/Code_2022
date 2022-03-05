@@ -4,21 +4,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.Vision;
 
 public class SwitchVisionPipeline extends CommandBase {
-    private final Vision mSubsystem;
+    private final Vision m_Vision = Vision.getInstance();
 
-    public SwitchVisionPipeline(Vision subsystem){
-        mSubsystem = subsystem;
-        addRequirements(subsystem);
+    public SwitchVisionPipeline() {
+        addRequirements(m_Vision);
     }
 
     @Override
     public void initialize(){
-        mSubsystem.setVisionProcessing(true);
+        m_Vision.setVisionProcessing(true);
     }
 
     @Override
     public void execute(){
-        mSubsystem.setActivePipeline((mSubsystem.getCurrentPipeline() == 2) ? 1 : 2);
+        m_Vision.setActivePipeline((m_Vision.getCurrentPipeline() == 2) ? 1 : 2);
     }
 
     @Override

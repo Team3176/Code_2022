@@ -15,7 +15,6 @@ public class FlywheelMaxVel extends InstantCommand {
     addRequirements(m_Flywheel);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_Flywheel.spinMotors(FlywheelConstants.MAX_TICKSPER100MS);
