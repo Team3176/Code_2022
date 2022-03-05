@@ -97,13 +97,13 @@ public class Vision extends SubsystemBase {
 
     updateVisionData();
 
-    SmartDashboard.putNumber("Info", tcornxy.getDoubleArray(new double[0]).length);
+    separateCornArray();
+
+    SmartDashboard.putNumber("Info", tcornx.isEmpty() ? tcornx.size() : 0);
     if(tcornxy.getDoubleArray(new double[0]).length != 8){
-      SmartDashboard.putBoolean("Has Run?", true);
       return;
     }
-
-    separateCornArray();
+    SmartDashboard.putBoolean("Has Run?", true);
 
     deltaXCam = findDeltaX();
 
@@ -118,8 +118,10 @@ public class Vision extends SubsystemBase {
   }
 
   public void separateCornArray(){
-    tcornx.clear();
-    tcorny.clear();
+    try {
+      tcornx.clear();
+      tcorny.clear();
+    } finally {}
     for(int i = 0; i < 5; i++){
       tcornx.add(limelightTable.getEntry("x" + i).getDouble(-999.0));
       tcorny.add(limelightTable.getEntry("y" + i).getDouble(-999.0));
