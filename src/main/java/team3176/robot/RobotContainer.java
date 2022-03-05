@@ -90,12 +90,22 @@ public class RobotContainer {
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
+    System.out.println("init run");
   }
 
   
   private void configureButtonBindings() {
-    m_Controller.getTransStick_Button4().whenActive(new ToggleCoordSys());
-    // m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
+    m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
+    m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
+    m_Controller.getTransStick_Button2().whenHeld(new SwerveDefense());
+    m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
+
+    m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
+    m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
+
+
+
+    //m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
     // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     // m_Controller.getOp_Start().whenActive(new TransferToggle());
     // m_Controller.getOp_Back().whenActive(new ShooterReset());
@@ -142,6 +152,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    System.out.println("run");
+
     String chosen = m_autonChooser.getSelected();
     if(chosen.equals(m_5)) return new IntakeSpin(); //TODO: Put in order of frequency so the bot doesn't have to process more (shouldn't effect anything but just good to have)
     if(chosen.equals(m_4)) return new IntakeSpin();
@@ -151,7 +163,11 @@ public class RobotContainer {
     if(chosen.equals(m_S)) return new IntakeSpin();
     if(chosen.equals(m_M)) return new IntakeSpin();
     if(chosen.equals(m_B)) return new IntakeSpin();
-    if(chosen.equals(m_D)) return new IntakeSpin();
+    if(chosen.equals(m_D)) return new autoDis5Back();
+
+    System.out.println(m_autonChooser.getSelected());
+    System.out.println(m_D);
+    System.out.println("run");
 
     return new IntakeSpin(); //TODO: Return the most common auton
   }

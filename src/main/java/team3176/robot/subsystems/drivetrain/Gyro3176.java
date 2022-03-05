@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 import team3176.robot.constants.DrivetrainConstants;
 import edu.wpi.first.math.util.Units;
-
+import team3176.robot.util.God.*;
 
 public class Gyro3176 extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -27,7 +27,10 @@ public class Gyro3176 extends SubsystemBase {
 
   private double lastGyroClock;
 
+  private boolean isSpinLocked;
   private double spinLockAngle;
+
+  private PID3176 spinLockPID;
   
   public Gyro3176() {
       
@@ -43,6 +46,10 @@ public class Gyro3176 extends SubsystemBase {
 
     //Is continuous. ie 360+1=361 not m0 or -361. getNavxAngle_asRotation2d() should be same Axis Convention as Teleop, I believe.
     //odometry = new SwerveDriveOdometry(DrivetrainConstants.DRIVE_KINEMATICS, getNavxAngle_inRadians_asRotation2d()); 
+
+    isSpinLocked = false;
+
+    spinLockPID = new PID3176(0.15, 0.0, 0.0);
   }
   
   
@@ -95,7 +102,30 @@ public class Gyro3176 extends SubsystemBase {
     // SmartDashboard.putNumber("Drivetrain.getHeading_as_getNavxAngle_inDegrees()", getNavxAngle_inDegrees());
     //return gyro.getRotation2d().getRadians() ; //+ Math.PI/2;
     return getNavxAngle_inRadians() ; //+ Math.PI/2;
-  }  
+  } 
+  
+  public double getSpinLockPIDCalc() {
+    double spinCorrection = spinCorrection = -spinLockPID.returnOutput(getNavxAngle_inRadians(), spinLockAngle);
+    return spinCorrection;
+  }
+
+
+  public boolean getIsSpinLocked() {
+    return this.isSpinLocked;
+  }
+
+  public void setSpinLockToOn() {
+    this.isSpinLocked = true;
+
+  }
+  
+  public void setSpinLockToOff() {
+    this.isSpinLocked = false;
+  }
+   
+  public boolean getIsSpinLockTrue() {
+    return this.isSpinLocked;
+  }
       
   @Override
   public void periodic() {
@@ -121,4 +151,5 @@ public class Gyro3176 extends SubsystemBase {
   public static Gyro3176 getInstance() {
     return instance;
   }
+
 }
