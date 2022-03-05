@@ -90,6 +90,7 @@ public class RobotContainer {
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
+    System.out.println("init run");
   }
 
   
@@ -142,6 +143,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    System.out.println("run");
+
     String chosen = m_autonChooser.getSelected();
     if(chosen.equals(m_5)) return new IntakeSpin(); //TODO: Put in order of frequency so the bot doesn't have to process more (shouldn't effect anything but just good to have)
     if(chosen.equals(m_4)) return new IntakeSpin();
@@ -151,7 +154,11 @@ public class RobotContainer {
     if(chosen.equals(m_S)) return new IntakeSpin();
     if(chosen.equals(m_M)) return new IntakeSpin();
     if(chosen.equals(m_B)) return new IntakeSpin();
-    if(chosen.equals(m_D)) return new IntakeSpin();
+    if(chosen.equals(m_D)) return new autoDis5Back();
+
+    System.out.println(m_autonChooser.getSelected());
+    System.out.println(m_D);
+    System.out.println("run");
 
     return new IntakeSpin(); //TODO: Return the most common auton
   }

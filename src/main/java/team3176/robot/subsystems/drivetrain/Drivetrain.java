@@ -230,12 +230,14 @@ public class Drivetrain extends SubsystemBase {
       // this.strafeCommand = (-this.forwardCommand * Math.cos(this.currentAngle)
       // + this.strafeCommand * Math.sin(this.currentAngle));
       this.forwardCommand = temp;
+      SmartDashboard.putBoolean("isFieldCentricOn", true);
     }
     // TODO: Find out why we multiply by 0.75
     if (m_CoordSys.isRobotCentric()) {
       this.strafeCommand *= 1; // 0.75;
       this.forwardCommand *= 1; // 0.75;
       this.spinCommand *= 1; // 0.75;
+      SmartDashboard.putBoolean("isFieldCentricOn", false);
     }
 
     // SmartDashboard.putNumber("this.forwardCom_Drivetrain.drive",
