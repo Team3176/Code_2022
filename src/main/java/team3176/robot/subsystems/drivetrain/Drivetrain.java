@@ -28,26 +28,26 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import team3176.robot.constants.DrivetrainConstants;
-//import team3176.robot.constants.PowerManagementConstants;
-import team3176.robot.subsystems.controller.Controller;
-import team3176.robot.subsystems.vision.Vision;
+// import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
 
 import java.util.ArrayList;
 
-import team3176.robot.util.PIDLoop;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import team3176.robot.subsystems.Controller;
+import team3176.robot.subsystems.Vision;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
+import org.littletonrobotics.junction.Logger;
+import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
 
 
 
   
 
 public class Drivetrain extends SubsystemBase {
-  private static Drivetrain instance = new Drivetrain();
+  private static Drivetrain instance;
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
 
@@ -62,11 +62,11 @@ public class Drivetrain extends SubsystemBase {
 
   private boolean autonVision;
 
-  public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.DRIVE_ONE_CID),
-      new TalonFX(DrivetrainConstants.DRIVE_TWO_CID), new TalonFX(DrivetrainConstants.DRIVE_THREE_CID),
-      new TalonFX(DrivetrainConstants.DRIVE_FOUR_CID) };
+  public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_ONE_CID),
+      new TalonFX(DrivetrainConstants.THRUST_TWO_CID), new TalonFX(DrivetrainConstants.THRUST_THREE_CID),
+      new TalonFX(DrivetrainConstants.THRUST_FOUR_CID) };
 
-  public CANSparkMax[] spinControllers = { new CANSparkMax(DrivetrainConstants.STEER_ONE_CID, MotorType.kBrushless),
+  public CANSparkMax[] azimuthControllers = { new CANSparkMax(DrivetrainConstants.STEER_ONE_CID, MotorType.kBrushless),
       new CANSparkMax(DrivetrainConstants.STEER_TWO_CID, MotorType.kBrushless), new CANSparkMax(DrivetrainConstants.STEER_THREE_CID, MotorType.kBrushless),
       new CANSparkMax(DrivetrainConstants.STEER_FOUR_CID, MotorType.kBrushless) };
 
@@ -94,12 +94,12 @@ public class Drivetrain extends SubsystemBase {
 
   private double spinLockAngle;
   private boolean isSpinLocked = false;
-  private PIDLoop spinLockPID;
+  // private PID3176 spinLockPID;
   // private PIDController spinLockPID;
 
   private boolean isTurboOn = false;
   
- 
+  private int spinEncoderIdxCount = 0;
 
   private int arraytrack;
   double[] angleHist = { 0.0, 0.0, 0.0, 0.0, 0.0 };
@@ -116,12 +116,18 @@ public class Drivetrain extends SubsystemBase {
 
   private double lockP, lockI, lockD;
 
-  private Drivetrain() {
+  private final DrivetrainIO io;
+  private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
+
+  private Drivetrain(DrivetrainIO io) 
+  {
+    this.io = io;
+    
     // Instantiate pods
-    podFR = new SwervePod2022(0, driveControllers[0], spinControllers[0]);
-    podFL = new SwervePod2022(1, driveControllers[1], spinControllers[1]);
-    podBL = new SwervePod2022(2, driveControllers[2], spinControllers[2]);
-    podBR = new SwervePod2022(3, driveControllers[3], spinControllers[3]);
+    podFR = new SwervePod2022(0, driveControllers[0], azimuthControllers[0]);
+    podFL = new SwervePod2022(1, driveControllers[1], azimuthControllers[1]);
+    podBL = new SwervePod2022(2, driveControllers[2], azimuthControllers[2]);
+    podBR = new SwervePod2022(3, driveControllers[3], azimuthControllers[3]);
 
     // Instantiate array list then add instantiated pods to list
     pods = new ArrayList<SwervePod2022>();
@@ -167,6 +173,7 @@ public class Drivetrain extends SubsystemBase {
 
   // Prevents more than one instance of drivetrian
   public static Drivetrain getInstance() {
+    if(instance == null) {instance = new Drivetrain(new DrivetrainIO() {});}
     return instance;
   }
 
@@ -207,7 +214,7 @@ public class Drivetrain extends SubsystemBase {
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
     if (this.isSpinLocked && !isOrbiting()) {
-      this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
+      // this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
     }
@@ -238,6 +245,10 @@ public class Drivetrain extends SubsystemBase {
     // TODO: Find out why this putNumber statement is making the spinLock work
     // SmartDashboard.putNumber("this.spinCom_Drivetrain.drive", this.spinCommand);
     calculateNSetPodPositions(this.forwardCommand, this.strafeCommand, this.spinCommand);
+    //for (int idx = 0; idx < (pods.size()); idx++) {
+    //  pods.get(idx).tune();
+    //}
+    //pods.get(0).tune();
   }
 
   /**
@@ -354,7 +365,7 @@ public class Drivetrain extends SubsystemBase {
   public void stopMotors() {
     for (int idx = 0; idx < (pods.size()); idx++) {
       driveControllers[idx].set(ControlMode.PercentOutput, 0);
-      spinControllers[idx].set(0);
+      azimuthControllers[idx].set(0);
     }
 
   }
@@ -445,12 +456,19 @@ public class Drivetrain extends SubsystemBase {
   }
 
 
-  
+  public double getPodVelocity(int podID) {
+    return pods.get(podID).getVelocity();
+  }
 
+  public double  getPodAzimuth(int podID) {
+    return pods.get(podID).getAzimuth();
+  }
+
+/*
   public ChassisSpeeds getChassisSpeed() {
     return DrivetrainConstants.DRIVE_KINEMATICS.toChassisSpeeds(podFR.getState(), podFL.getState(), podBL.getState(), podBR.getState());
   }
-
+*/
 
 
  /* public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -468,7 +486,14 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler every 500ms
+    if(spinEncoderIdxCount++ > 25) { 
+      for (int idx = 0; idx < (pods.size()); idx++) { 
+        spinEncoderIdxCount = 0;
+        pods.get(idx).updateAzimuthEncoder(); 
+        //pods.get(0).podAzimuth = SmartDashboard.getNumber("P0.podSpin_setpoint_angle",0);
+      }
+    }
     
     calcAngleAvgRollingWindow();
     this.arraytrack++;

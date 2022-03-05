@@ -13,6 +13,16 @@ package team3176.robot.constants;
  * constants are needed, to reduce verbosity.
  */
 public final class ClimbConstants{
+    public final static int PASSIVE_PISTON_ONE_OPEN_ID = 4;
+    public final static int PASSIVE_PISTON_ONE_CLOSE_ID = 5;
+    public final static int PASSIVE_PISTON_TWO_OPEN_ID = 6;
+    public final static int PASSIVE_PISTON_TWO_CLOSE_ID = 7;
+
+    public final static int ACTIVE_SECONDARY_PISTON_ONE_OPEN_ID = 8;
+    public final static int ACTIVE_SECONDARY_PISTON_ONE_CLOSE_ID = 9;
+    public final static int ACTIVE_SECONDARY_PISTON_TWO_OPEN_ID = 10;
+    public final static int ACTIVE_SECONDARY_PISTON_TWO_CLOSE_ID = 11;
+
     public final static int FALCON_CAN_ID = 52;
     public final static int FALCON2_CAN_ID = 53; //Might change
     public final static int SLOTIDX = 0;
@@ -21,4 +31,13 @@ public final class ClimbConstants{
     public final static double[] PID_SECONDARY = {/*P*/0.01, /*I*/0, /*D*/0};
     public final static double WINCH_MAX_LENGTH_POS = 2; //TODO:CHANGE NUMBER
     public final static double WINCH_MIN_LENGTH_POS = 0; //TODO:CHANGE NUMBER
+
+    public final static int DIO_ARM_ONE_LIMIT_ONE = 2;
+    public final static int DIO_ARM_ONE_LIMIT_TWO = 3;
+    public final static int DIO_ARM_ONE_LIMIT_THREE = 4;
+    public final static int DIO_ARM_ONE_LIMIT_FOUR = 5;
+    public final static int DIO_ARM_TWO_LIMIT_ONE = 6;
+    public final static int DIO_ARM_TWO_LIMIT_TWO = 7;
+    public final static int DIO_ARM_TWO_LIMIT_THREE = 8;
+    public final static int DIO_ARM_TWO_LIMIT_FOUR = 9;
 }

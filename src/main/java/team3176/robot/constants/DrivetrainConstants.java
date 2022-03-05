@@ -11,29 +11,39 @@ public class DrivetrainConstants {
     // IDs for Drivetrain motors and solenoids
 
     //CAN IDs
-    public static final int DRIVE_ONE_CID = 02;
-    public static final int DRIVE_TWO_CID = 3;
-    public static final int DRIVE_THREE_CID = 4;
-    public static final int DRIVE_FOUR_CID = 5;
+    public static final int THRUST_ONE_CID = 10;
+    public static final int THRUST_TWO_CID = 20;
+    public static final int THRUST_THREE_CID = 30;
+    public static final int THRUST_FOUR_CID = 40;
 
     //CAN IDs
-    public static final int STEER_ONE_CID = 1;
-    public static final int STEER_TWO_CID = 22;
-    public static final int STEER_THREE_CID = 33;
-    public static final int STEER_FOUR_CID = 44;
+    public static final int STEER_ONE_CID = 11;
+    public static final int STEER_TWO_CID = 21;
+    public static final int STEER_THREE_CID = 31;
+    public static final int STEER_FOUR_CID = 41;
+
+    public static final double POD0_LOCATION_X = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD0_LOCATION_Y = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD1_LOCATION_X = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD1_LOCATION_Y = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD2_LOCATION_X = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD2_LOCATION_Y = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD3_LOCATION_X = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+    public static final double POD3_LOCATION_Y = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
+  
 
     // Drivetrain dimensions for kinematics and odometry
-    public static final double LENGTH_IN_METERS_2021 = 0.581; // measured in cm as 58.1cm
+    public static final double LENGTH_IN_METERS_2021 = 0.581; // measured in inches as 24.75
     public static final double LENGTH_IN_INCHES_2021 = Units.metersToInches(LENGTH_IN_METERS_2021); //58.1 * (1.0/2.54); // 22.87 inches but measured in cm as 58.1cm
 
-    public static final double WIDTH_IN_METERS_2021 = 0.640; // measured in cm as 64.0cm
-    public static final double WIDTH_IN_INCHES_2021 = Units.metersToInches(WIDTH_IN_METERS_2021); //64.0 * (1.0/2.54); // 25.197 inches but measured in cm as 64.0cm
+    public static final double WIDTH_IN_METERS_2022 = 0.61595; // measured in inches as 24.25in   24.75
+    public static final double WIDTH_IN_INCHES_2022 = Units.metersToInches(WIDTH_IN_METERS_2022); //64.0 * (1.0/2.54); // 25.197 inches but measured in cm as 64.0cm
 
     public static double LENGTH = LENGTH_IN_INCHES_2021;
-    public static double WIDTH = WIDTH_IN_INCHES_2021;
+    public static double WIDTH = WIDTH_IN_INCHES_2022;
     public static double DRIVE_ENCODER_UNITS_PER_REVOLUTION;
 
-    public static final double WHEEL_DIAMETER_INCHES = 3.25; // Inches
+    public static final double WHEEL_DIAMETER_INCHES = 3.00; // Inches
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(WHEEL_DIAMETER_INCHES); // Inches
     public static final double WHEEL_DIAMETER_FEET = WHEEL_DIAMETER_INCHES / 12.0 ; // Inches
     public static final double WHEEL_DIAMETER = WHEEL_DIAMETER_INCHES;
