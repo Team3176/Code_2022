@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import team3176.robot.util.God.PID3176;
 import team3176.robot.constants.DrivetrainConstants;
 // import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
@@ -115,12 +116,13 @@ public class Drivetrain extends SubsystemBase {
   private SwervePod2022 podBR;
 
   private double lockP, lockI, lockD;
+  private PID3176 spinLockPID;
+
 
   private final DrivetrainIO io;
   private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
 
-  private Drivetrain(DrivetrainIO io) 
-  {
+  private Drivetrain(DrivetrainIO io) {
     this.io = io;
     
     // Instantiate pods
@@ -168,6 +170,7 @@ public class Drivetrain extends SubsystemBase {
     this.strafeCommand = 0.0;
     this.spinCommand = 0.0;
 
+    spinLockPID = new PID3176(0.15, 0.0, 0.0);
  
   }
 
@@ -214,7 +217,7 @@ public class Drivetrain extends SubsystemBase {
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
     if (this.isSpinLocked && !isOrbiting()) {
-      // this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
+      this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
     }
