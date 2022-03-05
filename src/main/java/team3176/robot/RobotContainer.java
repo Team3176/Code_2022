@@ -94,6 +94,7 @@ public class RobotContainer {
 
   
   private void configureButtonBindings() {
+    m_Controller.getTransStick_Button4().whenActive(new ToggleCoordSys());
     // m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
     // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     // m_Controller.getOp_Start().whenActive(new TransferToggle());
