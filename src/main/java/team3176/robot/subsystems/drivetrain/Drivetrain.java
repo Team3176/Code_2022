@@ -169,8 +169,6 @@ public class Drivetrain extends SubsystemBase {
     this.strafeCommand = 0.0;
     this.spinCommand = 0.0;
 
-    spinLockPID = new PID3176(0.15, 0.0, 0.0);
- 
   }
 
   // Prevents more than one instance of drivetrian
@@ -215,8 +213,9 @@ public class Drivetrain extends SubsystemBase {
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
+
     if (this.isSpinLocked && !isOrbiting()) {
-      this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getCurrentAngle(), spinLockAngle);
+      this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
     }
@@ -234,7 +233,7 @@ public class Drivetrain extends SubsystemBase {
       this.forwardCommand = temp;
       SmartDashboard.putBoolean("isFieldCentricOn", true);
     }
-    // TODO: Find out why we multiply by 0.75
+    
     if (m_CoordSys.isRobotCentric()) {
       this.strafeCommand *= 1; // 0.75;
       this.forwardCommand *= 1; // 0.75;
@@ -409,9 +408,6 @@ public class Drivetrain extends SubsystemBase {
   public driveMode getCurrentDriveMode() {
     return currentDriveMode;
   }
-
-  
-  
 
 
   public void toggleSpinLock() {
