@@ -81,7 +81,6 @@ public class Drivetrain extends SubsystemBase {
   private double maxAccel;
 
   private double relMaxSpeed;
-  private double currentAngle;
   private double lastAngle;
 
   private double startTime = 0;
@@ -148,8 +147,8 @@ public class Drivetrain extends SubsystemBase {
     maxSpeed_InchesPerSec = DrivetrainConstants.MAX_WHEEL_SPEED_INCHES_PER_SECOND;
     maxRotation = DrivetrainConstants.MAX_ROT_SPEED;
     maxAccel = DrivetrainConstants.MAX_ACCEL;
-
-    // SmartDashboard.putNumber("currentAngle", this.currentAngle);
+    
+    //SmartDashboard.putNumber("currentAngle", m_Gyro3176.getCurrentAngle());
 
     // SmartDashboard.putNumber("forwardCommand", 0);
     // SmartDashboard.putNumber("strafeCommand", 0);
@@ -223,15 +222,15 @@ public class Drivetrain extends SubsystemBase {
     }
 
     if (m_CoordSys.isFieldCentric()) {
-      final double temp = (this.forwardCommand * Math.cos(this.currentAngle)
-          + this.strafeCommand * Math.sin(this.currentAngle));
-      this.strafeCommand = (-this.forwardCommand * Math.sin(this.currentAngle)
-          + this.strafeCommand * Math.cos(this.currentAngle));
+      final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentAngle())
+          + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentAngle()));
+      this.strafeCommand = (-this.forwardCommand * Math.sin(m_Gyro3176.getCurrentAngle())
+          + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentAngle()));
       // TEST BELOW TO SEE IF FIXES RC/FC ALIGNMENT
-      // final double temp = (this.forwardCommand * Math.sin(this.currentAngle)
-      // + this.strafeCommand * Math.cos(this.currentAngle));
-      // this.strafeCommand = (-this.forwardCommand * Math.cos(this.currentAngle)
-      // + this.strafeCommand * Math.sin(this.currentAngle));
+      // final double temp = (this.forwardCommand * Math.sin(m_Gyro3176.getCurrentAngle())
+      // + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentAngle()));
+      // this.strafeCommand = (-this.forwardCommand * Math.cos(m_Gyro3176.getCurrentAngle())
+      // + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentAngle()));
       this.forwardCommand = temp;
       SmartDashboard.putBoolean("isFieldCentricOn", true);
     }
@@ -451,7 +450,7 @@ public class Drivetrain extends SubsystemBase {
     * Calculates average angle value based on rolling window of last five angle measurements
     */
   public void calcAngleAvgRollingWindow() {
-    this.angleHist[this.arraytrack] = this.currentAngle;
+    this.angleHist[this.arraytrack] = m_Gyro3176.getCurrentAngle();
     angleAvgRollingWindow = (this.angleHist[0] + this.angleHist[1] + this.angleHist[2] + this.angleHist[3]
         + this.angleHist[4]) / 5;
   }
