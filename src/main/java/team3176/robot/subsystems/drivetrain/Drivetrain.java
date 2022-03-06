@@ -216,7 +216,7 @@ public class Drivetrain extends SubsystemBase {
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
     if (this.isSpinLocked && !isOrbiting()) {
-      this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
+      this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getCurrentAngle(), spinLockAngle);
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
     }
