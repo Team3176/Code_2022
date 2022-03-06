@@ -88,10 +88,6 @@ public class Gyro3176 extends SubsystemBase {
     return getNavxAngle_inDegrees();
   }
   
-  public void setSpinLockAngle() {
-    spinLockAngle = getNavxAngle_inRadians();
-  }
-      
   public double getCurrentAngle() {
     updateNavxAngle();
     return this.currentAngle;
@@ -104,8 +100,17 @@ public class Gyro3176 extends SubsystemBase {
     return getNavxAngle_inRadians() ; //+ Math.PI/2;
   } 
   
+  public void setSpinLockAngle() {
+    spinLockAngle = getNavxAngle_inRadians();
+  }
+  
+  public double getSpinLockAngle() {
+    return this.spinLockAngle;
+  }
+      
+      
   public double getSpinLockPIDCalc() {
-    double spinCorrection = spinCorrection = -spinLockPID.returnOutput(getNavxAngle_inRadians(), spinLockAngle);
+    double spinCorrection = -spinLockPID.returnOutput(getNavxAngle_inRadians(), spinLockAngle);
     return spinCorrection;
   }
 
