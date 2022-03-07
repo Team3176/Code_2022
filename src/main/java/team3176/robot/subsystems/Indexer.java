@@ -12,6 +12,12 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj.I2C;
@@ -19,7 +25,7 @@ import edu.wpi.first.wpilibj.I2C;
 public class Indexer extends SubsystemBase {
   private static Indexer instance;
 
-  private CANSparkMax indexerMotor;
+  private TalonSRX indexerMotor;
   private SparkMaxPIDController indexerPIDController;
   private byte[] sensorByteArray;
   private boolean[] sensorBoolArray = new boolean[IndexerConstants.NUM_OF_SENSORS];
@@ -35,20 +41,33 @@ public class Indexer extends SubsystemBase {
   private Indexer(IndexerIO io) {
     this.io = io;
 
-    indexerMotor = new CANSparkMax(IndexerConstants.INDEXER_CAN_ID, MotorType.kBrushless);
-    indexerMotor.setClosedLoopRampRate(IndexerConstants.RAMP_RATE);
+    indexerMotor = new TalonSRX(IndexerConstants.INDEXER_CAN_ID);
+    indexerMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
+    this.indexerMotor.configNominalOutputForward(0, IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.configNominalOutputReverse(0, IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.configPeakOutputForward(0.25, IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.configPeakOutputReverse(-0.25, IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.configAllowableClosedloopError(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.ALLOWABLE_CLOSED_LOOP_ERROR, IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kF(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[3], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kP(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[0], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kI(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[1], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kD(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[2], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[4], IndexerConstants.kTIMEOUT_MS); 
 
-    indexerPIDController = indexerMotor.getPIDController();
+
+
+    //indexerMotor.setClosedLoopRampRate(IndexerConstants.RAMP_RATE);
+
 
     m_I2C = new I2C(I2C.Port.kMXP, IndexerConstants.I2C_DEVICE_ADDRESS);
   }
 
   public void setIndexerPosition(double position) {
-    indexerPIDController.setReference(position, ControlType.kPosition);
+    indexerMotor.set(ControlMode.Position, position);
   }
 
   public void motorStop() {
-    indexerMotor.set(0.0);
+    indexerMotor.set(ControlMode.PercentOutput,0.0);
   }
 
   // public void IndexerSpin() {
@@ -68,11 +87,11 @@ public class Indexer extends SubsystemBase {
   }
 
   public void Up() { //TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(0.1);
+    indexerMotor.set(ControlMode.PercentOutput,0.1);
   }
 
   public void Down() { //TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(-0.1);
+    indexerMotor.set(ControlMode.PercentOutput,-0.1);
   }
 
   public void requestState(int s) {
@@ -115,7 +134,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void setValuesFromSmartDashboard() {
-    indexerMotor.set(SmartDashboard.getNumber("Indexer PCT", 0));
+    indexerMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Indexer PCT", 0)));
   }
 
   @Override
