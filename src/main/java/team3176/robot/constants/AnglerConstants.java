@@ -10,6 +10,9 @@ public final class AnglerConstants {
     // public static final int ANGLER_SPARK_CAN_ID = 62;
     // This is a CAN ID used for TESTING with different controllers/motors
     public static final int ANGLER_SPARK_CAN_ID = 6;
+    public static final int kTIMEOUT_MS = 0; 
+    public static final int kPID_LOOP_IDX = 0;
+    
 
     public static final double kRampRate = 2.0; // seconds to go from 0 to full power
 
@@ -29,6 +32,7 @@ public final class AnglerConstants {
     // So commands and the subsystem using Shuffleboard reference the same name for the numbers it's trying to use
     public static final String kShuffleboardPercentName = "Angler%Set";
 
-    // Constant order: P, I, D, IZone
-    public static final double[][] PIDFConstants = { { 0.0, 0.0, 0.0, 0.0 } };
+    // Constant order: P, I, D, F, IZone
+    public static final double[] PIDFConstants = { 0.0, 0.0, 0.0, 0.0, 0.0 };
+    public static final double ALLOWABLE_CLOSED_LOOP_ERROR = 0;
 }
