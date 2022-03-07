@@ -6,7 +6,11 @@ package team3176.robot.constants;
 
 public final class FeederConstants{
 
-    public static final int FEEDER_NEO_CAN_ID = 60;
+    public static final int FEEDER_MOTOR_CAN_ID = 60;
+
+    public static final int kTIMEOUT_MS = 0; 
+    public static final int kPID_LOOP_IDX = 0;
+    
 
     public static final double FEEDER_GEAR_RATIO = 7.0;
 
@@ -18,4 +22,6 @@ public final class FeederConstants{
 
     // Constant order: P, I, D, FF, IZone
     public static final double[][] PIDFConstants = { { 0.0, 0.0, 0.0, 0.0, 0.0 } };
+    public static final double ALLOWABLE_CLOSED_LOOP_ERROR = 0;
+
 }

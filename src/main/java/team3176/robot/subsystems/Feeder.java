@@ -17,11 +17,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class Feeder extends SubsystemBase
 {
-  private CANSparkMax feederMotor;
-  private SparkMaxPIDController pidController;
-  private RelativeEncoder encoder;
+  private TalonSRX feederMotor;
 
   private final FeederIO io;
   private final FeederIOInputs inputs = new FeederIOInputs();
@@ -33,27 +35,34 @@ public class Feeder extends SubsystemBase
   {
     this.io = io;
 
-    feederMotor = new CANSparkMax(FeederConstants.FEEDER_NEO_CAN_ID, MotorType.kBrushless);
-    pidController = feederMotor.getPIDController();
-    encoder = feederMotor.getEncoder();
-    
-    feederMotor.setClosedLoopRampRate(FeederConstants.kRampRate);
+    feederMotor = new TalonSRX(FeederConstants.FEEDER_MOTOR_CAN_ID);
+    feederMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
+    this.feederMotor.configNominalOutputForward(0, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.configNominalOutputReverse(0, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.configPeakOutputForward(0.25, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.configPeakOutputReverse(-0.25, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.configAllowableClosedloopError(FeederConstants.kPID_LOOP_IDX, FeederConstants.ALLOWABLE_CLOSED_LOOP_ERROR, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.config_kF(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][3], FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.config_kP(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][0], FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.config_kI(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][1], FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.config_kD(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][2], FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.config_IntegralZone(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][4], FeederConstants.kTIMEOUT_MS);  
   }
 
   public void percentOutput() 
   {
     double output = SmartDashboard.getNumber(FeederConstants.kShuffleboardPercentName, 0.0);
-    if (output >= -1 && output <= 1) { feederMotor.set(output); }
-    SmartDashboard.putNumber("FeederRPMOut", encoder.getVelocity());
+    if (output >= -1 && output <= 1) { feederMotor.set(ControlMode.PercentOutput, output); }
+    SmartDashboard.putNumber("FeederRPMOut", feederMotor.getSelectedSensorVelocity());
   }
 
   public void setVelocityPID(double RPM)
   {
-    pidController.setReference(RPM, ControlType.kVelocity);
+    feederMotor.set(ControlMode.Velocity, RPM); 
   }
 
   public void stopMotor() {
-    feederMotor.set(0.0);
+    feederMotor.set(ControlMode.PercentOutput,0.0);
   }
 
   public void putSmartDashboardControlCommands() {
@@ -62,7 +71,7 @@ public class Feeder extends SubsystemBase
  }
 
  public void setValuesFromSmartDashboard() {
-   feederMotor.set(SmartDashboard.getNumber("Feeder Spark PCT", 0));
+   feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
  }
   
   @Override
