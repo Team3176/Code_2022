@@ -23,10 +23,13 @@ public class CoordSys extends SubsystemBase {
 
 
   /** Creates a new ExampleSubsystem. */
-  public CoordSys() {}
+  public CoordSys() {
+    this.currentCoordType = coordType.ROBOT_CENTRIC;
+  }
 
   public void setCoordTypeToFieldCentric() {
     this.currentCoordType = coordType.FIELD_CENTRIC;
+    System.out.println("setCoordTypeToFieldCetric RUN ##################################################################################################################################");
   }
 
   public void setCoordTypeToRobotCentric() {

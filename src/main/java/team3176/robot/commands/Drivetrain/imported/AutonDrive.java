@@ -41,7 +41,7 @@ public class AutonDrive extends CommandBase {
     timer.start();
     m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
     m_gyro.setSpinLockAngle();
-    drivetrain.setSpinLock(true);
+    m_gyro.setSpinLockToOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

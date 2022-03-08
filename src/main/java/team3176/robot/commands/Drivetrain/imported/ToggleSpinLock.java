@@ -12,6 +12,7 @@ import team3176.robot.subsystems.drivetrain.Gyro3176;
 
 public class ToggleSpinLock extends InstantCommand {
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
+  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
 
 
   public ToggleSpinLock() {
@@ -26,5 +27,4 @@ public class ToggleSpinLock extends InstantCommand {
       m_Gyro3176.setSpinLockToOn();
     }
   }
-
 }

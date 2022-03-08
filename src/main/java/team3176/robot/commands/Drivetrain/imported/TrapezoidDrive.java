@@ -57,7 +57,7 @@ public class TrapezoidDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Drivetrain.setSpinLock(false);
+    m_gyro.setSpinLockToOff();
   }
 
   // Returns true when the command should end.
