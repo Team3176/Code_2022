@@ -23,11 +23,19 @@ public class CoordSys extends SubsystemBase {
 
 
   /** Creates a new ExampleSubsystem. */
-  public CoordSys() {}    
+  public CoordSys() {
+    this.currentCoordType = coordType.ROBOT_CENTRIC;
+  }
+
   public void setCoordTypeToFieldCentric() {
-    this.currentCoordType = coordType.FIELD_CENTRIC;}
-    public void setCoordTypeToRobotCentric() {
-      this.currentCoordType = coordType.ROBOT_CENTRIC;}
+    this.currentCoordType = coordType.FIELD_CENTRIC;
+    System.out.println("setCoordTypeToFieldCetric RUN ##################################################################################################################################");
+  }
+
+  public void setCoordTypeToRobotCentric() {
+    this.currentCoordType = coordType.ROBOT_CENTRIC;
+  }
+
   public void setCoordType(coordType wantedType) {
     currentCoordType = wantedType;
   }
@@ -70,7 +78,6 @@ public class CoordSys extends SubsystemBase {
     return fieldCentricOffset;
   }
 
-      
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  

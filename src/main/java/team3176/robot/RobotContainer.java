@@ -103,10 +103,19 @@ public class RobotContainer {
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
+    System.out.println("init run");
   }
 
   
   private void configureButtonBindings() {
+    m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
+    m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
+    m_Controller.getTransStick_Button2().whenHeld(new SwerveDefense());
+    m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
+
+    m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
+    m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
+
     m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
     m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     m_Controller.getOp_Start().whenActive(new FeederToggle());
@@ -121,6 +130,8 @@ public class RobotContainer {
 
     m_Controller.getOp_RightTrigger().whenActive(new ShootTwoBalls());
     m_Controller.getOp_LeftTrigger().whenActive(new ShootOneBall());
+
+
 
     // m_Controller.getOp_A_DS().whenActive(new WinchUp());
     // m_Controller.getOp_B_DS().whenActive(new PrimaryPistonToggle());
@@ -146,6 +157,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    System.out.println("run");
+
     String chosen = m_autonChooser.getSelected();
     if(chosen.equals(m_5)) return new Auton5Balls(); //TODO: Put in order of frequency so the bot doesn't have to process more (shouldn't effect anything but just good to have)
     if(chosen.equals(m_4)) return new Auton4Balls();

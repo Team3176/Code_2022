@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import team3176.robot.util.God.PID3176;
 import team3176.robot.constants.DrivetrainConstants;
 // import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
@@ -80,7 +81,6 @@ public class Drivetrain extends SubsystemBase {
   private double maxAccel;
 
   private double relMaxSpeed;
-  private double currentAngle;
   private double lastAngle;
 
   private double startTime = 0;
@@ -93,7 +93,6 @@ public class Drivetrain extends SubsystemBase {
   private double spinCommand;
 
   private double spinLockAngle;
-  private boolean isSpinLocked = false;
   // private PID3176 spinLockPID;
   // private PIDController spinLockPID;
 
@@ -115,12 +114,13 @@ public class Drivetrain extends SubsystemBase {
   private SwervePod2022 podBR;
 
   private double lockP, lockI, lockD;
+  private PID3176 spinLockPID;
+
 
   private final DrivetrainIO io;
   private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
 
-  private Drivetrain(DrivetrainIO io) 
-  {
+  private Drivetrain(DrivetrainIO io) {
     this.io = io;
     
     // Instantiate pods
@@ -146,8 +146,8 @@ public class Drivetrain extends SubsystemBase {
     maxSpeed_InchesPerSec = DrivetrainConstants.MAX_WHEEL_SPEED_INCHES_PER_SECOND;
     maxRotation = DrivetrainConstants.MAX_ROT_SPEED;
     maxAccel = DrivetrainConstants.MAX_ACCEL;
-
-    // SmartDashboard.putNumber("currentAngle", this.currentAngle);
+    
+    //SmartDashboard.putNumber("currentAngle", m_Gyro3176.getCurrentAngle());
 
     // SmartDashboard.putNumber("forwardCommand", 0);
     // SmartDashboard.putNumber("strafeCommand", 0);
@@ -168,7 +168,6 @@ public class Drivetrain extends SubsystemBase {
     this.strafeCommand = 0.0;
     this.spinCommand = 0.0;
 
- 
   }
 
   // Prevents more than one instance of drivetrian
@@ -213,29 +212,38 @@ public class Drivetrain extends SubsystemBase {
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
-    if (this.isSpinLocked && !isOrbiting()) {
-      // this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
+    if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
+      this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
     }
 
     if (m_CoordSys.isFieldCentric()) {
-      final double temp = (this.forwardCommand * Math.cos(this.currentAngle)
-          + this.strafeCommand * Math.sin(this.currentAngle));
-      this.strafeCommand = (-this.forwardCommand * Math.sin(this.currentAngle)
-          + this.strafeCommand * Math.cos(this.currentAngle));
+
+      System.out.println("Drivetrain ran under isFieldCentric -----------------------------------------------------------------------------------------------------------------------------------");
+
+      double currentAngle = m_Gyro3176.getCurrentAngle();
+      final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentAngle())
+          + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentAngle()));
+      this.strafeCommand = (-this.forwardCommand * Math.sin(m_Gyro3176.getCurrentAngle())
+          + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentAngle()));
       // TEST BELOW TO SEE IF FIXES RC/FC ALIGNMENT
-      // final double temp = (this.forwardCommand * Math.sin(this.currentAngle)
-      // + this.strafeCommand * Math.cos(this.currentAngle));
-      // this.strafeCommand = (-this.forwardCommand * Math.cos(this.currentAngle)
-      // + this.strafeCommand * Math.sin(this.currentAngle));
+      // final double temp = (this.forwardCommand * Math.sin(m_Gyro3176.getCurrentAngle())
+      // + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentAngle()));
+      // this.strafeCommand = (-this.forwardCommand * Math.cos(m_Gyro3176.getCurrentAngle())
+      // + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentAngle()));
       this.forwardCommand = temp;
+      SmartDashboard.putBoolean("isFieldCentricOn", true);
     }
-    // TODO: Find out why we multiply by 0.75
+    
     if (m_CoordSys.isRobotCentric()) {
+
+      System.out.println("Drivetrain ran under isRobotCentric -----------------------------------------------------------------------------------------------------------------------------------");
+
       this.strafeCommand *= 1; // 0.75;
       this.forwardCommand *= 1; // 0.75;
       this.spinCommand *= 1; // 0.75;
+      SmartDashboard.putBoolean("isFieldCentricOn", false);
     }
 
     // SmartDashboard.putNumber("this.forwardCom_Drivetrain.drive",
@@ -405,19 +413,6 @@ public class Drivetrain extends SubsystemBase {
   public driveMode getCurrentDriveMode() {
     return currentDriveMode;
   }
-
-  
-  
-
-
-  public void toggleSpinLock() {
-    this.isSpinLocked = !this.isSpinLocked;
-  }
-
-  public void setSpinLock(boolean set) {
-    isSpinLocked = set;
-  }
-
  
   /**
    * Sets Turbo mode on or off
@@ -446,7 +441,7 @@ public class Drivetrain extends SubsystemBase {
     * Calculates average angle value based on rolling window of last five angle measurements
     */
   public void calcAngleAvgRollingWindow() {
-    this.angleHist[this.arraytrack] = this.currentAngle;
+    this.angleHist[this.arraytrack] = m_Gyro3176.getCurrentAngle();
     angleAvgRollingWindow = (this.angleHist[0] + this.angleHist[1] + this.angleHist[2] + this.angleHist[3]
         + this.angleHist[4]) / 5;
   }

@@ -60,14 +60,17 @@ public final class SwervePodConstants2022 {
                     // {2.0, 2.5, 3.0, 3.0},
                     //{0.58, 0.8, 0.8, 0.8},  //<-Jared N550 internal encoder
                      //{0.001, 0.0, 0.0, 0.0},
-                     {0.8, 0.8, 0.8, 0.8},
+                     //{0.55, 0.55, 0.55, 0.55},
+                     {.6, .6, .6, .6},
         /* kI */    //{0.00065, 0.0, 0.0, 0.0},//<-Jared N550 internal encoder
         /* kI */    //{0.0, 0.0, 0.0, 0.0},
-        /* kI */    {0.2, 0.2, 0.2, 0.2},
+        /* kI */    //{0.05, 0.05, 0.05, 0.05},
+                    {.2, .2, .2, .2},
         ///* kD */    {25.0, 50.0, 500.0, 50.0},
                     //{0.16, 50.0, 50.0, 50.0},//<-Jared N550 internal encoder
                      //{0.0, 0.0, 0.0, 0.0},
-                     {0.009, 0.009, 0.009, 0.009},
+                     //{0.001, 0.001, 0.001, 0.001},
+                     {.05, .05, .05, .05},
     //    /* kD */    {25.0, 50.0, 500.0, 100.0},
     /* kF */    {0.0, 0.0, 0.0, 0.0},    // Feed forward gain constant//<-Jared N550 internal encoder
                 //{10, 0.0, 0.0, 0.0},   //kIz constant//<-Jared N550 internal encoder
@@ -106,9 +109,9 @@ public final class SwervePodConstants2022 {
 
     public static final double P_MODULE_THRUST_CONTROLLER = 1;
     public static final double[] P_MODULE_TURNING_CONTROLLER = {/*OLD P VALUES 1, 0, 0.3, 0.03*/ 0.08 /*kP*/, 0.0 /*kI*/, 0, 0.0};
-    public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI;
+    public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 18000 * Math.PI;
     //public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 1;
-    public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 40* Math.PI;
+    public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 144000 * Math.PI;
     //public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 1;
 
     public static final double AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT = 1.00;

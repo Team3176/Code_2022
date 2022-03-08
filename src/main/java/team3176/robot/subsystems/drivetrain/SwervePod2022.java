@@ -32,6 +32,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import team3176.robot.RobotContainer;
+import team3176.robot.commands.Drivetrain.imported.autoDis5Back;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 import team3176.robot.constants.DrivetrainConstants;
@@ -61,6 +62,7 @@ public class SwervePod2022 {
      *                  3 = BackRight (BR)
      */
     private int id;
+    private String idString;
    
     /** Represents the value of the azimuthEncoder reading in radians when positioned with the positive Thurst vector of the Pod's Drive wheel pointing towards front of robot */
     private double kEncoderOffset; 
@@ -230,6 +232,20 @@ public class SwervePod2022 {
         this.AZIMUTHPIDController.setOutputRange(kMinOutput, kMaxOutput);
         */
 
+        switch(id+1){ 
+            case 1: this.idString="podFR";
+                    break;
+            case 2: this.idString="podFL";
+                    break;
+            case 3: this.idString="podBL";
+                    break;
+            case 4: this.idString="podBR";
+                    break;
+            default: this.idString="podNoExist";
+                     break;
+        }
+
+        setupShuffleboard(this.idString);
     }
 
     public void tune() {
@@ -283,6 +299,7 @@ public class SwervePod2022 {
         this.velTicsPer100ms = Units3176.fps2ums(this.podThrust);
        // velTicsPer100ms = SmartDashboard.getNumber("thrustSet",velTicsPer100ms);
         double optmizdAzimuthPos = optimizeAzimuthPos(this.podAzimuth);
+        //double optmizdAzimuthPos = this.podAzimuth;
         //double tics = rads2Tics(this.podAzimuth);
 
         double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
@@ -320,6 +337,10 @@ public class SwervePod2022 {
         radianError = angle - radianPos;
         SmartDashboard.putNumber("P"+(this.id)+".radianError_preOpt",radianError);
         // FYI: Math.copySign(magnitudeVar, signVar) = magnitude value with same sign as signvar
+
+        // FIXES THE "SPINNIES" (wheels doing unnecessary rotations when starting and stopping)
+        double errorCorrectionIncrements = (int) (Math.abs(radianError) / (2 * Math.PI));
+        radianError -= Math.copySign((2 * Math.PI) * errorCorrectionIncrements, radianError);
 
         //if (Math.abs(radianError) > (5 * (PI / 2))) {
         //    System.out.println("Error: Overload");
@@ -387,6 +408,16 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Azimuth", 0);
         SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_encoder", this.azimuthEncoderPosition);
         SmartDashboard.putBoolean("P"+(this.id)+".On", false);
+    }
+
+    public void setupShuffleboard(String podName) {
+        Shuffleboard.selectTab(podName);
+        //private NetworkTableEntry distanceEntry = tab.add("Distance to target", 0) .getEntry();
+     
+        //public void calculate() {
+        //  double distance = ...;
+        //  distanceEntry.setDouble(distance);
+        //}
     }
 
     public void SwervePod2022SmartDashboardComments () {
