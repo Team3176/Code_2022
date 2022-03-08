@@ -77,7 +77,7 @@ public class Gyro3176 extends SubsystemBase {
     // And finally, it's modulus against 2pi is taken and returned as currentAngle.
   }
   
-  public void resetGyro() {
+  public void resetGyroHWValues() {
     gyro.reset();
   }
   

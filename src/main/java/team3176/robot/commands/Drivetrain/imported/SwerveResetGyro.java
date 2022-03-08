@@ -28,7 +28,7 @@ public class SwerveResetGyro extends CommandBase {
 
   @Override
   public void execute() {
-    m_gyro.resetGyro();
+    m_gyro.resetGyroHWValues();
     isreset = true;
   }
 
