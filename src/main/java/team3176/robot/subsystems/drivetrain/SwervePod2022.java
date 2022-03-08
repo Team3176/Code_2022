@@ -338,6 +338,10 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(this.id)+".radianError_preOpt",radianError);
         // FYI: Math.copySign(magnitudeVar, signVar) = magnitude value with same sign as signvar
 
+        // FIXES THE "SPINNIES" (wheels doing unnecessary rotations when starting and stopping)
+        double errorCorrectionIncrements = (int) (Math.abs(radianError) / (2 * Math.PI));
+        radianError -= Math.copySign((2 * Math.PI) * errorCorrectionIncrements, radianError);
+
         //if (Math.abs(radianError) > (5 * (PI / 2))) {
         //    System.out.println("Error: Overload");
         //} else if (Math.abs(radianError) > (3 * (PI / 2))) {
