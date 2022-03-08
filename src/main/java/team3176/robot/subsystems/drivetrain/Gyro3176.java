@@ -81,10 +81,14 @@ public class Gyro3176 extends SubsystemBase {
     gyro.reset();
   }
   
-  public double getGyroAngle() {
+  public double getGyroAngle_inDegrees() {
     return getNavxAngle_inDegrees();
   }
   
+  public double getGyroAngle_inRadians() {
+    return getNavxAngle_inRadians();
+  }
+
   public double getCurrentChassisYaw() {
     updateNavxAngle();
     return this.currentAngle;
