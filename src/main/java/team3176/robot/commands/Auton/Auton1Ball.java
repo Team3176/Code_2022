@@ -5,9 +5,13 @@
 package team3176.robot.commands.Auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import team3176.robot.commands.CMD_Groups.*;
 
 public class Auton1Ball extends SequentialCommandGroup {
-  public Auton1Ball() { //TODO: MAKE
-    addCommands();
+  public Auton1Ball() {
+    addCommands(
+      new AutonExitTarmac(),
+      new ShootOneBall()
+    );
   }
 }

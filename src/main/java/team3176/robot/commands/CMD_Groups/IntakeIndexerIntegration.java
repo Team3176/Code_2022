@@ -6,6 +6,7 @@ package team3176.robot.commands.CMD_Groups;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.IntakeConstants;
+import team3176.robot.constants.MasterConstants;
 import team3176.robot.subsystems.Indexer;
 import team3176.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.Timer;
@@ -17,9 +18,11 @@ public class IntakeIndexerIntegration extends CommandBase {
   private int numTimes100 = 0;
   private int lastState = 111;
   private int currState = 111;
+  private double timeLimit = 10;
 
   public IntakeIndexerIntegration() {
     addRequirements(m_Indexer, m_Intake);
+    if(Timer.getMatchTime() > (MasterConstants.FULL_MATCH_TIME - 15)) {timeLimit = 4;}
   }
 
   @Override
@@ -53,7 +56,7 @@ public class IntakeIndexerIntegration extends CommandBase {
   @Override
   public boolean isFinished() {
     if (numTimes100 == 2) {return true;}
-    else if (timeElasped.get() == 10) {return true;}
+    else if (timeElasped.get() == timeLimit) {return true;} //TODO: LOWER TIME
     return false;
   }
 }

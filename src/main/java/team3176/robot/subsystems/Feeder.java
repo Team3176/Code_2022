@@ -30,6 +30,7 @@ public class Feeder extends SubsystemBase
   private static Feeder instance;
   private boolean isSmartDashboardTestControlsShown;
   public String mode = "";
+  private boolean isFeederRunning = false;
 
   public Feeder(FeederIO io)
   {
@@ -58,11 +59,18 @@ public class Feeder extends SubsystemBase
 
   public void setVelocityPID(double RPM)
   {
-    feederMotor.set(ControlMode.Velocity, RPM); 
+    feederMotor.set(ControlMode.Velocity, RPM);
+    isFeederRunning = true;
+    if(RPM == 0) {isFeederRunning = false;}
   }
 
   public void stopMotor() {
     feederMotor.set(ControlMode.PercentOutput,0.0);
+    isFeederRunning = false;
+  }
+
+  public boolean isFeederRunning() {
+    return isFeederRunning;
   }
 
   public void putSmartDashboardControlCommands() {

@@ -23,6 +23,7 @@ public class Flywheel extends SubsystemBase {
   private static Flywheel instance;
   private boolean isSmartDashboardTestControlsShown;
   public String mode = "";
+  private boolean isFlywheelSpinning = false;
 
   public Flywheel(FlywheelIO io) {
     this.io = io;
@@ -59,13 +60,18 @@ public class Flywheel extends SubsystemBase {
   public void spinMotors(double ticksPer100ms) {
     flywheelMotor1.set(TalonFXControlMode.Velocity, ticksPer100ms);
     flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100ms);
+    isFlywheelSpinning = true;
+    if(ticksPer100ms == 0) {isFlywheelSpinning = false;}
   }
 
   public void spinMotors(double ticksPer100msForMotor1, double ticksPer100msForMotor2) {
     flywheelMotor1.set(TalonFXControlMode.Velocity, ticksPer100msForMotor1);
     flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100msForMotor2);
+    isFlywheelSpinning = true;
+    if((ticksPer100msForMotor1 == 0) && (ticksPer100msForMotor2 == 0)) {isFlywheelSpinning = false;}
   }
 
+  public boolean getMotorSpinning() {return isFlywheelSpinning;}
   /*
   public void spinMotors2(double metersPerSecond) {
     // double ticsPer100ms = --MATH!-- (will need radius of flywheel for v = r(omega))
@@ -89,6 +95,7 @@ public class Flywheel extends SubsystemBase {
   public void stopMotors() {
     flywheelMotor1.set(TalonFXControlMode.PercentOutput, 0.0);
     flywheelMotor2.set(TalonFXControlMode.PercentOutput, 0.0);
+    isFlywheelSpinning = false;
   }
 
   public void putSmartDashboardControlCommands() {

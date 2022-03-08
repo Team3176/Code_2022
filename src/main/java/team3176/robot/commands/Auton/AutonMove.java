@@ -15,7 +15,7 @@ public class AutonMove extends SequentialCommandGroup {
    */
   public AutonMove(double magnitude, double direction) {
     addCommands(
-      new TrapezoidDrive(magnitude * Math.cos(direction), magnitude * Math.sin(direction))
+      new TrapezoidDrive(magnitude * Math.sin(direction), magnitude * Math.cos(direction))
     ); 
   }
 }

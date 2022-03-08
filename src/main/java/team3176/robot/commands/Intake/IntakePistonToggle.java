@@ -4,28 +4,20 @@
 
 package team3176.robot.commands.Intake;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.Intake;
 
-public class IntakeSpint extends CommandBase { //TODO: RENAME SOMETIME
+public class IntakePistonToggle extends InstantCommand {
   private Intake m_Intake = Intake.getInstance();
-  public IntakeSpint() {
+  private boolean state;
+  public IntakePistonToggle() {
     addRequirements(m_Intake);
   }
 
   @Override
-  public void initialize() {}
-
-  @Override
-  public void execute() {
-    m_Intake.stopMotor();
-  }
-
-  @Override
-  public void end(boolean interrupted) {}
-
-  @Override
-  public boolean isFinished() {
-    return false;
+  public void initialize() {
+    state = m_Intake.getPistonSetting();
+    if(state) {m_Intake.Retract();}
+    else {m_Intake.Extend();}
   }
 }

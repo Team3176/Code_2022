@@ -15,6 +15,15 @@ import team3176.robot.subsystems.drivetrain.*;
 import team3176.robot.subsystems.Vision;
 
 import team3176.robot.commands.Climb.*;
+import team3176.robot.commands.Auton.Auton1Ball;
+import team3176.robot.commands.Auton.Auton2Balls;
+import team3176.robot.commands.Auton.Auton3Balls;
+import team3176.robot.commands.Auton.Auton4Balls;
+import team3176.robot.commands.Auton.Auton5Balls;
+import team3176.robot.commands.Auton.AutonBlock;
+import team3176.robot.commands.Auton.AutonExitTarmac;
+import team3176.robot.commands.Auton.AutonInstantShoot;
+import team3176.robot.commands.Auton.AutonMove;
 import team3176.robot.commands.CMD_Groups.*;
 // import team3176.robot.commands.Drivetrain.*;
 import team3176.robot.commands.Drivetrain.imported.*;
@@ -33,7 +42,7 @@ public class RobotContainer {
   private final Drivetrain m_Drivetrain;
   private final Vision m_Vision;
   private final Angler m_Angler;
-  private final Feeder m_Transfer;
+  private final Feeder m_Feeder;
   private final Flywheel m_Flywheel;
   private final Indexer m_Indexer;
   private final Climb m_Climb;
@@ -47,9 +56,10 @@ public class RobotContainer {
   private static final String m_MS = "s_Move&Shoot";
   private static final String m_S = "s_Shoot";
   private static final String m_M = "s_ExitTarmac";
-  private static final String m_D = "s_Move<Specify>in<Direction>";
-
-  // private final Command m_AnglerShuffleboardTest = new AnglerShuffleboardTest(); //TODO: GET RID OF THIS and INVESTIGATE
+  private static final String m_6L = "s_Move6inToTheLeft";
+  private static final String m_6R = "s_Move6inToTheRight";
+  private static final String m_6F = "s_Move6inToTheFront";
+  private static final String m_6B = "s_Move6inToTheBack";
   
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -58,7 +68,7 @@ public class RobotContainer {
     m_Vision = Vision.getInstance();
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
-    m_Transfer = Feeder.getInstance();
+    m_Feeder = Feeder.getInstance();
     m_Drivetrain = Drivetrain.getInstance();
     m_Climb = Climb.getInstance();
 
@@ -86,7 +96,10 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Sit Shoot (Mission: Bare Minimum)", m_S);
     m_autonChooser.addOption("Auto: ExitTarmac", m_M);
     m_autonChooser.addOption("Auto: Block", m_B);
-    m_autonChooser.addOption("Auto: Move <dis> in <dir>", m_D);
+    m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
+    m_autonChooser.addOption("Auto: Move 6in Right", m_6R);
+    m_autonChooser.addOption("Auto: Move 6in Forward", m_6F);
+    m_autonChooser.addOption("Auto: Move 6in Backwards", m_6B);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
@@ -94,17 +107,20 @@ public class RobotContainer {
 
   
   private void configureButtonBindings() {
-    // m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
-    // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
-    // m_Controller.getOp_Start().whenActive(new TransferToggle());
-    // m_Controller.getOp_Back().whenActive(new ShooterReset());
+    m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
+    m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
+    m_Controller.getOp_Start().whenActive(new FeederToggle());
+    m_Controller.getOp_Back().whenActive(new ShootReset());
 
-    // m_Controller.getOp_A_FS().whenActive(new IndexerForward());
-    // m_Controller.getOp_B_FS().whenActive(new IndexerBack());
-    // m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
-    // m_Controller.getOp_Y_FS().whenActive(new TransferToggle());
-    // m_Controller.getOp_Start_FS().whenActive(new ShootWithoutTarget());
-    // m_Controller.getOp_Back_FS().whenActive(new ShootReset());
+    m_Controller.getOp_A_FS().whenActive(new IndexerForward());
+    m_Controller.getOp_B_FS().whenActive(new IndexerBack());
+    m_Controller.getOp_Y_FS().whenActive(new IndexerStop());
+    m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
+    m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
+    m_Controller.getOp_Back_FS().whenActive(new ShootReset());
+
+    m_Controller.getOp_RightTrigger().whenActive(new ShootTwoBalls());
+    m_Controller.getOp_LeftTrigger().whenActive(new ShootOneBall());
 
     // m_Controller.getOp_A_DS().whenActive(new WinchUp());
     // m_Controller.getOp_B_DS().whenActive(new PrimaryPistonToggle());
@@ -112,13 +128,6 @@ public class RobotContainer {
     // m_Controller.getOp_Y_DS().whenActive(new WinchDown());
     // m_Controller.getOp_Start_DS().whenActive(new ClimbDisableToggle());
     // m_Controller.getOp_Back_DS().whenActive(new ShootReset());
-
-
-
-    // m_Controller.getOp_RightTrigger().whenActive(new ShootSequence());
-    // m_Controller.getOp_LeftTrigger().whenActive(new FlywheelToggle());
-    // m_Controller.getOp_DPAD_RIGHT().whenActive(new ClimbDisableToggle());
-
     // Active Climb
     // m_Controller.getOp_DPAD_UP().whenActive(new ClimbToMid());
     // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbToTraversal());
@@ -126,32 +135,31 @@ public class RobotContainer {
     // Passive Climb
     // m_Controller.getOp_DPAD_UP().whenActive(new ClimbExtend());
     // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbRetract());
+    // m_Controller.getOp_DPAD_RIGHT().whenActive(new ClimbDisableToggle());
 
-    // m_Angler.setAngle(m_Controller.getOp_LeftY());
+    m_Angler.moveToAngle(m_Controller.getOp_LeftY());
 
-
-    // m_Angler.setDefaultCommand(m_AnglerShuffleboardTest); //TODO: INVESTIGATE
-
-    // m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
-    // m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
-    // m_Controller.getOp_Y().whenActive(new CalculateCameraTargetDistance(m_Vision));
-    m_Controller.getOp_A().whenActive(new ExtendIntake());
-    m_Controller.getOp_B().whenActive(new RetractIntake());
-    m_Controller.getOp_X().whenActive(new I2CTest());
+    m_Controller.getOp_A_DS().whenActive(new AnglerPctOutput());
+    m_Controller.getOp_B_DS().whenActive(new FeederPctOutput());
+    m_Controller.getOp_X_DS().whenActive(new FlywheelPctOutput());
+    m_Controller.getOp_Y_DS().whenActive(new I2CTest());
   }
 
   public Command getAutonomousCommand() {
     String chosen = m_autonChooser.getSelected();
-    if(chosen.equals(m_5)) return new IntakeSpin(); //TODO: Put in order of frequency so the bot doesn't have to process more (shouldn't effect anything but just good to have)
-    if(chosen.equals(m_4)) return new IntakeSpin();
-    if(chosen.equals(m_3)) return new IntakeSpin();
-    if(chosen.equals(m_2)) return new IntakeSpin();
-    if(chosen.equals(m_MS)) return new IntakeSpin();
-    if(chosen.equals(m_S)) return new IntakeSpin();
-    if(chosen.equals(m_M)) return new IntakeSpin();
-    if(chosen.equals(m_B)) return new IntakeSpin();
-    if(chosen.equals(m_D)) return new IntakeSpin();
+    if(chosen.equals(m_5)) return new Auton5Balls(); //TODO: Put in order of frequency so the bot doesn't have to process more (shouldn't effect anything but just good to have)
+    if(chosen.equals(m_4)) return new Auton4Balls();
+    if(chosen.equals(m_3)) return new Auton3Balls();
+    if(chosen.equals(m_2)) return new Auton2Balls();
+    if(chosen.equals(m_MS)) return new Auton1Ball();
+    if(chosen.equals(m_S)) return new AutonInstantShoot();
+    if(chosen.equals(m_M)) return new AutonExitTarmac();
+    if(chosen.equals(m_B)) return new AutonBlock();
+    if(chosen.equals(m_6L)) return new AutonMove(6, Math.PI/2);
+    if(chosen.equals(m_6R)) return new AutonMove(6, (3 * Math.PI)/2);
+    if(chosen.equals(m_6F)) return new AutonMove(6, 0);
+    if(chosen.equals(m_6B)) return new AutonMove(6, Math.PI);
 
-    return new IntakeSpin(); //TODO: Return the most common auton
+    return new AutonExitTarmac(); //TODO: Return the most common auton
   }
 }

@@ -7,7 +7,9 @@ package team3176.robot.commands.Auton;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutonExitTarmac extends SequentialCommandGroup {
-  public AutonExitTarmac() { //TODO: MAKE
-    addCommands();
+  public AutonExitTarmac() {
+    addCommands(
+      new AutonMove(10, Math.PI) //TODO: FIND DISTANCE AND ANGLE
+    );
   }
 }

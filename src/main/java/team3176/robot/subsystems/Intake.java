@@ -21,6 +21,7 @@ public class Intake extends SubsystemBase {
   private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
   private TalonSRX intakeMotor = new TalonSRX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
   private boolean pistonSetting = false;
+  private boolean motorSetting = false;
   private boolean isSmartDashboardTestControlsShown;
   public String mode = "";
 
@@ -46,14 +47,21 @@ public class Intake extends SubsystemBase {
 
   public void spinVelocityPercent(double pct) {
     intakeMotor.set(TalonSRXControlMode.PercentOutput, pct);
+    motorSetting = true;
+    if(pct == 0) {motorSetting = false;}
   }
 
   public void stopMotor() {
     intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.0);
+    motorSetting = false;
   }
 
   public boolean getPistonSetting() {
     return pistonSetting;
+  }
+
+  public boolean getMotorSetting() {
+    return motorSetting;
   }
 
   public static Intake getInstance() {
