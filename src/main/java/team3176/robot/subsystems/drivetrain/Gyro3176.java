@@ -19,7 +19,7 @@ public class Gyro3176 extends SubsystemBase {
   private static Gyro3176 instance = new Gyro3176(); 
   // private PowerDistribution PDP = new PowerDistribution(PowerManagementConstants.PDP_CAN_ID, ModuleType.kCTRE);
   private AHRS gyro;
-  private double gyroOffset = 0;
+  private double gyroOffset_in_Degrees = 0;
   
   private double currentAngle;
   private double lastAngle;
@@ -56,7 +56,7 @@ public class Gyro3176 extends SubsystemBase {
  
 
   public double getNavxAngle_inDegrees() {
-    return (gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset);
+    return (gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
   }
   
   public double getNavxAngle_inRadians() {
@@ -70,7 +70,7 @@ public class Gyro3176 extends SubsystemBase {
   
   private void updateNavxAngle() {
     // -pi to pi; 0 = straight
-    this.currentAngle = (((Units.degreesToRadians(getNavxAngle_inDegrees()))) % (2 * Math.PI));
+    //this.currentAngle = (((Units.degreesToRadians(getNavxAngle_inDegrees()))) % (2 * Math.PI));
     this.currentAngle = ((getNavxAngle_inRadians()) % (2 * Math.PI));
     // gyro.getNavxAngle is returned in degrees.
     // Then converted to radians (ie *(Math.PI/180)).
