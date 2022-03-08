@@ -147,7 +147,7 @@ public class Drivetrain extends SubsystemBase {
     maxRotation = DrivetrainConstants.MAX_ROT_SPEED;
     maxAccel = DrivetrainConstants.MAX_ACCEL;
     
-    //SmartDashboard.putNumber("currentAngle", m_Gyro3176.getCurrentAngle());
+    //SmartDashboard.putNumber("currentAngle", m_Gyro3176.getCurrentChassisYaw());
 
     // SmartDashboard.putNumber("forwardCommand", 0);
     // SmartDashboard.putNumber("strafeCommand", 0);
@@ -222,16 +222,16 @@ public class Drivetrain extends SubsystemBase {
 
       System.out.println("Drivetrain ran under isFieldCentric -----------------------------------------------------------------------------------------------------------------------------------");
 
-      double currentAngle = m_Gyro3176.getCurrentAngle();
-      final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentAngle())
-          + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentAngle()));
-      this.strafeCommand = (-this.forwardCommand * Math.sin(m_Gyro3176.getCurrentAngle())
-          + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentAngle()));
+      double currentAngle = m_Gyro3176.getCurrentChassisYaw();
+      final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw())
+          + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw()));
+      this.strafeCommand = (-this.forwardCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw())
+          + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw()));
       // TEST BELOW TO SEE IF FIXES RC/FC ALIGNMENT
-      // final double temp = (this.forwardCommand * Math.sin(m_Gyro3176.getCurrentAngle())
-      // + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentAngle()));
-      // this.strafeCommand = (-this.forwardCommand * Math.cos(m_Gyro3176.getCurrentAngle())
-      // + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentAngle()));
+      // final double temp = (this.forwardCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw())
+      // + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw()));
+      // this.strafeCommand = (-this.forwardCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw())
+      // + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw()));
       this.forwardCommand = temp;
       SmartDashboard.putBoolean("isFieldCentricOn", true);
     }
@@ -441,7 +441,7 @@ public class Drivetrain extends SubsystemBase {
     * Calculates average angle value based on rolling window of last five angle measurements
     */
   public void calcAngleAvgRollingWindow() {
-    this.angleHist[this.arraytrack] = m_Gyro3176.getCurrentAngle();
+    this.angleHist[this.arraytrack] = m_Gyro3176.getCurrentChassisYaw();
     angleAvgRollingWindow = (this.angleHist[0] + this.angleHist[1] + this.angleHist[2] + this.angleHist[3]
         + this.angleHist[4]) / 5;
   }

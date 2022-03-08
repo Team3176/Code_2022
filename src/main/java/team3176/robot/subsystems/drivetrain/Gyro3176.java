@@ -56,7 +56,7 @@ public class Gyro3176 extends SubsystemBase {
  
 
   public double getNavxAngle_inDegrees() {
-    return (gyro.getAngle() + DrivetrainConstants.GYRO_COORDSYS_ROTATIONAL_OFFSET + this.gyroOffset);
+    return (gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset);
   }
   
   public double getNavxAngle_inRadians() {
@@ -71,13 +71,10 @@ public class Gyro3176 extends SubsystemBase {
   private void updateNavxAngle() {
     // -pi to pi; 0 = straight
     this.currentAngle = (((Units.degreesToRadians(getNavxAngle_inDegrees()))) % (2 * Math.PI));
+    this.currentAngle = ((getNavxAngle_inRadians()) % (2 * Math.PI));
     // gyro.getNavxAngle is returned in degrees.
     // Then converted to radians (ie *(Math.PI/180)).
     // And finally, it's modulus against 2pi is taken and returned as currentAngle.
-  }
-  
-  public void gyroUpdateOffset() {
-    this.gyroOffset = (getNavxAngle_inDegrees());
   }
   
   public void resetGyro() {
@@ -88,7 +85,7 @@ public class Gyro3176 extends SubsystemBase {
     return getNavxAngle_inDegrees();
   }
   
-  public double getCurrentAngle() {
+  public double getCurrentChassisYaw() {
     updateNavxAngle();
     return this.currentAngle;
   }

@@ -36,7 +36,7 @@ public class SwerveOrbit extends CommandBase {
     } else {
       wasFieldCentric = false;
     }
-    radianOffset = m_gyro.getCurrentAngle() - m_coordSys.getFieldCentricOffset();
+    radianOffset = m_gyro.getCurrentChassisYaw() - m_coordSys.getFieldCentricOffset();
 
     // SmartDashboard.putNumber("currentAngle", drivetrain.getCurrentAngle());
     // SmartDashboard.putNumber("getFieldCentricOffset", drivetrain.getFieldCentricOffset());

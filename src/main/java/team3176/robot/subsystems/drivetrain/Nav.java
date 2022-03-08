@@ -28,7 +28,7 @@ public class Nav extends SubsystemBase {
   }
 
   public double getCurrentAngleFromGyro() {
-    this.currentAngle = m_Gyro3176.getCurrentAngle();
+    this.currentAngle = m_Gyro3176.getCurrentChassisYaw();
     return this.currentAngle;
   }
     
