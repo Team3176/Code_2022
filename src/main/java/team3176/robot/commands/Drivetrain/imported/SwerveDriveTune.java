@@ -9,11 +9,12 @@ import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
 
 public class SwerveDriveTune extends CommandBase {
   private Drivetrain drivetrain = Drivetrain.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
-
+  private Gyro3176 m_gyro = Gyro3176.getInstance();
 
   private BooleanSupplier isFieldCentric;
   private BooleanSupplier isRobotCentric;
@@ -28,7 +29,7 @@ public class SwerveDriveTune extends CommandBase {
   @Override
   public void initialize() {
     drivetrain.setDriveMode(driveMode.DRIVE);
-    drivetrain.setSpinLock(false);
+    m_gyro.setSpinLockToOff();
   }
 
   @Override

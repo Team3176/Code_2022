@@ -21,7 +21,7 @@ public class SwerveLockedSpin extends InstantCommand {
   public void initialize() {
     
     m_gyro.setSpinLockAngle(); //Rearragned because the error would be big currAngle - 0 as error
-    drivetrain.toggleSpinLock();
+    m_gyro.toggleSpinLock();
   }
 
 }

@@ -94,7 +94,6 @@ public class Drivetrain extends SubsystemBase {
   private double spinCommand;
 
   private double spinLockAngle;
-  private boolean isSpinLocked = false;
   // private PID3176 spinLockPID;
   // private PIDController spinLockPID;
 
@@ -216,13 +215,17 @@ public class Drivetrain extends SubsystemBase {
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
-    if (this.isSpinLocked && !isOrbiting()) {
+    if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
       this.spinCommand = -spinLockPID.returnOutput(m_Gyro3176.getNavxAngle_inRadians(), spinLockAngle);
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
     }
 
     if (m_CoordSys.isFieldCentric()) {
+
+      System.out.println("Drivetrain ran under isFieldCentric -----------------------------------------------------------------------------------------------------------------------------------");
+
+      this.currentAngle = m_Gyro3176.getCurrentAngle();
       final double temp = (this.forwardCommand * Math.cos(this.currentAngle)
           + this.strafeCommand * Math.sin(this.currentAngle));
       this.strafeCommand = (-this.forwardCommand * Math.sin(this.currentAngle)
@@ -237,6 +240,9 @@ public class Drivetrain extends SubsystemBase {
     }
     // TODO: Find out why we multiply by 0.75
     if (m_CoordSys.isRobotCentric()) {
+
+      System.out.println("Drivetrain ran under isRobotCentric -----------------------------------------------------------------------------------------------------------------------------------");
+
       this.strafeCommand *= 1; // 0.75;
       this.forwardCommand *= 1; // 0.75;
       this.spinCommand *= 1; // 0.75;
@@ -410,19 +416,6 @@ public class Drivetrain extends SubsystemBase {
   public driveMode getCurrentDriveMode() {
     return currentDriveMode;
   }
-
-  
-  
-
-
-  public void toggleSpinLock() {
-    this.isSpinLocked = !this.isSpinLocked;
-  }
-
-  public void setSpinLock(boolean set) {
-    isSpinLocked = set;
-  }
-
  
   /**
    * Sets Turbo mode on or off

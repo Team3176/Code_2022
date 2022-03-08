@@ -109,7 +109,6 @@ public class Gyro3176 extends SubsystemBase {
     return spinCorrection;
   }
 
-
   public boolean getIsSpinLocked() {
     return this.isSpinLocked;
   }
@@ -123,6 +122,11 @@ public class Gyro3176 extends SubsystemBase {
     this.isSpinLocked = false;
   }
    
+  public void toggleSpinLock() {
+    this.isSpinLocked = !this.isSpinLocked;
+  }
+  
+  // redundant with above, not sure if this one is used
   public boolean getIsSpinLockTrue() {
     return this.isSpinLocked;
   }
