@@ -32,6 +32,8 @@ public class Indexer extends SubsystemBase {
   private boolean isSmartDashboardTestControlsShown;
   public String mode = "";
   private boolean firstPos, secondPos, thirdPos;
+  private int lastState = 222;
+  private int currentState = 222;
 
   private final IndexerIO io;
   private final IndexerIOInputs inputs = new IndexerIOInputs();
@@ -41,12 +43,13 @@ public class Indexer extends SubsystemBase {
   private Indexer(IndexerIO io) {
     this.io = io;
 
+    this.currentState = reportState();
     indexerMotor = new TalonSRX(IndexerConstants.INDEXER_CAN_ID);
     indexerMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
     this.indexerMotor.configNominalOutputForward(0, IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.configNominalOutputReverse(0, IndexerConstants.kTIMEOUT_MS);
-    this.indexerMotor.configPeakOutputForward(0.25, IndexerConstants.kTIMEOUT_MS);
-    this.indexerMotor.configPeakOutputReverse(-0.25, IndexerConstants.kTIMEOUT_MS);
+    // this.indexerMotor.configPeakOutputForward(0.25, IndexerConstants.kTIMEOUT_MS);
+    // this.indexerMotor.configPeakOutputReverse(-0.25, IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.configAllowableClosedloopError(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.ALLOWABLE_CLOSED_LOOP_ERROR, IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.config_kF(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[3], IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.config_kP(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[0], IndexerConstants.kTIMEOUT_MS);
@@ -87,11 +90,11 @@ public class Indexer extends SubsystemBase {
   }
 
   public void Up() { //TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput,0.1);
+    indexerMotor.set(ControlMode.PercentOutput,0.8);
   }
 
   public void Down() { //TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput,-0.1);
+    indexerMotor.set(ControlMode.PercentOutput,-0.8);
   }
 
   public void requestState(int s) {
@@ -126,6 +129,7 @@ public class Indexer extends SubsystemBase {
     secondPos = sensorBoolArray[1];
     thirdPos = sensorBoolArray[2];
 
+    System.out.println("1: " + firstPos + ", 2: " + secondPos + ", 3: " + thirdPos);
   }
 
   public void putSmartDashboardControlCommands() {
@@ -148,6 +152,13 @@ public class Indexer extends SubsystemBase {
       if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
       setValuesFromSmartDashboard();
     }
+    lastState = currentState;
+    currentState = reportState();
+    // System.out.println(reportState());
+    if((lastState != currentState)) {System.out.println("The Indexer Changed");
+     System.out.println(reportState());
+    }
+
   }
 
   @Override

@@ -73,7 +73,9 @@ public class RobotContainer {
     m_Climb = Climb.getInstance();
 
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
+    //TODO: ADD A WAY TO CLEAR STICKY FAULTS
+    // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
+    m_Compressor.enableDigital();
 
     if (!MasterConstants.IS_TUNING_MODE) { 
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
@@ -116,6 +118,7 @@ public class RobotContainer {
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
 
+    m_Controller.getOp_A().whenActive(new IntakeIndexerIntegration());
     m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
     m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     m_Controller.getOp_Start().whenActive(new FeederToggle());

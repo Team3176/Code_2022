@@ -18,11 +18,11 @@ public class IntakeIndexerIntegration extends CommandBase {
   private int numTimes100 = 0;
   private int lastState = 111;
   private int currState = 111;
-  private double timeLimit = 10;
+  // private double timeLimit = 10;
 
   public IntakeIndexerIntegration() {
     addRequirements(m_Indexer, m_Intake);
-    if(Timer.getMatchTime() > (MasterConstants.FULL_MATCH_TIME - 15)) {timeLimit = 4;}
+    // if(Timer.getMatchTime() > (MasterConstants.FULL_MATCH_TIME - 15)) {timeLimit = 4;}
   }
 
   @Override
@@ -30,12 +30,16 @@ public class IntakeIndexerIntegration extends CommandBase {
     timeElasped.start();
     m_Intake.Extend();
     m_Intake.spinVelocityPercent(IntakeConstants.INTAKE_PCT);
+    m_Indexer.Up();
   }
 
   @Override
   public void execute() {
-    currState = lastState;
+    lastState = currState; 
     currState = m_Indexer.reportState();
+    if(currState != lastState) {
+      
+    }
     if (currState != lastState && currState == 100) {
       numTimes100++;
       m_Indexer.requestState(010);
@@ -56,7 +60,7 @@ public class IntakeIndexerIntegration extends CommandBase {
   @Override
   public boolean isFinished() {
     if (numTimes100 == 2) {return true;}
-    else if (timeElasped.get() == timeLimit) {return true;} //TODO: LOWER TIME
+    // else if (timeElasped.get() == timeLimit) {return true;} //TODO: LOWER TIME
     return false;
   }
 }

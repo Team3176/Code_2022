@@ -220,7 +220,7 @@ public class Drivetrain extends SubsystemBase {
 
     if (m_CoordSys.isFieldCentric()) {
 
-      System.out.println("Drivetrain ran under isFieldCentric -----------------------------------------------------------------------------------------------------------------------------------");
+      // System.out.println("Drivetrain ran under isFieldCentric -----------------------------------------------------------------------------------------------------------------------------------");
 
       double currentAngle = m_Gyro3176.getCurrentChassisYaw();
       final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw())
@@ -238,7 +238,7 @@ public class Drivetrain extends SubsystemBase {
     
     if (m_CoordSys.isRobotCentric()) {
 
-      System.out.println("Drivetrain ran under isRobotCentric -----------------------------------------------------------------------------------------------------------------------------------");
+      // System.out.println("Drivetrain ran under isRobotCentric -----------------------------------------------------------------------------------------------------------------------------------");
 
       this.strafeCommand *= 1; // 0.75;
       this.forwardCommand *= 1; // 0.75;
