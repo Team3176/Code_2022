@@ -99,10 +99,10 @@ public class Clarke extends SubsystemBase {
         this.minX = Integer.parseInt(returnedArray[ahead].substring(0, returnedArray[ahead].length() - 1 ));
       }
     }
-    System.out.println(this.maxX);
-    System.out.println(this.minX);
+
   }
   public void updateMLData(){ 
+    piTable = tableInstance.getTable("ML");
     detections = piTable.getEntry("detections");
     //String myvalue = detections.getStringArray("detections"); 
 
