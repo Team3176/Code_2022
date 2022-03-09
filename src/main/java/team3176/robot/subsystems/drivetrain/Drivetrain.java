@@ -219,14 +219,11 @@ public class Drivetrain extends SubsystemBase {
     }
 
     if (m_CoordSys.isFieldCentric()) {
-
-      System.out.println("Drivetrain ran under isFieldCentric -----------------------------------------------------------------------------------------------------------------------------------");
-
       double currentAngle = m_Gyro3176.getCurrentAngle();
-      final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentAngle())
-          + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentAngle()));
-      this.strafeCommand = (-this.forwardCommand * Math.sin(m_Gyro3176.getCurrentAngle())
-          + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentAngle()));
+      final double temp = (this.forwardCommand * Math.cos(currentAngle)
+          + this.strafeCommand * Math.sin(currentAngle));
+      this.strafeCommand = (-this.forwardCommand * Math.sin(currentAngle)
+          + this.strafeCommand * Math.cos(currentAngle));
       // TEST BELOW TO SEE IF FIXES RC/FC ALIGNMENT
       // final double temp = (this.forwardCommand * Math.sin(m_Gyro3176.getCurrentAngle())
       // + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentAngle()));
@@ -237,9 +234,6 @@ public class Drivetrain extends SubsystemBase {
     }
     
     if (m_CoordSys.isRobotCentric()) {
-
-      System.out.println("Drivetrain ran under isRobotCentric -----------------------------------------------------------------------------------------------------------------------------------");
-
       this.strafeCommand *= 1; // 0.75;
       this.forwardCommand *= 1; // 0.75;
       this.spinCommand *= 1; // 0.75;

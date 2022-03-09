@@ -19,15 +19,11 @@ public class ToggleCoordSys extends InstantCommand {
 
   @Override
   public void initialize() {
-    System.out.println("ToggleCoordSys command RUN ########################################################################################################################");
     if (m_CoordSys.isFieldCentric()) {
       m_CoordSys.setCoordTypeToRobotCentric();
-      System.out.println("ToogleCordSys evaluated under isFieldCentric ########################################################################################################################");
     } else if (m_CoordSys.isRobotCentric()) {
       m_CoordSys.setCoordTypeToFieldCentric();
-      System.out.println("ToogleCordSys evaluated under isRobotCentric ########################################################################################################################");
     }
-    System.out.println("ToggleCoordSys has finished ########################################################################################################################");
   }
 
 }

@@ -21,10 +21,6 @@ public class ToggleSpinLock extends InstantCommand {
 
   @Override
   public void initialize() {
-    if (m_Gyro3176.getIsSpinLocked()) {
-      m_Gyro3176.setSpinLockToOff();
-    } else if (m_Gyro3176.getIsSpinLocked()) {
-      m_Gyro3176.setSpinLockToOn();
-    }
+    m_Gyro3176.toggleSpinLock();
   }
 }

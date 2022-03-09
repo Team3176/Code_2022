@@ -29,7 +29,6 @@ public class CoordSys extends SubsystemBase {
 
   public void setCoordTypeToFieldCentric() {
     this.currentCoordType = coordType.FIELD_CENTRIC;
-    System.out.println("setCoordTypeToFieldCetric RUN ##################################################################################################################################");
   }
 
   public void setCoordTypeToRobotCentric() {
