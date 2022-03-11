@@ -57,8 +57,8 @@ public class Clarke extends SubsystemBase {
 
   // initializing variables for kinematic calculations
   private final double gravity = -9.81; // m/s^2
-  private double minX;
-  private double maxX;
+  private int minX;
+  private int maxX;
   private double deltaX; // m
   private double deltaY; // m
   private double[] initialVelocity = {4.0, 3.0, 2.0}; // m/s
@@ -80,27 +80,37 @@ public class Clarke extends SubsystemBase {
   public Clarke(){
     tableInstance = NetworkTableInstance.getDefault();
     piTable = tableInstance.getTable("ML");
-    mapper = new ObjectMapper();
-    minX = 0.0;
-    maxX = 0.0;
+
     
     updateVisionData();
     //piTable.getEntry("pipeline").setNumber(activePipeline);
     
   }
-  public void updateMLData(){ 
-    detections = piTable.getEntry("detections");
-
-    //String myvalue = detections.getStringArray("detections"); 
-    String jsonString = detections.getString("{\"xmax\":\"0\", \"xmin\":\"0.0\"}"); 
-    System.out.println(jsonString);
-    try{
-      JsonNode node = mapper.readTree(jsonString);
-      this.minX = node.get("xmin").asDouble();
-      this.minX = node.get("xmin").asDouble();
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
+  public void findMinAndMax(){
+    String jsonString = detections.getString("{ \"xmax\" : \"0\" , \"xmin\" : \"0\"}"); //the current values are just test cases, make them zero again before comp.
+    String[] returnedArray = jsonString.split(" ");
+    for(String e : returnedArray){
+      System.out.println(e);
     }
+    for(int i = 0; i < returnedArray.length; i++){
+      int ahead = i + 1;
+      if(returnedArray[i].equals("\"xmax\":")){
+        returnedArray[ahead] = returnedArray[ahead].substring(0,3);
+        this.maxX = Integer.parseInt(returnedArray[ahead]);
+      }
+      if(returnedArray[i].equals("\"xmin\":")){
+        returnedArray[ahead] = returnedArray[ahead].substring(0,3);
+        this.minX = Integer.parseInt(returnedArray[ahead]);
+      }
+    }
+
+  }
+  public void updateMLData(){ 
+    piTable = tableInstance.getTable("ML");
+    detections = piTable.getEntry("detections");
+    
+    //String myvalue = detections.getStringArray("detections"); 
+
 
   }
 
@@ -142,7 +152,11 @@ public class Clarke extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
     if (idxCounter++ > 100) {
       // A value of 100 in the above conditionals means execution block of conditional will execute every ~2seconds.
+ 
       updateMLData();
+      findMinAndMax();
+      System.out.println(this.maxX);
+      System.out.println(this.minX);
       this.idxCounter = 0;
     } 
     //updateMLData();

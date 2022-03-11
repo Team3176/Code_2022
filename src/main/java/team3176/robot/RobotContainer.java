@@ -46,7 +46,7 @@ public class RobotContainer {
   private final Flywheel m_Flywheel;
   private final Indexer m_Indexer;
   private final Climb m_Climb;
-
+  private final Clarke m_Clarke;
   private SendableChooser<String> m_autonChooser;
   private static final String m_5 = "s_5BallAuto";
   private static final String m_4 = "s_4BallAuto";
@@ -71,6 +71,7 @@ public class RobotContainer {
     m_Feeder = Feeder.getInstance();
     m_Drivetrain = Drivetrain.getInstance();
     m_Climb = Climb.getInstance();
+    m_Clarke = Clarke.getInstance();
 
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     //TODO: ADD A WAY TO CLEAR STICKY FAULTS
