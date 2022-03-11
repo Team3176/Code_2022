@@ -51,8 +51,8 @@ public class Vision extends SubsystemBase {
   private double finalYVelocity; // m/s
   private double time; // seconds
 
-  private ArrayList<Double> tcornx;
-  private ArrayList<Double> tcorny;
+  private ArrayList<Double> tcornx = new ArrayList<>(4);
+  private ArrayList<Double> tcorny = new ArrayList<>(4);
 
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
   //private double ballDegrees = -999; // degrees away from Limelight where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
@@ -66,6 +66,9 @@ public class Vision extends SubsystemBase {
     updateVisionData();
 
     limelightTable.getEntry("pipeline").setNumber(activePipeline);
+
+    tcornx.ensureCapacity(4);
+    tcorny.ensureCapacity(4);
   }
 
   public static Vision getInstance(){
@@ -97,15 +100,16 @@ public class Vision extends SubsystemBase {
 
     updateVisionData();
 
-    SmartDashboard.putNumber("Info", tcornxy.getDoubleArray(new double[0]).length);
-    if(tcornxy.getDoubleArray(new double[0]).length != 8){
-      SmartDashboard.putBoolean("Has Run?", true);
+    separateCornArray();
+    SmartDashboard.putBoolean("Has Run?", true);
+    SmartDashboard.putBoolean("Empty?", tcornx.isEmpty());
+    SmartDashboard.putNumber("Info", tcornx.isEmpty() ? 0 : tcornx.size());
+    if(tcornx.size() < 4 || tcornx.size() > 5){
       return;
     }
 
-    separateCornArray();
-
     deltaXCam = findDeltaX();
+    SmartDashboard.putNumber("Delta X Cam", deltaXCam);
 
     calculateTargetDistance();
 
@@ -118,25 +122,28 @@ public class Vision extends SubsystemBase {
   }
 
   public void separateCornArray(){
-    tcornx.clear();
-    tcorny.clear();
-    for(int i = 0; i < 5; i++){
-      tcornx.add(limelightTable.getEntry("x" + i).getDouble(-999.0));
-      tcorny.add(limelightTable.getEntry("y" + i).getDouble(-999.0));
+    if(!tcornx.isEmpty() && !tcorny.isEmpty()){
+      tcornx.clear();
+      tcorny.clear();
+    }
+    for(int i = 0; i < 4; i++){
+      tcornx.add(limelightTable.getEntry("tx" + i).getDouble(-999.0));
+      tcorny.add(limelightTable.getEntry("ty" + i).getDouble(-999.0));
     }
     tcornx.remove(-999.0);
     tcorny.remove(-999.0);
   }
 
   public double findDeltaX(){
-    Double[] tempCorn = (Double[]) tcornx.toArray();
+    Double[] tempCorn = tcornx.toArray(new Double[0]);
     Arrays.sort(tempCorn);
     return tempCorn[tempCorn.length - 1] - tempCorn[0];
   }
 
   public void calculateTargetDistance(){
-    double rawDistance = VisionConstants.VISION_CONSTANT / deltaXCam;
-    deltaX = rawDistance * Math.cos(VisionConstants.cameraAngle * VisionConstants.DEG2RAD) + 10 * VisionConstants.INCHES2METERS;
+    double rawDistance = (VisionConstants.VISION_CONSTANT / deltaXCam);
+    SmartDashboard.putNumber("Raw Distance", rawDistance);
+    deltaX = rawDistance * Math.cos(VisionConstants.cameraAngle * VisionConstants.DEG2RAD); //+ (10 * VisionConstants.INCHES2METERS);
     deltaY = rawDistance * Math.sin(VisionConstants.cameraAngle * VisionConstants.DEG2RAD);
     SmartDashboard.putNumber("DeltaX", deltaX);
     SmartDashboard.putNumber("DeltaY", deltaY);
