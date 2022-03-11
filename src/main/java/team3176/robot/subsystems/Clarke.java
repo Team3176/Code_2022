@@ -87,16 +87,20 @@ public class Clarke extends SubsystemBase {
     
   }
   public void findMinAndMax(){
-    String jsonString = detections.getString("{\"xmax\":\"0\",\"xmin\":\"0\"}"); //the current values are just test cases, make them zero again before comp.
-    System.out.println(jsonString);
+    String jsonString = detections.getString("{ \"xmax\" : \"0\" , \"xmin\" : \"0\"}"); //the current values are just test cases, make them zero again before comp.
     String[] returnedArray = jsonString.split(" ");
+    for(String e : returnedArray){
+      System.out.println(e);
+    }
     for(int i = 0; i < returnedArray.length; i++){
-      int ahead = i + 2;
-      if(returnedArray[i].equals("xmax")){
-        this.maxX = Integer.parseInt(returnedArray[ahead].substring(0, returnedArray[ahead].length() - 1 ));
+      int ahead = i + 1;
+      if(returnedArray[i].equals("\"xmax\":")){
+        returnedArray[ahead] = returnedArray[ahead].substring(0,3);
+        this.maxX = Integer.parseInt(returnedArray[ahead]);
       }
-      if(returnedArray[i].equals("xmin")){
-        this.minX = Integer.parseInt(returnedArray[ahead].substring(0, returnedArray[ahead].length() - 1 ));
+      if(returnedArray[i].equals("\"xmin\":")){
+        returnedArray[ahead] = returnedArray[ahead].substring(0,3);
+        this.minX = Integer.parseInt(returnedArray[ahead]);
       }
     }
 
@@ -104,6 +108,7 @@ public class Clarke extends SubsystemBase {
   public void updateMLData(){ 
     piTable = tableInstance.getTable("ML");
     detections = piTable.getEntry("detections");
+    
     //String myvalue = detections.getStringArray("detections"); 
 
 
@@ -150,6 +155,8 @@ public class Clarke extends SubsystemBase {
  
       updateMLData();
       findMinAndMax();
+      System.out.println(this.maxX);
+      System.out.println(this.minX);
       this.idxCounter = 0;
     } 
     //updateMLData();
