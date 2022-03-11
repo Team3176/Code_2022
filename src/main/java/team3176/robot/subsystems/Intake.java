@@ -6,6 +6,7 @@ package team3176.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -22,6 +23,10 @@ public class Intake extends SubsystemBase {
   private TalonSRX intakeMotor = new TalonSRX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
   private boolean pistonSetting = false;
   private boolean motorSetting = false;
+  private boolean lastBallSensorReading = true;
+  private DigitalInput ballSensor;
+  public int ballCount = 0;
+  private boolean isIntaking = false;
   private boolean isSmartDashboardTestControlsShown;
   public String mode = "";
 
@@ -32,15 +37,18 @@ public class Intake extends SubsystemBase {
   private Intake(IntakeIO io) {
     this.io = io;
     intakeMotor.setInverted(true);
+    ballSensor = new DigitalInput(IntakeConstants.BALL_SENSOR_DIO);
   }
 
   public void Extend() {
+    isIntaking = true;
     pistonSetting = true;
     piston1.set(Value.kForward);
     // piston2.set(Value.kForward);
   }
 
   public void Retract() {
+    isIntaking = false;
     pistonSetting = false;
     piston1.set(Value.kReverse);
     // piston2.set(Value.kReverse);
@@ -70,6 +78,23 @@ public class Intake extends SubsystemBase {
     return instance;
   }
 
+  public void countBalls() {
+    if (ballSensor.get() != lastBallSensorReading) {
+      ballCountIncrement();
+      this.lastBallSensorReading = ballSensor.get(); 
+    }
+   }
+
+  public void ballCountIncrement() {
+    this.ballCount++;
+  }
+  public void ballCountDecrement() {
+    this.ballCount--;
+  }
+  public void ballCountReset() {
+    this.ballCount = 0;
+  }
+
   public void putSmartDashboardControlCommands() {
      SmartDashboard.putNumber("Intake Falcon PCT", 0);
      SmartDashboard.putBoolean("Intake Piston Setting", true);
@@ -88,6 +113,7 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (isIntaking) { countBalls(); }
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Intake", inputs);
     Logger.getInstance().recordOutput("Intake/Velocity", getIntakeVelocity());

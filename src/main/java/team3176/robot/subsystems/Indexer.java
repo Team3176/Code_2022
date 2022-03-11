@@ -53,12 +53,7 @@ public class Indexer extends SubsystemBase {
     this.indexerMotor.configNominalOutputReverse(0, IndexerConstants.kTIMEOUT_MS);
     // this.indexerMotor.configPeakOutputForward(0.8, IndexerConstants.kTIMEOUT_MS);
     // this.indexerMotor.configPeakOutputReverse(-0.8, IndexerConstants.kTIMEOUT_MS);
-    this.indexerMotor.configAllowableClosedloopError(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.ALLOWABLE_CLOSED_LOOP_ERROR, IndexerConstants.kTIMEOUT_MS);
-    this.indexerMotor.config_kF(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[3], IndexerConstants.kTIMEOUT_MS);
-    this.indexerMotor.config_kP(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[0], IndexerConstants.kTIMEOUT_MS);
-    this.indexerMotor.config_kI(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[1], IndexerConstants.kTIMEOUT_MS);
-    this.indexerMotor.config_kD(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[2], IndexerConstants.kTIMEOUT_MS);
-    this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[4], IndexerConstants.kTIMEOUT_MS); 
+    
 
     this.indexMode = IndexMode.HOLDING;
     startingEncoderTic = indexerMotor.getSelectedSensorPosition();
@@ -119,6 +114,23 @@ public class Indexer extends SubsystemBase {
   }
 
 
+  public void setIndexerConfigForPositionPIDCtrl() {
+    this.indexerMotor.configAllowableClosedloopError(IndexerConstants.kPID_LOOP_IDX[0], IndexerConstants.ALLOWABLE_CLOSED_LOOP_ERROR, IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kF(IndexerConstants.kPID_LOOP_IDX[0], IndexerConstants.PIDFConstants[0][3], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kP(IndexerConstants.kPID_LOOP_IDX[0], IndexerConstants.PIDFConstants[0][0], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kI(IndexerConstants.kPID_LOOP_IDX[0], IndexerConstants.PIDFConstants[0][1], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kD(IndexerConstants.kPID_LOOP_IDX[0], IndexerConstants.PIDFConstants[0][2], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[0][4], IndexerConstants.kTIMEOUT_MS); 
+  }
+  
+  public void setIndexerConfigForVelocityPIDCtrl() {
+    this.indexerMotor.configAllowableClosedloopError(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.ALLOWABLE_CLOSED_LOOP_ERROR, IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kF(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][3], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kP(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][0], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kI(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][1], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_kD(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][2], IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][4], IndexerConstants.kTIMEOUT_MS); 
+  }
 
   public void setIndexerPosition(double position) {
     indexerMotor.set(ControlMode.Position, position);
