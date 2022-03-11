@@ -237,9 +237,6 @@ public class Drivetrain extends SubsystemBase {
     }
     
     if (m_CoordSys.isRobotCentric()) {
-
-      // System.out.println("Drivetrain ran under isRobotCentric -----------------------------------------------------------------------------------------------------------------------------------");
-
       this.strafeCommand *= 1; // 0.75;
       this.forwardCommand *= 1; // 0.75;
       this.spinCommand *= 1; // 0.75;

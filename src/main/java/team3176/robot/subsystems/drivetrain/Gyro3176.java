@@ -50,6 +50,9 @@ public class Gyro3176 extends SubsystemBase {
     isSpinLocked = false;
 
     spinLockPID = new PID3176(0.15, 0.0, 0.0);
+
+    // sets spin lock angle at startup
+    setSpinLockAngle();
   }
   
   
@@ -121,7 +124,7 @@ public class Gyro3176 extends SubsystemBase {
 
   public void setSpinLockToOn() {
     this.isSpinLocked = true;
-
+    setSpinLockAngle();
   }
   
   public void setSpinLockToOff() {
@@ -130,6 +133,9 @@ public class Gyro3176 extends SubsystemBase {
    
   public void toggleSpinLock() {
     this.isSpinLocked = !this.isSpinLocked;
+    if (this.isSpinLocked) {
+      setSpinLockAngle();
+    }
   }
   
   // redundant with above, not sure if this one is used
