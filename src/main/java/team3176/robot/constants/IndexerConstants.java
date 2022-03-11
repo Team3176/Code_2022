@@ -4,8 +4,16 @@
 
 package team3176.robot.constants;
 
+import team3176.robot.util.instantPrintTest;
+
 public final class IndexerConstants {
     public static final int INDEXER_CAN_ID = 61;
+    //Current motor is 775 Pro
+    //Current motor controller is TalonSRX
+    //Current encoder is CTRE SRX Encoder
+
+    public static final int MAX_RPM = 4100;  //at 12V (is 8400 at 24V)
+    public static final int ENCODER_TICS_PER_REVOLUTION = 4096;
 
     public static final int kTIMEOUT_MS = 0; 
     public static final int kPID_LOOP_IDX[] = {0, 1};

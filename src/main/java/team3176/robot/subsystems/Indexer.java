@@ -35,13 +35,15 @@ public class Indexer extends SubsystemBase {
   private int currentState = 222;
   private double startingEncoderTic;
 
-  public enum IndexMode{INTAKING, HOLDING, SPITTING, SHOOTING};
+  public enum IndexMode{LOADING, HOLDING, SPITTING, SHOOTING};
   private IndexMode indexMode;
 
+  
   private final IndexerIO io;
   private final IndexerIOInputs inputs = new IndexerIOInputs();
 
   private I2C m_I2C;
+
 
   private Indexer(IndexerIO io) {
     this.io = io;
@@ -66,7 +68,9 @@ public class Indexer extends SubsystemBase {
 
   public void index(){
     switch (this.indexMode) {
-      case INTAKING:
+      case LOADING:
+        if (intake.ballCount == 2){ }
+        setIndexerConfigForPositionPIDCtrl();
         if (reportState() == 000) {
           //Run motor continuously Up
         }
@@ -82,6 +86,7 @@ public class Indexer extends SubsystemBase {
 
         break;
       case HOLDING:
+        setIndexerConfigForPositionPIDCtrl();
         if (reportState() == 100) {
           //Run motor up to state010
         }
@@ -104,6 +109,10 @@ public class Indexer extends SubsystemBase {
         //}
         break;
       case SHOOTING:
+        setIndexerConfigForVelocityPIDCtrl();
+        double target_RPM = IndexerConstants.MAX_RPM * 0.8; 
+        double velocity_ticsPer100ms =  target_RPM * IndexerConstants.ENCODER_TICS_PER_REVOLUTION / 600.0;
+        indexerMotor.set(ControlMode.Velocity, velocity_ticsPer100ms);
         //run motor Up at 80%
         break;
       default:
@@ -211,8 +220,8 @@ public class Indexer extends SubsystemBase {
     indexerMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Indexer PCT", 0)));
   }
 
-  public void setModeIntaking(){
-    this.indexMode = IndexMode.INTAKING;
+  public void setModeLoading(){
+    this.indexMode = IndexMode.LOADING;
   }
   public void setModeHolding(){
     this.indexMode = IndexMode.HOLDING;
