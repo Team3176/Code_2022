@@ -19,4 +19,10 @@ public final class IndexerConstants {
      public static final double[] PIDFConstants = { 0.0, 0.0, 0.0, 0.0, 0.0 };
      public static final double ALLOWABLE_CLOSED_LOOP_ERROR = 0;
 
+     public static final double ticDiff_000_010 = 16064.0;
+     public static final double ticDiff_000_011 = 16641.0;
+     public static final double ticDiff_000_001 = 24234.0;
+     public static final double ticDiff_010_110 = 228.0;
+     public static final double ticDiff_010_111 = 3183.0;
+
 }

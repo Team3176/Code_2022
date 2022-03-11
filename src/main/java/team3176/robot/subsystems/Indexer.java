@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.I2C;
 
 public class Indexer extends SubsystemBase {
   private static Indexer instance;
-
+  public String mode = "";
   private TalonSRX indexerMotor;
   private SparkMaxPIDController indexerPIDController;
   private byte[] sensorByteArray;
@@ -33,9 +33,10 @@ public class Indexer extends SubsystemBase {
   private boolean firstPos, secondPos, thirdPos;
   private int lastState = 222;
   private int currentState = 222;
+  private double startingEncoderTic;
 
-  public enum Mode{INTAKING, HOLDING, SPITTING, SHOOTING};
-  private Mode mode;
+  public enum IndexMode{INTAKING, HOLDING, SPITTING, SHOOTING};
+  private IndexMode indexMode;
 
   private final IndexerIO io;
   private final IndexerIOInputs inputs = new IndexerIOInputs();
@@ -59,7 +60,8 @@ public class Indexer extends SubsystemBase {
     this.indexerMotor.config_kD(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[2], IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX, IndexerConstants.PIDFConstants[4], IndexerConstants.kTIMEOUT_MS); 
 
-    this.mode = Mode.HOLDING;
+    this.indexMode = IndexMode.HOLDING;
+    startingEncoderTic = indexerMotor.getSelectedSensorPosition();
 
     //indexerMotor.setClosedLoopRampRate(IndexerConstants.RAMP_RATE);
 
@@ -68,7 +70,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void index(){
-    switch (this.mode) {
+    switch (this.indexMode) {
       case INTAKING:
         if (reportState() == 000) {
           //Run motor continuously Up
@@ -131,6 +133,7 @@ public class Indexer extends SubsystemBase {
   // }
 
   public int reportState() {
+    // I2CReciever();
     int state = 0;
     if (!firstPos)
       state += 100;
@@ -178,11 +181,13 @@ public class Indexer extends SubsystemBase {
       sensorBoolArray[i] = sensorByteArray[i]!=0;
     }
     
-    firstPos = sensorBoolArray[0];
-    secondPos = sensorBoolArray[1];
-    thirdPos = sensorBoolArray[2];
+    this.firstPos = sensorBoolArray[0];
+    this.secondPos = sensorBoolArray[1];
+    this.thirdPos = sensorBoolArray[2];
 
-    System.out.println("1: " + firstPos + ", 2: " + secondPos + ", 3: " + thirdPos);
+    double ticvalue = indexerMotor.getSelectedSensorPosition();
+
+    System.out.println("1: " + firstPos + ", 2: " + secondPos + ", 3: " + thirdPos + ", tics:" + ticvalue);
   }
 
   public void putSmartDashboardControlCommands() {
@@ -195,16 +200,16 @@ public class Indexer extends SubsystemBase {
   }
 
   public void setModeIntaking(){
-    this.mode = Mode.INTAKING;
+    this.indexMode = IndexMode.INTAKING;
   }
   public void setModeHolding(){
-    this.mode = Mode.HOLDING;
+    this.indexMode = IndexMode.HOLDING;
   }
   public void setModeSpitting(){
-    this.mode = Mode.SPITTING;
+    this.indexMode = IndexMode.SPITTING;
   }
   public void setModeShooting(){
-    this.mode = Mode.SHOOTING;
+    this.indexMode = IndexMode.SHOOTING;
   }
 
   @Override
@@ -218,12 +223,12 @@ public class Indexer extends SubsystemBase {
       if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
       setValuesFromSmartDashboard();
     }
-    lastState = currentState;
-    currentState = reportState();
+    // lastState = currentState;
+    // currentState = reportState();
     // System.out.println(reportState());
-    if((lastState != currentState)) {System.out.println("The Indexer Changed");
-     System.out.println(reportState());
-    }
+    // if((lastState != currentState)) {System.out.println("The Indexer Changed");
+    //  System.out.println(reportState());
+    // }
 
   }
 
@@ -233,5 +238,25 @@ public class Indexer extends SubsystemBase {
   public static Indexer getInstance() {
     if(instance == null) {instance = new Indexer(new IndexerIO() {});}
     return instance;
+  }
+
+  public void indexer000_2_010() {
+    indexerMotor.set(ControlMode.Position, (startingEncoderTic + IndexerConstants.ticDiff_000_010)); //TODO: CHECK SIGN
+  }
+
+  public void indexer000_2_011() {
+    indexerMotor.set(ControlMode.Position, (startingEncoderTic + IndexerConstants.ticDiff_000_011)); //TODO: CHECK SIGN
+  }
+
+  public void indexer000_2_001() {
+    indexerMotor.set(ControlMode.Position, (startingEncoderTic + IndexerConstants.ticDiff_000_001)); //TODO: CHECK SIGN
+  }
+
+  public void indexer010_2_110() {
+    indexerMotor.set(ControlMode.Position, (startingEncoderTic + IndexerConstants.ticDiff_000_010 + IndexerConstants.ticDiff_010_110)); //TODO: CHECK SIGN
+  }
+
+  public void indexer010_2_111() {
+    indexerMotor.set(ControlMode.Position, (startingEncoderTic + IndexerConstants.ticDiff_000_010 + IndexerConstants.ticDiff_010_111)); //TODO: CHECK SIGN
   }
 }
