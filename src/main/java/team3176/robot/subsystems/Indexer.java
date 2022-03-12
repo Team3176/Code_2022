@@ -7,6 +7,7 @@ package team3176.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.IndexerConstants;
 import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
+import team3176.robot.subsystems.Intake;
 
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
@@ -38,6 +39,7 @@ public class Indexer extends SubsystemBase {
   public enum IndexMode{LOADING, HOLDING, SPITTING, SHOOTING};
   private IndexMode indexMode;
 
+  private Intake m_Intake;
   
   private final IndexerIO io;
   private final IndexerIOInputs inputs = new IndexerIOInputs();
@@ -55,6 +57,8 @@ public class Indexer extends SubsystemBase {
     this.indexerMotor.configNominalOutputReverse(0, IndexerConstants.kTIMEOUT_MS);
     // this.indexerMotor.configPeakOutputForward(0.8, IndexerConstants.kTIMEOUT_MS);
     // this.indexerMotor.configPeakOutputReverse(-0.8, IndexerConstants.kTIMEOUT_MS);
+
+    m_Intake = Intake.getInstance();
     
 
     this.indexMode = IndexMode.HOLDING;
@@ -66,14 +70,16 @@ public class Indexer extends SubsystemBase {
     m_I2C = new I2C(I2C.Port.kMXP, IndexerConstants.I2C_DEVICE_ADDRESS);
   }
 
-  public void index(int ballCount){ //HAVE TO SEND BALL COUNT AS A PARAMETER TODO: Find a new way to get ball count without making it static
+  public void index(){ //HAVE TO SEND BALL COUNT AS A PARAMETER TODO: Find a new way to get ball count without making it static
+
     switch (this.indexMode) {
       case LOADING:
         setIndexerConfigForPositionPIDCtrl();
+        if (reportState() == 000) {
+          motorStop();
+          //Do not run motor
+        }
         if (ballCount == 1) {
-          if (reportState() == 000) {
-            //Run motor continuously Up
-          }
           if (reportState() == 100) {
             //PID Position motor up to State010
             indexer000_2_010();
@@ -83,7 +89,11 @@ public class Indexer extends SubsystemBase {
             motorStop();
           }
         } else if(ballCount == 2) {
-          if (reportState() == 110 && indexerMotor.getMotorOutputPercent() == 0) {
+          if (reportState() == 100) {
+            //PID Position motor up to State010
+            indexer000_2_010();
+          }
+          if (reportState() == 110 and ) {
             //PID Position motor up to State011
             indexer110_2_011();
           }
@@ -92,6 +102,11 @@ public class Indexer extends SubsystemBase {
         break;
       case HOLDING:
         setIndexerConfigForPositionPIDCtrl();
+
+        if (reportState() == 000) {
+          motorStop();
+        }
+
         if (reportState() == 100) {
           //Run motor up to state010
         }

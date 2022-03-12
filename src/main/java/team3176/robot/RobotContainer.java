@@ -118,8 +118,9 @@ public class RobotContainer {
     m_Controller.getTransStick_Button2().whenHeld(new SwerveDefense());
     m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
 
-    m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
+    m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
+    m_Controller.getRotStick_Button5().whenPressed(new SwervePodsAzimuthGoHome());
 
     m_Controller.getOp_A().whenActive(new IntakeIndexerIntegration());
     m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
