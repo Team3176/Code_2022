@@ -124,9 +124,9 @@ public class SwervePod2022 {
 
         
         //kAzimuthEncoderUnitsPerRevolution = SwervePodConstants2022.AZIMUTH_ENCODER_UNITS_PER_REVOLUTION;
-        kSlotIdx_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_SLOT_ID;
-        kPIDLoopIdx_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_LOOP_ID;
-        kTimeoutMs_Azimuth = SwervePodConstants2022.TALON_AZIMUTH_PID_TIMEOUT_MS;
+        kSlotIdx_Azimuth = SwervePodConstants2022.AZIMUTH_PID_SLOT_ID;
+        kPIDLoopIdx_Azimuth = SwervePodConstants2022.AZIMUTH_PID_LOOP_ID;
+        kTimeoutMs_Azimuth = SwervePodConstants2022.AZIMUTH_ENCODER_TIMEOUT_MS;
         
         kP_Thrust = 0.03; // SwervePodConstants.THRUST_PID[0][id];
         kI_Thrust = 0.0; // SwervePodConstants.THRUST_PID[1][id];
@@ -393,6 +393,10 @@ public class SwervePod2022 {
 
         //this.azimuthPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
 
+    }
+
+    public void setCurrentPositionAsHome() {
+        this.azimuthEncoder.setPosition(0, SwervePodConstants2022.AZIMUTH_ENCODER_TIMEOUT_MS);
     }
 
    

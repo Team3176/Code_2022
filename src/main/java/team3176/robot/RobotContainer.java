@@ -40,6 +40,7 @@ public class RobotContainer {
   private final Controller m_Controller;
   private final Compressor m_Compressor;
   private final Drivetrain m_Drivetrain;
+  private final CoordSys m_CoordSys;
   private final Vision m_Vision;
   private final Angler m_Angler;
   private final Feeder m_Feeder;
@@ -70,6 +71,7 @@ public class RobotContainer {
     m_Flywheel = Flywheel.getInstance();
     m_Feeder = Feeder.getInstance();
     m_Drivetrain = Drivetrain.getInstance();
+    m_CoordSys = CoordSys.getInstance();
     m_Climb = Climb.getInstance();
     m_Clarke = Clarke.getInstance();
 
@@ -159,6 +161,15 @@ public class RobotContainer {
     m_Controller.getOp_X_DS().whenActive(new FlywheelPctOutput());
     m_Controller.getOp_Y_DS().whenActive(new I2CTest());
   }
+
+  public void AutonInitRobotCentric() {
+    m_CoordSys.setCoordTypeToRobotCentric();
+  }
+  
+  public void TelopInitFieldCentric() {
+    m_CoordSys.setCoordTypeToFieldCentric();
+  }
+
 
   public Command getAutonomousCommand() {
     System.out.println("run");

@@ -375,6 +375,18 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+  public void sendPodsAzimuthToHome() {
+    for (int idx = 0; idx < (pods.size()); idx++) {
+      pods.get(idx).goHome();
+    }
+  }
+
+  public void setCurrentPodPosAsHome() {
+    for (int idx = 0; idx < (pods.size()); idx++) {
+      pods.get(idx).setCurrentPositionAsHome();
+    }
+  }
+
   private double getRadius(String component) {
     // Omitted if driveStatements where we pivoted around a pod
     // This'll be orbit and dosado in the future

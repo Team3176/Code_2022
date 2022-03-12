@@ -23,9 +23,9 @@ public final class SwervePodConstants2022 {
 
 
     public static final double AZIMUTH_ENCODER_UNITS_PER_REVOLUTION = 4096;
-    public static final int TALON_AZIMUTH_PID_SLOT_ID = 0; 
-    public static final int TALON_AZIMUTH_PID_LOOP_ID = 0; 
-    public static final int TALON_AZIMUTH_PID_TIMEOUT_MS = 0;  
+    public static final int AZIMUTH_PID_SLOT_ID = 0; 
+    public static final int AZIMUTH_PID_LOOP_ID = 0; 
+    public static final int AZIMUTH_ENCODER_TIMEOUT_MS = 0;  
 
     public static final double THRUST_ENCODER_UNITS_PER_REVOLUTION = 2048;
     public static final int[] TALON_THRUST_PID_SLOT_ID = {0, 0, 0, 0}; 
