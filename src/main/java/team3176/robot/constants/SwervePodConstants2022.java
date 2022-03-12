@@ -101,6 +101,8 @@ public final class SwervePodConstants2022 {
     //public static final double[] AZIMUTH_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
     public static final double[] AZIMUTH_OFFSET =AZIMUTH_OFFSET_2022;
 
+    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_POSITION = {0.0, 0.0, 0.0, 0.0};
+
     public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 14.00;  //estimated loaded speed per Nathan;
 
     public static final double METERS_TO_FEET_CONSTANT = 3.28084;

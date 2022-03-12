@@ -96,18 +96,20 @@ public class Robot extends LoggedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    m_Intake.mode = "auto";
+    m_Indexer.mode = "auto";
+    m_Angler.mode = "auto";
+    m_Flywheel.mode = "auto";
+    m_Feeder.mode = "auto";
+    
+    m_robotContainer.AutonInitRobotCentric();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-
-    m_Intake.mode = "auto";
-    m_Indexer.mode = "auto";
-    m_Angler.mode = "auto";
-    m_Flywheel.mode = "auto";
-    m_Feeder.mode = "auto";
+    
   }
 
   /** This function is called periodically during autonomous. */
@@ -129,6 +131,8 @@ public class Robot extends LoggedRobot {
     m_Angler.mode = "teleop";
     m_Flywheel.mode = "teleop";
     m_Feeder.mode = "teleop";
+    
+    m_robotContainer.TelopInitFieldCentric();
   }
 
   /** This function is called periodically during operator control. */

@@ -54,6 +54,7 @@ public class SwervePod2022 {
     CANCoder azimuthEncoder;
     /** Current value in radians of the azimuthEncoder's position */
     double azimuthEncoderPosition;
+    double azimuthEncoderAbsPosition;
 
     /** Numerical identifier to differentiate between pods.
      *     For 4 Pods:  0 = FrontRight (FR),
@@ -81,7 +82,7 @@ public class SwervePod2022 {
 
     public int kSlotIdx_Azimuth, kPIDLoopIdx_Azimuth, kTimeoutMs_Azimuth,kSlotIdx_Thrust, kPIDLoopIdx_Thrust, kTimeoutMs_Thrust;
 
-    public double podThrust, podAzimuth;
+    public double podThrust, podAzimuth, podAbsAzimuth;
 
     private double kP_Azimuth;
     private double kI_Azimuth;
@@ -370,8 +371,27 @@ public class SwervePod2022 {
     }
 
     public void goHome() {
-        double homePos = 0 + this.kEncoderOffset;
-        //this.AZIMUTHPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
+        //double homePos = 0 + this.kEncoderOffset;
+        this.kP_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kP_Azimuth",0);
+        this.kI_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kI_Azimuth",0);
+        this.kD_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kD_Azimuth",0);
+        m_turningPIDController.setP(this.kP_Azimuth);
+        m_turningPIDController.setI(this.kI_Azimuth);
+        m_turningPIDController.setD(this.kD_Azimuth);
+
+        this.podAbsAzimuth = SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[this.id];
+
+        double optmizdAzimuthAbsPos = optimizeAzimuthPos(this.podAbsAzimuth);
+
+        SmartDashboard.putNumber("P"+(this.id)+".optmizdazimuthAbsPos", optmizdAzimuthAbsPos);
+
+        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderAbsPosition, optmizdAzimuthAbsPos);
+        //double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, this.podAzimuth);
+
+        SmartDashboard.putNumber("P"+(this.id)+".turnOutput", turnOutput);
+        azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
+
+        //this.azimuthPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
 
     }
 
@@ -382,12 +402,21 @@ public class SwervePod2022 {
     public void updateAzimuthEncoder() {
         this.azimuthEncoderPosition = Math.toRadians(azimuthEncoder.getPosition());
         SmartDashboard.putNumber("P"+this.id+".azimuthEncoderPosition",this.azimuthEncoderPosition);
+    }
 
+    public void updateAzimuthAbsEncoder() {
+        this.azimuthEncoderAbsPosition = Math.toRadians(azimuthEncoder.getAbsolutePosition());
+        SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPosition",this.azimuthEncoderAbsPosition);
     }
 
     public double getEncoderPos() {
         updateAzimuthEncoder();
         return this.azimuthEncoderPosition;
+    }
+
+    public double getEncoderAbsPos() {
+        updateAzimuthEncoder();
+        return this.azimuthEncoderAbsPosition;
     }
 
     public double getVelocity() {
