@@ -128,11 +128,15 @@ public class Indexer extends SubsystemBase {
         // if (intake is extended) and (intake motor getMotorOutputPercent() < 0) {
         // run motor down at -.80
         // }
+        setIndexerConfigForVelocityPIDCtrl();
+        if (m_Intake.is_Extended()) {
+          double target_Spit_RPM = IndexerConstants.MAX_RPM * 0.2;
+        }
         break;
       case SHOOTING:
         setIndexerConfigForVelocityPIDCtrl();
-        double target_RPM = IndexerConstants.MAX_RPM * 0.8;
-        double velocity_ticsPer100ms = target_RPM * IndexerConstants.ENCODER_TICS_PER_REVOLUTION / 600.0;
+        double target_Shoot_RPM = IndexerConstants.MAX_RPM * 0.4;
+        double velocity_ticsPer100ms = target_Shoot_RPM * IndexerConstants.ENCODER_TICS_PER_REVOLUTION / 600.0;
         indexerMotor.set(ControlMode.Velocity, velocity_ticsPer100ms);
         // run motor Up at 80%
         break;
