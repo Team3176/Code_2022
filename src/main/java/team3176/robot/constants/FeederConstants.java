@@ -14,14 +14,14 @@ public final class FeederConstants{
 
     public static final double FEEDER_GEAR_RATIO = 7.0;
 
-    public static final double kRampRate = 0.5; // seconds to go from 0 to full
+    public static final double kRampRate = 0.2; // seconds to go from 0 to full
 
     public static final String kShuffleboardPercentName = "Feeder%Set";
 
     public static final int MAX_VELOCITY = 10; //TODO: FIND MAX VELOCITY
 
     // Constant order: P, I, D, FF, IZone
-    public static final double[][] PIDFConstants = { { 0.0, 0.0, 0.0, 0.0, 0.0 } };
+    public static final double[][] PIDFConstants = { { 0.32, 0.00049, 1.80, 0.12, 200 } };
     public static final double ALLOWABLE_CLOSED_LOOP_ERROR = 0;
 
 }
