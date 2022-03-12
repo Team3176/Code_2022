@@ -22,10 +22,7 @@ public class ShootBasedOnLocationValues extends SequentialCommandGroup {
           ShooterLocationValues.POINTS[position][2]
         )
       ),
-      new IndexerPositionChange(110), //TODO: MAKE ONE FOR A SINGLE BALL
-      new IndexerPositionChange(011),
-      new IndexerPositionChange(001),
-      new IndexerPositionChange(000),
+      new IndexerShootingMode(),
       new TimeDelay(2), //TODO: TUNE DOWN THE TIME
       new ParallelCommandGroup(
         new FeederStop(),

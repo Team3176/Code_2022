@@ -80,6 +80,8 @@ public class RobotContainer {
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
 
+    m_Indexer.setDefaultCommand(new Index());
+    
     if (!MasterConstants.IS_TUNING_MODE) { 
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
         () -> m_Controller.getForward(), 
@@ -122,15 +124,17 @@ public class RobotContainer {
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     m_Controller.getRotStick_Button5().whenPressed(new SwervePodsAzimuthGoHome());
 
-    m_Controller.getOp_A().whenActive(new IntakeIndexerIntegration());
+    m_Controller.getOp_A().whileActiveOnce(new Intaking());
+
+    // m_Controller.getOp_A().whenActive(new IntakeIndexerIntegration());
     m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
     m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     m_Controller.getOp_Start().whenActive(new FeederToggle());
     m_Controller.getOp_Back().whenActive(new ShootReset());
 
-    m_Controller.getOp_A_FS().whenActive(new IndexerForward());
-    m_Controller.getOp_B_FS().whenActive(new IndexerBack());
-    m_Controller.getOp_Y_FS().whenActive(new IndexerStop());
+    // m_Controller.getOp_A_FS().whenActive(new IndexerForward());
+    // m_Controller.getOp_B_FS().whenActive(new IndexerBack());
+    // m_Controller.getOp_Y_FS().whenActive(new IndexerStop());
     m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
     m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
     m_Controller.getOp_Back_FS().whenActive(new ShootReset());

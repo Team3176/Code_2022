@@ -9,14 +9,7 @@ import team3176.robot.constants.IndexerConstants;
 import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
 import team3176.robot.subsystems.Intake;
 
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +20,6 @@ public class Indexer extends SubsystemBase {
   private static Indexer instance;
   public String mode = "";
   private TalonSRX indexerMotor;
-  private SparkMaxPIDController indexerPIDController;
   private byte[] sensorByteArray;
   private boolean[] sensorBoolArray = new boolean[IndexerConstants.NUM_OF_SENSORS];
   private boolean isSmartDashboardTestControlsShown;
@@ -100,6 +92,8 @@ public class Indexer extends SubsystemBase {
 
         break;
       case HOLDING:
+        motorStop();
+      /*
         setIndexerConfigForPositionPIDCtrl();
         if (reportState() == 000) {
           motorStop();
@@ -123,6 +117,7 @@ public class Indexer extends SubsystemBase {
           // Not sure what to do here
           indexer110_2_011();
         }
+        */
         break;
       case SPITTING:
         // if (intake is extended) and (intake motor getMotorOutputPercent() < 0) {
@@ -282,6 +277,7 @@ public class Indexer extends SubsystemBase {
     Logger.getInstance().processInputs("Indexer", inputs);
     Logger.getInstance().recordOutput("Indexer/Bool0", sensorBoolArray[0]);
     Logger.getInstance().recordOutput("Indexer/Bool1", sensorBoolArray[1]);
+    Logger.getInstance().recordOutput("Indexer/Bool2", sensorBoolArray[2]);
 
     if (mode.equals("test")) {
       if (!isSmartDashboardTestControlsShown)
@@ -345,6 +341,7 @@ public class Indexer extends SubsystemBase {
   public void indexer101_2_010(){
     //NO idea what the constants should be here
     //TODO:  KYLE, please measure and fix this method
-  };
-
+    //FOr Know it is sudo indexer001_2_010()
+    indexer001_2_010();
+  }
 }

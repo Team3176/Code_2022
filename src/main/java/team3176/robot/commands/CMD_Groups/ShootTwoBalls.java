@@ -7,6 +7,7 @@ package team3176.robot.commands.CMD_Groups;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import team3176.robot.commands.Indexer.IndexerPositionChange;
+import team3176.robot.commands.Indexer.IndexerShootingMode;
 import team3176.robot.commands.Shooter.AnglerVisionSet;
 import team3176.robot.commands.Shooter.FeederRun;
 import team3176.robot.commands.Shooter.FeederStop;
@@ -18,10 +19,7 @@ public class ShootTwoBalls extends SequentialCommandGroup {
   public ShootTwoBalls() {
     addCommands(
       new ParallelCommandGroup(new AnglerVisionSet(), new FeederRun(), new FlywheelVisionSet()),
-      new IndexerPositionChange(110),
-      new IndexerPositionChange(011),
-      new IndexerPositionChange(001),
-      new IndexerPositionChange(000),
+      new IndexerShootingMode(),
       new TimeDelay(4), //TODO: TUNE DOWN THE TIME
       new ParallelCommandGroup(new FeederStop(), new FlywheelStop())
     );
