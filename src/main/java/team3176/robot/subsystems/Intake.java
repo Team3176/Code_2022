@@ -49,6 +49,10 @@ public class Intake extends SubsystemBase {
     // piston2.set(Value.kForward);
   }
 
+  public boolean isExtended() {
+    return isIntaking; 
+  }
+
   public void Retract() {
     isIntaking = false;
     pistonSetting = false;
