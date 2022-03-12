@@ -29,6 +29,7 @@ public class Intake extends SubsystemBase {
   private boolean isIntaking = false;
   private boolean isSmartDashboardTestControlsShown;
   public String mode = "";
+  public boolean isExtended;
 
   private final IntakeIO io;
   private final IntakeIOInputs inputs = new IntakeIOInputs();
@@ -47,6 +48,10 @@ public class Intake extends SubsystemBase {
     pistonSetting = true;
     piston1.set(Value.kForward);
     // piston2.set(Value.kForward);
+  }
+
+  public boolean is_Extended() {
+    return this.isIntaking;
   }
 
   public void Retract() {
