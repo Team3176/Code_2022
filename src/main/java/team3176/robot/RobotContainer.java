@@ -149,6 +149,11 @@ public class RobotContainer {
     m_Controller.getOp_A().whenActive(new SwitchVisionPipeline(m_Vision));
     m_Controller.getOp_B().whenActive(new SwitchVisionMode(m_Vision));
     m_Controller.getOp_X().whenActive(new CalculateTargetDistance(m_Vision));
+    m_Controller.getOp_Y().whenActive(new TestVisionKinematics(m_Vision));
+    
+    SmartDashboard.putNumber("Angle", 45);
+    SmartDashboard.putNumber("Test Delta X", 3);
+    SmartDashboard.putNumber("Test Delta Y", 2);
   }
 
   /**

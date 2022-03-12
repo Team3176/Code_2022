@@ -40,11 +40,11 @@ public class Vision extends SubsystemBase {
   private double radius;
 
   // initializing variables for kinematic calculations
-  private final double gravity = -9.81; // m/s^2
+  private final double gravity = 9.81; // m/s^2
   private double deltaX; // m
   private double deltaY; // m
   private double initialVelocity; // m/s
-  private double[] initialAngle = {45, 50, 55, 60, 65, 70, 75, 80, 85, 90}; // deg from horizontal
+  public double[] initialAngle = {45, 50, 55, 60, 65, 70, 75, 80, 85, 90}; // deg from horizontal
   private double finalAngle; // radians
   private double xVelocity; // m/s
   private double initialYVelocity; // m/s
@@ -53,6 +53,8 @@ public class Vision extends SubsystemBase {
 
   private ArrayList<Double> tcornx = new ArrayList<>(4);
   private ArrayList<Double> tcorny = new ArrayList<>(4);
+
+  private double[] information = new double[2];
 
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
   //private double ballDegrees = -999; // degrees away from Limelight where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
@@ -114,7 +116,7 @@ public class Vision extends SubsystemBase {
     calculateTargetDistance();
 
     // get the initial velocity and angle of ball
-    findInitialAngleAndVelocity((int) Math.ceil(initialAngle.length / 2));
+    information = findInitialAngleAndVelocity((int) Math.ceil(initialAngle.length / 2));
 
     publishAllData();
 
@@ -157,10 +159,10 @@ public class Vision extends SubsystemBase {
     findInitialVelocity(angleIdx);
     
     // Haha, get it? Because this variable "doublechecks" the result. Programming jokes are the best. 
-    double check = Math.sqrt(Math.pow(initialVelocity * Math.sin(initialAngle[angleIdx]), 2) + 2 * -gravity * deltaY);
+    double check = -Math.sqrt(Math.pow(initialVelocity * Math.sin(initialAngle[angleIdx]), 2) + 2 * gravity * deltaY);
     
     if(check > 0){
-      time = (check - initialVelocity) / -gravity;
+      time = (check - initialVelocity) / gravity;
       double fullCalculatedDistance = initialVelocity * Math.cos(initialAngle[angleIdx]) * time;
       if(fullCalculatedDistance > deltaX){
         return findInitialAngleAndVelocity(angleIdx + 1);
@@ -177,14 +179,14 @@ public class Vision extends SubsystemBase {
   
   private void findInitialVelocity(int angleIdx){
     double term1 = deltaX / (Math.cos(initialAngle[angleIdx]));
-    double term2 = gravity / (2 * (deltaX * Math.tan(initialAngle[angleIdx]) - deltaY));
+    double term2 = -gravity / (2 * (deltaX * Math.tan(initialAngle[angleIdx]) - deltaY));
     initialVelocity = term1 * Math.sqrt(term2);
   }
   
   private void solveOtherVariablesFromVelocity(int angleIdx){
-    xVelocity = initialVelocity * cos(initialAngle[angleIdx]);
-    initialYVelocity = initialVelocity * sin(initialAngle[angleIdx]);
-    finalYVelocity = Math.sqrt(Math.pow(initialYVelocity, 2) + 2 * gravity * deltaY);
+    xVelocity = initialVelocity * Math.cos(initialAngle[angleIdx]);
+    initialYVelocity = initialVelocity * Math.sin(initialAngle[angleIdx]);
+    finalYVelocity = Math.sqrt(Math.pow(initialYVelocity, 2) + 2 * -gravity * deltaY);
     time = deltaX / xVelocity;
   }
 
@@ -200,10 +202,10 @@ public class Vision extends SubsystemBase {
     return camMode.getNumber(0).equals(0.0);
   }
 
-  public void setActivePipeline(double newPipelineNum){
-    if((int) newPipelineNum >= 0 || (int) newPipelineNum <= 5){
-      activePipeline = newPipelineNum;
-      pipeline.setNumber(newPipelineNum);
+  public void setActivePipeline(int newPipeline){
+    if(newPipeline > -1 && newPipeline < 4){
+      activePipeline = newPipeline;
+      pipeline.setNumber(newPipeline);
     } else{
       System.out.println("Invalid Pipeline Requested, No Change Was Made");
     }
@@ -259,4 +261,49 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Average Distance", total / testValues.size());
     System.out.println("DONE!");
   }*/
+
+  public double[] getVisionInformation(){
+    return information;
+  }
+
+  public double[] TestVisionKinematics(int angleIdx, double testDeltaX, double testDeltaY){
+    if(angleIdx >= initialAngle.length || angleIdx < 0){
+      SmartDashboard.putBoolean("Has Run?", true);
+      return null;
+    }
+    
+    double term1 = testDeltaX / (Math.cos(initialAngle[angleIdx]));
+    double term2 = gravity / (2 * ((testDeltaX * Math.tan(initialAngle[angleIdx])) - testDeltaY));
+    double testInitialVelocity = term1 * Math.sqrt(term2);
+    SmartDashboard.putNumber("Term 1", term1);
+    SmartDashboard.putNumber("Term 2", term2);
+    SmartDashboard.putNumber("TestInitialVelocity", testInitialVelocity);
+    
+    // Haha, get it? Because this variable "doublechecks" the result. Programming jokes are the best. 
+    double check = -Math.sqrt(Math.pow(testInitialVelocity * Math.sin(initialAngle[angleIdx]), 2) + 2 * -gravity * testDeltaY);
+    SmartDashboard.putNumber("Check", check);
+    
+    if(check > 0){
+      double timeCheck = (check - testInitialVelocity) / gravity;
+      double fullCalculatedDistance = testInitialVelocity * Math.cos(initialAngle[angleIdx]) * timeCheck;
+      if(fullCalculatedDistance > testDeltaX){
+        return TestVisionKinematics(angleIdx + 1, testDeltaX, testDeltaY);
+      } else{
+        return TestVisionKinematics(angleIdx - 1, testDeltaX, testDeltaY);
+      }
+    }
+
+    double testXVelocity = testInitialVelocity * Math.cos(initialAngle[angleIdx]);
+    double testInitialYVelocity = testInitialVelocity * Math.sin(initialAngle[angleIdx]);
+    double testFinalYVelocity = Math.sqrt(Math.pow(testInitialYVelocity, 2) + 2 * -gravity * testDeltaY);
+    double testTime = testDeltaX / testXVelocity;
+
+    SmartDashboard.putNumber("Test X Velocity", testXVelocity);
+    SmartDashboard.putNumber("Test Initial Y Velocity", testInitialYVelocity);
+    SmartDashboard.putNumber("Test Final Y Velocity", testFinalYVelocity);
+    SmartDashboard.putNumber("Test Time", testTime);
+
+    double[] arrayToSend = {testInitialVelocity, initialAngle[angleIdx]};
+    return arrayToSend;
+  }
 }
