@@ -169,7 +169,7 @@ public class Vision extends SubsystemBase {
       }
     }
     
-    solveOtherVariablesFromVelocity();
+    solveOtherVariablesFromVelocity(angleIdx);
     
     double[] arrayToSend = {initialVelocity, initialAngle[angleIdx]};
     return arrayToSend;
@@ -181,8 +181,11 @@ public class Vision extends SubsystemBase {
     initialVelocity = term1 * Math.sqrt(term2);
   }
   
-  private void solveOtherVariablesFromVelocity(){
-
+  private void solveOtherVariablesFromVelocity(int angleIdx){
+    xVelocity = initialVelocity * cos(initialAngle[angleIdx]);
+    initialYVelocity = initialVelocity * sin(initialAngle[angleIdx]);
+    finalYVelocity = Math.sqrt(Math.pow(initialYVelocity, 2) + 2 * gravity * deltaY);
+    time = deltaX / xVelocity;
   }
 
   public void setVisionProcessing(boolean imageProcessing){
