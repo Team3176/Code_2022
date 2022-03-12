@@ -89,18 +89,40 @@ public class Clarke extends SubsystemBase {
   public void findMinAndMax(){
     String jsonString = detections.getString("{ \"xmax\" : \"0\" , \"xmin\" : \"0\"}"); //the current values are just test cases, make them zero again before comp.
     String[] returnedArray = jsonString.split(" ");
+    boolean minIsSet = false;
+    boolean maxIsSet = false;
+    this.maxX = 0;
+    this.minX = 0;
     for(String e : returnedArray){
       System.out.println(e);
     }
     for(int i = 0; i < returnedArray.length; i++){
       int ahead = i + 1;
-      if(returnedArray[i].equals("\"xmax\":")){
-        returnedArray[ahead] = returnedArray[ahead].substring(0,3);
+      if(returnedArray[i].equals("\"xmax\":") && !maxIsSet){
+        if (returnedArray[ahead].length() > 3){
+          returnedArray[ahead] = returnedArray[ahead].substring(0,3);
+        }
+        else if(returnedArray[ahead].length() == 3){
+          returnedArray[ahead] = returnedArray[ahead].substring(0,2);
+        }
+        else{
+          returnedArray[ahead] = returnedArray[ahead].substring(0,1);
+        }
         this.maxX = Integer.parseInt(returnedArray[ahead]);
+        maxIsSet = true;
       }
-      if(returnedArray[i].equals("\"xmin\":")){
-        returnedArray[ahead] = returnedArray[ahead].substring(0,3);
+      if(returnedArray[i].equals("\"xmin\":") && !minIsSet){
+        if (returnedArray[ahead].length() > 3){
+          returnedArray[ahead] = returnedArray[ahead].substring(0,3);
+        }
+        else if(returnedArray[ahead].length() == 3){
+          returnedArray[ahead] = returnedArray[ahead].substring(0,2);
+        }
+        else{
+          returnedArray[ahead] = returnedArray[ahead].substring(0,1);
+        }
         this.minX = Integer.parseInt(returnedArray[ahead]);
+        minIsSet = true;
       }
     }
 
