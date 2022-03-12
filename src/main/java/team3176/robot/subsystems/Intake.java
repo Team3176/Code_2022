@@ -34,6 +34,8 @@ public class Intake extends SubsystemBase {
   private final IntakeIOInputs inputs = new IntakeIOInputs();
   private static Intake instance;
 
+  public int getBallCount() {return this.ballCount;}
+
   private Intake(IntakeIO io) {
     this.io = io;
     intakeMotor.setInverted(true);

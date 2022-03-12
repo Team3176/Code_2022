@@ -66,22 +66,27 @@ public class Indexer extends SubsystemBase {
     m_I2C = new I2C(I2C.Port.kMXP, IndexerConstants.I2C_DEVICE_ADDRESS);
   }
 
-  public void index(){
+  public void index(int ballCount){ //HAVE TO SEND BALL COUNT AS A PARAMETER TODO: Find a new way to get ball count without making it static
     switch (this.indexMode) {
       case LOADING:
-        if (intake.ballCount == 2){ }
         setIndexerConfigForPositionPIDCtrl();
-        if (reportState() == 000) {
-          //Run motor continuously Up
-        }
-        if (reportState() == 100) {
-          //PID Position motor up to State010
-        }
-        if (reportState() == 010 && indexerMotor.getMotorOutputPercent() > 0) {
-          //stopMotor
-        }
-        if (reportState() == 110 && indexerMotor.getMotorOutputPercent() == 0) {
-          //PID Position motor up to State011
+        if (ballCount == 1) {
+          if (reportState() == 000) {
+            //Run motor continuously Up
+          }
+          if (reportState() == 100) {
+            //PID Position motor up to State010
+            indexer000_2_010();
+          }
+          if (reportState() == 010 && indexerMotor.getMotorOutputPercent() > 0) {
+            //stopMotor
+            motorStop();
+          }
+        } else if(ballCount == 2) {
+          if (reportState() == 110 && indexerMotor.getMotorOutputPercent() == 0) {
+            //PID Position motor up to State011
+            indexer110_2_011();
+          }
         }
 
         break;
@@ -92,6 +97,7 @@ public class Indexer extends SubsystemBase {
         }
         if (reportState() == 001) {
           //Run motor back to state010
+          indexer001_2_010();
         }
         if (reportState() == 011) {
           //Not sure what to do here
@@ -279,5 +285,13 @@ public class Indexer extends SubsystemBase {
 
   public void indexer010_2_111() {
     indexerMotor.set(ControlMode.Position, (startingEncoderTic + IndexerConstants.ticDiff_000_010 + IndexerConstants.ticDiff_010_111)); //TODO: CHECK SIGN
+  }
+
+  public void indexer110_2_011() {
+    indexerMotor.set(ControlMode.Position, (startingEncoderTic - IndexerConstants.ticDiff_010_110 - IndexerConstants.ticDiff_000_010 + IndexerConstants.ticDiff_000_011)); //TODO: CHECK SIGNS
+  }
+
+  public void indexer001_2_010() {
+    indexerMotor.set(ControlMode.Position, (startingEncoderTic - IndexerConstants.ticDiff_000_001 + IndexerConstants.ticDiff_000_010)); //TODO: CHECK SIGNS
   }
 }
