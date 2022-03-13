@@ -33,12 +33,12 @@ public final class SwervePodConstants2022 {
     public static final int[] TALON_THRUST_PID_TIMEOUT_MS = {0, 0, 0, 0};  
     
     public static final double[][] THRUST_PID_2022 = {
-        /* kP */     {0.15, 0.1, 0.15, 0.15},
+        /* kP */     {0.1, 0.1, 0.1, 0.1},
         // /* kI */    {0.001, 0.0015, 0.0015, 0.005}, // using these don't work
-        /* kI */    {0.0, 0.0, 0.0, 0.0},
-        /* kD */   {5.0, 8.0, 5.0, 8.0},
-        /* kF */    {0.046191, 0.04646, 0.0462, 0.04658},    // Feed forward gain constant
-        /* I-Zne */ {0.0, 0.0, 0.0, 0.0}     // The range of error for kI to take affect (like a reverse deadband)
+        /* kI */    {0.001, 0.001, 0.001, 0.001},
+        /* kD */   {5.0, 5.0, 5.0, 5.0},
+        /* kF */    {0.0495159, 0.0495159, 0.0495159, 0.0495159},    // Feed forward gain constant
+        /* I-Zne */ {300.0, 300.0, 300.0, 300.0}     // The range of error for kI to take affect (like a reverse deadband)
     };
     // public static final double[][] DRIVE_PID = {
         // /* kP */    {0.12, 0.12, 0.12, 0.1},
