@@ -93,9 +93,9 @@ public class Clarke extends SubsystemBase {
     boolean maxIsSet = false;
     this.maxX = 0;
     this.minX = 0;
-    for(String e : returnedArray){
-      System.out.println(e);
-    }
+    //for(String e : returnedArray){
+    //  System.out.println(e);
+    //}
     for(int i = 0; i < returnedArray.length; i++){
       int ahead = i + 1;
       if(returnedArray[i].equals("\"xmax\":") && !maxIsSet){
@@ -177,8 +177,8 @@ public class Clarke extends SubsystemBase {
  
       updateMLData();
       findMinAndMax();
-      System.out.println(this.maxX);
-      System.out.println(this.minX);
+      //System.out.println(this.maxX);
+      //System.out.println(this.minX);
       this.idxCounter = 0;
     } 
     //updateMLData();

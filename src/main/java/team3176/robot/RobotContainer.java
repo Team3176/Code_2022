@@ -7,6 +7,8 @@ package team3176.robot;
 import team3176.robot.constants.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,6 +38,7 @@ import team3176.robot.commands.Vision.*;
 
 public class RobotContainer {
 
+  private final PowerDistribution m_PDH;
   private final Intake m_Intake;
   private final Controller m_Controller;
   private final Compressor m_Compressor;
@@ -75,11 +78,16 @@ public class RobotContainer {
     m_Climb = Climb.getInstance();
     m_Clarke = Clarke.getInstance();
 
+    m_PDH = new PowerDistribution(1, ModuleType.kRev);
+    m_PDH.clearStickyFaults();
+
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     //TODO: ADD A WAY TO CLEAR STICKY FAULTS
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
 
+    m_Indexer.setDefaultCommand(new Index());
+    
     if (!MasterConstants.IS_TUNING_MODE) { 
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
         () -> m_Controller.getForward(), 
@@ -122,15 +130,17 @@ public class RobotContainer {
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     m_Controller.getRotStick_Button5().whenPressed(new SwervePodsAzimuthGoHome());
 
-    m_Controller.getOp_A().whenActive(new IntakeIndexerIntegration());
+    m_Controller.getOp_A().whileActiveOnce(new Intaking());
+
+    // m_Controller.getOp_A().whenActive(new IntakeIndexerIntegration());
     m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
     m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     m_Controller.getOp_Start().whenActive(new FeederToggle());
     m_Controller.getOp_Back().whenActive(new ShootReset());
 
-    m_Controller.getOp_A_FS().whenActive(new IndexerForward());
-    m_Controller.getOp_B_FS().whenActive(new IndexerBack());
-    m_Controller.getOp_Y_FS().whenActive(new IndexerStop());
+    m_Controller.getOp_A_FS().whenActive(new IndexerHoldingMode());
+    m_Controller.getOp_B_FS().whenActive(new IndexerLoadingMode());
+    m_Controller.getOp_Y_FS().whenActive(new IndexerShootingMode());
     m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
     m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
     m_Controller.getOp_Back_FS().whenActive(new ShootReset());
@@ -141,7 +151,7 @@ public class RobotContainer {
 
 
     // m_Controller.getOp_A_DS().whenActive(new WinchUp());
-    // m_Controller.getOp_B_DS().whenActive(new PrimaryPistonToggle());
+    // m_Controller.getOp_B_DS().whenActive(new PrimaryPistonToggle()); ////
     // m_Controller.getOp_X_DS().whenActive(new SecondaryPistonToggle());
     // m_Controller.getOp_Y_DS().whenActive(new WinchDown());
     // m_Controller.getOp_Start_DS().whenActive(new ClimbDisableToggle());

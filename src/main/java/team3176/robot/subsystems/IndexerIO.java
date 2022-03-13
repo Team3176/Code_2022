@@ -15,7 +15,7 @@ public interface IndexerIO{
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
     public double[] tempCelcius = new double[] {};
-    public boolean Bool0, Bool1;
+    public boolean Bool0, Bool1, Bool2;
 
     public void toLog(LogTable table) {
       table.put("Position", position);
@@ -24,6 +24,7 @@ public interface IndexerIO{
       table.put("TempCelcius", tempCelcius);
       table.put("Indexer/Bool0", Bool0);
       table.put("Indexer/Bool1", Bool1);
+      table.put("Indexer/Bool2", Bool2);
     }
 
     public void fromLog(LogTable table) {
@@ -33,6 +34,7 @@ public interface IndexerIO{
       tempCelcius = table.getDoubleArray("TempCelcius", tempCelcius);
       Bool0 = table.getBoolean("Indexer/Bool0", Bool0);
       Bool1 = table.getBoolean("Indexer/Bool1", Bool1);
+      Bool2 = table.getBoolean("Indexer/Bool2", Bool2);
     }
   }
 

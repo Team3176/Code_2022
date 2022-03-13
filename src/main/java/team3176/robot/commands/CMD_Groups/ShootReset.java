@@ -5,6 +5,7 @@
 package team3176.robot.commands.CMD_Groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import team3176.robot.commands.Indexer.IndexerHoldingMode;
 import team3176.robot.commands.Shooter.FeederStop;
 import team3176.robot.commands.Shooter.FlywheelStop;
 
@@ -12,7 +13,8 @@ public class ShootReset extends ParallelCommandGroup {
   public ShootReset() {
     addCommands(
       new FlywheelStop(),
-      new FeederStop()
+      new FeederStop(),
+      new IndexerHoldingMode()
     );
   }
 }
