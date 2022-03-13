@@ -33,6 +33,7 @@ public class Indexer extends SubsystemBase {
   private boolean holding = false;
   private boolean spitting = false;
   private boolean shooting = false;
+  private double smartDashboardLastPercent = 0.0;
 
   public enum IndexMode {
     LOADING, HOLDING, SPITTING, SHOOTING
@@ -272,8 +273,15 @@ public class Indexer extends SubsystemBase {
   }
 
   public void setValuesFromSmartDashboard() {
+    smartDashboardLastPercent = SmartDashboard.getNumber("Indexer PCT", 0);
     indexerMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Indexer PCT", 0)));
   }
+
+  public void putSmartDashboardControlCommands(double startPercent) {
+    SmartDashboard.putNumber("Indexer PCT", startPercent);
+  }
+
+  public double getStartPercent() {return smartDashboardLastPercent;}
 
   public void setModeLoading() {
     this.indexMode = IndexMode.LOADING;

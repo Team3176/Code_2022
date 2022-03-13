@@ -31,6 +31,7 @@ public class Feeder extends SubsystemBase
   private boolean isSmartDashboardTestControlsShown = false;
   public String mode = "";
   private boolean isFeederRunning = false;
+  private double smartDashboardLastPercent = 0.0;
 
   public Feeder(FeederIO io)
   {
@@ -79,9 +80,16 @@ public class Feeder extends SubsystemBase
     isSmartDashboardTestControlsShown = true;
  }
 
- public void setValuesFromSmartDashboard() {
-   feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
+  public void setValuesFromSmartDashboard() {
+    smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
+    feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
  }
+
+  public void putSmartDashboardControlCommands(double startPercent) {
+    SmartDashboard.putNumber("Feeder PCT", startPercent);
+  }
+
+  public double getStartPercent() {return smartDashboardLastPercent;}
   
   @Override
   public void periodic() {

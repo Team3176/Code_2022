@@ -9,6 +9,7 @@ import team3176.robot.subsystems.Flywheel;
 
 public class FlywheelToggleTest extends CommandBase {
   private Flywheel m_Flywheel = Flywheel.getInstance();
+  private double one, two;
   public FlywheelToggleTest() {
     addRequirements(m_Flywheel);
   }
@@ -16,7 +17,9 @@ public class FlywheelToggleTest extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Flywheel.putSmartDashboardControlCommands();
+    one = m_Flywheel.getStartPercent1();
+    two = m_Flywheel.getStartPercent2();
+    m_Flywheel.putSmartDashboardControlCommands(one, two);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
