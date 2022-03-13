@@ -41,8 +41,8 @@ public class Feeder extends SubsystemBase
     feederMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
     this.feederMotor.configNominalOutputForward(0, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.configNominalOutputReverse(0, FeederConstants.kTIMEOUT_MS);
-    this.feederMotor.configPeakOutputForward(0.25, FeederConstants.kTIMEOUT_MS);
-    this.feederMotor.configPeakOutputReverse(-0.25, FeederConstants.kTIMEOUT_MS);
+    // this.feederMotor.configPeakOutputForward(0.25, FeederConstants.kTIMEOUT_MS);
+    // this.feederMotor.configPeakOutputReverse(-0.25, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.configAllowableClosedloopError(FeederConstants.kPID_LOOP_IDX, FeederConstants.ALLOWABLE_CLOSED_LOOP_ERROR, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.config_kF(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][3], FeederConstants.kTIMEOUT_MS);
     this.feederMotor.config_kP(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][0], FeederConstants.kTIMEOUT_MS);
@@ -69,6 +69,10 @@ public class Feeder extends SubsystemBase
   public void stopMotor() {
     feederMotor.set(ControlMode.PercentOutput,0.0);
     isFeederRunning = false;
+  }
+
+  public void setPCT(double pct) {
+    feederMotor.set(ControlMode.PercentOutput, pct);
   }
 
   public boolean isFeederRunning() {

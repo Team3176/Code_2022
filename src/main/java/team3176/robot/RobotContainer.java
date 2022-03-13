@@ -131,12 +131,17 @@ public class RobotContainer {
     m_Controller.getRotStick_Button5().whenPressed(new SwervePodsAzimuthGoHome());
 
     // m_Controller.getOp_A().whileActiveOnce(new Intaking());
-
     // m_Controller.getOp_A().whenActive(new IntakeIndexerIntegration());
     // m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
-    m_Controller.getOp_A().whileActiveOnce(new ShootToggleTest());
-    m_Controller.getOp_X().whileActiveOnce(new FlywheelToggleTest());
-    m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
+    // m_Controller.getOp_A().whileActiveOnce(new ShootToggleTest());
+    // m_Controller.getOp_X().whileActiveOnce(new FlywheelToggleTest());
+    // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
+    // m_Controller.getOp_Start_DS().whileActiveOnce(new Intaking());
+
+    m_Controller.getOp_A().whileActiveOnce(new Intaking());
+    m_Controller.getOp_X().whenActive(new FlywheelPCT());
+    m_Controller.getOp_Y().whileActiveOnce(new ShootPCT());
+    m_Controller.getOp_B().whenActive(new FlywheelStop());
     
     m_Controller.getOp_Start().whenActive(new FeederToggle());
     m_Controller.getOp_Back().whenActive(new ShootReset());

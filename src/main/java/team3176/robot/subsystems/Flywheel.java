@@ -10,6 +10,7 @@ import team3176.robot.subsystems.FlywheelIO.FlywheelIOInputs;
 import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -101,6 +102,12 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor1.set(TalonFXControlMode.PercentOutput, 0.0);
     flywheelMotor2.set(TalonFXControlMode.PercentOutput, 0.0);
     isFlywheelSpinning = false;
+  }
+
+  public void setPCT(double pct1, double pct2) {
+    isFlywheelSpinning = true;
+    flywheelMotor1.set(ControlMode.PercentOutput, pct1);
+    flywheelMotor2.set(ControlMode.PercentOutput, pct2);
   }
 
   public void putSmartDashboardControlCommands() {

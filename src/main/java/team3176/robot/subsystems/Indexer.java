@@ -70,23 +70,23 @@ public class Indexer extends SubsystemBase {
     this.ballCount = m_Intake.getBallCount();
     switch (this.indexMode) {
       case LOADING:
-        System.out.println("INDEXER BEGIN LOADING MODE: " + reportState());
+        // System.out.println("INDEXER BEGIN LOADING MODE: " + reportState());
         setIndexerConfigForPositionPIDCtrl();
         if (reportState() == 000 && !m_Intake.getPistonSetting() && m_Intake.getMotorSetting()) {
           Up();
-          System.out.println("INDEXER 000 and Piston Retract and Running");
+          // System.out.println("INDEXER 000 and Piston Retract and Running");
           // Do not run motor
         }
         //if (ballCount == 1) {
           if (reportState() == 100 || reportState() == 000) {
             // PID Position motor up to State010
             indexer000_2_010();
-            System.out.println("INDEXER STATE 100");
+            // System.out.println("INDEXER STATE 100");
           }
           if (reportState() == 010 && indexerMotor.getMotorOutputPercent() > 0) {
             // stopMotor
             motorStop();
-            System.out.println("INDEXER 010 and INDEXER RUNNING");
+            // System.out.println("INDEXER 010 and INDEXER RUNNING");
           }
         //}
         if (ballCount == 2) {
@@ -102,7 +102,7 @@ public class Indexer extends SubsystemBase {
 
         break;
       case HOLDING:
-        System.out.println("INDEXER BEGIN HOLDING MODE");
+        // System.out.println("INDEXER BEGIN HOLDING MODE");
 
         motorStop();
       /*
@@ -132,7 +132,7 @@ public class Indexer extends SubsystemBase {
         */
         break;
       case SPITTING:
-        System.out.println("INDEXER BEGIN SPITTING MODE");
+        // System.out.println("INDEXER BEGIN SPITTING MODE");
 
         // if (intake is extended) and (intake motor getMotorOutputPercent() < 0) {
         // run motor down at -.80
@@ -145,7 +145,7 @@ public class Indexer extends SubsystemBase {
         }
         break;
       case SHOOTING:
-        System.out.println("INDEXER BEGIN SHOOTING MODE");
+        // System.out.println("INDEXER BEGIN SHOOTING MODE");
 
         setIndexerConfigForVelocityPIDCtrl();
         double target_Shoot_RPM = IndexerConstants.MAX_RPM * 0.4;
@@ -215,11 +215,11 @@ public class Indexer extends SubsystemBase {
   }
 
   public void Up() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, 0.8);
+    indexerMotor.set(ControlMode.PercentOutput, 0.4);
   }
 
   public void Down() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, -0.8);
+    indexerMotor.set(ControlMode.PercentOutput, -0.4);
   }
 
   public void requestState(int s) {
@@ -260,7 +260,8 @@ public class Indexer extends SubsystemBase {
     double ticvalue = indexerMotor.getSelectedSensorPosition();
     
     if (mycounter > 100) {
-      System.out.println("1: " + firstPos + ", 2: " + secondPos + ", 3: " + thirdPos + ", tics:" + ticvalue);
+      System.out.println(secondPos);
+      // System.out.println("1: " + firstPos + ", 2: " + secondPos + ", 3: " + thirdPos + ", tics:" + ticvalue);
       mycounter = 0;
     } else {
       mycounter++;
@@ -286,20 +287,32 @@ public class Indexer extends SubsystemBase {
   public void setModeLoading() {
     this.indexMode = IndexMode.LOADING;
     this.loading = true;
+    this.holding = false;
+    this.spitting = false;
+    this.shooting = false;
   }
 
   public void setModeHolding() {
     this.indexMode = IndexMode.HOLDING;
+    this.loading = false;
     this.holding = true;
+    this.spitting = false;
+    this.shooting = false;
   }
 
   public void setModeSpitting() {
     this.indexMode = IndexMode.SPITTING;
+    this.loading = false;
+    this.holding = false;
     this.spitting = true;
+    this.shooting = false;
   }
 
   public void setModeShooting() {
     this.indexMode = IndexMode.SHOOTING;
+    this.loading = false;
+    this.holding = false;
+    this.spitting = false;
     this.shooting = true;
   }
 
@@ -379,9 +392,28 @@ public class Indexer extends SubsystemBase {
     indexer001_2_010();
   }
 
-  // public void simpleIndexer() {
-  //   if(this.loading) {
+  public void setPCT(double pct) {
+    indexerMotor.set(ControlMode.PercentOutput, pct);
+  }
 
-  //   }
-  // }
+  public void simpleIndexer() {
+    // I2CReciever(); //Uncomment if I2CReciever() isn't called in periodic
+    if(this.loading) {
+      if(!secondPos) {motorStop();}
+      // if(reportState() == 010) {
+      //   motorStop();
+      //   if(m_Intake.ballCount == 2) {return true;}
+      // } //else {
+      //   Up();
+      // }
+    }
+    
+    if(this.holding) {
+      motorStop();
+    }
+
+    if(this.shooting) {}
+
+    if(this.spitting) {}
+  }
 }
