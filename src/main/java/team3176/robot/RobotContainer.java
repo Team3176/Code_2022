@@ -7,6 +7,8 @@ package team3176.robot;
 import team3176.robot.constants.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,6 +38,7 @@ import team3176.robot.commands.Vision.*;
 
 public class RobotContainer {
 
+  private final PowerDistribution m_PDH;
   private final Intake m_Intake;
   private final Controller m_Controller;
   private final Compressor m_Compressor;
@@ -74,6 +77,9 @@ public class RobotContainer {
     m_CoordSys = CoordSys.getInstance();
     m_Climb = Climb.getInstance();
     m_Clarke = Clarke.getInstance();
+
+    m_PDH = new PowerDistribution(1, ModuleType.kRev);
+    m_PDH.clearStickyFaults();
 
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     //TODO: ADD A WAY TO CLEAR STICKY FAULTS
@@ -132,9 +138,9 @@ public class RobotContainer {
     m_Controller.getOp_Start().whenActive(new FeederToggle());
     m_Controller.getOp_Back().whenActive(new ShootReset());
 
-    // m_Controller.getOp_A_FS().whenActive(new IndexerForward());
-    // m_Controller.getOp_B_FS().whenActive(new IndexerBack());
-    // m_Controller.getOp_Y_FS().whenActive(new IndexerStop());
+    m_Controller.getOp_A_FS().whenActive(new IndexerHoldingMode());
+    m_Controller.getOp_B_FS().whenActive(new IndexerLoadingMode());
+    m_Controller.getOp_Y_FS().whenActive(new IndexerShootingMode());
     m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
     m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
     m_Controller.getOp_Back_FS().whenActive(new ShootReset());

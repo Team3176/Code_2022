@@ -24,7 +24,7 @@ public final class IndexerConstants {
     public static final double INDEXER_GEAR_RATIO = 7.0;
 
      // Constant order: P, I, D, F, IZone
-     public static final double[][] PIDFConstants = { {0.0, 0.0, 0.0, 0.0, 0.0}, {0.16, 0.0000065, 0.75, 0.12, 300} };
+     public static final double[][] PIDFConstants = { {0.8, 0.0008, 0.7, 0.0, 350}, {0.16, 0.0000065, 0.75, 0.12, 300} };
      public static final double ALLOWABLE_CLOSED_LOOP_ERROR = 0;
 
      public static final double ticDiff_000_010 = 16064.0;
