@@ -29,6 +29,10 @@ public class Indexer extends SubsystemBase {
   private double startingEncoderTic;
   private int ballCount;
   private int mycounter = 0;
+  private boolean loading = false;
+  private boolean holding = false;
+  private boolean spitting = false;
+  private boolean shooting = false;
 
   public enum IndexMode {
     LOADING, HOLDING, SPITTING, SHOOTING
@@ -273,18 +277,22 @@ public class Indexer extends SubsystemBase {
 
   public void setModeLoading() {
     this.indexMode = IndexMode.LOADING;
+    this.loading = true;
   }
 
   public void setModeHolding() {
     this.indexMode = IndexMode.HOLDING;
+    this.holding = true;
   }
 
   public void setModeSpitting() {
     this.indexMode = IndexMode.SPITTING;
+    this.spitting = true;
   }
 
   public void setModeShooting() {
     this.indexMode = IndexMode.SHOOTING;
+    this.shooting = true;
   }
 
   @Override
@@ -362,4 +370,10 @@ public class Indexer extends SubsystemBase {
     //FOr Know it is sudo indexer001_2_010()
     indexer001_2_010();
   }
+
+  // public void simpleIndexer() {
+  //   if(this.loading) {
+
+  //   }
+  // }
 }

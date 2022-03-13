@@ -50,11 +50,14 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor1.config_kF(0, FlywheelConstants.PIDFConstants[0][3]);
     flywheelMotor1.config_IntegralZone(0, FlywheelConstants.PIDFConstants[0][4]);
 
-    flywheelMotor1.config_kP(0, FlywheelConstants.PIDFConstants[0][0]);
-    flywheelMotor1.config_kI(0, FlywheelConstants.PIDFConstants[0][1]);
-    flywheelMotor1.config_kD(0, FlywheelConstants.PIDFConstants[0][2]);
-    flywheelMotor1.config_kF(0, FlywheelConstants.PIDFConstants[0][3]);
-    flywheelMotor1.config_IntegralZone(0, FlywheelConstants.PIDFConstants[0][4]);
+    flywheelMotor2.config_kP(0, FlywheelConstants.PIDFConstants[1][0]);
+    flywheelMotor2.config_kI(0, FlywheelConstants.PIDFConstants[1][1]);
+    flywheelMotor2.config_kD(0, FlywheelConstants.PIDFConstants[1][2]);
+    flywheelMotor2.config_kF(0, FlywheelConstants.PIDFConstants[1][3]);
+    flywheelMotor2.config_IntegralZone(0, FlywheelConstants.PIDFConstants[1][4]);
+
+    flywheelMotor1.setInverted(true);
+    flywheelMotor2.setInverted(true);
   }
 
   public void spinMotors(double ticksPer100ms) {
@@ -107,6 +110,11 @@ public class Flywheel extends SubsystemBase {
   public void setValuesFromSmartDashboard() {
     flywheelMotor1.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 1 PCT", 0));
     flywheelMotor2.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 2 PCT", 0));
+  }
+
+  public void stopWithPCT() {
+    flywheelMotor1.set(TalonFXControlMode.PercentOutput, 0);
+    flywheelMotor2.set(TalonFXControlMode.PercentOutput, 0);
   }
 
   @Override

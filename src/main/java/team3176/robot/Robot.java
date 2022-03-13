@@ -10,8 +10,11 @@ import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
 import org.littletonrobotics.junction.io.*;
+
+import team3176.robot.commands.Drivetrain.imported.SwerveDrive;
 import team3176.robot.constants.MasterConstants;
 import team3176.robot.subsystems.*;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
@@ -29,6 +32,8 @@ public class Robot extends LoggedRobot {
   private Angler m_Angler;
   private Flywheel m_Flywheel;
   private Feeder m_Feeder;
+  private Drivetrain m_Drivetrain;
+  private Controller m_Controller;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -61,6 +66,8 @@ public class Robot extends LoggedRobot {
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
     m_Feeder = Feeder.getInstance();
+    m_Drivetrain = Drivetrain.getInstance();
+    m_Controller = Controller.getInstance();
 
     m_robotContainer = new RobotContainer();
   }
@@ -148,6 +155,14 @@ public class Robot extends LoggedRobot {
     m_Angler.mode = "test";
     m_Flywheel.mode = "test";
     m_Feeder.mode = "test";
+
+    m_Drivetrain.setDefaultCommand(new SwerveDrive(
+        () -> m_Controller.getForward(), 
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin()//,
+        //() -> m_Controller.isFieldCentricButtonPressed(),
+        //() -> m_Controller.isRobotCentricButtonPressed()
+    ));
   }
 
   /** This function is called periodically during test mode. */

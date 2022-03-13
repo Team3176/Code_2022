@@ -27,5 +27,5 @@ public final class FlywheelConstants {
     public static final String kShuffleboardPercentName2 = "Flywheel2%Set";
 
     // Constant order: P, I, D, FF, IZone
-    public static final double[][] PIDFConstants = { { 0.05, 0.0, 0.0, 0.047, 0.0 } };
+    public static final double[][] PIDFConstants = { {0.05, 0.0, 0.0, 0.047, 0.0}, {0.05, 0.0, 0.0, 0.047, 0.0}};
 }

@@ -28,7 +28,7 @@ public class Feeder extends SubsystemBase
   private final FeederIO io;
   private final FeederIOInputs inputs = new FeederIOInputs();
   private static Feeder instance;
-  private boolean isSmartDashboardTestControlsShown;
+  private boolean isSmartDashboardTestControlsShown = false;
   public String mode = "";
   private boolean isFeederRunning = false;
 
@@ -47,7 +47,8 @@ public class Feeder extends SubsystemBase
     this.feederMotor.config_kP(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][0], FeederConstants.kTIMEOUT_MS);
     this.feederMotor.config_kI(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][1], FeederConstants.kTIMEOUT_MS);
     this.feederMotor.config_kD(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][2], FeederConstants.kTIMEOUT_MS);
-    this.feederMotor.config_IntegralZone(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][4], FeederConstants.kTIMEOUT_MS);  
+    this.feederMotor.config_IntegralZone(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][4], FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.setInverted(true);
   }
 
   public void percentOutput() 
@@ -74,7 +75,7 @@ public class Feeder extends SubsystemBase
   }
 
   public void putSmartDashboardControlCommands() {
-    SmartDashboard.putNumber("Feeder Spark PCT", 0);
+    SmartDashboard.putNumber("Feeder PCT", 0);
     isSmartDashboardTestControlsShown = true;
  }
 

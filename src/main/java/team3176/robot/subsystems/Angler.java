@@ -249,19 +249,18 @@ public class Angler extends SubsystemBase {
   public boolean getLimiterHigh() {return limiterHighEngaged;}
 
 
-  public void setFF(double newFF)
-  {
+  public void setFF(double newFF) {
       this.anglerMotor.config_kF(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[3], AnglerConstants.kTIMEOUT_MS);
   }
 
-    public void putSmartDashboardControlCommands() {
+  public void putSmartDashboardControlCommands() {
     SmartDashboard.putNumber("Angler Position", 0);
     isSmartDashboardTestControlsShown = true;
-    }
+  }
 
-    public void setValuesFromSmartDashboard() {
-      this.anglerMotor.set(ControlMode.Position, (SmartDashboard.getNumber("Angler Position", 0)));
-    }
+    // public void setValuesFromSmartDashboard() {
+    //   this.anglerMotor.set(ControlMode.Position, (SmartDashboard.getNumber("Angler Position", 0)));
+    // }
 
   @Override
   public void periodic() {
@@ -285,11 +284,11 @@ public class Angler extends SubsystemBase {
       limiterLowEngaged = false;
       limiterHighEngaged = false;
     }
-    if(mode.equals("test"))
-    {
-      if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
-      setValuesFromSmartDashboard();
-    }
+    // if(mode.equals("test"))
+    // {
+    //   if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
+    //   setValuesFromSmartDashboard();
+    // }
 
   }
 

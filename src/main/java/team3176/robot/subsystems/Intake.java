@@ -103,18 +103,23 @@ public class Intake extends SubsystemBase {
   }
 
   public void putSmartDashboardControlCommands() {
-     SmartDashboard.putNumber("Intake Falcon PCT", 0);
-     SmartDashboard.putBoolean("Intake Piston Setting", true);
+     SmartDashboard.putNumber("Intake PCT", 0);
+     SmartDashboard.putBoolean("Intake Piston", false);
+     SmartDashboard.putBoolean("Intake Piston Allow Toggle", false);
      isSmartDashboardTestControlsShown = true;
   }
 
   public void setValuesFromSmartDashboard() {
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, SmartDashboard.getNumber("Intake Falcon PCT", 0));
-    pistonSetting = SmartDashboard.getBoolean("Intake Piston Setting", true);
-    if (pistonSetting) {
-      Retract();
-    } else {
-      Extend();
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, SmartDashboard.getNumber("Intake PCT", 0));
+    pistonSetting = SmartDashboard.getBoolean("Intake Piston", false);
+    if(SmartDashboard.getBoolean("Intake Piston Allow Toggle", false)) {
+      if (pistonSetting) {
+        Retract();
+      } else {
+        Extend();
+      }
+      SmartDashboard.putBoolean("Intake Piston", !pistonSetting);
+      SmartDashboard.putBoolean("Intake Piston Allow Toggle", false);
     }
   }
 
