@@ -50,13 +50,8 @@ public class Intake extends SubsystemBase {
     // piston2.set(Value.kForward);
   }
 
-<<<<<<< HEAD
-  public boolean is_Extended() {
-    return this.isIntaking;
-=======
   public boolean isExtended() {
-    return isIntaking; 
->>>>>>> merger2_charIndexer
+    return this.isIntaking;
   }
 
   public void Retract() {
