@@ -7,6 +7,8 @@ package team3176.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.FlywheelConstants;
 import team3176.robot.subsystems.FlywheelIO.FlywheelIOInputs;
+import team3176.robot.util.God.Units3176;
+
 import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -75,6 +77,13 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor2.set(TalonFXControlMode.Velocity, ticksPer100msForMotor2);
     isFlywheelSpinning = true;
     if((ticksPer100msForMotor1 == 0) && (ticksPer100msForMotor2 == 0)) {isFlywheelSpinning = false;}
+  }
+
+  public void spinMotorsVelocityPID(double pctOne, double pctTwo) {
+    flywheelMotor1.set(TalonFXControlMode.Velocity, pctOne * Units3176.revolutionsPerMinute2ticsPer100MS(6380, 2048));
+    flywheelMotor2.set(TalonFXControlMode.Velocity, pctTwo * Units3176.revolutionsPerMinute2ticsPer100MS(6380, 2048));
+    isFlywheelSpinning = true;
+    if((pctOne == 0) && (pctTwo == 0)) {isFlywheelSpinning = false;}
   }
 
   public boolean getMotorSpinning() {return isFlywheelSpinning;}

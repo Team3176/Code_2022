@@ -7,6 +7,7 @@ package team3176.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.IndexerConstants;
 import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
+import team3176.robot.util.God.Units3176;
 import team3176.robot.subsystems.Intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -260,7 +261,7 @@ public class Indexer extends SubsystemBase {
     double ticvalue = indexerMotor.getSelectedSensorPosition();
     
     if (mycounter > 100) {
-      System.out.println(secondPos);
+      // System.out.println(secondPos);
       // System.out.println("1: " + firstPos + ", 2: " + secondPos + ", 3: " + thirdPos + ", tics:" + ticvalue);
       mycounter = 0;
     } else {
@@ -394,6 +395,10 @@ public class Indexer extends SubsystemBase {
 
   public void setPCT(double pct) {
     indexerMotor.set(ControlMode.PercentOutput, pct);
+  }
+
+  public void setVelocity(double pctAsDecimal) {
+    indexerMotor.set(ControlMode.Velocity, pctAsDecimal * Units3176.revolutionsPerMinute2ticsPer100MS(18730, 4096));
   }
 
   public void simpleIndexer() {

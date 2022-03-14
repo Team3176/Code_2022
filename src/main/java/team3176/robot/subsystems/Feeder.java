@@ -7,6 +7,7 @@ package team3176.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.FeederConstants;
 import team3176.robot.subsystems.FeederIO.FeederIOInputs;
+import team3176.robot.util.God.Units3176;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.littletonrobotics.junction.Logger; 
@@ -59,11 +60,11 @@ public class Feeder extends SubsystemBase
     SmartDashboard.putNumber("FeederRPMOut", feederMotor.getSelectedSensorVelocity());
   }
 
-  public void setVelocityPID(double RPM)
+  public void setVelocityPID(double pctAsDecimal)
   {
-    feederMotor.set(ControlMode.Velocity, RPM);
+    feederMotor.set(ControlMode.Velocity, Units3176.revolutionsPerMinute2ticsPer100MS(18730, 4096));
     isFeederRunning = true;
-    if(RPM == 0) {isFeederRunning = false;}
+    if(pctAsDecimal == 0) {isFeederRunning = false;}
   }
 
   public void stopMotor() {

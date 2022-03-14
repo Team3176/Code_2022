@@ -139,8 +139,8 @@ public class RobotContainer {
     // m_Controller.getOp_Start_DS().whileActiveOnce(new Intaking());
 
     m_Controller.getOp_A().whileActiveOnce(new Intaking());
-    m_Controller.getOp_X().whenActive(new FlywheelPCT());
-    m_Controller.getOp_Y().whileActiveOnce(new ShootPCT());
+    m_Controller.getOp_X().whenActive(new FlywheelVelocityPID());
+    m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
     m_Controller.getOp_B().whenActive(new FlywheelStop());
     
     m_Controller.getOp_Start().whenActive(new FeederToggle());
