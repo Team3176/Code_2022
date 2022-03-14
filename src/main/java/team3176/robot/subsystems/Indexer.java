@@ -215,11 +215,11 @@ public class Indexer extends SubsystemBase {
   }
 
   public void Up() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, 0.4);
+    indexerMotor.set(ControlMode.PercentOutput, 0.5);
   }
 
   public void Down() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, -0.4);
+    indexerMotor.set(ControlMode.PercentOutput, -0.5);
   }
 
   public void requestState(int s) {
