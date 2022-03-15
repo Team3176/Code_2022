@@ -189,6 +189,10 @@ public class SwervePod2022 {
 
         this.thrustController.configClosedloopRamp(0.5);   
         
+        if (this.id == 1 || this.id == 2) {
+            azimuthController.setInverted(true);
+
+        }
         //if (MasterConstants.IS_PRACTICE_BOT == false) {
             if (this.id == 2 || this.id == 3) {
                 this.thrustController.setInverted(false);
