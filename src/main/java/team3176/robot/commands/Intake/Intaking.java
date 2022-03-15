@@ -21,7 +21,7 @@ public class Intaking extends CommandBase {
   @Override
   public void initialize() {
     m_Indexer.setModeLoading();
-    m_Indexer.Up();
+    // m_Indexer.Up();
     m_Intake.Extend();
     m_Intake.spinVelocityPercent(IntakeConstants.INTAKE_PCT);
   }
@@ -29,7 +29,7 @@ public class Intaking extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Indexer.simpleIndexer();
+    // m_Indexer.simpleIndexer();
   }
 
   // Called once the command ends or is interrupted.
@@ -39,7 +39,7 @@ public class Intaking extends CommandBase {
     Timer.delay(1); //TODO: TUNE AND FIND ALTERNATIVE
     m_Intake.stopMotor();
     m_Indexer.setModeHolding();
-    m_Indexer.simpleIndexer();
+    // m_Indexer.simpleIndexer();
   }
 
   // Returns true when the command should end.

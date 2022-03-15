@@ -108,6 +108,7 @@ public class SwervePod2022 {
 
     private final PIDController m_ThrustPIDController;
     private final ProfiledPIDController m_turningPIDController;
+    private final PIDController m_turningPIDController2;
     //private ProfiledPIDController m_turningPIDController;
     private SwerveModuleState state;
     private RelativeEncoder m_encoder;
@@ -150,7 +151,7 @@ public class SwervePod2022 {
             new TrapezoidProfile.Constraints(
                 (SwervePodConstants2022.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND),
                 (SwervePodConstants2022.MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED)));
-       
+        m_turningPIDController2 = new PIDController(.15, 0.0, 0.0);       
         m_turningPIDController.setTolerance(0.1);
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -313,7 +314,9 @@ public class SwervePod2022 {
         //double optmizdAzimuthPos = this.podAzimuth;
         //double tics = rads2Tics(this.podAzimuth);
 
-        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
+        double turnOutput = m_turningPIDController2.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
+        turnOutput*=.1;
+        //SmartDashboard.putNumber("P"+ this.id + ".m_turningPIDController2", turnOutput);
 
         //if (this.id == 3) {azimuthController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
         if (this.podThrust > (-Math.pow(10,-10)) && this.podThrust < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(thrustDrive) != 0 is notationally sloppy math
