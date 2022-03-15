@@ -336,8 +336,7 @@ public class SwervePod2022 {
     private double optimizeAzimuthPos(double angle) {
         //System.out.println("calcAzimuthPos - P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
-        this.encoderPos = getEncoderPos();;
-        //this.encoderPos = azimuthController.getSelectedSensorPosition() - this.kEncoderOffset;
+        this.encoderPos = getEncoderAbsPos() - SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id];        //this.encoderPos = azimuthController.getSelectedSensorPosition() - this.kEncoderOffset;
         //radianPos = tics2Rads(this.encoderPos);
         radianPos = (this.encoderPos);
         SmartDashboard.putNumber("P"+(this.id)+".radianPos",radianPos);
@@ -361,7 +360,7 @@ public class SwervePod2022 {
                 this.velTicsPer100ms = -this.velTicsPer100ms;
             }
         }
-        SmartDashboard.putNumber("P"+(this.id)+".radianError_postOpt",radianError);
+        //SmartDashboard.putNumber("P"+(this.id)+".radianError_postOpt",radianError);
         //encoderError = rads2Tics(radianError);
         encoderError = (radianError);
         SmartDashboard.putNumber("P"+(this.id)+".encoderError",encoderError);
