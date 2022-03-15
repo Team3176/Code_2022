@@ -315,12 +315,12 @@ public class SwervePod2022 {
         if (this.podThrust > (-Math.pow(10,-10)) && this.podThrust < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(thrustDrive) != 0 is notationally sloppy math
             azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
             //azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
-            //SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
+            SmartDashboard.putNumber("P"+(id) + " PIDturnOutput",turnOutput);
             //azimuthPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
         } else {
             azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
             //azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
-            //SmartDashboard.putNumber("P"+(id) + " turnOutput",turnOutput);
+            SmartDashboard.putNumber("P"+(id) + " PIDturnOutput",turnOutput);
             //azimuthPIDController.setReference(this.encoderPos, CANSparkMax.ControlType.kPosition);  
             this.lastEncoderPos = optmizdAzimuthPos;
         }    
@@ -346,7 +346,7 @@ public class SwervePod2022 {
         // FYI: Math.copySign(magnitudeVar, signVar) = magnitude value with same sign as signvar
 
         // FIXES THE "SPINNIES" (wheels doing unnecessary rotations when starting and stopping)
-        double errorCorrectionIncrements = (int) (Math.abs(radianError) / (2 * Math.PI));
+        int errorCorrectionIncrements = (int) (Math.abs(radianError) / (2 * Math.PI));
         radianError -= Math.copySign((2 * Math.PI) * errorCorrectionIncrements, radianError);
 
         //if (Math.abs(radianError) > (5 * (PI / 2))) {

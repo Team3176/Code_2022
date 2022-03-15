@@ -20,6 +20,7 @@ public final class AnglerConstants {
     public static final double ANGLER_GEAR_RATIO = 35.0;
     // Number of rotations of the outer shaft to move the Angler by one degree
     public static final double ROTATIONS_PER_DEGREE = 1.0; //TODO: FIND OUT THIS ACTUAL VALUE!!!
+    public static final int TICS_PER_REVOLUTION = 2048;
 
     public static final double kAnglerMinDegrees = 45.0;
     public static final double kAnglerMaxDegrees = 80.0;

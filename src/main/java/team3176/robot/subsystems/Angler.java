@@ -121,6 +121,16 @@ public class Angler extends SubsystemBase {
     }
   }
 
+  public void engagePIDMotorVelocity(double value)
+  {
+    if (!limiterHighEngaged && !limiterLowEngaged) {
+      this.setValue = value;
+      if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
+      //PIDController.setReference(value, ControlType.kPosition);
+      anglerMotor.set(ControlMode.Velocity, value);
+    }
+  }
+
   public void engageRawMotor(double percentOutput)
   {
     this.setValue = percentOutput;
@@ -146,6 +156,7 @@ public class Angler extends SubsystemBase {
     anglerMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
+  // TODO: If the motor's position control is set in an ABSOLUTE POSITION instead of a position difference, these two methods need to be fixed ASAP!!!
   public void changeAngle(double angleChange)
   {
     double rotationsOfMotor = angleChange * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO;
@@ -172,8 +183,8 @@ public class Angler extends SubsystemBase {
    */
   public void setVelocity(double degreesPerSecond)
   {
-    double rotationsPerMin = degreesPerSecond * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO * 60;
-    //this.engagePIDMotor(rotationsPerMin, ControlType.kVelocity);
+    double rotationsPerMin = degreesPerSecond * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO * AnglerConstants.TICS_PER_REVOLUTION / 10;
+    this.engagePIDMotorVelocity(rotationsPerMin);
   }
 
 
@@ -270,12 +281,12 @@ public class Angler extends SubsystemBase {
     //System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
 
     // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
-    if (!limitSwitch1.get() && setValue < 0) {
+    if (!limitSwitch1.get() && (setValue < 0 || anglerMotor.getSelectedSensorVelocity() < 0)) {
       limiterStopMotor();
       limiterLowEngaged = true;
       limiterHighEngaged = false;
       // System.out.println("LEFT LIMITER PRESSED ---------------");
-    } else if (!limitSwitch2.get() && setValue > 0) {
+    } else if (!limitSwitch2.get() && (setValue > 0 || anglerMotor.getSelectedSensorVelocity() > 0)) {
       limiterStopMotor();
       limiterHighEngaged = true;
       limiterLowEngaged = false;
