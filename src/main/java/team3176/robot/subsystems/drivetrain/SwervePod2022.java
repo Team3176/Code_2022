@@ -18,6 +18,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -106,7 +107,7 @@ public class SwervePod2022 {
 
     private double startTics;
 
-    private final PIDController m_ThrustPIDController;
+    private final PIDController m_ThrustPIDController, m_turningPIDController2;
     private final ProfiledPIDController m_turningPIDController;
     //private ProfiledPIDController m_turningPIDController;
     private SwerveModuleState state;
@@ -153,6 +154,8 @@ public class SwervePod2022 {
        
         m_turningPIDController.setTolerance(0.1);
         m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+
+        m_turningPIDController2 = new PIDController(.04,0,0);
 
         m_turningPIDController.reset(0.0, 0.0);
         m_turningPIDController.setP(this.kP_Azimuth);
@@ -289,7 +292,7 @@ public class SwervePod2022 {
 
         SmartDashboard.putNumber("P"+(this.id)+".optmizdazimuthPos", optmizdAzimuthPos);
 
-        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
+        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderAbsPosition, optmizdAzimuthPos);
         //double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, this.podAzimuth);
 
         SmartDashboard.putNumber("P"+(this.id)+".turnOutput", turnOutput);
@@ -313,8 +316,12 @@ public class SwervePod2022 {
         //double optmizdAzimuthPos = this.podAzimuth;
         //double tics = rads2Tics(this.podAzimuth);
 
-        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
-
+//        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
+        double turnOutput = -1*MathUtil.clamp((this.azimuthEncoderAbsPosition-optmizdAzimuthPos)*.04
+        ,-0.3,0.3);
+        SmartDashboard.putNumber("P"+(id) + " PIDencoderPOS",this.azimuthEncoderAbsPosition); 
+        SmartDashboard.putNumber("P"+(id) + " PIDsetpoint",optmizdAzimuthPos);
+        SmartDashboard.putNumber("P"+(id) + " PIDOutput",turnOutput);
         //if (this.id == 3) {azimuthController.set(ControlMode.Position, 0.0); } else {   // TODO: Try this to force pod4 to jump lastEncoderPos
         if (this.podThrust > (-Math.pow(10,-10)) && this.podThrust < (Math.pow(10,-10))) {      //TODO: convert this to a deadband range.  abs(thrustDrive) != 0 is notationally sloppy math
             azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
@@ -340,7 +347,7 @@ public class SwervePod2022 {
     private double optimizeAzimuthPos(double angle) {
         //System.out.println("calcAzimuthPos - P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
-        this.encoderPos = getEncoderAbsPos() - SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id];        //this.encoderPos = azimuthController.getSelectedSensorPosition() - this.kEncoderOffset;
+        this.encoderPos = getEncoderAbsPos() - Math.toRadians(SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id]);        //this.encoderPos = azimuthController.getSelectedSensorPosition() - this.kEncoderOffset;
         //radianPos = tics2Rads(this.encoderPos);
         radianPos = (this.encoderPos);
         SmartDashboard.putNumber("P"+(this.id)+".radianPos",radianPos);
@@ -349,14 +356,14 @@ public class SwervePod2022 {
         // FYI: Math.copySign(magnitudeVar, signVar) = magnitude value with same sign as signvar
 
         // FIXES THE "SPINNIES" (wheels doing unnecessary rotations when starting and stopping)
-        int errorCorrectionIncrements = (int) (Math.abs(radianError) / (2 * Math.PI));
-        radianError -= Math.copySign((2 * Math.PI) * errorCorrectionIncrements, radianError);
+        //int errorCorrectionIncrements = (int) (Math.abs(radianError) / (2 * Math.PI));
+        //radianError -= Math.copySign((2 * Math.PI) * errorCorrectionIncrements, radianError);
 
         //if (Math.abs(radianError) > (5 * (PI / 2))) {
         //    System.out.println("Error: Overload");
         //} else if (Math.abs(radianError) > (3 * (PI / 2))) {
 
-        if (isAutonSwerveControllerOptimizingAzimuthPos == false) { 
+        if (isAutonSwerveControllerOptimizingAzimuthPos == true) { 
             if (Math.abs(radianError) > (3 * (PI / 2))) {      // TODO: See if commenting out "Thrust-vector sign-flip" fixes
                 radianError -= Math.copySign(2 * PI, radianError);
             } else if (Math.abs(radianError) > (PI / 2)) {
@@ -368,7 +375,7 @@ public class SwervePod2022 {
         //encoderError = rads2Tics(radianError);
         encoderError = (radianError);
         SmartDashboard.putNumber("P"+(this.id)+".encoderError",encoderError);
-        azimuthCommand = encoderError + this.encoderPos + this.kEncoderOffset;
+        azimuthCommand = encoderError + this.encoderPos;
         SmartDashboard.putNumber("P"+(this.id)+".AZIMUTHCmd",azimuthCommand);
         return (azimuthCommand);
     }
@@ -413,7 +420,8 @@ public class SwervePod2022 {
 
     public void updateAzimuthAbsEncoder() {
         this.azimuthEncoderAbsPosition = Math.toRadians(azimuthEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPosition",this.azimuthEncoderAbsPosition);
+        SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPositionr",this.azimuthEncoderAbsPosition);
+        SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPositionraw",azimuthEncoder.getAbsolutePosition());
     }
 
     public double getEncoderPos() {
@@ -422,7 +430,7 @@ public class SwervePod2022 {
     }
 
     public double getEncoderAbsPos() {
-        updateAzimuthEncoder();
+        updateAzimuthAbsEncoder();
         return this.azimuthEncoderAbsPosition;
     }
 
