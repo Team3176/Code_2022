@@ -253,7 +253,7 @@ public class Drivetrain extends SubsystemBase {
     //for (int idx = 0; idx < (pods.size()); idx++) {
     //  pods.get(idx).tune();
     //}
-    //pods.get(0).tune();
+    //pods.get(1).tune();
   }
 
   /**
@@ -359,7 +359,7 @@ public class Drivetrain extends SubsystemBase {
 
       //SmartDashboard.putBoolean("orbiting", isOrbiting());
     } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defensive position
-      double smallNum = Math.pow(10, -15);
+      double smallNum = Math.pow(10, -5);
       pods.get(0).set(smallNum, -1.0 * Math.PI / 4.0);
       pods.get(1).set(smallNum, 1.0 * Math.PI / 4.0);
       pods.get(2).set(smallNum, 3.0 * Math.PI / 4.0);
