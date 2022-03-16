@@ -74,6 +74,7 @@ public class SwervePod2022 {
     private int off = 0;
 
     private double lastEncoderPos;
+    private boolean useTheAbsEncoders;
     private double radianError;
     private double radianPos;
     private double encoderError;
@@ -123,6 +124,7 @@ public class SwervePod2022 {
         updateAzimuthEncoder();
         initializeSmartDashboard();
         
+
         this.kEncoderOffset = Math.toRadians(SwervePodConstants2022.AZIMUTH_OFFSET[this.id]);
         ///System.out.println("P"+(this.id+1)+" kEncoderOffset: "+this.kEncoderOffset);
 
@@ -425,8 +427,8 @@ public class SwervePod2022 {
     public double getEncoderAbsPos() {
         updateAzimuthAbsEncoder();
         return this.azimuthEncoderAbsPosition;
-    }
-
+    } 
+    
     public double getVelocity() {
         double motorShaftVelocity = thrustController.getSelectedSensorVelocity();   
         double wheelVelocityInFeetPerSecond = Units3176.ums2fps(motorShaftVelocity); 
