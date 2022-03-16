@@ -5,11 +5,12 @@
 package team3176.robot.commands.Auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import team3176.robot.commands.Drivetrain.imported.TrapezoidDrive;
 
 public class AutonExitTarmac extends SequentialCommandGroup {
   public AutonExitTarmac() {
     addCommands(
-      new AutonMove(10, Math.PI) //TODO: FIND DISTANCE AND ANGLE
+      new TrapezoidDrive(10, -2) //TODO: FIND DISTANCE AND ANGLE
     );
   }
 }

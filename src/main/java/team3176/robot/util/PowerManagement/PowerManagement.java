@@ -18,6 +18,7 @@ public class PowerManagement extends SubsystemBase {
     private static PowerManagement instance = new PowerManagement();
     public static PowerManagement getInstance() {return instance;}
 
+    //private int count = 0;
     private PowerDistribution powerDistributionHub;
 
     public PowerManagement() {
@@ -38,6 +39,16 @@ public class PowerManagement extends SubsystemBase {
     @Override
     public void periodic() {
         int ports = powerDistributionHub.getNumChannels();
+        /**count++;
+         * if(count = 100) {
+         *  getBatteryVoltage
+         *  if(battVolt < 10)
+         *      disableCompressor
+         *  if(battVolt > 10 && !compressor)
+         *      enableCompressor
+         *  count = 0;
+         * }
+         */
         
     }
 

@@ -155,9 +155,8 @@ public class SwervePod2022 {
                 (SwervePodConstants2022.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND),
                 (SwervePodConstants2022.MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED)));
        
-        m_turningPIDController2= new PIDController(kP_Azimuth, kI_Azimuth, kD_Azimuth);
-        m_turningPIDController2.setTolerance(0.1);
-        m_turningPIDController2.enableContinuousInput(-Math.PI, Math.PI);
+        m_turningPIDController.setTolerance(0.1);
+        m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
         m_turningPIDController2.reset();
         m_turningPIDController2.setP(this.kP_Azimuth);
@@ -304,8 +303,12 @@ public class SwervePod2022 {
        
         this.maxVelTicsPer100ms = Units3176.fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
         this.velTicsPer100ms = Units3176.fps2ums(this.podThrust);
-       
-        double optmizdAzimuthAbsPos = optimizeAzimuthPos(this.podAzimuth);
+       // velTicsPer100ms = SmartDashboard.getNumber("thrustSet",velTicsPer100ms);
+        double optmizdAzimuthPos = optimizeAzimuthPos(this.podAzimuth);
+        //double optmizdAzimuthPos = this.podAzimuth;
+        //double tics = rads2Tics(this.podAzimuth);
+
+        double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, optmizdAzimuthPos);
 
         if (this.podThrust > (-Math.pow(10,-10)) && this.podThrust < (Math.pow(10,-10))) {      
             this.turnOutput = m_turningPIDController2.calculate(this.azimuthEncoderAbsPosition, this.lastEncoderPos);

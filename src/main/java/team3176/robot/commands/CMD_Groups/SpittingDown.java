@@ -4,27 +4,44 @@
 
 package team3176.robot.commands.CMD_Groups;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import team3176.robot.subsystems.Feeder;
+import team3176.robot.subsystems.Flywheel;
+import team3176.robot.subsystems.Indexer;
+import team3176.robot.subsystems.Intake;
 
 public class SpittingDown extends CommandBase {
-  /** Creates a new SpittingDown. */
+  private Intake m_Intake = Intake.getInstance();
+  private Indexer m_Indexer = Indexer.getInstance();
+  private Feeder m_Feeder = Feeder.getInstance();
+  private Flywheel m_Flywheel = Flywheel.getInstance();
   public SpittingDown() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_Intake, m_Indexer, m_Feeder, m_Flywheel);
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() { //TODO: BETTER PCTs
+    m_Intake.Extend();
+    Timer.delay(0.5);
+    m_Intake.spinVelocityPercent(-0.5);
+    m_Indexer.setPCT(-0.5);
+    m_Feeder.setPCT(-0.5);
+    m_Flywheel.setPCT(-0.2, -0.2);
+  }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {}
 
-  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_Intake.stopMotor();
+    m_Intake.Retract();
+    m_Indexer.motorStop();
+    m_Feeder.stopMotor();
+    m_Flywheel.stopMotors();
+  }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
