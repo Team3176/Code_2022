@@ -119,11 +119,11 @@ public class SwervePod2022 {
     private RelativeEncoder m_encoder;
 
     private ShuffleboardTab tab;
-    private NetworkTableEntry NT_encoderPos = tab.add("encoderPos", 0).getEntry();
-    private NetworkTableEntry NT_podAzimuth_setpoint_angle = tab.add("podAzimuth_setpoint_angle", 0).getEntry();
-    private NetworkTableEntry NT_kP_Azimuth = tab.addPersistent("kP_Azimuth", 0).getEntry();
-    private NetworkTableEntry NT_kI_Azimuth = tab.addPersistent("kI_Azimuth", 0).getEntry();
-    private NetworkTableEntry NT_kD_Azimuth = tab.addPersistent("kD_Azimuth", 0).getEntry();
+    private NetworkTableEntry NT_encoderPos = tab.add(idString+"/encoderPos", 0).getEntry();
+    private NetworkTableEntry NT_podAzimuth_setpoint_angle = tab.add(idString+"/podAzimuth_setpoint_angle", 0).getEntry();
+    private NetworkTableEntry NT_kP_Azimuth = tab.addPersistent(idString+"/kP_Azimuth", 0).getEntry();
+    private NetworkTableEntry NT_kI_Azimuth = tab.addPersistent(idString+"/kI_Azimuth", 0).getEntry();
+    private NetworkTableEntry NT_kD_Azimuth = tab.addPersistent(idString+"/kD_Azimuth", 0).getEntry();
 
 
     public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {
@@ -472,24 +472,24 @@ public class SwervePod2022 {
 
     public void setupShuffleboard() {
         Shuffleboard.getTab(this.idString)
-            .add("podAzimuth_setpoint_angle",SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id])
+            .add(idString+"/podAzimuth_setpoint_angle",SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id])
             .withWidget(BuiltInWidgets.kNumberSlider)
             .withProperties(Map.of("min", -3.16, "max", 3.16))
             .withSize(2,1)
             .withPosition(2,1)
             .getEntry();
         Shuffleboard.getTab(this.idString)
-            .add("kP_Azimuth", this.kP_Azimuth)
+            .add(idString+"/kP_Azimuth", this.kP_Azimuth)
             .withSize(1,1)
             .withPosition(4,1)
             .getEntry();
         Shuffleboard.getTab(this.idString)
-            .add("kI_Azimuth", this.kI_Azimuth)
+            .add(idString+"/kI_Azimuth", this.kI_Azimuth)
             .withSize(1,1)
             .withPosition(5,1)
             .getEntry();
         Shuffleboard.getTab(this.idString)
-            .add("kD_Azimuth", this.kD_Azimuth)
+            .add(idString+"/kD_Azimuth", this.kD_Azimuth)
             .withSize(1,1)
             .withPosition(6,1)
             .getEntry();
