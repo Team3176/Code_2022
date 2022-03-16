@@ -47,13 +47,20 @@ public class Angler extends SubsystemBase {
   public String mode = "";
 
   // Used to help us allow the angler to be touching a limit switch and move away from it. This value is only used for its sign.
-  // This value is whatever value we have set the motor to, and we don't care what the ControlType is.
-  private double setValue;
+  // This value is whatever value we have set the motor to for speed or a CHANGE in position.
+  private double setMovement;
+
+  // An extra layer of limiter safety. Once it is set from zero, it only has two possible values: -1 and 1. -1 represents the negative
+  // direction, and 1 is the positive direction. This value is set automatically in periodic when the motor tries to rotate in either
+  // direction, and is ONLY changed when the motor tries to CHANGE direction (so NOT altered when the motor is commanded 0%). It is to help
+  // the limiters remember where the motor is trying to go if it is ever commanded without using engagePIDMotor methods or engageRawMotor.
+  private int previousPercentDirection;
 
   // used for Shuffleboard velocity + limit switch testing
   private double smartdashboardVelocity;
 
-   // represents the angle of the Angler at which the encoder should read zero
+   // represents the angle of the Angler at which the encoder should read zero -- this initializes to zero to ensure the Angler is zeroed
+   // before the motor is commanded to go somewhere
    private double motorZero;
 
  public Angler(AnglerIO io) 
@@ -80,12 +87,18 @@ public class Angler extends SubsystemBase {
     PIDLoopEngaged = false;
     limiterHighEngaged = false;
     limiterLowEngaged = false;
-    setValue = 0;
+    setMovement = 0;
+    motorZero = 0;
+    previousPercentDirection = 0;
 
     // used for Shuffleboard velocity + limit switch testing
     // smartdashboardVelocity = 0.0;
     // SmartDashboard.putNumber("Velocity (RPM)", smartdashboardVelocity);
     // SmartDashboard.putNumber("Angler FF", 0.0);
+
+    // Safety checks to make sure the motor is not being powered while limit switches are engaged
+    SmartDashboard.putNumber("AnglerVoltage", anglerMotor.getMotorOutputVoltage());
+    SmartDashboard.putNumber("AnglerPctOutput", anglerMotor.getMotorOutputPercent());
   }
 
   /**
@@ -96,11 +109,11 @@ public class Angler extends SubsystemBase {
   {
     // Yes, this DOES set velocity control. However, this line is only called to reengage the PID loop before any of the PID position
     // control lines are called. This line will only be active for an instant. The reason for this is because if the set() method is
-    // called on the motor, it stops using the PID loop as reference. When the PID loop is called for a reference the next time, the motor
-    // may instantly try to jump to whatever speed or position it needs to be at. This is necessary for velocity control, but it may
-    // not be necessary for position control. Will have to test.
-    //PIDController.setReference(encoder.getVelocity(), ControlType.kVelocity);
-
+    // called on the motor with ControlMode.Percent Output, it may stop using the PID loop as reference. When the PID loop is called for a
+    // reference the next time, the motor may instantly try to jump to whatever speed or position it needs to be at. This is necessary for
+    // velocity control, but it may not be necessary for position control. Will have to test. This is an EXCEPTION to the rule that the
+    // set() method should never be used.
+    anglerMotor.set(ControlMode.Velocity, anglerMotor.getSelectedSensorVelocity());
     PIDLoopEngaged = true;
   }
 
@@ -114,9 +127,8 @@ public class Angler extends SubsystemBase {
   public void engagePIDMotorPosition(double value)
   {
     if (!limiterHighEngaged && !limiterLowEngaged) {
-      this.setValue = value;
+      this.setMovement = value - anglerMotor.getSelectedSensorPosition();
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
-      //PIDController.setReference(value, ControlType.kPosition);
       anglerMotor.set(ControlMode.Position, value);
     }
   }
@@ -124,16 +136,15 @@ public class Angler extends SubsystemBase {
   public void engagePIDMotorVelocity(double value)
   {
     if (!limiterHighEngaged && !limiterLowEngaged) {
-      this.setValue = value;
+      this.setMovement = value;
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
-      //PIDController.setReference(value, ControlType.kPosition);
       anglerMotor.set(ControlMode.Velocity, value);
     }
   }
 
   public void engageRawMotor(double percentOutput)
   {
-    this.setValue = percentOutput;
+    this.setMovement = percentOutput;
     if (!limiterHighEngaged && !limiterLowEngaged && percentOutput >= -1 && percentOutput <= 1) {
       PIDLoopEngaged = false;
       anglerMotor.set(ControlMode.PercentOutput ,percentOutput);
@@ -150,31 +161,40 @@ public class Angler extends SubsystemBase {
   public void limiterStopMotor()
   {
     PIDLoopEngaged = false;
-    // Do NOT change the this.setValue variable for the limiter stopping the motor. It needs to remain where
+    // Do NOT change the this.setMovement variable for the limiter stopping the motor. It needs to remain where
     // it was so that we know which direction we were trying to go originally, and so that the motor doesn't
-    // periodically stop and start over and over while the limit switch is held
+    // periodically stop and start over and over while the limit switch is held. This is an EXCEPTION to the rule that the
+    // set() method should never be used.
     anglerMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
-  // TODO: If the motor's position control is set in an ABSOLUTE POSITION instead of a position difference, these two methods need to be fixed ASAP!!!
-  public void changeAngle(double angleChange)
-  {
-    double rotationsOfMotor = angleChange * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO;
-    if ((anglerMotor.getSelectedSensorPosition(AnglerConstants.kPID_LOOP_IDX) + rotationsOfMotor <= 80 * AnglerConstants.ROTATIONS_PER_DEGREE) &&
-        (anglerMotor.getSelectedSensorPosition(AnglerConstants.kPID_LOOP_IDX) + rotationsOfMotor >= 45 * AnglerConstants.ROTATIONS_PER_DEGREE)) {
-      this.engagePIDMotorPosition(rotationsOfMotor);
-    }
-  }
-
+  /**
+   * Moves the angler to the angle specified in degrees.
+   * @param newAngle degrees
+   * @author Jared Brown
+   */
   public void moveToAngle(double newAngle)
   {
-    double oldAngleInRotationsOfMotor = anglerMotor.getSelectedSensorPosition(AnglerConstants.kPID_LOOP_IDX);
-    double differenceInRotations = (positionAt45Deg + (newAngle * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO)) - oldAngleInRotationsOfMotor;
-    if ((newAngle <= 80) && (newAngle >= 45)) {
-      this.engagePIDMotorPosition(differenceInRotations);
+    if (newAngle >= AnglerConstants.kAnglerMinDegrees && newAngle <= AnglerConstants.kAnglerMaxDegrees) {
+      double angleInTicsPastMinimum = (newAngle - AnglerConstants.kAnglerMinDegrees) * AnglerConstants.TICS_PER_DEGREE;
+      if (motorZero == AnglerConstants.kAnglerMinDegrees) {
+        this.engagePIDMotorPosition(angleInTicsPastMinimum);
+      } else if (motorZero == AnglerConstants.kAnglerMaxDegrees) {
+        this.engagePIDMotorPosition(angleInTicsPastMinimum - AnglerConstants.MIN_MAX_TIC_DIFFERENCE);
+      }
     }
   }
 
+  /**
+   * Raises or lowers the angler by the given number of degrees. Positive is higher, negative is lower.
+   * @param angleChange degrees
+   * @author Jared Brown
+   */
+  public void changeAngle(double angleChange)
+  {
+    double changeInTics = angleChange * AnglerConstants.TICS_PER_DEGREE;
+    this.engagePIDMotorPosition(anglerMotor.getSelectedSensorPosition() + changeInTics);
+  }
 
   /**
    * Sets the velocity of the angler in degrees/sec
@@ -183,49 +203,30 @@ public class Angler extends SubsystemBase {
    */
   public void setVelocity(double degreesPerSecond)
   {
-    double rotationsPerMin = degreesPerSecond * AnglerConstants.ROTATIONS_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO * AnglerConstants.TICS_PER_REVOLUTION / 10;
+    double rotationsPerMin = degreesPerSecond * AnglerConstants.ROTATIONS_OF_MOTOR_PER_DEGREE * AnglerConstants.ANGLER_GEAR_RATIO * AnglerConstants.TICS_PER_REVOLUTION / 10;
     this.engagePIDMotorVelocity(rotationsPerMin);
   }
-
-
 
   public void zeroAtMin() {
     anglerMotor.setSelectedSensorPosition(0.0, AnglerConstants.kPID_LOOP_IDX, AnglerConstants.kTIMEOUT_MS);
     motorZero = AnglerConstants.kAnglerMinDegrees;
+    anglerMotor.setSelectedSensorPosition(0);
   }
 
   public void zeroAtMax() {
     anglerMotor.setSelectedSensorPosition(0.0, AnglerConstants.kPID_LOOP_IDX, AnglerConstants.kTIMEOUT_MS);
     motorZero = AnglerConstants.kAnglerMaxDegrees;
+    anglerMotor.setSelectedSensorPosition(0);
   }
 
   /**
    * Returns a value of the angle above the horizontal at which the Angler's encoder should read zero. This zero position can be changed
    * by running the command that sets the angler's zero position to either its minimum angle or maximum angle. If 0 is returned, the encoder
-   * has not been properly zeroed out and therefore has no reference point for position setting -- zero it out first.
+   * has not been properly zeroed out and therefore has no reference point for position setting -- zero it out first using the
+   * AnglerZeroAtMin or AnglerZeroAtMax commands.
    * @return
    */
   public double getAnglerZero() {return motorZero;}
-
-
-  /*
-  Proposed method for finding the position of the angler when robot starts (aka move to 45 degrees and set that as starting position
-  to use as a reference):
-
-    A command would do this. This command would initially call a method in this subsystem to set the velocity of the motor to the number
-    of degrees per second we want it to move backwards toward the 45 degree boundary. Then, this command constantly checks, using the
-    encoder, whether or not the motor is moving. The code to be written in periodic() of this subsystem will stop the motors when they
-    reach that limit switch. When the motors stop, the command that is running will end, and that command's end() method will call
-    a setter to be written in this subsystem that will set the position that the motor reads in rotations at that moment as the position
-    that corresponds to a 45 degree angle. Then, this can be used as a reference for setting other angles.
-
-    See method below \/\/\/
-  */
-
-  public void setPositionAt45Deg()
-  {
-    positionAt45Deg = anglerMotor.getSelectedSensorPosition(AnglerConstants.kPID_LOOP_IDX);
-  }
 
   public void shuffleboardVelocity()  
   {
@@ -233,16 +234,8 @@ public class Angler extends SubsystemBase {
     if (newVelocity != this.smartdashboardVelocity) 
     {
       this.smartdashboardVelocity = newVelocity;
-      //engagePIDMotor(this.smartdashboardVelocity, ControlType.kVelocity);
-    }
-  }
-
-  public void tunePID()
-  {
-    double newFF = SmartDashboard.getNumber("Angler FF", 0.0);
-    if (newFF != this.lastFF) {    
-      this.anglerMotor.config_kF(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[3], AnglerConstants.kTIMEOUT_MS);
-      this.lastFF = newFF;
+      // double velocityInTicsPer100ms = MATH...
+      // engagePIDMotorVelocity(this.smartdashboardVelocity);
     }
   }
 
@@ -258,11 +251,6 @@ public class Angler extends SubsystemBase {
    * @return Higher limiter value
    */
   public boolean getLimiterHigh() {return limiterHighEngaged;}
-
-
-  public void setFF(double newFF) {
-      this.anglerMotor.config_kF(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[3], AnglerConstants.kTIMEOUT_MS);
-  }
 
   public void putSmartDashboardControlCommands() {
     SmartDashboard.putNumber("Angler Position", 0);
@@ -280,13 +268,21 @@ public class Angler extends SubsystemBase {
     Logger.getInstance().recordOutput("Angler/Position", getAnglerPosition());
     //System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
 
+    // limiter stuff, DON'T MODIFY
+    double outputPercent = anglerMotor.getMotorOutputPercent();
+    if (outputPercent > 0) {
+      previousPercentDirection = 1;
+    } else if (outputPercent < 0) {
+      previousPercentDirection = -1;
+    }
+
     // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
-    if (!limitSwitch1.get() && (setValue < 0 || anglerMotor.getSelectedSensorVelocity() < 0)) {
+    if (!limitSwitch1.get() && (setMovement < 0 || outputPercent < 0 || previousPercentDirection == -1)) {
       limiterStopMotor();
       limiterLowEngaged = true;
       limiterHighEngaged = false;
       // System.out.println("LEFT LIMITER PRESSED ---------------");
-    } else if (!limitSwitch2.get() && (setValue > 0 || anglerMotor.getSelectedSensorVelocity() > 0)) {
+    } else if (!limitSwitch2.get() && (setMovement > 0 || outputPercent > 0 || previousPercentDirection == 1)) {
       limiterStopMotor();
       limiterHighEngaged = true;
       limiterLowEngaged = false;
@@ -301,6 +297,9 @@ public class Angler extends SubsystemBase {
     //   setValuesFromSmartDashboard();
     // }
 
+    // Safety checks to make sure the motor is not being powered while limit switches are engaged
+    SmartDashboard.putNumber("AnglerVoltage", anglerMotor.getMotorOutputVoltage());
+    SmartDashboard.putNumber("AnglerPctOutput", anglerMotor.getMotorOutputPercent());
   }
 
   public void runVoltage(double volts) {

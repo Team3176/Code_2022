@@ -12,20 +12,20 @@ public final class AnglerConstants {
     public static final int ANGLER_SPARK_CAN_ID = 6;
     public static final int kTIMEOUT_MS = 0; 
     public static final int kPID_LOOP_IDX = 0;
-    
 
     public static final double kRampRate = 2.0; // seconds to go from 0 to full power
 
+    public static final double  kAnglerMinDegrees = 45.0;
+    public static final double  kAnglerMaxDegrees = 80.0;
+    public static final double kDegreesPerSecondForZeroing = 5.0; // Degrees per second that the angler should move when finding the position of 45 degrees
+
+    public static final int TICS_PER_REVOLUTION = 2048;
     // Number of rotations of the motor that makes one rotation of the screw (on the outer shaft)
     public static final double ANGLER_GEAR_RATIO = 35.0;
-    // Number of rotations of the outer shaft to move the Angler by one degree
-    public static final double ROTATIONS_PER_DEGREE = 1.0; //TODO: FIND OUT THIS ACTUAL VALUE!!!
-    public static final int TICS_PER_REVOLUTION = 2048;
-
-    public static final double kAnglerMinDegrees = 45.0;
-    public static final double kAnglerMaxDegrees = 80.0;
-
-    public static final double kDegreesPerSecondForZeroing = 5.0; // Degrees per second that the angler should move when finding the position of 45 degrees
+    // Number of rotations of the motor to move the Angler by one degree
+    public static final double ROTATIONS_OF_MOTOR_PER_DEGREE = 1.0; //TODO: FIND OUT THIS ACTUAL VALUE!!!
+    public static final double TICS_PER_DEGREE = ROTATIONS_OF_MOTOR_PER_DEGREE * TICS_PER_REVOLUTION;
+    public static final double MIN_MAX_TIC_DIFFERENCE = TICS_PER_DEGREE * (kAnglerMaxDegrees - kAnglerMinDegrees);
 
     public static final int limiter1Channel = 0;
     public static final int limiter2Channel = 1;
