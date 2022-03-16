@@ -119,7 +119,7 @@ public class SwervePod2022 {
     private RelativeEncoder m_encoder;
 
     private ShuffleboardTab tab;
-    private NetworkTableEntry encoderPosEntry = tab.add("encoderPos", 0).getEntry();
+    private NetworkTableEntry NT_encoderPos = tab.add("encoderPos", 0).getEntry();
     private NetworkTableEntry NT_podAzimuth_setpoint_angle = tab.add("podAzimuth_setpoint_angle", 0).getEntry();
     private NetworkTableEntry NT_kP_Azimuth = tab.addPersistent("kP_Azimuth", 0).getEntry();
     private NetworkTableEntry NT_kI_Azimuth = tab.addPersistent("kI_Azimuth", 0).getEntry();
@@ -322,7 +322,6 @@ public class SwervePod2022 {
         //double optmizdAzimuthPos = this.podAzimuth;
         //double tics = rads2Tics(this.podAzimuth);
 
-        double turnOutput = m_turningPIDController2.calculate(this.azimuthEncoderPosition, optmizdAzimuthAbsPos);
 
         if (this.podThrust > (-Math.pow(10,-10)) && this.podThrust < (Math.pow(10,-10))) {      
             this.turnOutput = m_turningPIDController2.calculate(this.azimuthEncoderAbsPosition, this.lastEncoderPos);
@@ -428,7 +427,7 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPositionRad",this.azimuthEncoderAbsPosition);
         SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPositionDeg",azimuthEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("P"+this.id+"azimuthEncoderCANOffset", SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id]);
-        encoderPosEntry.setDouble(this.azimuthEncoderAbsPosition);
+        NT_encoderPos.setDouble(this.azimuthEncoderAbsPosition);
     }
 
     public double getEncoderPos() {
