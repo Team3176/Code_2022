@@ -1,5 +1,6 @@
 package team3176.robot.subsystems.drivetrain;
 
+import java.util.Map;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -26,6 +27,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -115,6 +117,14 @@ public class SwervePod2022 {
     //private ProfiledPIDController m_turningPIDController;
     private SwerveModuleState state;
     private RelativeEncoder m_encoder;
+
+    private ShuffleboardTab tab;
+    private NetworkTableEntry encoderPosEntry = tab.add("encoderPos", 0).getEntry();
+    private NetworkTableEntry NT_podAzimuth_setpoint_angle = tab.add("podAzimuth_setpoint_angle", 0).getEntry();
+    private NetworkTableEntry NT_kP_Azimuth = tab.addPersistent("kP_Azimuth", 0).getEntry();
+    private NetworkTableEntry NT_kI_Azimuth = tab.addPersistent("kI_Azimuth", 0).getEntry();
+    private NetworkTableEntry NT_kD_Azimuth = tab.addPersistent("kD_Azimuth", 0).getEntry();
+
 
     public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {
         this.id = id;
@@ -206,10 +216,7 @@ public class SwervePod2022 {
             }
         //} 
 
-        // this.thrustController.setNeutralMode(NeutralMode.Brake);
-        // this.thrustController.setNeutralMode(NeutralMode.Brake);
-
-        this.thrustController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        // this.thrustController.setNeutralMode(NeutralMode.Brake);podName
         //this.azimuthController.configSelectedFeedbackSensor(FeedbackDevice.m_encoder, 0, 0);   //TODO: investigate QuadEncoder vs CTRE_MagEncoder_Absolute.  Are the two equivalent?  Why QuadEncoder instead of CTRE_MagEncoder_Absolute
 
         /*
@@ -254,32 +261,31 @@ public class SwervePod2022 {
                      break;
         }
 
-        setupShuffleboard(this.idString);
+        setupShuffleboard();
     }
 
+
+
     public void tune() {
-        this.kP_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kP_Azimuth",0);
-        this.kI_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kI_Azimuth",0);
-        this.kD_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kD_Azimuth",0);
+        this.kP_Azimuth = NT_kP_Azimuth.getDouble(0);
+        this.kI_Azimuth = NT_kI_Azimuth.getDouble(0);
+        this.kD_Azimuth = NT_kD_Azimuth.getDouble(0);
         m_turningPIDController2.setP(this.kP_Azimuth);
         m_turningPIDController2.setI(this.kI_Azimuth);
         m_turningPIDController2.setD(this.kD_Azimuth);
-        SmartDashboard.putNumber("P"+(this.id)+".kP_Azimuth",this.kP_Azimuth);
-        SmartDashboard.putNumber("P"+(this.id)+".kI_Azimuth",this.kI_Azimuth);
-        SmartDashboard.putNumber("P"+(this.id)+".kD_Azimuth",this.kD_Azimuth);
+        NT_kP_Azimuth.setDouble(this.kP_Azimuth);
+        NT_kI_Azimuth.setDouble(this.kI_Azimuth);
+        NT_kD_Azimuth.setDouble(this.kD_Azimuth);
         
-       
         SmartDashboard.putNumber("P"+(this.id)+".AzimuthAbsOffset", SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[this.id]);
         this.kRampRate_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kRampRate_Azimuth", 0);
-
-        
-        
 
         this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth);
         //this.azimuthController.setSmartCurrentLimit(20);
         //this.azimuthController.burnFlash();
 
-        this.podAzimuth = SmartDashboard.getNumber("P"+(this.id)+".podAzimuth_setpoint_angle", SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[this.id]);
+        //this.podAzimuth = SmartDashboard.getNumber("P"+(this.id)+".podAzimuth_setpoint_angle", SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[this.id]);
+        this.podAzimuth = NT_podAzimuth_setpoint_angle.getDouble(0);
 
         //this.podAzimuth = 1;
         //System.out.println("podazimuth = "+this.podAzimuth);
@@ -295,6 +301,11 @@ public class SwervePod2022 {
         azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
 
     }
+
+
+
+
+
     /**
      * @param podThrust represents desired thrust of swervepod Range = -1 to 1 or
      *                 ft-per-sec?
@@ -417,6 +428,7 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPositionRad",this.azimuthEncoderAbsPosition);
         SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPositionDeg",azimuthEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("P"+this.id+"azimuthEncoderCANOffset", SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id]);
+        encoderPosEntry.setDouble(this.azimuthEncoderAbsPosition);
     }
 
     public double getEncoderPos() {
@@ -455,8 +467,37 @@ public class SwervePod2022 {
         SmartDashboard.putBoolean("P"+(this.id)+".On", false);
     }
 
-    public void setupShuffleboard(String podName) {
-        Shuffleboard.selectTab(podName);
+    public void initShuffleboard(){
+        this.tab = Shuffleboard.getTab(this.idString);
+    }
+
+    public void setupShuffleboard() {
+        Shuffleboard.getTab(this.idString)
+            .add("podAzimuth_setpoint_angle",SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id])
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", -3.16, "max", 3.16))
+            .withSize(2,1)
+            .withPosition(2,1)
+            .getEntry();
+        Shuffleboard.getTab(this.idString)
+            .add("kP_Azimuth", this.kP_Azimuth)
+            .withSize(1,1)
+            .withPosition(4,1)
+            .getEntry();
+        Shuffleboard.getTab(this.idString)
+            .add("kI_Azimuth", this.kI_Azimuth)
+            .withSize(1,1)
+            .withPosition(5,1)
+            .getEntry();
+        Shuffleboard.getTab(this.idString)
+            .add("kD_Azimuth", this.kD_Azimuth)
+            .withSize(1,1)
+            .withPosition(6,1)
+            .getEntry();
+
+
+
+
         //private NetworkTableEntry distanceEntry = tab.add("Distance to target", 0) .getEntry();
      
         //public void calculate() {

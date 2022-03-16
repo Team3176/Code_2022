@@ -40,7 +40,7 @@ public class PowerManagement extends SubsystemBase {
     public void periodic() {
         int ports = powerDistributionHub.getNumChannels();
         /**count++;
-         * if(count = 100) {
+         * if(count > 100) {
          *  getBatteryVoltage
          *  if(battVolt < 10)
          *      disableCompressor
