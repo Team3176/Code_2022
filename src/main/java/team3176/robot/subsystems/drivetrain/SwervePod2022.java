@@ -119,11 +119,11 @@ public class SwervePod2022 {
     private RelativeEncoder m_encoder;
 
     private ShuffleboardTab tab;
-    private NetworkTableEntry NT_encoderPos = tab.add(idString+"/encoderPos", 0).getEntry();
-    private NetworkTableEntry NT_podAzimuth_setpoint_angle = tab.add(idString+"/podAzimuth_setpoint_angle", 0).getEntry();
-    private NetworkTableEntry NT_kP_Azimuth = tab.addPersistent(idString+"/kP_Azimuth", 0).getEntry();
-    private NetworkTableEntry NT_kI_Azimuth = tab.addPersistent(idString+"/kI_Azimuth", 0).getEntry();
-    private NetworkTableEntry NT_kD_Azimuth = tab.addPersistent(idString+"/kD_Azimuth", 0).getEntry();
+    private NetworkTableEntry NT_encoderPos;
+    private NetworkTableEntry NT_podAzimuth_setpoint_angle;
+    private NetworkTableEntry NT_kP_Azimuth;
+    private NetworkTableEntry NT_kI_Azimuth;
+    private NetworkTableEntry NT_kD_Azimuth;
 
 
     public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {
@@ -260,7 +260,11 @@ public class SwervePod2022 {
             default: this.idString="podNoExist";
                      break;
         }
-
+        NetworkTableEntry NT_encoderPos = tab.add(idString+"/encoderPos", 0).getEntry();
+        NT_podAzimuth_setpoint_angle = tab.add(idString+"/podAzimuth_setpoint_angle", 0).getEntry();
+        NT_kP_Azimuth = tab.addPersistent(idString+"/kP_Azimuth", 0).getEntry();
+        NT_kI_Azimuth = tab.addPersistent(idString+"/kI_Azimuth", 0).getEntry();
+        NT_kD_Azimuth = tab.addPersistent(idString+"/kD_Azimuth", 0).getEntry();
         setupShuffleboard();
     }
 
