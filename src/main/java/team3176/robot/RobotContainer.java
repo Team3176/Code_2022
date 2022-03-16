@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import team3176.robot.commands.auton.*;
 import team3176.robot.commands.common.*;
 import team3176.robot.commands.teleop.*;
-import team3176.robot.commands.climbActive.*;
-import team3176.robot.commands.climbPassive.*;
+// import team3176.robot.commands.climbActive.*;
+// import team3176.robot.commands.climbPassive.*;
 import team3176.robot.subsystems.controller.*;
 import team3176.robot.subsystems.drivetrain.*;
 import team3176.robot.subsystems.indexer.*;
@@ -32,8 +32,8 @@ import team3176.robot.constants.*;
 import team3176.robot.util.Joystick.*;
 import team3176.robot.util.PowerManagement.*;
 import team3176.robot.util.XboxController.*;
-import team3176.robot.subsystems.ExampleSubsystem;
-import team3176.robot.commands.ExampleCommand;
+// import team3176.robot.subsystems.ExampleSubsystem;
+// import team3176.robot.commands.ExampleCommand;
 
 public class RobotContainer {
 
@@ -43,12 +43,12 @@ public class RobotContainer {
   private final Drivetrain m_Drivetrain;
   private final Vision m_Vision;
   private final Angler m_Angler;
-  private final Transfer m_Transfer;
+  // private final Feeder Feeder;
   private final Flywheel m_Flywheel;
   private final Indexer m_Indexer;
 
-  private ClimbActive m_ClimbActive;
-  private ClimbPassive m_ClimbPassive;
+  // private ClimbActive m_ClimbActive;
+  // private ClimbPassive m_ClimbPassive;
 
   private SendableChooser<String> m_autonChooser;
   private static final String m_autoOneRenameAfterAssigned = "s_optionOneRenameAlso";
@@ -75,7 +75,7 @@ public class RobotContainer {
     m_Vision = Vision.getInstance();
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
-    m_Transfer = Transfer.getInstance();
+    // m_Transfer = Transfer.getInstance();
 
     // if (MasterConstants.ISCLIMBPASSIVE) {
     //   m_ClimbPassive = ClimbPassive.getInstance();
