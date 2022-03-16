@@ -494,7 +494,8 @@ public class Drivetrain extends SubsystemBase {
     if(spinEncoderIdxCount++ > 25) { 
       for (int idx = 0; idx < (pods.size()); idx++) { 
         spinEncoderIdxCount = 0;
-        pods.get(idx).updateAzimuthEncoder(); 
+        //pods.get(idx).updateAzimuthEncoder(); 
+        //pods.get(idx).updateAzimuthAbsEncoder();
         //pods.get(0).podAzimuth = SmartDashboard.getNumber("P0.podSpin_setpoint_angle",0);
       }
     }

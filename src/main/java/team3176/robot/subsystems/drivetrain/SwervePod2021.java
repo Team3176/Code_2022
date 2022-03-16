@@ -144,7 +144,7 @@ public class SwervePod2021 {
         this.driveController.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
         this.spinController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);   //TODO: investigate QuadEncoder vs CTRE_MagEncoder_Absolute.  Are the two equivalent?  Why QuadEncoder instead of CTRE_MagEncoder_Absolute
 
-       
+      /* 
         if (this.id == 0 || this.id == 1) {
             this.spinController.setSensorPhase(SwervePodConstants2021.kSensorPhase);
             this.spinController.setInverted(SwervePodConstants2021.kMotorInverted);
@@ -153,7 +153,7 @@ public class SwervePod2021 {
             this.spinController.setSensorPhase(true);
             this.spinController.setInverted(true);
         }
-        
+       */ 
 
             //TODO: check out "Feedback Device Not Continuous"  under config tab in CTRE-tuner.  Is the available via API and set-able?  Caps encoder to range[-4096,4096], correct?
                 //this.spinController.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition), 0, 0);

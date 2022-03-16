@@ -62,18 +62,19 @@ public final class SwervePodConstants2022 {
                      //{0.001, 0.0, 0.0, 0.0},
                      //{0.55, 0.55, 0.55, 0.55},
                     // {.6, .6, .6, .6},
-                    {.06, .06, .06, .06},
+                    //{.00, .00, .00, .00},
+                    {1.5, 1.5, 1.5, 1.5},
         /* kI */    //{0.00065, 0.0, 0.0, 0.0},//<-Jared N550 internal encoder
         /* kI */    //{0.0, 0.0, 0.0, 0.0},
         /* kI */    //{0.05, 0.05, 0.05, 0.05},
                     //{.2, .2, .2, .2},
-                    {0,0,0,0},
+                    {0.1,0.1,0.1,0.1},
         ///* kD */    {25.0, 50.0, 500.0, 50.0},
                     //{0.16, 50.0, 50.0, 50.0},//<-Jared N550 internal encoder
                      //{0.0, 0.0, 0.0, 0.0},
                      //{0.001, 0.001, 0.001, 0.001},
                      //{.05, .05, .05, .05},
-                     {.0, .0, .0, .0},
+                     {.0001, .0001, .0001, .0001},
     //    /* kD */    {25.0, 50.0, 500.0, 100.0},
     /* kF */    {0.0, 0.0, 0.0, 0.0},    // Feed forward gain constant//<-Jared N550 internal encoder
                 //{10, 0.0, 0.0, 0.0},   //kIz constant//<-Jared N550 internal encoder
@@ -104,8 +105,9 @@ public final class SwervePodConstants2022 {
     //public static final double[] AZIMUTH_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
     public static final double[] AZIMUTH_OFFSET =AZIMUTH_OFFSET_2022;
 
-    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_POSITION = {120.410, -65.830, 99.404, -159.082};
-
+    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_SHOOTER_IS_BOT_FRONT = {120.234,110.742, -77.168,-133.682};
+    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {-84.902, -125.156, 161.455, 131.045}; 
+    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_POSITION = AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT;
     public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 14.00;  //estimated loaded speed per Nathan;
 
     public static final double METERS_TO_FEET_CONSTANT = 3.28084;
@@ -119,7 +121,7 @@ public final class SwervePodConstants2022 {
     public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 144000 * Math.PI;
     //public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 1;
 
-    public static final double AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT = 1.00;
+    public static final double AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT = .50;
 
 }
 

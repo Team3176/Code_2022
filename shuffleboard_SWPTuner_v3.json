@@ -11,28 +11,6 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "0,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Switch",
-              "_source0": "network_table:///SmartDashboard/P0.On",
-              "_title": "P0.On"
-            }
-          },
-          "0,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P0.podSpin_encoder",
-              "_title": "P0.podSpin_encoder"
-            }
-          },
           "10,1": {
             "size": [
               2,
@@ -44,9 +22,9 @@
               "_title": "P0.optmizdSpinPos"
             }
           },
-          "0,3": {
+          "0,2": {
             "size": [
-              4,
+              3,
               3
             ],
             "content": {
@@ -58,13 +36,14 @@
               "Y-axis/Automatic bounds": false,
               "Y-axis/Upper bound": 3.0,
               "Y-axis/Lower bound": -3.0,
-              "Y-axis/Unit": "ul"
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/P0.turnOutput": true
             }
           },
-          "1,1": {
+          "0,1": {
             "size": [
               3,
-              2
+              1
             ],
             "content": {
               "_type": "Network Table Tree",
@@ -138,17 +117,6 @@
               "_title": "SmartDashboard/P0.radianPos"
             }
           },
-          "1,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P0.azimuthEncoderPosition",
-              "_title": "P0.azimuthEncoderPosition"
-            }
-          },
           "3,0": {
             "size": [
               2,
@@ -199,7 +167,7 @@
           },
           "5,0": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
@@ -219,7 +187,60 @@
               "_title": "P0.podAzimuth_encoder"
             }
           },
-          "8,2": {
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0.AzimuthAbsOffset",
+              "_title": "SmartDashboard/P0.AzimuthAbsOffset"
+            }
+          },
+          "9,2": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///SmartDashboard/P0.radianError_preOpt",
+              "_title": "SmartDashboard/P0.radianError_preOpt",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": true,
+              "Y-axis/Upper bound": 1.0,
+              "Y-axis/Lower bound": -1.0,
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/P0.radianError_preOpt": true
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/P0.On",
+              "_title": "P0.On",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "12,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0.azimuthEncoderPosition",
+              "_title": "P0.azimuthEncoderPosition"
+            }
+          },
+          "12,4": {
             "size": [
               1,
               1
@@ -230,59 +251,261 @@
               "_title": "P1.azimuthEncoderPosition"
             }
           },
-          "9,2": {
+          "3,2": {
             "size": [
-              1,
-              1
+              4,
+              3
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P1.podAzimuth_setpoint_angle",
-              "_title": "P1.podAzimuth_setpoint_angle"
+              "_type": "Graph",
+              "_source0": "network_table:///SmartDashboard/P0.azimuthEncoderAbsPositionDeg",
+              "_title": "SmartDashboard/P0.azimuthEncoderAbsPositionDeg",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": true,
+              "Y-axis/Upper bound": 1.0,
+              "Y-axis/Lower bound": -1.0,
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/P0.azimuthEncoderAbsPositionDeg": true
             }
           },
-          "10,2": {
+          "0,0": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P1.kP_Azimuth",
-              "_title": "P1.kP_Azimuth"
+              "_source0": "network_table:///SmartDashboard/P0.azimuthEncoderAbsPositionDeg",
+              "_title": "SmartDashboard/P0.azimuthEncoderAbsPositionDeg"
             }
           },
-          "11,2": {
+          "1,0": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P1.kI_Azimuth",
-              "_title": "P1.kI_Azimuth"
+              "_source0": "network_table:///SmartDashboard/P0.azimuthEncoderAbsPositionRad",
+              "_title": "SmartDashboard/P0.azimuthEncoderAbsPositionRad"
             }
           },
-          "12,3": {
+          "2,0": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P1.kD_Azimuth",
-              "_title": "P1.kD_Azimuth"
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/isFieldCentricOn",
+              "_title": "isFieldCentricOn",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           },
-          "12,4": {
+          "7,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/P0.azimuthEncoderHasReset",
+              "_title": "P0.azimuthEncoderHasReset",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "8,2": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P1.kRampRate_Azimuth",
-              "_title": "P1.kRampRate_Azimuth"
+              "_source0": "network_table:///SmartDashboard/P0.AZIMUTHCmd",
+              "_title": "P0.AZIMUTHCmd"
+            }
+          },
+          "7,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0 PIDencoderPOS",
+              "_title": "P0 PIDencoderPOS"
+            }
+          },
+          "8,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0 PIDsetpoint",
+              "_title": "P0 PIDsetpoint"
+            }
+          },
+          "7,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0 PIDOutput",
+              "_title": "P0 PIDOutput"
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P0 PIDturnOutput",
+              "_title": "P0 PIDturnOutput"
+            }
+          },
+          "0,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/P1.azimuthEncoderHasReset",
+              "_title": "P1.azimuthEncoderHasReset",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "1,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1.radianPos",
+              "_title": "P1.radianPos"
+            }
+          },
+          "2,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1.radianError_preOpt",
+              "_title": "P1.radianError_preOpt"
+            }
+          },
+          "3,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1.radianError_postOpt",
+              "_title": "P1.radianError_postOpt"
+            }
+          },
+          "4,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1.encoderError",
+              "_title": "P1.encoderError"
+            }
+          },
+          "5,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1.AZIMUTHCmd",
+              "_title": "P1.AZIMUTHCmd"
+            }
+          },
+          "6,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1 PIDencoderPOS",
+              "_title": "P1 PIDencoderPOS"
+            }
+          },
+          "7,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1 PIDsetpoint",
+              "_title": "P1 PIDsetpoint"
+            }
+          },
+          "8,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1 PIDOutput",
+              "_title": "P1 PIDOutput"
+            }
+          },
+          "9,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P1 PIDturnOutput",
+              "_title": "P1 PIDturnOutput"
+            }
+          },
+          "10,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/P2.azimuthEncoderHasReset",
+              "_title": "P2.azimuthEncoderHasReset",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "11,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P2.radianPos",
+              "_title": "P2.radianPos"
             }
           },
           "12,5": {
@@ -292,101 +515,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P1.podAzimuth_encoder",
-              "_title": "P1.podAzimuth_encoder"
-            }
-          },
-          "8,3": {
-            "size": [
-              4,
-              3
-            ],
-            "content": {
-              "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/P0.podAzimuth_encoder",
-              "_title": "SmartDashboard/P0.podAzimuth_encoder",
-              "Graph/Visible time": 30.0,
-              "Graph/X-axis auto scrolling": true,
-              "Y-axis/Automatic bounds": true,
-              "Y-axis/Upper bound": 1.0,
-              "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/P0.podAzimuth_encoder": true
-            }
-          },
-          "4,3": {
-            "size": [
-              4,
-              3
-            ],
-            "content": {
-              "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/P0.azimuthEncoderPosition",
-              "_title": "SmartDashboard/P0.azimuthEncoderPosition",
-              "Graph/Visible time": 30.0,
-              "Graph/X-axis auto scrolling": true,
-              "Y-axis/Automatic bounds": true,
-              "Y-axis/Upper bound": 1.0,
-              "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/P0.azimuthEncoderPosition": true
-            }
-          },
-          "0,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/P1.On",
-              "_title": "P1.On",
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "4,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P2.azimuthEncoderPosition",
-              "_title": "P2.azimuthEncoderPosition"
-            }
-          },
-          "5,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P2.podAzimuth_setpoint_angle",
-              "_title": "P2.podAzimuth_setpoint_angle"
-            }
-          },
-          "6,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P2.kP_Azimuth",
-              "_title": "P2.kP_Azimuth"
-            }
-          },
-          "7,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/P2.kI_Azimuth",
-              "_title": "P2.kI_Azimuth"
+              "_source0": "network_table:///SmartDashboard/P2.radianError_preOpt",
+              "_title": "P2.radianError_preOpt"
             }
           }
         }
@@ -597,24 +727,24 @@
                 {
                   "_type": "Text View",
                   "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[1,2]/Value",
-                  "_title": "LiveWindow/Ungrouped/DoubleSolenoid[1,2]/Value"
+                  "_title": "DoubleSolenoid[1,2]/Value"
                 },
                 {
                   "_type": "Text View",
                   "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[1,0]/Value",
-                  "_title": "LiveWindow/Ungrouped/DoubleSolenoid[1,0]/Value"
+                  "_title": "DoubleSolenoid[1,0]/Value"
                 },
                 {
                   "_type": "Boolean Box",
                   "_source0": "network_table:///LiveWindow/Ungrouped/Compressor[1]/Pressure switch",
-                  "_title": "LiveWindow/Ungrouped/Compressor[1]/Pressure switch",
+                  "_title": "Compressor[1]/Pressure switch",
                   "Colors/Color when true": "#7CFC00FF",
                   "Colors/Color when false": "#8B0000FF"
                 },
                 {
                   "_type": "Boolean Box",
                   "_source0": "network_table:///LiveWindow/Ungrouped/Compressor[1]/Enabled",
-                  "_title": "LiveWindow/Ungrouped/Compressor[1]/Enabled",
+                  "_title": "Compressor[1]/Enabled",
                   "Colors/Color when true": "#7CFC00FF",
                   "Colors/Color when false": "#8B0000FF"
                 },
@@ -757,6 +887,38 @@
                   "_type": "Text View",
                   "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[1,4]/Value",
                   "_title": "DoubleSolenoid[1,4]/Value"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[9]",
+                  "_title": "PIDController[9]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[12]",
+                  "_title": "PIDController[12]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[11]",
+                  "_title": "PIDController[11]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[13]",
+                  "_title": "PIDController[13]"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[5]/Value",
+                  "_title": "DigitalInput[5]/Value",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[10]",
+                  "_title": "PIDController[10]"
                 }
               ]
             }
@@ -856,7 +1018,7 @@
     }
   ],
   "windowGeometry": {
-    "x": 0.0,
+    "x": -8.0,
     "y": 0.0,
     "width": 1920.0,
     "height": 1040.0
