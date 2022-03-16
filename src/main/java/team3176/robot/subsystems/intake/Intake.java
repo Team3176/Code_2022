@@ -18,7 +18,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.constants.IntakeConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 import team3176.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
 
@@ -37,6 +38,7 @@ public class Intake extends SubsystemBase {
   private Intake(IntakeIO io) 
   {
     this.io = io;
+    Shuffleboard.getTab("Intake");
   }
 
   public void Extend() 
@@ -75,9 +77,10 @@ public class Intake extends SubsystemBase {
 
     public void putSmartDashboardControlCommands() 
     {
-     SmartDashboard.putNumber("Intake Falcon PCT", 0);
-     SmartDashboard.putBoolean("Intake Piston Setting", true);
-     isSmartDashboardTestControlsShown = true;
+      Shuffleboard.selectTab("Intake");
+      SmartDashboard.putNumber("Intake Falcon PCT", 0);
+      SmartDashboard.putBoolean("Intake Piston Setting", true);
+      isSmartDashboardTestControlsShown = true;
     }
 
    public void setValuesFromSmartDashboard() {
