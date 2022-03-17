@@ -40,14 +40,17 @@ public class PowerManagement extends SubsystemBase {
     @Override
     public void periodic() {
         int ports = powerDistributionHub.getNumChannels();
-        // double battVolt = powerDistributionHub.getVoltage();
-        // if(battVolt < 10) {
-        // Compressor.disableCompressor
-        // } if(battVolt > 10 && !compressor)
-        // enableCompressor
-        // }
-        
-        
+        /*
+        count++;
+          if(count > 100) {
+           double battVolt = powerDistributionHub.getVoltage();     getBatteryVoltage
+           if(battVolt < 10)
+               disableCompressor
+           if(battVolt > 10 && !compressor)
+               enableCompressor
+           count = 0;
+          }
+       */ 
     }
 
     public void clearStickyFaults()
