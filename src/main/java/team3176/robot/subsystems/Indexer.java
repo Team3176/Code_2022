@@ -421,4 +421,8 @@ public class Indexer extends SubsystemBase {
 
     if(this.spitting) {}
   }
+
+  public boolean getFirstPos() {return firstPos;}
+  public boolean getSecondPos() {return secondPos;}
+  public boolean getThirdPos() {return thirdPos;}
 }

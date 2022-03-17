@@ -144,7 +144,7 @@ public class RobotContainer {
     // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     // m_Controller.getOp_Start_DS().whileActiveOnce(new Intaking());
 
-    m_Controller.getOp_A().whileActiveOnce(new Intaking());
+    m_Controller.getOp_A().whileActiveOnce(new IntakingDirect());
     m_Controller.getOp_X().whenActive(new FlywheelVelocityPID());
     m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
     m_Controller.getOp_B().whenActive(new FlywheelStop());
@@ -168,8 +168,8 @@ public class RobotContainer {
     m_Controller.getOp_A_DS().whenActive(new ClimbPassivePistonEngage());
     m_Controller.getOp_B_DS().whenActive(new ClimbPassivePistonRetract());
 
-    m_Controller.getOp_RightTrigger().whenActive(new ShootTwoBalls());
-    m_Controller.getOp_LeftTrigger().whenActive(new ShootOneBall());
+    // m_Controller.getOp_RightTrigger().whenActive(new ShootTwoBalls());
+    // m_Controller.getOp_LeftTrigger().whenActive(new ShootOneBall());
 
     // m_Controller.getOp_A_DS().whenActive(new WinchUp());
     // m_Controller.getOp_B_DS().whenActive(new PrimaryPistonToggle()); ////
