@@ -23,7 +23,8 @@ public class PowerManagement extends SubsystemBase {
 
     public PowerManagement() {
         // Change ModuleType to kCTRE if working with a CTRE PDP!!!!!
-        powerDistributionHub = new PowerDistribution(1, ModuleType.kCTRE);
+        powerDistributionHub = new PowerDistribution(1, ModuleType.kRev);
+        // boolean compressor = true;
     }
 
     private ArrayList<Double> getPortData() {

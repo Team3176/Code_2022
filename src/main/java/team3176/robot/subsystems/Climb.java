@@ -60,9 +60,11 @@ public class Climb extends SubsystemBase {
       //winchSecondaryMotor = new TalonFX(ClimbConstants.FALCON2_CAN_ID /*Available Number*/); //TODO:CHECK IF WE NEED MORE NUMBERS
       activeSecondaryOne = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.ACTIVE_SECONDARY_PISTON_ONE_OPEN_ID, ClimbConstants.ACTIVE_SECONDARY_PISTON_ONE_CLOSE_ID);
       activeSecondaryTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.ACTIVE_SECONDARY_PISTON_TWO_OPEN_ID, ClimbConstants.ACTIVE_SECONDARY_PISTON_TWO_CLOSE_ID);
+      armOneLimitOne = new DigitalInput(ClimbConstants.DIO_ARM_ONE_LIMIT_ONE);
       armOneLimitTwo = new DigitalInput(ClimbConstants.DIO_ARM_ONE_LIMIT_TWO);
       armOneLimitThree = new DigitalInput(ClimbConstants.DIO_ARM_ONE_LIMIT_THREE);
       armOneLimitFour = new DigitalInput(ClimbConstants.DIO_ARM_ONE_LIMIT_FOUR);
+      armTwoLimitOne = new DigitalInput(ClimbConstants.DIO_ARM_TWO_LIMIT_ONE);
       armTwoLimitTwo = new DigitalInput(ClimbConstants.DIO_ARM_TWO_LIMIT_TWO);
       armTwoLimitThree = new DigitalInput(ClimbConstants.DIO_ARM_TWO_LIMIT_THREE);
       armTwoLimitFour = new DigitalInput(ClimbConstants.DIO_ARM_TWO_LIMIT_FOUR);
@@ -95,10 +97,9 @@ public class Climb extends SubsystemBase {
     }
     
     passiveOne = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.PASSIVE_PISTON_ONE_OPEN_ID, ClimbConstants.PASSIVE_PISTON_ONE_CLOSE_ID);
-    passiveTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.PASSIVE_PISTON_TWO_OPEN_ID, ClimbConstants.PASSIVE_PISTON_TWO_CLOSE_ID);
+    // passiveTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.PASSIVE_PISTON_TWO_OPEN_ID, ClimbConstants.PASSIVE_PISTON_TWO_CLOSE_ID);
 
-    armOneLimitOne = new DigitalInput(ClimbConstants.DIO_ARM_ONE_LIMIT_ONE);
-    armTwoLimitOne = new DigitalInput(ClimbConstants.DIO_ARM_TWO_LIMIT_ONE);
+    
 
     isPassivePistonEngaged = false;    
   }
@@ -153,7 +154,7 @@ public class Climb extends SubsystemBase {
 
   public void passivePistonsEngage() {
     passiveOne.set(Value.kForward);
-    passiveTwo.set(Value.kForward);
+    // passiveTwo.set(Value.kForward);
     isPassivePistonEngaged = true;
   }
 
@@ -163,7 +164,7 @@ public class Climb extends SubsystemBase {
 
   public void passivePistonsRetract() {
     passiveOne.set(Value.kReverse);
-    passiveTwo.set(Value.kReverse);
+    // passiveTwo.set(Value.kReverse);
     isPassivePistonEngaged = false;
   }
 
@@ -228,11 +229,11 @@ public class Climb extends SubsystemBase {
   /**Returns the State of the Secondary Pistons*/
   public boolean getSecondaryPistonEngaged() {return isSecondaryPistonEngaged;}
 
-  public boolean getArmOneLimitOne() {return armOneLimitOne.get();}
+  public boolean getArmOneLimitOne() {if(!MasterConstants.ISCLIMBPASSIVE){return armOneLimitOne.get();}return false;}
   public boolean getArmOneLimitTwo() {if(!MasterConstants.ISCLIMBPASSIVE){return armOneLimitTwo.get();}return false;}
   public boolean getArmOneLimitThree() {if(!MasterConstants.ISCLIMBPASSIVE){return armOneLimitThree.get();}return false;}
   public boolean getArmOneLimitFour() {if(!MasterConstants.ISCLIMBPASSIVE){return armOneLimitFour.get();}return false;}
-  public boolean getArmTwoLimitOne() {return armTwoLimitOne.get();}
+  public boolean getArmTwoLimitOne() {if(!MasterConstants.ISCLIMBPASSIVE){return armTwoLimitOne.get();}return false;}
   public boolean getArmTwoLimitTwo() {if(!MasterConstants.ISCLIMBPASSIVE){return armTwoLimitTwo.get();}return false;}
   public boolean getArmTwoLimitThree() {if(!MasterConstants.ISCLIMBPASSIVE){return armTwoLimitThree.get();}return false;}
   public boolean getArmTwoLimitFour() {if(!MasterConstants.ISCLIMBPASSIVE){return armTwoLimitFour.get();}return false;}
@@ -262,21 +263,21 @@ public class Climb extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(mode.equals("test")) {
-      if(!MasterConstants.ISCLIMBPASSIVE) {
-        if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
-        setValuesFromSmartDashboard();
-      }
-    }
+    // if(mode.equals("test")) {
+    //   if(!MasterConstants.ISCLIMBPASSIVE) {
+    //     if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
+    //     setValuesFromSmartDashboard();
+    //   }
+    // }
 
-    if(MasterConstants.ISCLIMBPASSIVE && !getArmOneLimitOne() && !getArmTwoLimitOne()) {
-      passivePistonsEngage();
-    }
+    // if(MasterConstants.ISCLIMBPASSIVE && !getArmOneLimitOne() && !getArmTwoLimitOne()) {
+    //   passivePistonsEngage();
+    // }
 
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Climb", inputs);
-    Logger.getInstance().recordOutput("LimitSwitchOne", getArmOneLimitOne());
-    Logger.getInstance().recordOutput("LimitSwitchTwo", getArmTwoLimitOne());
+    // Logger.getInstance().recordOutput("LimitSwitchOne", getArmOneLimitOne());
+    // Logger.getInstance().recordOutput("LimitSwitchTwo", getArmTwoLimitOne());
   }
 
   @Override
