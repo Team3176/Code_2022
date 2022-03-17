@@ -211,10 +211,11 @@ public class SwervePod2022 {
         //     azimuthController.setInverted(true);
         //}
         //if (MasterConstants.IS_PRACTICE_BOT == false) {
-            if (this.id == 2 || this.id == 3) {
+            //if (this.id == 2 || this.id == 3) {
+            if (this.id == 2 ) {
                 this.thrustController.setInverted(false);
             }
-            if (this.id ==0) {
+            if (this.id ==0 || this.id == 3) {
                 this.thrustController.setInverted(true);
             }
         //} 

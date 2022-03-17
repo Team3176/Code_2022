@@ -23,7 +23,8 @@ public class PowerManagement extends SubsystemBase {
 
     public PowerManagement() {
         // Change ModuleType to kCTRE if working with a CTRE PDP!!!!!
-        powerDistributionHub = new PowerDistribution(1, ModuleType.kCTRE);
+        powerDistributionHub = new PowerDistribution(1, ModuleType.kRev);
+        // boolean compressor = true;
     }
 
     private ArrayList<Double> getPortData() {
@@ -39,16 +40,13 @@ public class PowerManagement extends SubsystemBase {
     @Override
     public void periodic() {
         int ports = powerDistributionHub.getNumChannels();
-        /**count++;
-         * if(count > 100) {
-         *  getBatteryVoltage
-         *  if(battVolt < 10)
-         *      disableCompressor
-         *  if(battVolt > 10 && !compressor)
-         *      enableCompressor
-         *  count = 0;
-         * }
-         */
+        // double battVolt = powerDistributionHub.getVoltage();
+        // if(battVolt < 10) {
+        // Compressor.disableCompressor
+        // } if(battVolt > 10 && !compressor)
+        // enableCompressor
+        // }
+        
         
     }
 

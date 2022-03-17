@@ -154,17 +154,22 @@ public class RobotContainer {
     // m_Controller.getOp_Start().whenActive(new FeederToggle());
     // m_Controller.getOp_Back().whenActive(new ShootReset());
 
-    m_Controller.getOp_A_FS().whenActive(new IndexerHoldingMode());
-    m_Controller.getOp_B_FS().whenActive(new IndexerLoadingMode());
-    m_Controller.getOp_Y_FS().whenActive(new IndexerShootingMode());
-    m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
-    m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
-    m_Controller.getOp_Back_FS().whenActive(new ShootReset());
+    // m_Controller.getOp_A_FS().whenActive(new IndexerHoldingMode());
+    m_Controller.getOp_A_FS().whenActive(new ExtendIntake());
+    m_Controller.getOp_B_FS().whenActive(new RetractIntake());
+    m_Controller.getOp_Y_FS().whileActiveOnce(new IndexerBackWhenHeld());
+    m_Controller.getOp_X_FS().whileActiveOnce(new IndexerForwardWhenHeld());
+
+    // m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
+
+    // m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
+    // m_Controller.getOp_Back_FS().whenActive(new ShootReset());
+
+    m_Controller.getOp_A_DS().whenActive(new ClimbPassivePistonEngage());
+    m_Controller.getOp_B_DS().whenActive(new ClimbPassivePistonRetract());
 
     m_Controller.getOp_RightTrigger().whenActive(new ShootTwoBalls());
     m_Controller.getOp_LeftTrigger().whenActive(new ShootOneBall());
-
-
 
     // m_Controller.getOp_A_DS().whenActive(new WinchUp());
     // m_Controller.getOp_B_DS().whenActive(new PrimaryPistonToggle()); ////
@@ -181,12 +186,12 @@ public class RobotContainer {
     // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbRetract());
     // m_Controller.getOp_DPAD_RIGHT().whenActive(new ClimbDisableToggle());
 
-    m_Angler.moveToAngle(m_Controller.getOp_LeftY());
+    // m_Angler.moveToAngle(m_Controller.getOp_LeftY());
 
-    m_Controller.getOp_A_DS().whenActive(new AnglerPctOutput());
-    m_Controller.getOp_B_DS().whenActive(new FeederPctOutput());
-    m_Controller.getOp_X_DS().whenActive(new FlywheelPctOutput());
-    m_Controller.getOp_Y_DS().whenActive(new I2CTest());
+    // m_Controller.getOp_A_DS().whenActive(new AnglerPctOutput());
+    // m_Controller.getOp_B_DS().whenActive(new FeederPctOutput());
+    // m_Controller.getOp_X_DS().whenActive(new FlywheelPctOutput());
+    // m_Controller.getOp_Y_DS().whenActive(new I2CTest());
   }
 
   public void AutonInitRobotCentric() {
