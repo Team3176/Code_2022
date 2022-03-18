@@ -21,7 +21,7 @@ public class ShootSetVals extends CommandBase {
   @Override
   public void initialize() {
     m_Intake.spinVelocityPercent(0.5);
-    m_Indexer.setVelocity(1.0);
+    m_Indexer.setVelocity(0.8);
     m_Feeder.setVelocityPID(0.5);
   }
 
