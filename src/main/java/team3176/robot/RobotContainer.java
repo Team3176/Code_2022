@@ -62,10 +62,10 @@ public class RobotContainer {
   // private static final String m_MS = "s_Move&Shoot";
   // private static final String m_S = "s_Shoot";
   private static final String m_M = "s_ExitTarmac";
-  // private static final String m_6L = "s_Move6inToTheLeft";
-  // private static final String m_6R = "s_Move6inToTheRight";
-  // private static final String m_6F = "s_Move6inToTheFront";
-  // private static final String m_6B = "s_Move6inToTheBack";
+  private static final String m_6L = "s_Move6inToTheLeft";
+  private static final String m_6R = "s_Move6inToTheRight";
+  private static final String m_6F = "s_Move6inToTheFront";
+  private static final String m_6B = "s_Move6inToTheBack";
   private static final String m_TS = "s_ShootAndLeave";
   private static final String m_SI = "s_ShootAndLeaveAndShoot"; 
   
@@ -113,10 +113,10 @@ public class RobotContainer {
     // m_autonChooser.addOption("Auto: Sit Shoot (Mission: Bare Minimum)", m_S);
     m_autonChooser.addOption("Auto: ExitTarmac", m_M);
     // m_autonChooser.addOption("Auto: Block", m_B);
-    // m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
-    // m_autonChooser.addOption("Auto: Move 6in Right", m_6R);
-    // m_autonChooser.addOption("Auto: Move 6in Forward", m_6F);
-    // m_autonChooser.addOption("Auto: Move 6in Backwards", m_6B);
+    m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
+    m_autonChooser.addOption("Auto: Move 6in Right", m_6R);
+    m_autonChooser.addOption("Auto: Move 6in Forward", m_6F);
+    m_autonChooser.addOption("Auto: Move 6in Backwards", m_6B);
     m_autonChooser.addOption("Auto: Shoot and Exit Tarmac", m_TS);
     m_autonChooser.addOption("Auto: Shoot and Intake and Second Shoot", m_SI);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
@@ -215,10 +215,10 @@ public class RobotContainer {
     // if(chosen.equals(m_S)) return new AutonInstantShoot();
     if(chosen.equals(m_M)) return new AutonExitTarmac();
     // if(chosen.equals(m_B)) return new AutonBlock();
-    // if(chosen.equals(m_6L)) return new AutonMove(6, Math.PI/2);
-    // if(chosen.equals(m_6R)) return new AutonMove(6, (3 * Math.PI)/2);
-    // if(chosen.equals(m_6F)) return new AutonMove(6, 0);
-    // if(chosen.equals(m_6B)) return new AutonMove(6, Math.PI);
+    if(chosen.equals(m_6L)) return new TrapezoidDrive(-6, 0);
+    if(chosen.equals(m_6R)) return new TrapezoidDrive(6, 0);
+    if(chosen.equals(m_6F)) return new TrapezoidDrive(0, 6);
+    if(chosen.equals(m_6B)) return new TrapezoidDrive(0, -6);
     if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
     if(chosen.equals(m_SI)) return new Auto2Balls();
     
