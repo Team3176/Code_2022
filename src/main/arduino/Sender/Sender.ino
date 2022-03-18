@@ -32,7 +32,6 @@ void loop() {
     // For Debug
     // Serial.println(valArray[i]);
   }
-  delay(500);
 }
 
 // Sends valArray data to the reciever when reciever asks for the data
