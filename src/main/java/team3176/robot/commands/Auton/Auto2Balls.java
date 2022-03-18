@@ -37,8 +37,8 @@ public class Auto2Balls extends SequentialCommandGroup {
         new IndexerStop(),
         new IntakeSpint()
       ),
-      new TrapezoidDrive(8, -1),
       new AutonRotate(5, -20),
+      new TrapezoidDrive(8, -1),
       new Intaking(),
       new TimeDelay(2),
       new TrapezoidDrive(-8, 1),
