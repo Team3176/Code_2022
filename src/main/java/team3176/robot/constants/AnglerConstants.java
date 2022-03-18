@@ -16,7 +16,7 @@ public final class AnglerConstants {
     public static final double kRampRate = 2.0; // seconds to go from 0 to full power
 
     public static final double  kAnglerMinDegrees = 45.0;
-    public static final double  kAnglerMaxDegrees = 80.0;
+    public static final double  kAnglerMaxDegrees = 90.0;
     public static final double kDegreesPerSecondForZeroing = 5.0; // Degrees per second that the angler should move when finding the position of 45 degrees
 
     public static final int TICS_PER_REVOLUTION = 2048;
