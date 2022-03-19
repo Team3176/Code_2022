@@ -13,6 +13,7 @@ import team3176.robot.commands.Intake.IntakeSpint;
 import team3176.robot.commands.Shooter.FeederStop;
 import team3176.robot.commands.Shooter.FlywheelBackspinVelocityPID;
 import team3176.robot.commands.Shooter.FlywheelStop;
+import team3176.robot.commands.Shooter.FlywheelVelocityPID;
 import team3176.robot.commands.Shooter.FlywheelVelocityToggle;
 import team3176.robot.commands.Util.TimeDelay;
 
@@ -20,9 +21,9 @@ public class AutoInTarmacShoot extends SequentialCommandGroup {
   public AutoInTarmacShoot() {
     addCommands(
       new SequentialCommandGroup(
-        new FlywheelBackspinVelocityPID(),
+        new FlywheelVelocityPID(),
         new TimeDelay(2),
-        new ShootSetVals()
+        new AutonShootSetVals()
       ),
       new TimeDelay(2), //TODO: TUNE
       new ParallelCommandGroup(

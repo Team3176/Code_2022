@@ -310,14 +310,14 @@ public class SwervePod2022 {
         double optmizdAzimuthAbsPos = optimizeAzimuthAbsPos(this.podAzimuth);
 
         // SmartDashboard.putNumber("pt.optmizdazimuthPos", optmizdAzimuthAbsPos);
-        SmartDashboard.putNumber("pt.azimuthEncoderAbsPos", this.azimuthEncoderAbsPosition);
+        // SmartDashboard.putNumber("pt.azimuthEncoderAbsPos", this.azimuthEncoderAbsPosition);
         SmartDashboard.putNumber("pt.azimuthEncoderAbsPosDeg", Math.toDegrees(this.azimuthEncoderAbsPosition));
 
 
         turnOutput = m_turningPIDController2.calculate(this.azimuthEncoderAbsPosition, optmizdAzimuthAbsPos);
         //double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, this.podAzimuth);
 
-        SmartDashboard.putNumber("pt.turnOutput", turnOutput);
+        // SmartDashboard.putNumber("pt.turnOutput", turnOutput);
         azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
 
     }
@@ -375,7 +375,7 @@ public class SwervePod2022 {
         radianPos = (this.encoderPos);
         SmartDashboard.putNumber("P"+(this.id)+".radianPos",radianPos);
         radianError = angle - radianPos;
-        SmartDashboard.putNumber("P"+(this.id)+".radianError_preOpt",radianError);
+        // SmartDashboard.putNumber("P"+(this.id)+".radianError_preOpt",radianError);
         // FYI: Math.copySign(magnitudeVar, signVar) = magnitude value with same sign as signvar
 
         // FIXES THE "SPINNIES" (wheels doing unnecessary rotations when starting and stopping)
@@ -394,12 +394,12 @@ public class SwervePod2022 {
                 this.velTicsPer100ms = -this.velTicsPer100ms;
             }
         }
-        SmartDashboard.putNumber("P"+(this.id)+".radianError_postOpt",radianError);
+        // SmartDashboard.putNumber("P"+(this.id)+".radianError_postOpt",radianError);
         //encoderError = rads2Tics(radianError);
         encoderError = (radianError);
-        SmartDashboard.putNumber("P"+(this.id)+".encoderError",encoderError);
+        // SmartDashboard.putNumber("P"+(this.id)+".encoderError",encoderError);
         azimuthCommand = encoderError + this.encoderPos;
-        SmartDashboard.putNumber("P"+(this.id)+".AZIMUTHCmd",azimuthCommand);
+        // SmartDashboard.putNumber("P"+(this.id)+".AZIMUTHCmd",azimuthCommand);
         return (azimuthCommand);
     }
     
@@ -411,9 +411,9 @@ public class SwervePod2022 {
 
         this.encoderPos = getEncoderRelPos();
         radianPos = (this.encoderPos);
-        SmartDashboard.putNumber("P"+(this.id)+".radianPos",radianPos);
+        // SmartDashboard.putNumber("P"+(this.id)+".radianPos",radianPos);
         radianError = angle - radianPos;
-        SmartDashboard.putNumber("P"+(this.id)+".radianError_preOpt",radianError);
+        // SmartDashboard.putNumber("P"+(this.id)+".radianError_preOpt",radianError);
         // FYI: Math.copySign(magnitudeVar, signVar) = magnitude value with same sign as signvar
 
         // FIXES THE "SPINNIES" (wheels doing unnecessary rotations when starting and stopping)
@@ -432,23 +432,23 @@ public class SwervePod2022 {
                 this.velTicsPer100ms = -this.velTicsPer100ms;
             }
         }
-        SmartDashboard.putNumber("P"+(this.id)+".radianError_postOpt",radianError);
+        // SmartDashboard.putNumber("P"+(this.id)+".radianError_postOpt",radianError);
         //encoderError = rads2Tics(radianError);
         encoderError = (radianError);
-        SmartDashboard.putNumber("P"+(this.id)+".encoderError",encoderError);
+        // SmartDashboard.putNumber("P"+(this.id)+".encoderError",encoderError);
         azimuthCommand = encoderError + this.encoderPos;
-        SmartDashboard.putNumber("P"+(this.id)+".AZIMUTHCmd",azimuthCommand);
+        // SmartDashboard.putNumber("P"+(this.id)+".AZIMUTHCmd",azimuthCommand);
         return (azimuthCommand);
     }
 
     public void goHome() {
         //double homePos = 0 + this.kEncoderOffset;
-        this.kP_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kP_Azimuth",0);
-        this.kI_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kI_Azimuth",0);
-        this.kD_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kD_Azimuth",0);
-        m_turningPIDController2.setP(this.kP_Azimuth);
-        m_turningPIDController2.setI(this.kI_Azimuth);
-        m_turningPIDController2.setD(this.kD_Azimuth);
+        // this.kP_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kP_Azimuth",0);
+        // this.kI_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kI_Azimuth",0);
+        // this.kD_Azimuth = SmartDashboard.getNumber("P"+(this.id)+".kD_Azimuth",0);
+        // m_turningPIDController2.setP(this.kP_Azimuth);
+        // m_turningPIDController2.setI(this.kI_Azimuth);
+        // m_turningPIDController2.setD(this.kD_Azimuth);
 
         //this.podAbsAzimuth = SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[this.id];
 
@@ -456,12 +456,12 @@ public class SwervePod2022 {
 
         double optmizdAzimuthAbsPos = optimizeAzimuthAbsPos(0);
 
-        SmartDashboard.putNumber("P"+(this.id)+".optmizdazimuthAbsPos", optmizdAzimuthAbsPos);
+        // SmartDashboard.putNumber("P"+(this.id)+".optmizdazimuthAbsPos", optmizdAzimuthAbsPos);
 
         double turnOutput = m_turningPIDController2.calculate(this.azimuthEncoderAbsPosition, optmizdAzimuthAbsPos);
         //double turnOutput = m_turningPIDController.calculate(this.azimuthEncoderPosition, this.podAzimuth);
 
-        SmartDashboard.putNumber("P"+(this.id)+".turnOutput", turnOutput);
+        // SmartDashboard.putNumber("P"+(this.id)+".turnOutput", turnOutput);
         azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
 
         //this.azimuthPIDController.setReference(homePos, CANSparkMax.ControlType.kPosition);
@@ -488,7 +488,7 @@ public class SwervePod2022 {
         this.azimuthEncoderAbsPosition = Math.toRadians(azimuthEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPositionRad",this.azimuthEncoderAbsPosition);
         SmartDashboard.putNumber("P"+this.id+".azimuthEncoderAbsPositionDeg",azimuthEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber("P"+this.id+"azimuthEncoderCANOffset", SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id]);
+        // SmartDashboard.putNumber("P"+this.id+"azimuthEncoderCANOffset", SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id]);
         //NT_encoderPos.setDouble(this.azimuthEncoderAbsPosition);
     }
 
@@ -519,13 +519,13 @@ public class SwervePod2022 {
 
     public void initializeSmartDashboard() {
 
-        SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_setpoint_angle", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kP_Azimuth", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kI_Azimuth", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kD_Azimuth", 0);
-        SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Azimuth", 0);
+        // SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_setpoint_angle", 0);
+        // SmartDashboard.putNumber("P"+(this.id)+".kP_Azimuth", 0);
+        // SmartDashboard.putNumber("P"+(this.id)+".kI_Azimuth", 0);
+        // SmartDashboard.putNumber("P"+(this.id)+".kD_Azimuth", 0);
+        // SmartDashboard.putNumber("P"+(this.id)+".kRampRate_Azimuth", 0);
         SmartDashboard.putNumber("P"+(this.id)+".azimuthEncoderAbsPosition", this.azimuthEncoderAbsPosition);
-        SmartDashboard.putBoolean("P"+(this.id)+".On", false);
+        // SmartDashboard.putBoolean("P"+(this.id)+".On", false);
     }
 
     public void initShuffleboard(){

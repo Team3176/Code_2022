@@ -15,7 +15,9 @@ import team3176.robot.commands.Intake.IntakeSpin;
 import team3176.robot.commands.Intake.IntakeSpint;
 import team3176.robot.commands.Intake.Intaking;
 import team3176.robot.commands.Shooter.FeederStop;
+import team3176.robot.commands.Shooter.FlywheelBackspinVelocityPID;
 import team3176.robot.commands.Shooter.FlywheelStop;
+import team3176.robot.commands.Shooter.FlywheelVelocityPID;
 import team3176.robot.commands.Shooter.FlywheelVelocityToggle;
 import team3176.robot.commands.Util.TimeDelay;
 
@@ -26,9 +28,10 @@ public class Auto2Balls extends SequentialCommandGroup {
   /** Creates a new Auto2Balls. */
   public Auto2Balls() {
     addCommands(
-      new ParallelCommandGroup(
-        new ShootSetVals(),
-        new FlywheelVelocityToggle()
+      new SequentialCommandGroup(
+        new FlywheelVelocityPID(),
+        new TimeDelay(2),
+        new AutonShootSetVals()
       ),
       new TimeDelay(2), //TODO: TUNE
       new ParallelCommandGroup(
@@ -43,9 +46,10 @@ public class Auto2Balls extends SequentialCommandGroup {
       new TimeDelay(2),
       new TrapezoidDrive(-8, 1),
       new AutonRotate(5, 20),
-      new ParallelCommandGroup(
-        new ShootSetVals(),
-        new FlywheelVelocityToggle()
+      new SequentialCommandGroup(
+        new FlywheelVelocityPID(),
+        new TimeDelay(2),
+        new AutonShootSetVals()
       ),
       new TimeDelay(2),
       new ParallelCommandGroup(
