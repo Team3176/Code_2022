@@ -66,6 +66,7 @@ public class RobotContainer {
   private static final String m_6R = "s_Move6inToTheRight";
   private static final String m_6F = "s_Move6inToTheFront";
   private static final String m_6B = "s_Move6inToTheBack";
+  private static final String m_9F = "s_Move9inToTheFront";
   private static final String m_TS = "s_ShootAndLeave";
   private static final String m_SI = "s_ShootAndLeaveAndShoot"; 
   
@@ -117,6 +118,7 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Move 6in Right", m_6R);
     m_autonChooser.addOption("Auto: Move 6in Forward", m_6F);
     m_autonChooser.addOption("Auto: Move 6in Backwards", m_6B);
+    m_autonChooser.addOption("Auto: Move 9in Forward", m_9F);
     m_autonChooser.addOption("Auto: Shoot and Exit Tarmac", m_TS);
     m_autonChooser.addOption("Auto: Shoot and Intake and Second Shoot", m_SI);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
@@ -129,7 +131,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
     m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
-    m_Controller.getTransStick_Button2().whenHeld(new SwerveDefense());
+    m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
     m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
 
     m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
@@ -217,10 +219,11 @@ public class RobotContainer {
     // if(chosen.equals(m_S)) return new AutonInstantShoot();
     if(chosen.equals(m_M)) return new AutonExitTarmac();
     // if(chosen.equals(m_B)) return new AutonBlock();
-    if(chosen.equals(m_6L)) return new TrapezoidDrive(-6, 0);
-    if(chosen.equals(m_6R)) return new TrapezoidDrive(6, 0);
-    if(chosen.equals(m_6F)) return new TrapezoidDrive(0, 6);
-    if(chosen.equals(m_6B)) return new TrapezoidDrive(0, -6);
+    if(chosen.equals(m_6L)) return new TrapezoidDrive(0, -6);
+    if(chosen.equals(m_6R)) return new TrapezoidDrive(0, 6);
+    if(chosen.equals(m_6F)) return new TrapezoidDrive(6, 0);
+    if(chosen.equals(m_6B)) return new TrapezoidDrive(-6, 0);
+    if(chosen.equals(m_9F)) return new TrapezoidDrive(9, 0);
     if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
     if(chosen.equals(m_SI)) return new Auto2Balls();
     

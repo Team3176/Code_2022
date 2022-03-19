@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Drivetrain.imported.TrapezoidDrive;
 import team3176.robot.commands.Indexer.IndexerStop;
-import team3176.robot.commands.Intake.IntakeSpint;
+import team3176.robot.commands.Intake.IntakeSpintAuton;
 import team3176.robot.commands.Shooter.FeederStop;
 import team3176.robot.commands.Shooter.FlywheelBackspinVelocityPID;
 import team3176.robot.commands.Shooter.FlywheelStop;
-import team3176.robot.commands.Shooter.FlywheelVelocityPID;
+import team3176.robot.commands.Shooter.FlywheelVelocityPIDAuton;
 import team3176.robot.commands.Shooter.FlywheelVelocityToggle;
 import team3176.robot.commands.Util.TimeDelay;
 
@@ -21,7 +21,7 @@ public class AutoInTarmacShoot extends SequentialCommandGroup {
   public AutoInTarmacShoot() {
     addCommands(
       new SequentialCommandGroup(
-        new FlywheelVelocityPID(),
+        new FlywheelVelocityPIDAuton(),
         new TimeDelay(2),
         new AutonShootSetVals()
       ),
@@ -30,9 +30,9 @@ public class AutoInTarmacShoot extends SequentialCommandGroup {
         new FlywheelStop(),
         new FeederStop(),
         new IndexerStop(),
-        new IntakeSpint()
+        new IntakeSpintAuton()
       ),
-      new TrapezoidDrive(8, -1)
+      new TrapezoidDrive(10, 0)
     );
   }
 }

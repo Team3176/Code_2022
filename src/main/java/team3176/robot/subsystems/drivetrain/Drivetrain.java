@@ -507,7 +507,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     SmartDashboard.putBoolean("Turbo", isTurboOn);
-    SmartDashboard.putBoolean("Defense", currentDriveMode == driveMode.DEFENSE);
+    // SmartDashboard.putBoolean("Defense", currentDriveMode == driveMode.DEFENSE);
     SmartDashboard.putBoolean("SpinLock", m_Gyro3176.getIsSpinLocked());
   }
 
