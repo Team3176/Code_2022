@@ -9,3 +9,7 @@ Check if teleop drive good
     if teleop bad retun (could be Azimuth, or Thrust if drift is bad)
 Check if trapazoid_Drive(5) moves ~5feet
 Check if Kyle's autons function correctly
+
+Make 2 flywheelSetVelocityPID buttons.  One with .3+.3 and One with .45 + .15
+    button map is X and 2nd button is LeftShift+X
+
