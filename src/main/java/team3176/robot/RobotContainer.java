@@ -157,8 +157,10 @@ public class RobotContainer {
     // m_Controller.getOp_A_FS().whenActive(new IndexerHoldingMode());
     m_Controller.getOp_A_FS().whenActive(new ExtendIntake());
     m_Controller.getOp_B_FS().whenActive(new RetractIntake());
-    m_Controller.getOp_Y_FS().whileActiveOnce(new IndexerBackWhenHeld());
-    m_Controller.getOp_X_FS().whileActiveOnce(new IndexerForwardWhenHeld());
+    m_Controller.getOp_X_FS().whenActive(new FlywheelBackspinVelocityPID());
+
+    m_Controller.getOp_Back_FS().whileActiveOnce(new IndexerBackWhenHeld());
+    m_Controller.getOp_Start_FS().whileActiveOnce(new IndexerForwardWhenHeld());
 
     // m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
 

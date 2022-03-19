@@ -243,11 +243,11 @@ public class Climb extends SubsystemBase {
    */
 
   public void putSmartDashboardControlCommands() {
-    if(!MasterConstants.ISCLIMBPASSIVE) {
-      SmartDashboard.putNumber("Winch Falcon PCT", 0);
-      // SmartDashboard.putNumber("Secondary Winch Falcon PCT", 0);
-      isSmartDashboardTestControlsShown = true;
-    }
+    // if(!MasterConstants.ISCLIMBPASSIVE) {
+    //   SmartDashboard.putNumber("Winch Falcon PCT", 0);
+    //   // SmartDashboard.putNumber("Secondary Winch Falcon PCT", 0);
+    //   isSmartDashboardTestControlsShown = true;
+    // }
   }
 
   /**
@@ -255,10 +255,10 @@ public class Climb extends SubsystemBase {
    */
 
   public void setValuesFromSmartDashboard() {
-    if(!MasterConstants.ISCLIMBPASSIVE) {
-      winchMotor.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Winch Falcon PCT", 0));
-      // wincSecondaryMotor.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Secondary Winch Falcon PCT", 0));
-    }
+    // if(!MasterConstants.ISCLIMBPASSIVE) {
+    //   winchMotor.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Winch Falcon PCT", 0));
+    //   // wincSecondaryMotor.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Secondary Winch Falcon PCT", 0));
+    // }
   }
 
   @Override

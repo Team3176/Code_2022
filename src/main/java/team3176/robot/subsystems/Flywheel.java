@@ -96,15 +96,15 @@ public class Flywheel extends SubsystemBase {
   */
 
   public void percentOutput_1() { //TODO: RENAME TO SOMETHING BETTER
-    double output = SmartDashboard.getNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
-    if (output >= -1 && output <= 1) { flywheelMotor1.set(TalonFXControlMode.PercentOutput, output); }
-    SmartDashboard.putNumber("Fly1Tics/100msOut", flywheelMotor1.getSelectedSensorVelocity());
+    // double output = SmartDashboard.getNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
+    // if (output >= -1 && output <= 1) { flywheelMotor1.set(TalonFXControlMode.PercentOutput, output); }
+    // SmartDashboard.putNumber("Fly1Tics/100msOut", flywheelMotor1.getSelectedSensorVelocity());
   }
 
   public void percentOutput_2() { //TODO: RENAME TO SOMETHING BETTER
-    double output = SmartDashboard.getNumber(FlywheelConstants.kShuffleboardPercentName2, 0.0);
-    if (output >= -1 && output <= 1) { flywheelMotor2.set(TalonFXControlMode.PercentOutput, output); }
-    SmartDashboard.putNumber("Fly2Tics/100msOut", flywheelMotor2.getSelectedSensorVelocity());
+    // double output = SmartDashboard.getNumber(FlywheelConstants.kShuffleboardPercentName2, 0.0);
+    // if (output >= -1 && output <= 1) { flywheelMotor2.set(TalonFXControlMode.PercentOutput, output); }
+    // SmartDashboard.putNumber("Fly2Tics/100msOut", flywheelMotor2.getSelectedSensorVelocity());
   }
 
   public void stopMotors() {
@@ -120,21 +120,21 @@ public class Flywheel extends SubsystemBase {
   }
 
   public void putSmartDashboardControlCommands() {
-    SmartDashboard.putNumber("Flywheel 1 PCT", 0);
-    SmartDashboard.putNumber("Flywheel 2 PCT", 0);
+    // SmartDashboard.putNumber("Flywheel 1 PCT", 0);
+    // SmartDashboard.putNumber("Flywheel 2 PCT", 0);
     isSmartDashboardTestControlsShown = true;
   }
 
   public void setValuesFromSmartDashboard() {
-    smartDashboardLastPercent1 = SmartDashboard.getNumber("Flywheel 1 PCT", 0);
-    smartDashboardLastPercent2 = SmartDashboard.getNumber("Flywheel 2 PCT", 0);
-    flywheelMotor1.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 1 PCT", 0));
-    flywheelMotor2.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 2 PCT", 0));
+  //   smartDashboardLastPercent1 = SmartDashboard.getNumber("Flywheel 1 PCT", 0);
+  //   smartDashboardLastPercent2 = SmartDashboard.getNumber("Flywheel 2 PCT", 0);
+  //   flywheelMotor1.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 1 PCT", 0));
+  //   flywheelMotor2.set(TalonFXControlMode.PercentOutput, SmartDashboard.getNumber("Flywheel 2 PCT", 0));
   }
 
   public void putSmartDashboardControlCommands(double startPercent1, double startPercent2) {
-    SmartDashboard.putNumber("Flywheel 1 PCT", startPercent1);
-    SmartDashboard.putNumber("Flywheel 2 PCT", startPercent2);
+    // SmartDashboard.putNumber("Flywheel 1 PCT", startPercent1);
+    // SmartDashboard.putNumber("Flywheel 2 PCT", startPercent2);
   }
 
   public double getStartPercent1() {return smartDashboardLastPercent1;}

@@ -132,8 +132,8 @@ public class Angler extends SubsystemBase {
 
   public void testPercentOutput() 
   {
-    engageRawMotor(SmartDashboard.getNumber(AnglerConstants.kShuffleboardPercentName, 0.0));
-    SmartDashboard.putNumber("AnglerRPMOut", anglerMotor.getSelectedSensorVelocity(AnglerConstants.kPID_LOOP_IDX));
+    // engageRawMotor(SmartDashboard.getNumber(AnglerConstants.kShuffleboardPercentName, 0.0));
+    // SmartDashboard.putNumber("AnglerRPMOut", anglerMotor.getSelectedSensorVelocity(AnglerConstants.kPID_LOOP_IDX));
   }
 
   // Does the same thing as engageRawMotor(), except it ignores the limiter conditional so it can stop the motors no matter what
@@ -218,21 +218,22 @@ public class Angler extends SubsystemBase {
 
   public void shuffleboardVelocity()  
   {
-    double newVelocity = SmartDashboard.getNumber("Velocity (RPM)", this.smartdashboardVelocity);
-    if (newVelocity != this.smartdashboardVelocity) 
-    {
-      this.smartdashboardVelocity = newVelocity;
-      //engagePIDMotor(this.smartdashboardVelocity, ControlType.kVelocity);
-    }
+
+    // double newVelocity = SmartDashboard.getNumber("Velocity (RPM)", this.smartdashboardVelocity);
+    // if (newVelocity != this.smartdashboardVelocity) 
+    // {
+    //   this.smartdashboardVelocity = newVelocity;
+    //   //engagePIDMotor(this.smartdashboardVelocity, ControlType.kVelocity);
+    // }
   }
 
   public void tunePID()
   {
-    double newFF = SmartDashboard.getNumber("Angler FF", 0.0);
-    if (newFF != this.lastFF) {    
-      this.anglerMotor.config_kF(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[3], AnglerConstants.kTIMEOUT_MS);
-      this.lastFF = newFF;
-    }
+    // double newFF = SmartDashboard.getNumber("Angler FF", 0.0);
+    // if (newFF != this.lastFF) {    
+    //   this.anglerMotor.config_kF(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[3], AnglerConstants.kTIMEOUT_MS);
+    //   this.lastFF = newFF;
+    // }
   }
 
    /**
@@ -254,7 +255,7 @@ public class Angler extends SubsystemBase {
   }
 
   public void putSmartDashboardControlCommands() {
-    SmartDashboard.putNumber("Angler Position", 0);
+    // SmartDashboard.putNumber("Angler Position", 0);
     isSmartDashboardTestControlsShown = true;
   }
 

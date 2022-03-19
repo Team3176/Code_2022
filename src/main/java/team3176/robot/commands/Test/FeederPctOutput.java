@@ -17,7 +17,7 @@ public class FeederPctOutput extends CommandBase {
 
   @Override
   public void initialize() {
-    SmartDashboard.putNumber(FeederConstants.kShuffleboardPercentName, 0.0);
+    // SmartDashboard.putNumber(FeederConstants.kShuffleboardPercentName, 0.0);
   }
 
   @Override
@@ -28,7 +28,7 @@ public class FeederPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Transfer.stopMotor();
-    SmartDashboard.delete(FeederConstants.kShuffleboardPercentName);
+    // SmartDashboard.delete(FeederConstants.kShuffleboardPercentName);
   }
 
   @Override

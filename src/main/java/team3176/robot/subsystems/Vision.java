@@ -101,15 +101,15 @@ public class Vision extends SubsystemBase {
     updateVisionData();
 
     separateCornArray();
-    SmartDashboard.putBoolean("Has Run?", true);
-    SmartDashboard.putBoolean("Empty?", tcornx.isEmpty());
-    SmartDashboard.putNumber("Info", tcornx.isEmpty() ? 0 : tcornx.size());
+    // SmartDashboard.putBoolean("Has Run?", true);
+    // SmartDashboard.putBoolean("Empty?", tcornx.isEmpty());
+    // SmartDashboard.putNumber("Info", tcornx.isEmpty() ? 0 : tcornx.size());
     if(tcornx.size() < 4 || tcornx.size() > 5){
       return;
     }
 
     deltaXCam = findDeltaX();
-    SmartDashboard.putNumber("Delta X Cam", deltaXCam);
+    // SmartDashboard.putNumber("Delta X Cam", deltaXCam);
 
     calculateTargetDistance();
 
@@ -118,7 +118,7 @@ public class Vision extends SubsystemBase {
 
     publishAllData();
 
-    SmartDashboard.putNumber("Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
+    // SmartDashboard.putNumber("Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
   }
 
   public void separateCornArray(){
@@ -142,11 +142,11 @@ public class Vision extends SubsystemBase {
 
   public void calculateTargetDistance(){
     double rawDistance = (VisionConstants.VISION_CONSTANT / deltaXCam);
-    SmartDashboard.putNumber("Raw Distance", rawDistance);
+    // SmartDashboard.putNumber("Raw Distance", rawDistance);
     deltaX = rawDistance * Math.cos(VisionConstants.cameraAngle * VisionConstants.DEG2RAD); //+ (10 * VisionConstants.INCHES2METERS);
     deltaY = rawDistance * Math.sin(VisionConstants.cameraAngle * VisionConstants.DEG2RAD);
-    SmartDashboard.putNumber("DeltaX", deltaX);
-    SmartDashboard.putNumber("DeltaY", deltaY);
+    // SmartDashboard.putNumber("DeltaX", deltaX);
+    // SmartDashboard.putNumber("DeltaY", deltaY);
   }
 
   public double[] findInitialAngleAndVelocity(int angleIdx){
@@ -210,22 +210,22 @@ public class Vision extends SubsystemBase {
   }
 
   private void publishAllData(){
-    SmartDashboard.putNumber("initialVelocity", initialVelocity);
+    // SmartDashboard.putNumber("initialVelocity", initialVelocity);
 
-    SmartDashboard.putBoolean("Has Targets", (tv.getDouble(0) == 1));
-    SmartDashboard.putNumber("tshort", tshort.getDouble(0));
-    SmartDashboard.putNumber("tvert", tvert.getDouble(0));
+    // SmartDashboard.putBoolean("Has Targets", (tv.getDouble(0) == 1));
+    // SmartDashboard.putNumber("tshort", tshort.getDouble(0));
+    // SmartDashboard.putNumber("tvert", tvert.getDouble(0));
 
     double numTargets = tcornx.size();
-    SmartDashboard.putNumber("Number of Targets", numTargets);
+    // SmartDashboard.putNumber("Number of Targets", numTargets);
 
-    SmartDashboard.putNumber("Radius", radius);
-    SmartDashboard.putNumber("Horizontal Distance", deltaX);
-    SmartDashboard.putNumber("Vertical Distance", deltaY);
+    // SmartDashboard.putNumber("Radius", radius);
+    // SmartDashboard.putNumber("Horizontal Distance", deltaX);
+    // SmartDashboard.putNumber("Vertical Distance", deltaY);
 
-    SmartDashboard.putNumber("Distance According to Camera", deltaXCam);
+    // SmartDashboard.putNumber("Distance According to Camera", deltaXCam);
 
-    SmartDashboard.putNumber("Approx. Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
+    // SmartDashboard.putNumber("Approx. Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
   }
 
   public double getCurrentPipeline(){

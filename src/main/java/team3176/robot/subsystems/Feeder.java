@@ -55,9 +55,9 @@ public class Feeder extends SubsystemBase
 
   public void percentOutput() 
   {
-    double output = SmartDashboard.getNumber(FeederConstants.kShuffleboardPercentName, 0.0);
-    if (output >= -1 && output <= 1) { feederMotor.set(ControlMode.PercentOutput, output); }
-    SmartDashboard.putNumber("FeederRPMOut", feederMotor.getSelectedSensorVelocity());
+    // double output = SmartDashboard.getNumber(FeederConstants.kShuffleboardPercentName, 0.0);
+    // if (output >= -1 && output <= 1) { feederMotor.set(ControlMode.PercentOutput, output); }
+    // SmartDashboard.putNumber("FeederRPMOut", feederMotor.getSelectedSensorVelocity());
   }
 
   public void setVelocityPID(double pctAsDecimal)
@@ -81,17 +81,17 @@ public class Feeder extends SubsystemBase
   }
 
   public void putSmartDashboardControlCommands() {
-    SmartDashboard.putNumber("Feeder PCT", 0);
+    // SmartDashboard.putNumber("Feeder PCT", 0);
     isSmartDashboardTestControlsShown = true;
  }
 
   public void setValuesFromSmartDashboard() {
-    smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
-    feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
+    // smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
+    // feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
  }
 
   public void putSmartDashboardControlCommands(double startPercent) {
-    SmartDashboard.putNumber("Feeder PCT", startPercent);
+    // SmartDashboard.putNumber("Feeder PCT", startPercent);
   }
 
   public double getStartPercent() {return smartDashboardLastPercent;}

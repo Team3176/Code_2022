@@ -270,17 +270,17 @@ public class Indexer extends SubsystemBase {
   }
 
   public void putSmartDashboardControlCommands() {
-    SmartDashboard.putNumber("Indexer PCT", 0);
+    // SmartDashboard.putNumber("Indexer PCT", 0);
     isSmartDashboardTestControlsShown = true;
   }
 
   public void setValuesFromSmartDashboard() {
-    smartDashboardLastPercent = SmartDashboard.getNumber("Indexer PCT", 0);
-    indexerMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Indexer PCT", 0)));
+    // smartDashboardLastPercent = SmartDashboard.getNumber("Indexer PCT", 0);
+    // indexerMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Indexer PCT", 0)));
   }
 
   public void putSmartDashboardControlCommands(double startPercent) {
-    SmartDashboard.putNumber("Indexer PCT", startPercent);
+    // SmartDashboard.putNumber("Indexer PCT", startPercent);
   }
 
   public double getStartPercent() {return smartDashboardLastPercent;}
@@ -338,6 +338,7 @@ public class Indexer extends SubsystemBase {
     // }
 
     I2CReciever();
+    SmartDashboard.putBoolean("Indexer 2nd Line", getSecondPos());
 
   }
 

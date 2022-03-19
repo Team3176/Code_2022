@@ -504,7 +504,11 @@ public class Drivetrain extends SubsystemBase {
     this.arraytrack++;
     if (this.arraytrack > 3) {
       this.arraytrack = 0;
-    } 
+    }
+
+    SmartDashboard.putBoolean("Turbo", isTurboOn);
+    SmartDashboard.putBoolean("Defense", currentDriveMode == driveMode.DEFENSE);
+    SmartDashboard.putBoolean("SpinLock", m_Gyro3176.getIsSpinLocked());
   }
 
   @Override
