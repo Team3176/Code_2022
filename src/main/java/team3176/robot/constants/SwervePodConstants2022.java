@@ -106,7 +106,7 @@ public final class SwervePodConstants2022 {
     public static final double[] AZIMUTH_OFFSET =AZIMUTH_OFFSET_2022;
 
     public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_SHOOTER_IS_BOT_FRONT = {120.234,110.742, -77.168,-133.682};
-    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {-84.902, -14.414, 57.305, -4.359}; 
+    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {-84.902, -14.414, -32.080 , 8.525}; 
     public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_POSITION = AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT;
     public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 14.00;  //estimated loaded speed per Nathan;
 
