@@ -16,7 +16,7 @@ public class FlywheelVelocityPID extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Flywheel.spinMotorsVelocityPID(0.15, 0.40);
+    m_Flywheel.spinMotorsVelocityPID(0.30, 0.30);
   }
 
   @Override

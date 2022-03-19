@@ -13,6 +13,7 @@ public class ShootSetVals extends CommandBase {
   private Intake m_Intake = Intake.getInstance();
   private Indexer m_Indexer = Indexer.getInstance();
   private Feeder m_Feeder = Feeder.getInstance();
+
   public ShootSetVals() {
     addRequirements(m_Intake, m_Indexer, m_Feeder);
   }
@@ -21,13 +22,14 @@ public class ShootSetVals extends CommandBase {
   @Override
   public void initialize() {
     m_Intake.spinVelocityPercent(0.5);
-    m_Indexer.setVelocity(0.8);
-    m_Feeder.setVelocityPID(0.5);
+    m_Indexer.setVelocity(0.45);
+    m_Feeder.setVelocityPID(0.7);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override

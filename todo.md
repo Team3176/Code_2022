@@ -16,3 +16,7 @@ Check if teleop drive good
 Check if trapazoid_Drive(5) moves ~5feet
 Check accuracy of auton rotate CMD
 Check if Kyle's autons function correctly
+
+Make 2 flywheelSetVelocityPID buttons.  One with .3+.3 and One with .45 + .15
+    button map is X and 2nd button is LeftShift+X
+
