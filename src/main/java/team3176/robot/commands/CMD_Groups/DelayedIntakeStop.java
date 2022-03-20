@@ -12,13 +12,12 @@ import team3176.robot.commands.Intake.StopIntakeAndIndexer;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakingDirectTimeFix extends SequentialCommandGroup {
+public class DelayedIntakeStop extends SequentialCommandGroup {
   /** Creates a new IntakingDirectTimeFix. */
-  public IntakingDirectTimeFix() {
+  public DelayedIntakeStop() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new IntakingDirect2(), 
         new WaitCommand(1),
         new StopIntakeAndIndexer()
     );
