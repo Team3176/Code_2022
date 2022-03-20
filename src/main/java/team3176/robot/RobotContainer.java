@@ -67,6 +67,7 @@ public class RobotContainer {
   private static final String m_6F = "s_Move6inToTheFront";
   private static final String m_6B = "s_Move6inToTheBack";
   private static final String m_9F = "s_Move9inToTheFront";
+  private static final String m_9B = "s_Move9inToTheBack";
   private static final String m_TS = "s_ShootAndLeave";
   private static final String m_SI = "s_ShootAndLeaveAndShoot"; 
   
@@ -119,6 +120,7 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Move 6in Forward", m_6F);
     m_autonChooser.addOption("Auto: Move 6in Backwards", m_6B);
     m_autonChooser.addOption("Auto: Move 9in Forward", m_9F);
+    m_autonChooser.addOption("Auto: Move 9in Backwards", m_9B);
     m_autonChooser.addOption("Auto: Shoot and Exit Tarmac", m_TS);
     m_autonChooser.addOption("Auto: Shoot and Intake and Second Shoot", m_SI);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
@@ -224,6 +226,7 @@ public class RobotContainer {
     if(chosen.equals(m_6F)) return new TrapezoidDrive(6, 0);
     if(chosen.equals(m_6B)) return new TrapezoidDrive(-6, 0);
     if(chosen.equals(m_9F)) return new TrapezoidDrive(9, 0);
+    if(chosen.equals(m_9B)) return new TrapezoidDrive(-9 , 0);
     if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
     if(chosen.equals(m_SI)) return new Auto2Balls();
     
