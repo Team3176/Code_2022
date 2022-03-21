@@ -136,6 +136,8 @@ public class RobotContainer {
     m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
     m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
 
+    m_Controller.getRotStick_Button1().whenHeld(new VisionSpinCorrectionOn());
+    m_Controller.getRotStick_Button1().whenReleased(new VisionSpinCorrectionOff());
     m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     // m_Controller.getRotStick_Button5().whenPressed(new SwervePodsAzimuthGoHome());

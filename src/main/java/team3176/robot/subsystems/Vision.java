@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.VisionConstants;
+import edu.wpi.first.math.controller.PIDController;
 public class Vision extends SubsystemBase {
   
   private static Vision instance = new Vision();
@@ -56,6 +57,10 @@ public class Vision extends SubsystemBase {
 
   private double[] information = new double[2];
 
+  private PIDController visionSpinLockPID;
+  private boolean isVisionSpinCorrectionOn = false;
+  private double visionSpinCorrection;
+
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
   //private double ballDegrees = -999; // degrees away from Limelight where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
 
@@ -71,6 +76,8 @@ public class Vision extends SubsystemBase {
 
     tcornx.ensureCapacity(4);
     tcorny.ensureCapacity(4);
+
+    visionSpinLockPID = new PIDController(0.15, 0.0, 0.0);
   }
 
   public static Vision getInstance(){
@@ -305,5 +312,29 @@ public class Vision extends SubsystemBase {
 
     double[] arrayToSend = {testInitialVelocity, initialAngle[angleIdx]};
     return arrayToSend;
+  }
+
+  public boolean getIsVisionSpinCorrectionOn(){
+    return this.isVisionSpinCorrectionOn;
+  }
+
+  public void setVisionSpinCorrectionOn(){
+    if (this.tv.getBoolean(false)) { 
+      this.isVisionSpinCorrectionOn = true;
+    }
+  }
+  
+  public void setVisionSpinCorrectionOff(){
+    this.isVisionSpinCorrectionOn = false;
+  }
+
+
+  public void toggleVisionSpinCorrectionOnOff(){
+    this.isVisionSpinCorrectionOn = !isVisionSpinCorrectionOn;
+  }
+
+  public double getVisionSpinCorrection() {
+    this.visionSpinCorrection = -visionSpinLockPID.calculate(this.tx.getDouble(0), 0);
+    return visionSpinCorrection;
   }
 }

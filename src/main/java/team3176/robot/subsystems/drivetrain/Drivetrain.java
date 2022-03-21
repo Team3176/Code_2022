@@ -51,6 +51,7 @@ public class Drivetrain extends SubsystemBase {
   private static Drivetrain instance;
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
+  private Vision m_Vision = Vision.getInstance();
 
   //private Controller controller = Controller.getInstance();
 //private Vision m_Vision = Vision.getInstance();
@@ -216,6 +217,10 @@ public class Drivetrain extends SubsystemBase {
       this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
+    }
+
+    if (m_Vision.getIsVisionSpinCorrectionOn()) {
+      this.spinCommand = m_Vision.getVisionSpinCorrection();
     }
 
     if (m_CoordSys.isFieldCentric()) {
