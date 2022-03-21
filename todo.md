@@ -15,10 +15,4 @@ Check if AutonExitTarmmac moves ~10feet.  Are we moving ~10ft?  Are we moving in
 Check accuracy of auton rotate CMD
 Check if Kyle's autons function correctly
 
------
-#Sat Morn Priorities
-- Change BL encoder gear
-- Tune pods
-- Try to get into a match
-- Test/Tune Auton
 
