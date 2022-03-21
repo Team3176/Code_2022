@@ -173,11 +173,11 @@ public class RobotContainer {
     // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbRetract());
     // m_Controller.getOp_DPAD_RIGHT().whenActive(new ClimbDisableToggle());
 
-    m_Angler.moveToAngle(m_Controller.getOp_LeftY());
+    // m_Angler.moveToAngle(m_Controller.getOp_LeftY());
 
     m_Controller.getOp_A_DS().whenActive(new AnglerPctOutput());
-    m_Controller.getOp_B_DS().whenActive(new FeederPctOutput());
-    m_Controller.getOp_X_DS().whenActive(new FlywheelPctOutput());
+    m_Controller.getOp_B_DS().whenActive(new AnglerZeroAtMax());
+    m_Controller.getOp_X_DS().whenActive(new AnglerTicPosition());
     m_Controller.getOp_Y_DS().whenActive(new I2CTest());
   }
 

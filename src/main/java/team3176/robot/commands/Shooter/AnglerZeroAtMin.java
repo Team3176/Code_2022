@@ -23,7 +23,7 @@ public class AnglerZeroAtMin extends CommandBase {
 
   @Override
   public void initialize() {
-    m_angler.setVelocity(-AnglerConstants.kDegreesPerSecondForZeroing);
+    // m_angler.engageRawMotor(-0.1);
   }
 
   @Override
@@ -31,11 +31,12 @@ public class AnglerZeroAtMin extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_angler.zeroAtMin();
+    // m_angler.zeroAtMin();
   }
 
   @Override
   public boolean isFinished() {
-    return m_angler.getLimiterLow();
+    // return m_angler.getBackLimit();
+    return true;
   }
 }

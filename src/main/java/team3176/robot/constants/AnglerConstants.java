@@ -13,7 +13,7 @@ public final class AnglerConstants {
     public static final int kTIMEOUT_MS = 0; 
     public static final int kPID_LOOP_IDX = 0;
 
-    public static final double kRampRate = 2.0; // seconds to go from 0 to full power
+    // public static final double kRampRate = 2.0; // seconds to go from 0 to full power
 
     public static final double  kAnglerMinDegrees = 45.0;
     public static final double  kAnglerMaxDegrees = 90.0;
@@ -34,6 +34,6 @@ public final class AnglerConstants {
     public static final String kShuffleboardPercentName = "Angler%Set";
 
     // Constant order: P, I, D, F, IZone
-    public static final double[] PIDFConstants = { 0.0, 0.0, 0.0, 0.0, 0.0 };
-    public static final double ALLOWABLE_CLOSED_LOOP_ERROR = 0;
+    public static final double[] PIDFConstants = { 0.3, 0.0, 0.0, 0.0 };
+    public static final double ALLOWABLE_CLOSED_LOOP_ERROR = 300;
 }

@@ -16,8 +16,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import java.util.ResourceBundle.Control;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -28,15 +31,15 @@ public class Angler extends SubsystemBase {
   
   private TalonSRX anglerMotor;
 
-  private DigitalInput limitSwitch1;
-  private DigitalInput limitSwitch2;
+  private DigitalInput backLimiter;
+  private DigitalInput forwardLimiter;
 
   private int ticsPerRevolution;
   private double positionAt45Deg;
 
   private boolean PIDLoopEngaged;
-  private boolean limiterHighEngaged;
-  private boolean limiterLowEngaged;
+  private boolean forwardLimiterEngaged;
+  private boolean backLimiterEngaged;
   private boolean isSmartDashboardTestControlsShown;
 
   private double lastFF;
@@ -74,19 +77,21 @@ public class Angler extends SubsystemBase {
     this.anglerMotor.configPeakOutputForward(0.25, AnglerConstants.kTIMEOUT_MS);
     this.anglerMotor.configPeakOutputReverse(-0.25, AnglerConstants.kTIMEOUT_MS);
     this.anglerMotor.configAllowableClosedloopError(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.ALLOWABLE_CLOSED_LOOP_ERROR, AnglerConstants.kTIMEOUT_MS);
-    this.anglerMotor.config_kF(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[3], AnglerConstants.kTIMEOUT_MS);
     this.anglerMotor.config_kP(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[0], AnglerConstants.kTIMEOUT_MS);
     this.anglerMotor.config_kI(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[1], AnglerConstants.kTIMEOUT_MS);
     this.anglerMotor.config_kD(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[2], AnglerConstants.kTIMEOUT_MS);
-    this.anglerMotor.config_IntegralZone(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[4], AnglerConstants.kTIMEOUT_MS); 
-    this.lastFF = AnglerConstants.PIDFConstants[3];
+    this.anglerMotor.config_IntegralZone(AnglerConstants.kPID_LOOP_IDX, AnglerConstants.PIDFConstants[3], AnglerConstants.kTIMEOUT_MS); 
+    
+    anglerMotor.configForwardSoftLimitThreshold(0, AnglerConstants.kTIMEOUT_MS);
+    anglerMotor.configReverseSoftLimitThreshold(30000, AnglerConstants.kTIMEOUT_MS);
+    
     // stop the motor on enable
-    limitSwitch1 = new DigitalInput(AnglerConstants.limiter1Channel);
-    limitSwitch2 = new DigitalInput(AnglerConstants.limiter2Channel);
+    backLimiter = new DigitalInput(AnglerConstants.limiter1Channel);
+    forwardLimiter = new DigitalInput(AnglerConstants.limiter2Channel);
 
     PIDLoopEngaged = false;
-    limiterHighEngaged = false;
-    limiterLowEngaged = false;
+    forwardLimiterEngaged = false;
+    backLimiterEngaged = false;
     setMovement = 0;
     motorZero = 0;
     previousPercentDirection = 0;
@@ -99,6 +104,20 @@ public class Angler extends SubsystemBase {
     // Safety checks to make sure the motor is not being powered while limit switches are engaged
     SmartDashboard.putNumber("AnglerVoltage", anglerMotor.getMotorOutputVoltage());
     SmartDashboard.putNumber("AnglerPctOutput", anglerMotor.getMotorOutputPercent());
+  }
+
+  // TODO: MAKE THIS TRIGGER GLOBALLY INSTEAD OF BEING CALLED FROM THE ENGAGE MOTOR METHODS
+  private void setMotorWithLimiterBound(ControlMode mode, double set)
+  {
+    if (forwardLimiter.get() && backLimiter.get()) {
+      anglerMotor.set(mode, set);
+    } else if (!forwardLimiter.get() && mode == ControlMode.PercentOutput && set < 0 && backLimiter.get()) {
+      anglerMotor.set(mode, set);
+    } else if (!backLimiter.get() && mode == ControlMode.PercentOutput && set > 0 && forwardLimiter.get()) {
+      anglerMotor.set(mode, set);
+    } else {
+      anglerMotor.set(ControlMode.PercentOutput, 0);
+    }
   }
 
   /**
@@ -126,29 +145,43 @@ public class Angler extends SubsystemBase {
    */
   public void engagePIDMotorPosition(double value)
   {
-    if (!limiterHighEngaged && !limiterLowEngaged) {
+    /*
+    if (!forwardLimiterEngaged && !backLimiterEngaged) {
       this.setMovement = value - anglerMotor.getSelectedSensorPosition();
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
       anglerMotor.set(ControlMode.Position, value);
+    } else {
+      anglerMotor.set(ControlMode.PercentOutput, 0);
     }
+    */
+
+    // Don't call raw set methods later
+    anglerMotor.set(ControlMode.Position, value);
   }
 
   public void engagePIDMotorVelocity(double value)
   {
-    if (!limiterHighEngaged && !limiterLowEngaged) {
+    if (!forwardLimiterEngaged && !backLimiterEngaged) {
       this.setMovement = value;
       if (!PIDLoopEngaged) { this.reengagePIDLoop(); }
       anglerMotor.set(ControlMode.Velocity, value);
+    } else {
+      anglerMotor.set(ControlMode.PercentOutput, 0);
     }
   }
 
   public void engageRawMotor(double percentOutput)
   {
     this.setMovement = percentOutput;
-    if (!limiterHighEngaged && !limiterLowEngaged && percentOutput >= -1 && percentOutput <= 1) {
+    /*
+    if (!forwardLimiterEngaged && !backLimiterEngaged && percentOutput >= -1 && percentOutput <= 1) {
       PIDLoopEngaged = false;
       anglerMotor.set(ControlMode.PercentOutput ,percentOutput);
+    } else {
+      anglerMotor.set(ControlMode.PercentOutput, 0);
     }
+    */
+    setMotorWithLimiterBound(ControlMode.PercentOutput, percentOutput);
   }
 
   public void testPercentOutput() 
@@ -207,16 +240,17 @@ public class Angler extends SubsystemBase {
     this.engagePIDMotorVelocity(rotationsPerMin);
   }
 
+  // 0 and 30,000 limiter thresholds are encoder values found my John Heidegger at Columbus comp from manually roatating motor
+  /*
   public void zeroAtMin() {
     anglerMotor.setSelectedSensorPosition(0.0, AnglerConstants.kPID_LOOP_IDX, AnglerConstants.kTIMEOUT_MS);
     motorZero = AnglerConstants.kAnglerMinDegrees;
-    anglerMotor.setSelectedSensorPosition(0);
   }
+  */
 
   public void zeroAtMax() {
     anglerMotor.setSelectedSensorPosition(0.0, AnglerConstants.kPID_LOOP_IDX, AnglerConstants.kTIMEOUT_MS);
     motorZero = AnglerConstants.kAnglerMaxDegrees;
-    anglerMotor.setSelectedSensorPosition(0);
   }
 
   /**
@@ -244,13 +278,13 @@ public class Angler extends SubsystemBase {
    * @author Jared Brown
    * @return Lower limiter value
    */
-  public boolean getLimiterLow() {return limiterLowEngaged;}
+  public boolean getBackLimit() {return !backLimiter.get();}
     /**
    * Returns true if the higher limit switch is pressed
    * @author Jared Brown
    * @return Higher limiter value
    */
-  public boolean getLimiterHigh() {return limiterHighEngaged;}
+  public boolean getForwardLimit() {return !forwardLimiter.get();}
 
   public void putSmartDashboardControlCommands() {
     SmartDashboard.putNumber("Angler Position", 0);
@@ -266,8 +300,9 @@ public class Angler extends SubsystemBase {
     // This method will be called once per scheduler run
     Logger.getInstance().processInputs("Angler", inputs);
     Logger.getInstance().recordOutput("Angler/Position", getAnglerPosition());
-    //System.out.println(!limitSwitch1.get() + ", " + !limitSwitch2.get());
+    //System.out.println(!backLimiter.get() + ", " + !forwardLimiter.get());
 
+    /*
     // limiter stuff, DON'T MODIFY
     double outputPercent = anglerMotor.getMotorOutputPercent();
     if (outputPercent > 0) {
@@ -277,20 +312,22 @@ public class Angler extends SubsystemBase {
     }
 
     // When pressed, DigitalInput.get() returns FALSE!!! (makes total sense)
-    if (!limitSwitch1.get() && (setMovement < 0 || outputPercent < 0 || previousPercentDirection == -1)) {
+    if (!backLimiter.get() && (setMovement < 0 || outputPercent < 0 || previousPercentDirection == -1)) {
       limiterStopMotor();
-      limiterLowEngaged = true;
-      limiterHighEngaged = false;
+      backLimiterEngaged = true;
+      forwardLimiterEngaged = false;
       // System.out.println("LEFT LIMITER PRESSED ---------------");
-    } else if (!limitSwitch2.get() && (setMovement > 0 || outputPercent > 0 || previousPercentDirection == 1)) {
+    } else if (!forwardLimiter.get() && (setMovement > 0 || outputPercent > 0 || previousPercentDirection == 1)) {
       limiterStopMotor();
-      limiterHighEngaged = true;
-      limiterLowEngaged = false;
+      forwardLimiterEngaged = true;
+      backLimiterEngaged = false;
       // System.out.println("RIGHT LIMITER PRESSED ---------------");
     } else {
-      limiterLowEngaged = false;
-      limiterHighEngaged = false;
+      backLimiterEngaged = false;
+      forwardLimiterEngaged = false;
     }
+    */
+
     // if(mode.equals("test"))
     // {
     //   if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
@@ -300,6 +337,7 @@ public class Angler extends SubsystemBase {
     // Safety checks to make sure the motor is not being powered while limit switches are engaged
     SmartDashboard.putNumber("AnglerVoltage", anglerMotor.getMotorOutputVoltage());
     SmartDashboard.putNumber("AnglerPctOutput", anglerMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("AnglerEncoderPos", anglerMotor.getSelectedSensorPosition());
   }
 
   public void runVoltage(double volts) {
