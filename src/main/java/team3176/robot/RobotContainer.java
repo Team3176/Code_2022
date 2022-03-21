@@ -148,7 +148,9 @@ public class RobotContainer {
     // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     // m_Controller.getOp_Start_DS().whileActiveOnce(new Intaking());
 
-    m_Controller.getOp_A().whileActiveOnce(new IntakingDirect());
+    m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
+    m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
+
     m_Controller.getOp_X().whenActive(new FlywheelVelocityPID());
     m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
     m_Controller.getOp_B().whenActive(new FlywheelStop());
