@@ -202,6 +202,9 @@ public class RobotContainer {
     // m_Controller.getOp_B_DS().whenActive(new FeederPctOutput());
     // m_Controller.getOp_X_DS().whenActive(new FlywheelPctOutput());
     // m_Controller.getOp_Y_DS().whenActive(new I2CTest());
+
+    m_Controller.getOp_X_DS().whenActive(new FlywheelToggleTest());
+    m_Controller.getOp_Y_DS().whenActive(new ShootToggleTest());
   }
 
   public void AutonInitRobotCentric() {
