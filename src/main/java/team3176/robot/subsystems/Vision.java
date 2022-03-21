@@ -318,19 +318,26 @@ public class Vision extends SubsystemBase {
     return this.isVisionSpinCorrectionOn;
   }
 
+  public void setVisionSpinCorrection(boolean onOrOff){
+    this.isVisionSpinCorrectionOn = onOrOff;
+    SmartDashboard.putBoolean("VisionSpinCorrectionOn", isVisionSpinCorrectionOn);
+  }
   public void setVisionSpinCorrectionOn(){
     if (this.tv.getBoolean(false)) { 
-      this.isVisionSpinCorrectionOn = true;
+      setVisionSpinCorrection(true);
+      SmartDashboard.putBoolean("VisionSpinCorrectionOn", true);
     }
   }
   
   public void setVisionSpinCorrectionOff(){
-    this.isVisionSpinCorrectionOn = false;
+    setVisionSpinCorrection(false);
+    SmartDashboard.putBoolean("VisionSpinCorrectionOn", false);
   }
 
 
   public void toggleVisionSpinCorrectionOnOff(){
-    this.isVisionSpinCorrectionOn = !isVisionSpinCorrectionOn;
+    setVisionSpinCorrection(!isVisionSpinCorrectionOn);
+    SmartDashboard.putBoolean("VisionSpinCorrectionOn", isVisionSpinCorrectionOn);
   }
 
   public double getVisionSpinCorrection() {

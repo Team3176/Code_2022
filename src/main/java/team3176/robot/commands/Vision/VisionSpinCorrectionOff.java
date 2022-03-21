@@ -21,6 +21,6 @@ public class VisionSpinCorrectionOff extends InstantCommand {
 
   @Override
   public void initialize() {
-    m_Vision.setVisionSpinCorrectionOff();
+    m_Vision.setVisionSpinCorrection(false);
   }
 }
