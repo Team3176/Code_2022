@@ -5,6 +5,7 @@
 package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import team3176.robot.constants.AnglerConstants;
 import team3176.robot.subsystems.Angler;
 
 public class AnglerMax extends InstantCommand {
@@ -16,6 +17,6 @@ public class AnglerMax extends InstantCommand {
 
   @Override
   public void initialize() {
-    m_Angler.moveToAngle(80.0);
+    m_Angler.moveToAngle(AnglerConstants.kAnglerMaxDegrees);
   }
 }

@@ -36,7 +36,7 @@ public class AnglerZeroAtMin extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    // return m_angler.getBackLimit();
+    // return m_angler.getBottomLimit();
     return true;
   }
 }

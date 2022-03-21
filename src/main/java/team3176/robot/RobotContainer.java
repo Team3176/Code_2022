@@ -177,8 +177,10 @@ public class RobotContainer {
 
     m_Controller.getOp_A_DS().whenActive(new AnglerPctOutput());
     m_Controller.getOp_B_DS().whenActive(new AnglerZeroAtMax());
-    m_Controller.getOp_X_DS().whenActive(new AnglerTicPosition());
-    m_Controller.getOp_Y_DS().whenActive(new I2CTest());
+    // m_Controller.getOp_X_DS().whenActive(new AnglerTicPosition());
+    m_Controller.getOp_X_DS().toggleWhenActive(new AnglerTicPosition());
+    // m_Controller.getOp_Y_DS().whenActive(new I2CTest());
+    m_Controller.getOp_Y_DS().toggleWhenActive(new AnglerToShuffleBoardAngle());
   }
 
   public void AutonInitRobotCentric() {
