@@ -15,4 +15,6 @@ Check if AutonExitTarmmac moves ~10feet.  Are we moving ~10ft?  Are we moving in
 Check accuracy of auton rotate CMD
 Check if Kyle's autons function correctly
 
+Reduce "funnel impact point" by 1-2 feet
+
 
