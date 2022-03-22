@@ -175,8 +175,8 @@ public class RobotContainer {
     // m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
     // m_Controller.getOp_Back_FS().whenActive(new ShootReset());
 
-    m_Controller.getOp_A_DS().whenActive(new ClimbPassivePistonEngage());
-    m_Controller.getOp_B_DS().whenActive(new ClimbPassivePistonRetract());
+    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage());
+    m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
 
     // m_Controller.getOp_RightTrigger().whenActive(new ShootTwoBalls());
     // m_Controller.getOp_LeftTrigger().whenActive(new ShootOneBall());
