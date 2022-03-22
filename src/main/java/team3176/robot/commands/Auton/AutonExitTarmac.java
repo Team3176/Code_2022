@@ -10,7 +10,7 @@ import team3176.robot.commands.Drivetrain.imported.TrapezoidDrive;
 public class AutonExitTarmac extends SequentialCommandGroup {
   public AutonExitTarmac() {
     addCommands(
-      new TrapezoidDrive(13, 0) //TODO: FIND DISTANCE AND ANGLE
+      new TrapezoidDrive(10, 0)
     );
   }
 }

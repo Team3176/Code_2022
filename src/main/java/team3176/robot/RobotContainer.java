@@ -19,15 +19,8 @@ import team3176.robot.subsystems.Vision;
 import team3176.robot.commands.Climb.*;
 import team3176.robot.commands.Auton.Auto2Balls;
 import team3176.robot.commands.Auton.AutoInTarmacShoot;
-import team3176.robot.commands.Auton.Auton1Ball;
-import team3176.robot.commands.Auton.Auton2Balls;
-import team3176.robot.commands.Auton.Auton3Balls;
-import team3176.robot.commands.Auton.Auton4Balls;
-import team3176.robot.commands.Auton.Auton5Balls;
 import team3176.robot.commands.Auton.AutonBlock;
 import team3176.robot.commands.Auton.AutonExitTarmac;
-import team3176.robot.commands.Auton.AutonInstantShoot;
-import team3176.robot.commands.Auton.AutonMove;
 import team3176.robot.commands.CMD_Groups.*;
 // import team3176.robot.commands.Drivetrain.*;
 import team3176.robot.commands.Drivetrain.imported.*;
@@ -54,13 +47,7 @@ public class RobotContainer {
   private final Climb m_Climb;
   private final Clarke m_Clarke;
   private SendableChooser<String> m_autonChooser;
-  // private static final String m_5 = "s_5BallAuto";
-  // private static final String m_4 = "s_4BallAuto";
-  // private static final String m_3 = "s_3BallAuto";
-  // private static final String m_2 = "s_2BallAuto";
   // private static final String m_B = "s_Block";
-  // private static final String m_MS = "s_Move&Shoot";
-  // private static final String m_S = "s_Shoot";
   private static final String m_M = "s_ExitTarmac";
   private static final String m_6L = "s_Move6inToTheLeft";
   private static final String m_6R = "s_Move6inToTheRight";
@@ -69,7 +56,7 @@ public class RobotContainer {
   private static final String m_9F = "s_Move9inToTheFront";
   private static final String m_9B = "s_Move9inToTheBack";
   private static final String m_TS = "s_ShootAndLeave";
-  private static final String m_SI = "s_ShootAndLeaveAndShoot"; 
+  private static final String m_SI = "s_ShootAndLeaveAndShoot";
   
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -107,12 +94,6 @@ public class RobotContainer {
     }
 
     m_autonChooser = new SendableChooser<>(); //TODO: Put them in the order of frequency that they will be used
-    // m_autonChooser.addOption("Auto: 5-Ball Auto (Mission: Impossible)", m_5);
-    // m_autonChooser.addOption("Auto: 4-Ball Auto (Mission: Kinda Impossible)", m_4);
-    // m_autonChooser.addOption("Auto: 3-Ball Auto (Mission: Probable)", m_3);
-    // m_autonChooser.addOption("Auto: 2-Ball Auto (Mission: Feasible)", m_2);
-    // m_autonChooser.addOption("Auto: 1-Ball Auto (Mission: Undershoot)", m_MS);
-    // m_autonChooser.addOption("Auto: Sit Shoot (Mission: Bare Minimum)", m_S);
     m_autonChooser.addOption("Auto: ExitTarmac", m_M);
     // m_autonChooser.addOption("Auto: Block", m_B);
     m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
@@ -181,12 +162,6 @@ public class RobotContainer {
     System.out.println("run");
 
     String chosen = m_autonChooser.getSelected();
-    // if(chosen.equals(m_5)) return new Auton5Balls(); //TODO: Put in order of frequency so the bot doesn't have to process more (shouldn't effect anything but just good to have)
-    // if(chosen.equals(m_4)) return new Auton4Balls();
-    // if(chosen.equals(m_3)) return new Auton3Balls();
-    // if(chosen.equals(m_2)) return new Auton2Balls();
-    // if(chosen.equals(m_MS)) return new Auton1Ball();
-    // if(chosen.equals(m_S)) return new AutonInstantShoot();
     if(chosen.equals(m_M)) return new AutonExitTarmac();
     // if(chosen.equals(m_B)) return new AutonBlock();
     if(chosen.equals(m_6L)) return new TrapezoidDrive(0, -6);
@@ -198,6 +173,6 @@ public class RobotContainer {
     if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
     if(chosen.equals(m_SI)) return new Auto2Balls();
     
-    return new AutonExitTarmac(); //TODO: Return the most common auton
+    return new AutoInTarmacShoot();
   }
 }
