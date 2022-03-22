@@ -71,7 +71,7 @@ public class Robot extends LoggedRobot {
     m_Controller = Controller.getInstance();
     m_Vision = Vision.getInstance();
 
-    m_Vision.setActivePipeline(1);
+    m_Vision.setActivePipeline(2);
 
     m_robotContainer = new RobotContainer();
   }

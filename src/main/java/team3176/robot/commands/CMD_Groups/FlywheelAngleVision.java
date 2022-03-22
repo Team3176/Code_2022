@@ -6,21 +6,18 @@ package team3176.robot.commands.CMD_Groups;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.ShooterLocationValues;
-import team3176.robot.subsystems.Feeder;
-import team3176.robot.subsystems.Indexer;
-import team3176.robot.subsystems.Intake;
+import team3176.robot.subsystems.Angler;
+import team3176.robot.subsystems.Flywheel;
 import team3176.robot.subsystems.Vision;
 
-public class ShootVision extends CommandBase {
-  private Intake m_Intake = Intake.getInstance();
-  private Indexer m_Indexer = Indexer.getInstance();
-  private Feeder m_Feeder = Feeder.getInstance();
+public class FlywheelAngleVision extends CommandBase {
+  private Flywheel m_Flywheel = Flywheel.getInstance();
+  private Angler m_Angler = Angler.getInstance();
   private Vision m_Vision = Vision.getInstance();
   private double ty;
   private boolean tv;
-
-  public ShootVision() {
-    addRequirements(m_Intake, m_Indexer, m_Feeder);
+  public FlywheelAngleVision() {
+    addRequirements(m_Flywheel, m_Angler);
   }
 
   @Override
@@ -36,27 +33,26 @@ public class ShootVision extends CommandBase {
     tv = m_Vision.tv.getBoolean(false);
 
     if(ty >= ShooterLocationValues.TY_2X_EDGE_OF_TARMAC || (ty == 0 && !tv)) {
-      m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[0][0]);
-      m_Indexer.setVelocity(ShooterLocationValues.POINTS[0][1]);
-      m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[0][2]);
+      // System.out.println("IN TARMAC");
+      m_Angler.moveToAngle(ShooterLocationValues.POINTS[0][5]);
+      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[0][3], ShooterLocationValues.POINTS[0][4]);
     }
     else if(ty < ShooterLocationValues.TY_2X_EDGE_OF_TARMAC && ty >= ShooterLocationValues.TY_2X_LAUNCH_PAD) {
-      m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[1][0]);
-      m_Indexer.setVelocity(ShooterLocationValues.POINTS[1][1]);
-      m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[1][2]);
+      // System.out.println("LAUNCH PAD");
+      m_Angler.moveToAngle(ShooterLocationValues.POINTS[1][5]);
+      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[1][3], ShooterLocationValues.POINTS[1][4]);
     }
     else if(ty < ShooterLocationValues.TY_2X_LAUNCH_PAD && ty >= ShooterLocationValues.TY_2X_WALL) {
-      m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[2][0]);
-      m_Indexer.setVelocity(ShooterLocationValues.POINTS[2][1]);
-      m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[2][2]);
+      // System.out.println("WALL");
+      m_Angler.moveToAngle(ShooterLocationValues.POINTS[2][5]);
+      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[2][3], ShooterLocationValues.POINTS[2][4]);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_Intake.stopMotor();
-    m_Indexer.motorStop();
-    m_Feeder.stopMotor();
+    m_Flywheel.stopMotors();
+    m_Angler.moveToAngle(52);
   }
 
   @Override

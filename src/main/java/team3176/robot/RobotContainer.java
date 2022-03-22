@@ -150,12 +150,12 @@ public class RobotContainer {
     // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     // m_Controller.getOp_Start_DS().whileActiveOnce(new Intaking());
 
-    // // m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
-    // // m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
+    m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
+    m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
 
-    // // m_Controller.getOp_X().whenActive(new FlywheelVelocityPID());
-    // // m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
-    // // m_Controller.getOp_B().whenActive(new FlywheelStop());
+    m_Controller.getOp_X().whenActive(new FlywheelVelocityPID());
+    m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
+    m_Controller.getOp_B().whenActive(new FlywheelStop());
     
     m_Controller.getOp_Back().whileActiveOnce(new SpittingDown());
     m_Controller.getOp_Start().whileActiveOnce(new SpittingUp());
@@ -163,9 +163,9 @@ public class RobotContainer {
     // m_Controller.getOp_Back().whenActive(new ShootReset());
 
     // m_Controller.getOp_A_FS().whenActive(new IndexerHoldingMode());
-    m_Controller.getOp_A_FS().whenActive(new ExtendIntake());
-    m_Controller.getOp_B_FS().whenActive(new RetractIntake());
-    m_Controller.getOp_X_FS().whenActive(new FlywheelBackspinVelocityPID());
+    // m_Controller.getOp_A_FS().whenActive(new ExtendIntake());
+    // m_Controller.getOp_B_FS().whenActive(new RetractIntake());
+    // m_Controller.getOp_X_FS().whenActive(new FlywheelBackspinVelocityPID());
 
     m_Controller.getOp_Back_FS().whileActiveOnce(new IndexerBackWhenHeld());
     m_Controller.getOp_Start_FS().whileActiveOnce(new IndexerForwardWhenHeld());
@@ -178,35 +178,18 @@ public class RobotContainer {
     m_Controller.getOp_A_DS().whenActive(new ClimbPassivePistonEngage());
     m_Controller.getOp_B_DS().whenActive(new ClimbPassivePistonRetract());
 
-    // m_Controller.getOp_RightTrigger().whenActive(new ShootTwoBalls());
-    // m_Controller.getOp_LeftTrigger().whenActive(new ShootOneBall());
+    
+    m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
+    m_Controller.getOp_DPAD_LEFT().whenActive(new VisionZoom1x());
+    m_Controller.getOp_DPAD_DOWN().whenActive(new VisionZoom2x());
+    m_Controller.getOp_DPAD_RIGHT().whenActive(new VisionZoom3x());
 
-    // m_Controller.getOp_A_DS().whenActive(new WinchUp());
-    // m_Controller.getOp_B_DS().whenActive(new PrimaryPistonToggle()); ////
-    // m_Controller.getOp_X_DS().whenActive(new SecondaryPistonToggle());
-    // m_Controller.getOp_Y_DS().whenActive(new WinchDown());
-    // m_Controller.getOp_Start_DS().whenActive(new ClimbDisableToggle());
-    // m_Controller.getOp_Back_DS().whenActive(new ShootReset());
-    // Active Climb
-    // m_Controller.getOp_DPAD_UP().whenActive(new ClimbToMid());
-    // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbToTraversal());
-    // m_Controller.getOp_DPAD_LEFT().whenActive(new ClimbToHigh());
-    // Passive Climb
-    // m_Controller.getOp_DPAD_UP().whenActive(new ClimbExtend());
-    // m_Controller.getOp_DPAD_DOWN().whenActive(new ClimbRetract());
-    // m_Controller.getOp_DPAD_RIGHT().whenActive(new ClimbDisableToggle());
-
-    // m_Angler.moveToAngle(m_Controller.getOp_LeftY());
-
-    // m_Controller.getOp_A_DS().whenActive(new AnglerPctOutput());
-    // m_Controller.getOp_B_DS().whenActive(new FeederPctOutput());
-    // m_Controller.getOp_X_DS().whenActive(new FlywheelPctOutput());
-    // m_Controller.getOp_Y_DS().whenActive(new I2CTest());
-
-    m_Controller.getOp_A().whileActiveOnce(new AnglerZeroAtMax());
-    m_Controller.getOp_Y().whileActiveOnce(new AnglerToggleTest());
-    m_Controller.getOp_X().whileActiveOnce(new FlywheelPIDToggleTest());
-    m_Controller.getOp_B().whileActiveOnce(new ShootPIDToggleTest());
+    m_Controller.getOp_A_FS().whileActiveOnce(new AnglerZeroAtMax());
+    m_Controller.getOp_Y_FS().whileActiveOnce(new AnglerToggleTest());
+    // m_Controller.getOp_X().whileActiveOnce(new FlywheelPIDToggleTest());
+    // m_Controller.getOp_B().whileActiveOnce(new ShootPIDToggleTest());
+    m_Controller.getOp_B_FS().whileActiveOnce(new FlywheelAngleVision());
+    m_Controller.getOp_X_FS().whileActiveOnce(new ShootVision());
   }
 
   public void AutonInitRobotCentric() {
