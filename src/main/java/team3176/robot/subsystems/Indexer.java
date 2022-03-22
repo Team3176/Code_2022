@@ -275,12 +275,12 @@ public class Indexer extends SubsystemBase {
   }
 
   public void setValuesFromSmartDashboard() {
-    // smartDashboardLastPercent = SmartDashboard.getNumber("Indexer PCT", 0);
-    // indexerMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Indexer PCT", 0)));
+    smartDashboardLastPercent = SmartDashboard.getNumber("Indexer PCT", 0);
+    indexerMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Indexer PCT", 0)));
   }
 
   public void putSmartDashboardControlCommands(double startPercent) {
-    // SmartDashboard.putNumber("Indexer PCT", startPercent);
+    SmartDashboard.putNumber("Indexer PCT", startPercent);
   }
 
   public double getStartPercent() {return smartDashboardLastPercent;}

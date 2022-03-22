@@ -49,6 +49,10 @@ public class Angler extends SubsystemBase {
    // before the motor is commanded to go somewhere
    private double motorZero;
    private boolean hasMotorBeenZeroedAtMax;
+   private double setMovement;
+   private double intent;
+   private double previousPercentDirection;
+   private double lastSmartDashboardAngle;
 
   public Angler(AnglerIO io) 
   {
@@ -253,14 +257,23 @@ public class Angler extends SubsystemBase {
 
 
   public void putSmartDashboardControlCommands() {
-    SmartDashboard.putNumber("Angler Position", 0);
+    SmartDashboard.putNumber("Angler Angle", 0);
     isSmartDashboardTestControlsShown = true;
   }
 
-  // public void setValuesFromSmartDashboard() {
-  //   this.anglerMotor.set(ControlMode.Position, (SmartDashboard.getNumber("Angler Position", 0)));
-  // }
+  public void putSmartDashboardControlCommands(double angle) {
+    SmartDashboard.putNumber("Angler Angle", angle);
+    isSmartDashboardTestControlsShown = true;
+  }
 
+  public void setValuesFromSmartDashboard() {
+    lastSmartDashboardAngle = SmartDashboard.getNumber("Angler Angle", 90);
+    moveToAngle(SmartDashboard.getNumber("Angler Angle", 90));
+  }
+
+  public double getStartAngle() {
+    return lastSmartDashboardAngle;
+  }
   
   @Override
   public void periodic() {

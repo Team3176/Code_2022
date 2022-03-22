@@ -150,12 +150,12 @@ public class RobotContainer {
     // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
     // m_Controller.getOp_Start_DS().whileActiveOnce(new Intaking());
 
-    m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
-    m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
+    // // m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
+    // // m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
 
-    m_Controller.getOp_X().whenActive(new FlywheelVelocityPID());
-    m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
-    m_Controller.getOp_B().whenActive(new FlywheelStop());
+    // // m_Controller.getOp_X().whenActive(new FlywheelVelocityPID());
+    // // m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
+    // // m_Controller.getOp_B().whenActive(new FlywheelStop());
     
     m_Controller.getOp_Back().whileActiveOnce(new SpittingDown());
     m_Controller.getOp_Start().whileActiveOnce(new SpittingUp());
@@ -203,8 +203,10 @@ public class RobotContainer {
     // m_Controller.getOp_X_DS().whenActive(new FlywheelPctOutput());
     // m_Controller.getOp_Y_DS().whenActive(new I2CTest());
 
-    m_Controller.getOp_X_DS().whenActive(new FlywheelToggleTest());
-    m_Controller.getOp_Y_DS().whenActive(new ShootToggleTest());
+    m_Controller.getOp_A().whileActiveOnce(new AnglerZeroAtMax());
+    m_Controller.getOp_Y().whileActiveOnce(new AnglerToggleTest());
+    m_Controller.getOp_X().whileActiveOnce(new FlywheelToggleTest());
+    m_Controller.getOp_B().whileActiveOnce(new ShootToggleTest());
   }
 
   public void AutonInitRobotCentric() {
