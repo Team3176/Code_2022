@@ -17,19 +17,8 @@ import team3176.robot.subsystems.drivetrain.*;
 import team3176.robot.subsystems.Vision;
 
 import team3176.robot.commands.Climb.*;
-import team3176.robot.commands.Auton.Auto2Balls;
-import team3176.robot.commands.Auton.AutoInTarmacShoot;
-import team3176.robot.commands.Auton.Auton1Ball;
-import team3176.robot.commands.Auton.Auton2Balls;
-import team3176.robot.commands.Auton.Auton3Balls;
-import team3176.robot.commands.Auton.Auton4Balls;
-import team3176.robot.commands.Auton.Auton5Balls;
-import team3176.robot.commands.Auton.AutonBlock;
-import team3176.robot.commands.Auton.AutonExitTarmac;
-import team3176.robot.commands.Auton.AutonInstantShoot;
-import team3176.robot.commands.Auton.AutonMove;
+import team3176.robot.commands.Auton.*;
 import team3176.robot.commands.CMD_Groups.*;
-// import team3176.robot.commands.Drivetrain.*;
 import team3176.robot.commands.Drivetrain.imported.*;
 import team3176.robot.commands.Indexer.*;
 import team3176.robot.commands.Intake.*;
@@ -54,13 +43,7 @@ public class RobotContainer {
   private final Climb m_Climb;
   private final Clarke m_Clarke;
   private SendableChooser<String> m_autonChooser;
-  // private static final String m_5 = "s_5BallAuto";
-  // private static final String m_4 = "s_4BallAuto";
-  // private static final String m_3 = "s_3BallAuto";
-  // private static final String m_2 = "s_2BallAuto";
   // private static final String m_B = "s_Block";
-  // private static final String m_MS = "s_Move&Shoot";
-  // private static final String m_S = "s_Shoot";
   private static final String m_M = "s_ExitTarmac";
   private static final String m_6L = "s_Move6inToTheLeft";
   private static final String m_6R = "s_Move6inToTheRight";
@@ -70,7 +53,6 @@ public class RobotContainer {
   private static final String m_9B = "s_Move9inToTheBack";
   private static final String m_TS = "s_ShootAndLeave";
   private static final String m_SI = "s_ShootAndLeaveAndShoot";
-  private static final String m_R = "s_Rot";
   
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -92,8 +74,6 @@ public class RobotContainer {
     //TODO: ADD A WAY TO CLEAR STICKY FAULTS
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
-
-    // m_Indexer.setDefaultCommand(new Index());
     
     if (!MasterConstants.IS_TUNING_MODE) { 
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
@@ -107,13 +87,7 @@ public class RobotContainer {
       m_Drivetrain.setDefaultCommand(new SwerveDriveTune());
     }
 
-    m_autonChooser = new SendableChooser<>(); //TODO: Put them in the order of frequency that they will be used
-    // m_autonChooser.addOption("Auto: 5-Ball Auto (Mission: Impossible)", m_5);
-    // m_autonChooser.addOption("Auto: 4-Ball Auto (Mission: Kinda Impossible)", m_4);
-    // m_autonChooser.addOption("Auto: 3-Ball Auto (Mission: Probable)", m_3);
-    // m_autonChooser.addOption("Auto: 2-Ball Auto (Mission: Feasible)", m_2);
-    // m_autonChooser.addOption("Auto: 1-Ball Auto (Mission: Undershoot)", m_MS);
-    // m_autonChooser.addOption("Auto: Sit Shoot (Mission: Bare Minimum)", m_S);
+    m_autonChooser = new SendableChooser<>();
     m_autonChooser.addOption("Auto: ExitTarmac", m_M);
     // m_autonChooser.addOption("Auto: Block", m_B);
     m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
@@ -124,11 +98,9 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Move 9in Backwards", m_9B);
     m_autonChooser.addOption("Auto: Shoot and Exit Tarmac", m_TS);
     m_autonChooser.addOption("Auto: Shoot and Intake and Second Shoot", m_SI);
-    m_autonChooser.addOption("Auto: Rot", m_R);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
-    System.out.println("init run");
   }
 
   
@@ -144,14 +116,6 @@ public class RobotContainer {
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     // m_Controller.getRotStick_Button5().whenPressed(new SwervePodsAzimuthGoHome());
 
-    // m_Controller.getOp_A().whileActiveOnce(new Intaking());
-    // m_Controller.getOp_A().whenActive(new IntakeIndexerIntegration());
-    // m_Controller.getOp_X().whenActive(new IntakeMotorToggle());
-    // m_Controller.getOp_A().whileActiveOnce(new ShootToggleTest());
-    // m_Controller.getOp_X().whileActiveOnce(new FlywheelToggleTest());
-    // m_Controller.getOp_Y().whenActive(new IntakePistonToggle());
-    // m_Controller.getOp_Start_DS().whileActiveOnce(new Intaking());
-
     m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
     m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
 
@@ -161,18 +125,16 @@ public class RobotContainer {
     
     m_Controller.getOp_Back().whileActiveOnce(new SpittingDown());
     m_Controller.getOp_Start().whileActiveOnce(new SpittingUp());
-    // m_Controller.getOp_Start().whenActive(new FeederToggle());
-    // m_Controller.getOp_Back().whenActive(new ShootReset());
 
-    // m_Controller.getOp_A_FS().whenActive(new IndexerHoldingMode());
-    // m_Controller.getOp_A_FS().whenActive(new ExtendIntake());
-    // m_Controller.getOp_B_FS().whenActive(new RetractIntake());
-    // m_Controller.getOp_X_FS().whenActive(new FlywheelBackspinVelocityPID());
+    m_Controller.getOp_A_FS().whenActive(new ExtendIntake());
+    m_Controller.getOp_B_FS().whenActive(new RetractIntake());
+    m_Controller.getOp_X_FS().whenActive(new FlywheelBackspinVelocityPID());
 
     m_Controller.getOp_Back_FS().whileActiveOnce(new IndexerBackWhenHeld());
     m_Controller.getOp_Start_FS().whileActiveOnce(new IndexerForwardWhenHeld());
 
-    // m_Controller.getOp_X_FS().whenActive(new FlywheelVelocityToggle());
+    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage());
+    m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
 
     // m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
     // m_Controller.getOp_Back_FS().whenActive(new ShootReset());
@@ -204,15 +166,8 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    System.out.println("run");
-
     String chosen = m_autonChooser.getSelected();
-    // if(chosen.equals(m_5)) return new Auton5Balls(); //TODO: Put in order of frequency so the bot doesn't have to process more (shouldn't effect anything but just good to have)
-    // if(chosen.equals(m_4)) return new Auton4Balls();
-    // if(chosen.equals(m_3)) return new Auton3Balls();
-    // if(chosen.equals(m_2)) return new Auton2Balls();
-    // if(chosen.equals(m_MS)) return new Auton1Ball();
-    // if(chosen.equals(m_S)) return new AutonInstantShoot();
+
     if(chosen.equals(m_M)) return new AutonExitTarmac();
     // if(chosen.equals(m_B)) return new AutonBlock();
     if(chosen.equals(m_6L)) return new TrapezoidDrive(0, -6);
@@ -223,8 +178,7 @@ public class RobotContainer {
     if(chosen.equals(m_9B)) return new TrapezoidDrive(-9 , 0);
     if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
     if(chosen.equals(m_SI)) return new Auto2Balls();
-    if(chosen.equals(m_R)) return new AutonRotate(.15, -45);
     
-    return new AutonExitTarmac(); //TODO: Return the most common auton
+    return new AutoInTarmacShoot();
   }
 }

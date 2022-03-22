@@ -5,13 +5,16 @@
 package team3176.robot.commands.Auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import team3176.robot.commands.Shooter.*;
 import team3176.robot.commands.CMD_Groups.*;
+import team3176.robot.commands.Util.*;
 
-public class Auton1Ball extends SequentialCommandGroup {
-  public Auton1Ball() {
+public class AutonFenderShootSequence extends SequentialCommandGroup {
+  public AutonFenderShootSequence() {
     addCommands(
-      new AutonExitTarmac(),
-      new ShootOneBall()
+      new FlywheelVelocityPIDAuton(),
+      new TimeDelay(2),
+      new AutonShootSetVals()
     );
   }
 }
