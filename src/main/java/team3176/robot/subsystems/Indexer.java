@@ -283,6 +283,15 @@ public class Indexer extends SubsystemBase {
     SmartDashboard.putNumber("Indexer PCT", startPercent);
   }
 
+  public void setPIDValuesFromSmartDashboard() {
+    smartDashboardLastPercent = SmartDashboard.getNumber("Indexer PID PCT", 0);
+    indexerMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Indexer PID PCT", 0)) * Units3176.revolutionsPerMinute2ticsPer100MS(18730, 4096));
+  }
+
+  public void putSmartDashboardPIDControlCommands(double startPercent) {
+    SmartDashboard.putNumber("Indexer PID PCT", startPercent);
+  }
+
   public double getStartPercent() {return smartDashboardLastPercent;}
 
   public void setModeLoading() {

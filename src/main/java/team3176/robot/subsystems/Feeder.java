@@ -86,12 +86,21 @@ public class Feeder extends SubsystemBase
  }
 
   public void setValuesFromSmartDashboard() {
-    smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
+    smartDashboardLastPercent = SmartDashboard.getNumber("Feeder PCT", 0);
     feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
  }
 
   public void putSmartDashboardControlCommands(double startPercent) {
     SmartDashboard.putNumber("Feeder PCT", startPercent);
+  }
+
+  public void setPIDValuesFromSmartDashboard() {
+    smartDashboardLastPercent = SmartDashboard.getNumber("Feeder PID PCT", 0);
+    feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PID PCT", 0) * Units3176.revolutionsPerMinute2ticsPer100MS(18730, 4096)));
+  }
+
+  public void putSmartDashboardPIDControlCommands(double startPercent) {
+    SmartDashboard.putNumber("Feeder PID PCT", startPercent);
   }
 
   public double getStartPercent() {return smartDashboardLastPercent;}

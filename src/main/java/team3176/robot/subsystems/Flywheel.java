@@ -137,6 +137,18 @@ public class Flywheel extends SubsystemBase {
     SmartDashboard.putNumber("Flywheel 2 PCT", startPercent2);
   }
 
+  public void putSmartDashboardPIDControlCommands(double startPercent1, double startPercent2) {
+    SmartDashboard.putNumber("Flywheel 1 PID PCT", startPercent1);
+    SmartDashboard.putNumber("Flywheel 2 PID PCT", startPercent2);
+  }
+
+  public void setPIDValuesFromSmartDashboard() {
+    smartDashboardLastPercent1 = SmartDashboard.getNumber("Flywheel 1 PID PCT", 0);
+    smartDashboardLastPercent2 = SmartDashboard.getNumber("Flywheel 2 PID PCT", 0);
+    flywheelMotor1.set(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel 1 PID PCT", 0) * Units3176.revolutionsPerMinute2ticsPer100MS(6380, 2048));
+    flywheelMotor2.set(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel 2 PID PCT", 0) * Units3176.revolutionsPerMinute2ticsPer100MS(6380, 2048));
+  }
+
   public double getStartPercent1() {return smartDashboardLastPercent1;}
   public double getStartPercent2() {return smartDashboardLastPercent2;}
 

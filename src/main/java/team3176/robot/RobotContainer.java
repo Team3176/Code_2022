@@ -205,8 +205,8 @@ public class RobotContainer {
 
     m_Controller.getOp_A().whileActiveOnce(new AnglerZeroAtMax());
     m_Controller.getOp_Y().whileActiveOnce(new AnglerToggleTest());
-    m_Controller.getOp_X().whileActiveOnce(new FlywheelToggleTest());
-    m_Controller.getOp_B().whileActiveOnce(new ShootToggleTest());
+    m_Controller.getOp_X().whileActiveOnce(new FlywheelPIDToggleTest());
+    m_Controller.getOp_B().whileActiveOnce(new ShootPIDToggleTest());
   }
 
   public void AutonInitRobotCentric() {
