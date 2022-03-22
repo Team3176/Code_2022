@@ -17,12 +17,8 @@ import team3176.robot.subsystems.drivetrain.*;
 import team3176.robot.subsystems.Vision;
 
 import team3176.robot.commands.Climb.*;
-import team3176.robot.commands.Auton.Auto2Balls;
-import team3176.robot.commands.Auton.AutoInTarmacShoot;
-import team3176.robot.commands.Auton.AutonBlock;
-import team3176.robot.commands.Auton.AutonExitTarmac;
+import team3176.robot.commands.Auton.*;
 import team3176.robot.commands.CMD_Groups.*;
-// import team3176.robot.commands.Drivetrain.*;
 import team3176.robot.commands.Drivetrain.imported.*;
 import team3176.robot.commands.Indexer.*;
 import team3176.robot.commands.Intake.*;
@@ -78,8 +74,6 @@ public class RobotContainer {
     //TODO: ADD A WAY TO CLEAR STICKY FAULTS
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
-
-    // m_Indexer.setDefaultCommand(new Index());
     
     if (!MasterConstants.IS_TUNING_MODE) { 
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
@@ -93,7 +87,7 @@ public class RobotContainer {
       m_Drivetrain.setDefaultCommand(new SwerveDriveTune());
     }
 
-    m_autonChooser = new SendableChooser<>(); //TODO: Put them in the order of frequency that they will be used
+    m_autonChooser = new SendableChooser<>();
     m_autonChooser.addOption("Auto: ExitTarmac", m_M);
     // m_autonChooser.addOption("Auto: Block", m_B);
     m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
@@ -107,7 +101,6 @@ public class RobotContainer {
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
-    System.out.println("init run");
   }
 
   
@@ -159,9 +152,8 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    System.out.println("run");
-
     String chosen = m_autonChooser.getSelected();
+
     if(chosen.equals(m_M)) return new AutonExitTarmac();
     // if(chosen.equals(m_B)) return new AutonBlock();
     if(chosen.equals(m_6L)) return new TrapezoidDrive(0, -6);
