@@ -5,6 +5,7 @@
 package team3176.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import team3176.robot.subsystems.Angler;
 import team3176.robot.subsystems.Climb;
 
 /**
@@ -13,13 +14,15 @@ import team3176.robot.subsystems.Climb;
 
 public class ClimbPassivePistonEngage extends InstantCommand{
   private Climb m_Climb = Climb.getInstance();
+  private Angler m_Angler = Angler.getInstance();
 
   public ClimbPassivePistonEngage() {
-    addRequirements(m_Climb);
+    addRequirements(m_Climb, m_Angler);
   }
 
   @Override
   public void initialize() {
+    m_Angler.moveToAngle(90);
     m_Climb.passivePistonsEngage();
   }
 }
