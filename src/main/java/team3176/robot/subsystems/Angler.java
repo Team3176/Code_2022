@@ -80,6 +80,7 @@ public class Angler extends SubsystemBase {
     topLimiter = new DigitalInput(AnglerConstants.limiter2Channel);
 
     motorZero = 0;
+    lastSmartDashboardAngle = 90;
 
     // used for Shuffleboard velocity + limit switch testing
     // smartdashboardVelocity = 0.0;
@@ -254,7 +255,7 @@ public class Angler extends SubsystemBase {
 
 
   public void putSmartDashboardControlCommands() {
-    SmartDashboard.putNumber("Angler Angle", 0);
+    SmartDashboard.putNumber("Angler Angle", 90);
     isSmartDashboardTestControlsShown = true;
   }
 
