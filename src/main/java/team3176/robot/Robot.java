@@ -34,6 +34,7 @@ public class Robot extends LoggedRobot {
   private Feeder m_Feeder;
   private Drivetrain m_Drivetrain;
   private Controller m_Controller;
+  private Vision m_Vision;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -68,6 +69,9 @@ public class Robot extends LoggedRobot {
     m_Feeder = Feeder.getInstance();
     m_Drivetrain = Drivetrain.getInstance();
     m_Controller = Controller.getInstance();
+    m_Vision = Vision.getInstance();
+
+    m_Vision.setActivePipeline(1);
 
     m_robotContainer = new RobotContainer();
   }

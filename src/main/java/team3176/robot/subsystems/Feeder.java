@@ -96,7 +96,7 @@ public class Feeder extends SubsystemBase
 
   public void setPIDValuesFromSmartDashboard() {
     smartDashboardLastPercent = SmartDashboard.getNumber("Feeder PID PCT", 0);
-    feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PID PCT", 0) * Units3176.revolutionsPerMinute2ticsPer100MS(18730, 4096)));
+    feederMotor.set(ControlMode.Velocity, (SmartDashboard.getNumber("Feeder PID PCT", 0) * Units3176.revolutionsPerMinute2ticsPer100MS(18730, 4096)));
   }
 
   public void putSmartDashboardPIDControlCommands(double startPercent) {

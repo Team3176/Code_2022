@@ -77,7 +77,7 @@ public class Vision extends SubsystemBase {
     tcornx.ensureCapacity(4);
     tcorny.ensureCapacity(4);
 
-    visionSpinLockPID = new PIDController(0.15, 0.0, 0.0);
+    visionSpinLockPID = new PIDController(0.01, 0.0, 0.0);
   }
 
   public static Vision getInstance(){
@@ -341,7 +341,7 @@ public class Vision extends SubsystemBase {
   }
 
   public double getVisionSpinCorrection() {
-    this.visionSpinCorrection = -visionSpinLockPID.calculate(this.tx.getDouble(0), 0);
+    this.visionSpinCorrection = visionSpinLockPID.calculate(this.tx.getDouble(0), 0);
     return visionSpinCorrection;
   }
 }
