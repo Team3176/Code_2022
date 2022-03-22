@@ -9,8 +9,8 @@ import team3176.robot.commands.Shooter.*;
 import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Util.*;
 
-public class AutonShootSequence extends SequentialCommandGroup {
-  public AutonShootSequence() {
+public class AutonFenderShootSequence extends SequentialCommandGroup {
+  public AutonFenderShootSequence() {
     addCommands(
       new FlywheelVelocityPIDAuton(),
       new TimeDelay(2),

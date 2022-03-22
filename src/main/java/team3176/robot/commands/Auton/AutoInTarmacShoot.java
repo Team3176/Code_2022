@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class AutoInTarmacShoot extends SequentialCommandGroup {
   public AutoInTarmacShoot() {
     addCommands(
-      new AutonShootSequence(),
+      new AutonFenderShootSequence(),
       new WaitCommand(2), //TODO: TUNE
       new AutonStopShootParallel(),
       new AutonExitTarmac()
