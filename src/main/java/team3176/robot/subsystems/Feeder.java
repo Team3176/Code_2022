@@ -55,9 +55,9 @@ public class Feeder extends SubsystemBase
 
   public void percentOutput() 
   {
-    // double output = SmartDashboard.getNumber(FeederConstants.kShuffleboardPercentName, 0.0);
-    // if (output >= -1 && output <= 1) { feederMotor.set(ControlMode.PercentOutput, output); }
-    // SmartDashboard.putNumber("FeederRPMOut", feederMotor.getSelectedSensorVelocity());
+    double output = SmartDashboard.getNumber(FeederConstants.kShuffleboardPercentName, 0.0);
+    if (output >= -1 && output <= 1) { feederMotor.set(ControlMode.PercentOutput, output); }
+    SmartDashboard.putNumber("FeederTics/100msOut", feederMotor.getSelectedSensorVelocity());
   }
 
   public void setVelocityPID(double pctAsDecimal)

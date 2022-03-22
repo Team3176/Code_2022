@@ -17,8 +17,8 @@ public class FlywheelPctOutput extends CommandBase {
 
   @Override
   public void initialize() {
-    // SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
-    // SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
+    SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
+    SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName2, 0.0);
   }
 
   @Override
@@ -30,8 +30,8 @@ public class FlywheelPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Flywheel.stopMotors();
-    // SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName1);
-    // SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName2);
+    SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName1);
+    SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName2);
   }
 
   @Override

@@ -17,7 +17,7 @@ public class AnglerPctOutput extends CommandBase {
 
   @Override
   public void initialize() {
-    // SmartDashboard.putNumber(AnglerConstants.kShuffleboardPercentName, 0.0);
+    SmartDashboard.putNumber(AnglerConstants.kShuffleboardPercentName, 0.0);
   }
 
   @Override
@@ -28,7 +28,7 @@ public class AnglerPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_angler.engageRawMotor(0.0);
-    // SmartDashboard.delete(AnglerConstants.kShuffleboardPercentName);
+    SmartDashboard.delete(AnglerConstants.kShuffleboardPercentName);
   }
 
   @Override

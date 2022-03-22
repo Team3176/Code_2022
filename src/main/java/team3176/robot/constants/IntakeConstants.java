@@ -13,4 +13,6 @@ public final class IntakeConstants {
     public static final int DSOLENOID2_REV_CHAN = 14;
     public static final double INTAKE_GEAR_RATIO = 5.0;
     public static final int BALL_SENSOR_DIO = 5;
+
+    public static final String kShuffleboardPercentName = "Intake%Set";
 }

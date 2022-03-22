@@ -10,25 +10,25 @@ import team3176.robot.subsystems.Feeder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FeederPctOutput extends CommandBase {
-  private Feeder m_Transfer = Feeder.getInstance();
+  private Feeder m_Feeder = Feeder.getInstance();
   public FeederPctOutput() {
-    addRequirements(m_Transfer);
+    addRequirements(m_Feeder);
   }
 
   @Override
   public void initialize() {
-    // SmartDashboard.putNumber(FeederConstants.kShuffleboardPercentName, 0.0);
+    SmartDashboard.putNumber(FeederConstants.kShuffleboardPercentName, 0.0);
   }
 
   @Override
   public void execute() {
-    m_Transfer.percentOutput();
+    m_Feeder.percentOutput();
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_Transfer.stopMotor();
-    // SmartDashboard.delete(FeederConstants.kShuffleboardPercentName);
+    m_Feeder.stopMotor();
+    SmartDashboard.delete(FeederConstants.kShuffleboardPercentName);
   }
 
   @Override

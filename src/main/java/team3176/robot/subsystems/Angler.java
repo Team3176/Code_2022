@@ -49,6 +49,7 @@ public class Angler extends SubsystemBase {
    // before the motor is commanded to go somewhere
    private double motorZero;
    private boolean hasMotorBeenZeroedAtMax;
+   private int intent;
 
   public Angler(AnglerIO io) 
   {
@@ -76,9 +77,7 @@ public class Angler extends SubsystemBase {
     bottomLimiter = new DigitalInput(AnglerConstants.limiter1Channel);
     topLimiter = new DigitalInput(AnglerConstants.limiter2Channel);
 
-    setMovement = 0;
     motorZero = 0;
-    previousPercentDirection = 0;
 
     // used for Shuffleboard velocity + limit switch testing
     // smartdashboardVelocity = 0.0;
@@ -279,7 +278,6 @@ public class Angler extends SubsystemBase {
 
     // Safety checks to make sure the motor is not being powered while limit switches are engaged
     SmartDashboard.putNumber("AnglerVoltage", anglerMotor.getMotorOutputVoltage());
-    SmartDashboard.putNumber("AnglerPctOutput", anglerMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("AnglerEncoderPos", anglerMotor.getSelectedSensorPosition());
     SmartDashboard.putBoolean("AnglerTopLimitPressed", !topLimiter.get());
     SmartDashboard.putBoolean("AnglerBottomLimitPressed", !bottomLimiter.get());
