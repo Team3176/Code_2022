@@ -50,8 +50,7 @@ public class Angler extends SubsystemBase {
    private double motorZero;
    private boolean hasMotorBeenZeroedAtMax;
    private int intent;
-   private double intent;
-   private double previousPercentDirection;
+   
    private double lastSmartDashboardAngle;
 
   public Angler(AnglerIO io) 
