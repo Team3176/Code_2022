@@ -33,7 +33,7 @@ public class AutonRotate extends CommandBase {
 
   @Override
   public void initialize() {
-    m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
+    m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
     //initialAngle = -drivetrain.getNavxAngle_inDegrees();
     initialAngle = m_gyro.getNavxAngle_inDegrees();
     //rotation = Math.copySign(rotation, degrees);

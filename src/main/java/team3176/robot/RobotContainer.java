@@ -69,7 +69,8 @@ public class RobotContainer {
   private static final String m_9F = "s_Move9inToTheFront";
   private static final String m_9B = "s_Move9inToTheBack";
   private static final String m_TS = "s_ShootAndLeave";
-  private static final String m_SI = "s_ShootAndLeaveAndShoot"; 
+  private static final String m_SI = "s_ShootAndLeaveAndShoot";
+  private static final String m_R = "s_Rot";
   
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -123,6 +124,7 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Move 9in Backwards", m_9B);
     m_autonChooser.addOption("Auto: Shoot and Exit Tarmac", m_TS);
     m_autonChooser.addOption("Auto: Shoot and Intake and Second Shoot", m_SI);
+    m_autonChooser.addOption("Auto: Rot", m_R);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
@@ -221,6 +223,7 @@ public class RobotContainer {
     if(chosen.equals(m_9B)) return new TrapezoidDrive(-9 , 0);
     if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
     if(chosen.equals(m_SI)) return new Auto2Balls();
+    if(chosen.equals(m_R)) return new AutonRotate(.15, -45);
     
     return new AutonExitTarmac(); //TODO: Return the most common auton
   }
