@@ -42,8 +42,8 @@ public class Feeder extends SubsystemBase
     feederMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
     this.feederMotor.configNominalOutputForward(0, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.configNominalOutputReverse(0, FeederConstants.kTIMEOUT_MS);
-    // this.feederMotor.configPeakOutputForward(0.25, FeederConstants.kTIMEOUT_MS);
-    // this.feederMotor.configPeakOutputReverse(-0.25, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.configPeakOutputForward(1.0, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.configPeakOutputReverse(-1.0, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.configAllowableClosedloopError(FeederConstants.kPID_LOOP_IDX, FeederConstants.ALLOWABLE_CLOSED_LOOP_ERROR, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.config_kF(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][3], FeederConstants.kTIMEOUT_MS);
     this.feederMotor.config_kP(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][0], FeederConstants.kTIMEOUT_MS);
@@ -86,12 +86,12 @@ public class Feeder extends SubsystemBase
  }
 
   public void setValuesFromSmartDashboard() {
-    // smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
-    // feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
+    smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
+    feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
  }
 
   public void putSmartDashboardControlCommands(double startPercent) {
-    // SmartDashboard.putNumber("Feeder PCT", startPercent);
+    SmartDashboard.putNumber("Feeder PCT", startPercent);
   }
 
   public double getStartPercent() {return smartDashboardLastPercent;}

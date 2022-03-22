@@ -123,8 +123,8 @@ public class Intake extends SubsystemBase {
   }
 
   public void setValuesFromSmartDashboard() {
-    // // smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
-    // // intakeMotor.set(TalonSRXControlMode.PercentOutput, SmartDashboard.getNumber("Intake PCT", 0));
+    smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, SmartDashboard.getNumber("Intake PCT", 0));
     // pistonSetting = SmartDashboard.getBoolean("Intake Piston", false);
     // if(SmartDashboard.getBoolean("Intake Piston Allow Toggle", false)) {
     //   if (pistonSetting) {
@@ -138,7 +138,7 @@ public class Intake extends SubsystemBase {
   }
   
   public void putSmartDashboardControlCommands(double startPercent) {
-    // SmartDashboard.putNumber("Intake PCT", startPercent);
+    SmartDashboard.putNumber("Intake PCT", startPercent);
   }
 
   public double getStartPercent() {return smartDashboardLastPercent;}
