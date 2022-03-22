@@ -95,7 +95,13 @@ public class Robot extends LoggedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_Intake.mode = "disabled";
+    m_Indexer.mode = "disabled";
+    m_Angler.mode = "disabled";
+    m_Flywheel.mode = "disabled";
+    m_Feeder.mode = "disabled";
+  }
 
   @Override
   public void disabledPeriodic() {}
