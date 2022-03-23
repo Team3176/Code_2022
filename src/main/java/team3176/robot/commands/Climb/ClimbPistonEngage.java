@@ -12,15 +12,15 @@ import team3176.robot.subsystems.Climb;
 
 public class ClimbPistonEngage extends InstantCommand{
   private Climb m_Climb = Climb.getInstance();
-  private Angler m_Angler = Angler.getInstance();
+  // private Angler m_Angler = Angler.getInstance();
 
   public ClimbPistonEngage() {
-    addRequirements(m_Climb, m_Angler);
+    addRequirements(m_Climb/*, m_Angler*/);
   }
 
   @Override
   public void initialize() {
-    m_Angler.moveToAngle(90);
+    // m_Angler.moveToAngle(90);
     m_Climb.climbPistonsEngage();
   }
 }

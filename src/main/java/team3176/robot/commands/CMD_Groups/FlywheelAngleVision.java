@@ -33,26 +33,32 @@ public class FlywheelAngleVision extends CommandBase {
     tv = m_Vision.tv.getBoolean(false);
 
     if(ty >= ShooterLocationValues.TY_2X_EDGE_OF_TARMAC || (ty == 0 && !tv)) {
-      // System.out.println("IN TARMAC");
+      System.out.println("TARMAC ZONE");
+    }
+    else if(ty >= ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE && ty < ShooterLocationValues.TY_2X_EDGE_OF_TARMAC) {
+      System.out.println("TARMAC LINE");
       m_Angler.moveToAngle(ShooterLocationValues.POINTS[0][5]);
       m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[0][3], ShooterLocationValues.POINTS[0][4]);
     }
-    else if(ty < ShooterLocationValues.TY_2X_EDGE_OF_TARMAC && ty >= ShooterLocationValues.TY_2X_LAUNCH_PAD) {
-      // System.out.println("LAUNCH PAD");
+    else if(ty < ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE && ty >= ShooterLocationValues.TY_2X_LAUNCH_PAD) {
+      System.out.println("LAUNCH PAD ZONE");
       m_Angler.moveToAngle(ShooterLocationValues.POINTS[1][5]);
       m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[1][3], ShooterLocationValues.POINTS[1][4]);
     }
-    else if(ty < ShooterLocationValues.TY_2X_LAUNCH_PAD && ty >= ShooterLocationValues.TY_2X_WALL) {
-      // System.out.println("WALL");
+    else if(ty < ShooterLocationValues.TY_2X_LAUNCH_PAD && ty >= ShooterLocationValues.TY_2X_WALL_ZONE) {
+      System.out.println("PRE-WALL ZONE");
       m_Angler.moveToAngle(ShooterLocationValues.POINTS[2][5]);
       m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[2][3], ShooterLocationValues.POINTS[2][4]);
+    }
+    else if(ty < ShooterLocationValues.TY_2X_WALL_ZONE) {
+      System.out.println("WALL ZONE");
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     m_Flywheel.stopMotors();
-    m_Angler.moveToAngle(52);
+    // m_Angler.moveToAngle(52);
   }
 
   @Override

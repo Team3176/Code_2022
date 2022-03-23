@@ -6,21 +6,18 @@ package team3176.robot.commands.CMD_Groups;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.ShooterLocationValues;
-import team3176.robot.subsystems.Feeder;
-import team3176.robot.subsystems.Indexer;
-import team3176.robot.subsystems.Intake;
+import team3176.robot.subsystems.Angler;
+import team3176.robot.subsystems.Flywheel;
 import team3176.robot.subsystems.Vision;
 
-public class ShootVision extends CommandBase {
-  private Intake m_Intake = Intake.getInstance();
-  private Indexer m_Indexer = Indexer.getInstance();
-  private Feeder m_Feeder = Feeder.getInstance();
+public class FlywheelAngleVisionAuton extends CommandBase {
+  private Flywheel m_Flywheel = Flywheel.getInstance();
+  private Angler m_Angler = Angler.getInstance();
   private Vision m_Vision = Vision.getInstance();
   private double ty;
   private boolean tv;
-
-  public ShootVision() {
-    addRequirements(m_Intake, m_Indexer, m_Feeder);
+  public FlywheelAngleVisionAuton() {
+    addRequirements(m_Flywheel, m_Angler);
   }
 
   @Override
@@ -37,45 +34,35 @@ public class ShootVision extends CommandBase {
 
     if(ty >= ShooterLocationValues.TY_2X_EDGE_OF_TARMAC || (ty == 0 && !tv)) {
       System.out.println("TARMAC ZONE");
-      m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[0][0]);
-      m_Indexer.setVelocity(ShooterLocationValues.POINTS[0][1]);
-      m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[0][2]);
     }
     else if(ty >= ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE && ty < ShooterLocationValues.TY_2X_EDGE_OF_TARMAC) {
       System.out.println("TARMAC LINE");
-      m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[1][0]);
-      m_Indexer.setVelocity(ShooterLocationValues.POINTS[1][1]);
-      m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[1][2]);
+      m_Angler.moveToAngle(ShooterLocationValues.POINTS[1][5]);
+      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[1][3], ShooterLocationValues.POINTS[1][4]);
     }
     else if(ty < ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE && ty >= ShooterLocationValues.TY_2X_LAUNCH_PAD) {
       System.out.println("LAUNCH PAD ZONE");
-      m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[2][0]);
-      m_Indexer.setVelocity(ShooterLocationValues.POINTS[2][1]);
-      m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[2][2]);
+      m_Angler.moveToAngle(ShooterLocationValues.POINTS[2][5]);
+      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[2][3], ShooterLocationValues.POINTS[2][4]);
     }
     else if(ty < ShooterLocationValues.TY_2X_LAUNCH_PAD && ty >= ShooterLocationValues.TY_2X_WALL_ZONE) {
       System.out.println("PRE-WALL ZONE");
-      m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[3][0]);
-      m_Indexer.setVelocity(ShooterLocationValues.POINTS[3][1]);
-      m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[3][2]);
+      m_Angler.moveToAngle(ShooterLocationValues.POINTS[3][5]);
+      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[3][3], ShooterLocationValues.POINTS[3][4]);
     }
     else if(ty < ShooterLocationValues.TY_2X_WALL_ZONE) {
       System.out.println("WALL ZONE");
-      m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[4][0]);
-      m_Indexer.setVelocity(ShooterLocationValues.POINTS[4][1]);
-      m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[4][2]);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_Intake.stopMotor();
-    m_Indexer.motorStop();
-    m_Feeder.stopMotor();
+    m_Flywheel.stopMotors();
+    // m_Angler.moveToAngle(52);
   }
 
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

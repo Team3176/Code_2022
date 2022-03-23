@@ -7,6 +7,9 @@ package team3176.robot.commands.Auton;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import team3176.robot.commands.CMD_Groups.FlywheelAngleVision;
+import team3176.robot.commands.CMD_Groups.FlywheelAngleVisionAuton;
+import team3176.robot.commands.CMD_Groups.ShootVision;
 import team3176.robot.commands.Drivetrain.imported.AutonRotate;
 import team3176.robot.commands.Drivetrain.imported.TrapezoidDrive;
 import team3176.robot.commands.Intake.IntakeExtendSpin;
@@ -26,7 +29,7 @@ public class Auto2Balls extends SequentialCommandGroup {
         new IntakeSpintAuton(),
         new RetractIntake()
       ),
-      new AutonFenderShootSequence(),
+      new AutonVisionShootSequence(),
       new WaitCommand(2),            //TODO: TUNE
       new AutonStopShootParallel()
     );
