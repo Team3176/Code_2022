@@ -16,22 +16,27 @@ import team3176.robot.commands.Intake.IntakeExtendSpin;
 import team3176.robot.commands.Intake.IntakeSpintAuton;
 import team3176.robot.commands.Intake.Intaking;
 import team3176.robot.commands.Intake.RetractIntake;
+import team3176.robot.commands.Vision.VisionSpinCorrectionOff;
+import team3176.robot.commands.Vision.VisionSpinCorrectionOn;
+import team3176.robot.commands.Vision.VisionZoom2x;
 
 public class Auto2Balls extends SequentialCommandGroup {
   public Auto2Balls() {
     addCommands(
-      new TrapezoidDrive(7, 0),
-      // new Intaking(),
+      new VisionZoom2x(),
       new IntakeExtendSpin(),
-      new WaitCommand(1),            //TODO: TUNE
-      new TrapezoidDrive(1, 0),
-      new ParallelCommandGroup(
-        new IntakeSpintAuton(),
-        new RetractIntake()
-      ),
+      new TrapezoidDrive(5, 0),  
+      new WaitCommand(1), 
+      //new VisionSpinCorrectionOn(),
+      new TrapezoidDrive(-2, 0),
+      // new AutonRotate(.15, 10),
+      new IntakeSpintAuton(),
+      new RetractIntake(),
+      new VisionSpinCorrectionOn(),
       new AutonVisionShootSequence(),
-      new WaitCommand(2),            //TODO: TUNE
-      new AutonStopShootParallel()
+      new WaitCommand(5),            //TODO: TUNE
+      new AutonStopShootParallel(),
+      new VisionSpinCorrectionOff()
     );
   }
 }
