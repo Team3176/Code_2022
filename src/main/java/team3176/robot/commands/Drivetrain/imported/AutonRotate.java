@@ -24,7 +24,7 @@ public class AutonRotate extends CommandBase {
   private double goal;
   private double currentAngle;
 
-  /** Creates a new AutonRotate. */
+  /** To go in the negative direction put a negative rotational speed and positive degrees. */
   public AutonRotate(double rot, double degrees) {
     addRequirements(drivetrain);
     rotationSpeed = rot;
@@ -46,8 +46,8 @@ public class AutonRotate extends CommandBase {
   public void execute() {
     drivetrain.drive(0,0,-rotationSpeed);
     currentAngle = -m_gyro.getNavxAngle_inDegrees();
-    // SmartDashboard.putNumber("initialAngle", initialAngle);
-    // SmartDashboard.putNumber("currentAngle", currentAngle);
+    SmartDashboard.putNumber("Rotate.initialAngle", initialAngle);
+    SmartDashboard.putNumber("Rotate.currentAngle", currentAngle);
     // SmartDashboard.putNumber("goal", goal);
   }
 
@@ -65,15 +65,17 @@ public class AutonRotate extends CommandBase {
   }*/
   public boolean isFinished() {
     if(rotationSpeed > 0){
-    if(m_gyro.getNavxAngle_inDegrees() >= initialAngle + degrees ){
-      return true;
+      if(m_gyro.getNavxAngle_inDegrees() >= initialAngle + degrees ){
+        drivetrain.drive(0,0,0);
+        return true;
+      }
     }
-  }
-  if(rotationSpeed < 0){
-    if(m_gyro.getNavxAngle_inDegrees() <= initialAngle + -degrees ){
-      return true;
+    if(rotationSpeed < 0){
+      if(m_gyro.getNavxAngle_inDegrees() <= initialAngle + -degrees ){
+        drivetrain.drive(0,0,0);
+        return true;
+      }
     }
-  }
     return false;
   }
 }

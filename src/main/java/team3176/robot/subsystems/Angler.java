@@ -152,10 +152,10 @@ public class Angler extends SubsystemBase {
   // Sets the motor to an exact position in tics
   public void engagePIDMotorPosition(double ticPosition)
   {
-    if (hasMotorBeenZeroedAtMax) {
+    // if (hasMotorBeenZeroedAtMax) {
       this.intent = determineIntent(ControlMode.Position, ticPosition);
       setMotorWithLimiterBound(ControlMode.Position, ticPosition);
-    }
+    // }
   }
 
   // Sets the velocity of the motor in tics per 100ms

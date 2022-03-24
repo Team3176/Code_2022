@@ -6,22 +6,15 @@ package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.Flywheel;
-import team3176.robot.subsystems.Vision;
 
-public class FlywheelBackSpinSet extends InstantCommand {
+public class FlywheelDefaultCommandStop extends InstantCommand {
   private Flywheel m_Flywheel = Flywheel.getInstance();
-  private Vision m_Vision = Vision.getInstance();
-  private double front;
-  private double back;
-
-  public FlywheelBackSpinSet(double front, double back) {
-    this.front = front;
-    this.back = back;
+  public FlywheelDefaultCommandStop() {
     addRequirements(m_Flywheel);
   }
 
   @Override
   public void initialize() {
-    m_Flywheel.spinMotorsVelocityPID(this.front, this.back);
+    m_Flywheel.setAutoSpinFlywheels(false);
   }
 }

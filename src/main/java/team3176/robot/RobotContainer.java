@@ -52,7 +52,8 @@ public class RobotContainer {
   private static final String m_9F = "s_Move9inToTheFront";
   private static final String m_9B = "s_Move9inToTheBack";
   private static final String m_TS = "s_ShootAndLeave";
-  private static final String m_SI = "s_ShootAndLeaveAndShoot";
+  private static final String m_SI = "s_LeaveAndShootTwo";
+  private static final String m_Rot = "s_Rot";
   
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -74,6 +75,8 @@ public class RobotContainer {
     //TODO: ADD A WAY TO CLEAR STICKY FAULTS
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
+
+    m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.24, 0.18));
     
     if (!MasterConstants.IS_TUNING_MODE) { 
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
@@ -97,7 +100,8 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Move 9in Forward", m_9F);
     m_autonChooser.addOption("Auto: Move 9in Backwards", m_9B);
     m_autonChooser.addOption("Auto: Shoot and Exit Tarmac", m_TS);
-    m_autonChooser.addOption("Auto: Shoot and Intake and Second Shoot", m_SI);
+    m_autonChooser.addOption("Auto: 2 Ball", m_SI);
+    m_autonChooser.addOption("Auto: Rotate", m_Rot);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
@@ -138,9 +142,6 @@ public class RobotContainer {
 
     m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage());
     m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
-
-    // m_Controller.getOp_X_DS().whileActiveOnce(new SpittingDown());
-    // m_Controller.getOp_Y_DS().whileActiveOnce(new SpittingUp());
     
     m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
     m_Controller.getOp_DPAD_LEFT().whenActive(new VisionZoom1x());
@@ -148,14 +149,14 @@ public class RobotContainer {
     m_Controller.getOp_DPAD_RIGHT().whenActive(new VisionZoom3x());
 
     m_Controller.getOp_A_FS().whileActiveOnce(new AnglerZeroAtMax());
-    m_Controller.getOp_Y_FS().whileActiveOnce(new AnglerToggleTest());
+    // m_Controller.getOp_Y_FS().whileActiveOnce(new AnglerToggleTest());
+    m_Controller.getOp_Y_FS().whenActive(new FlywheelDefaultCommandStop());
 
+    m_Controller.getOp_Back().whileActiveOnce(new SpittingDown());
+    m_Controller.getOp_Start().whileActiveOnce(new SpittingUp());
 
-    // m_Controller.getOp_Back().whileActiveOnce(new SpittingDown());
-    // m_Controller.getOp_Start().whileActiveOnce(new SpittingUp());
-
-    m_Controller.getOp_Back().whileActiveOnce(new FlywheelPIDToggleTest());
-    m_Controller.getOp_Start().whileActiveOnce(new ShootPIDToggleTest());
+    // m_Controller.getOp_Back().whileActiveOnce(new FlywheelPIDToggleTest());
+    // m_Controller.getOp_Start().whileActiveOnce(new ShootPIDToggleTest());
 
     m_Controller.getOp_X().whileActiveOnce(new FlywheelAngleVision());
     m_Controller.getOp_X_FS().whileActiveOnce(new FlywheelAngleFender());
@@ -186,6 +187,7 @@ public class RobotContainer {
     if(chosen.equals(m_9B)) return new TrapezoidDrive(-9 , 0);
     if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
     if(chosen.equals(m_SI)) return new Auto2Balls();
+    if(chosen.equals(m_Rot)) return new AutonRotate(0.15, 10);
     
     return new AutoInTarmacShoot();
   }

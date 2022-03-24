@@ -6,7 +6,7 @@ package team3176.robot.constants;
 
 public final class ShooterLocationValues {
     public static final double TY_2X_EDGE_OF_TARMAC = 10.922;       //ID: 0
-    public static final double TY_2X_MID_OF_TARMAC_LINE = 3.5;
+    public static final double TY_2X_MID_OF_TARMAC_LINE = -4.7;
     public static final double TY_2X_LAUNCH_PAD = -6.3;           //ID: 1
     public static final double TY_2X_WALL_ZONE = -12.108;           //ID: 2
 

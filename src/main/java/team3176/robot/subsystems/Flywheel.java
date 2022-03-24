@@ -29,6 +29,7 @@ public class Flywheel extends SubsystemBase {
   private boolean isFlywheelSpinning = false;
   private double smartDashboardLastPercent1 = 0.0;
   private double smartDashboardLastPercent2 = 0.0;
+  private boolean autoSpinFlywheels;
 
   public Flywheel(FlywheelIO io) {
     this.io = io;
@@ -63,7 +64,12 @@ public class Flywheel extends SubsystemBase {
 
     flywheelMotor1.setInverted(true);
     flywheelMotor2.setInverted(true);
+
+    autoSpinFlywheels = true;
   }
+
+  public boolean getAutoSpinFlywheels() {return autoSpinFlywheels;}
+  public void setAutoSpinFlywheels(boolean passed) {autoSpinFlywheels = passed;}
 
   public void spinMotors(double ticksPer100ms) {
     flywheelMotor1.set(TalonFXControlMode.Velocity, ticksPer100ms);
