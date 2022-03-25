@@ -141,6 +141,7 @@ public class RobotContainer {
     // m_Controller.getOp_Back_FS().whenActive(new ShootReset());
 
     m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage());
+    m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
     m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
     
     m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());

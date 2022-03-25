@@ -19,7 +19,8 @@ public class FlywheelAngleFender extends CommandBase {
   @Override
   public void initialize() {
     m_Angler.moveToAngle(ShooterLocationValues.POINTS[0][5]);
-    m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[0][3], ShooterLocationValues.POINTS[0][4]);
+    //m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[0][3], ShooterLocationValues.POINTS[0][4]);
+    m_Flywheel.setPCT(.3,.3);
   }
 
   @Override
