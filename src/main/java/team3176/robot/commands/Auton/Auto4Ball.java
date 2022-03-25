@@ -11,8 +11,8 @@ import team3176.robot.commands.Drivetrain.imported.*;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
 
-public class Auto3Balls extends SequentialCommandGroup {
-  public Auto3Balls() {
+public class Auto4Ball extends SequentialCommandGroup {
+  public Auto4Ball() {
     addCommands(
       new SwerveResetGyro(),
       new AnglerZeroAtMax(),
@@ -39,6 +39,20 @@ public class Auto3Balls extends SequentialCommandGroup {
       // new WaitCommand(2),
       new AutoShoot50(),
       new WaitCommand(3),
+      new AutonStopShootParallel(),
+
+      /** 4 Ball */
+      new FlywheelAngleWall(),
+      new AutonRotate(.15, 45),
+      new TrapezoidDrive(9, 0),
+      new AutonRotate(-.15, 45),
+      new IntakeExtendSpin(),
+      new TrapezoidDrive(7, 0),
+      new IntakeRetractStop(),
+      new AutonRotate(.15, 10),
+      new WaitCommand(3),
+      new AutoShoot50(),
+      new WaitCommand(2),
       new AutonStopShootParallel()
     );
   }

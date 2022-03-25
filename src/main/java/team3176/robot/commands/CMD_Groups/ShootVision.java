@@ -36,31 +36,26 @@ public class ShootVision extends CommandBase {
     tv = m_Vision.tv.getBoolean(false);
 
     if(ty >= ShooterLocationValues.TY_2X_EDGE_OF_TARMAC || (ty == 0 && !tv)) {
-      System.out.println("TARMAC ZONE");
       m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[0][0]);
       m_Indexer.setVelocity(ShooterLocationValues.POINTS[0][1]);
       m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[0][2]);
     }
     else if(ty >= ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE && ty < ShooterLocationValues.TY_2X_EDGE_OF_TARMAC) {
-      System.out.println("TARMAC LINE");
       m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[1][0]);
       m_Indexer.setVelocity(ShooterLocationValues.POINTS[1][1]);
       m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[1][2]);
     }
     else if(ty < ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE && ty >= ShooterLocationValues.TY_2X_LAUNCH_PAD) {
-      System.out.println("LAUNCH PAD ZONE");
       m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[2][0]);
       m_Indexer.setVelocity(ShooterLocationValues.POINTS[2][1]);
       m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[2][2]);
     }
     else if(ty < ShooterLocationValues.TY_2X_LAUNCH_PAD && ty >= ShooterLocationValues.TY_2X_WALL_ZONE) {
-      System.out.println("PRE-WALL ZONE");
       m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[3][0]);
       m_Indexer.setVelocity(ShooterLocationValues.POINTS[3][1]);
       m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[3][2]);
     }
     else if(ty < ShooterLocationValues.TY_2X_WALL_ZONE) {
-      System.out.println("WALL ZONE");
       m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[4][0]);
       m_Indexer.setVelocity(ShooterLocationValues.POINTS[4][1]);
       m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[4][2]);
