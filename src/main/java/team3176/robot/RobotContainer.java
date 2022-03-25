@@ -125,32 +125,25 @@ public class RobotContainer {
     m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
     m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
 
-    // m_Controller.getOp_X().whenActive(new FlywheelVelocityPID());
     m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
     m_Controller.getOp_B().whenActive(new FlywheelStop());
-    
-    // m_Controller.getOp_A_FS().whenActive(new ExtendIntake());
-    m_Controller.getOp_B_FS().whenActive(new RetractIntake());
-
-    // m_Controller.getOp_X_FS().whenActive(new FlywheelBackspinVelocityPID());
 
     m_Controller.getOp_Back_FS().whileActiveOnce(new IndexerBackWhenHeld());
     m_Controller.getOp_Start_FS().whileActiveOnce(new IndexerForwardWhenHeld());
+    m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
+    m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
 
-    // m_Controller.getOp_Start_FS().whenActive(new ShootManualOne(60)); //TODO: SET A GOOD DEGREE
-    // m_Controller.getOp_Back_FS().whenActive(new ShootReset());
-
-    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage());
+    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); //TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE SAME BUTTON
     m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
     m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
     
     m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
-    m_Controller.getOp_DPAD_LEFT().whenActive(new VisionZoom1x());
     m_Controller.getOp_DPAD_DOWN().whenActive(new VisionZoom2x());
-    m_Controller.getOp_DPAD_RIGHT().whenActive(new VisionZoom3x());
+
+    m_Controller.getOp_DPAD_LEFT().whenActive(new FlywheelAngleFender());
+    m_Controller.getOp_DPAD_RIGHT().whenActive(new FlywheelAngleWall());
 
     m_Controller.getOp_A_FS().whileActiveOnce(new AnglerZeroAtMax());
-    // m_Controller.getOp_Y_FS().whileActiveOnce(new AnglerToggleTest());
     m_Controller.getOp_Y_FS().whenActive(new FlywheelDefaultCommandStop());
 
     m_Controller.getOp_Back().whileActiveOnce(new SpittingDown());
@@ -160,8 +153,6 @@ public class RobotContainer {
     // m_Controller.getOp_Start().whileActiveOnce(new ShootPIDToggleTest());
 
     m_Controller.getOp_X().whileActiveOnce(new FlywheelAngleVision());
-    m_Controller.getOp_X_FS().whileActiveOnce(new FlywheelAngleFender());
-    m_Controller.getOp_X_DS().whileActiveOnce(new FlywheelAngleWall());
 
     m_Controller.getOp_LeftTrigger().whileActiveOnce(new ShootVision());
   }
