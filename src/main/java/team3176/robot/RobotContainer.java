@@ -53,7 +53,7 @@ public class RobotContainer {
   private static final String m_9B = "s_Move9inToTheBack";
   private static final String m_TS = "s_ShootAndLeave";
   private static final String m_SI = "s_LeaveAndShootTwo";
-  private static final String m_Rot = "s_Rot";
+  private static final String m_2H = "s_2BallHanger";
   
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -100,8 +100,8 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Move 9in Forward", m_9F);
     m_autonChooser.addOption("Auto: Move 9in Backwards", m_9B);
     m_autonChooser.addOption("Auto: Shoot and Exit Tarmac", m_TS);
-    m_autonChooser.addOption("Auto: 2 Ball", m_SI);
-    m_autonChooser.addOption("Auto: Rotate", m_Rot);
+    m_autonChooser.addOption("Auto: 2 Ball (Right)", m_SI);
+    m_autonChooser.addOption("Auto: 2 Ball (Left/Hanger)", m_2H);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
@@ -187,7 +187,7 @@ public class RobotContainer {
     if(chosen.equals(m_9B)) return new TrapezoidDrive(-9 , 0);
     if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
     if(chosen.equals(m_SI)) return new Auto2Balls();
-    if(chosen.equals(m_Rot)) return new AutonRotate(0.15, 10);
+    if(chosen.equals(m_2H)) return new Auto2BallsAtHanger();
     
     return new AutoInTarmacShoot();
   }
