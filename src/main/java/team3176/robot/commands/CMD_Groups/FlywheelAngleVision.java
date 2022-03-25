@@ -32,10 +32,10 @@ public class FlywheelAngleVision extends CommandBase {
     ty = m_Vision.ty.getDouble(0);
     tv = m_Vision.tv.getBoolean(false);
 
-    if(!tv) {
-      m_Angler.moveToAngle(ShooterLocationValues.POINTS[1][5]);
-    }
-    else if(ty >= ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE) {
+    // if(!tv) {
+    //   m_Angler.moveToAngle(ShooterLocationValues.POINTS[1][5]);
+    // }
+    /*else */if(ty >= ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE) {
       m_Angler.moveToAngle(ShooterLocationValues.POINTS[1][5]);
       m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[1][3], ShooterLocationValues.POINTS[1][4]);
     }

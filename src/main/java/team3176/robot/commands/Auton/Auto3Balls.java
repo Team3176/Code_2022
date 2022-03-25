@@ -28,17 +28,17 @@ public class Auto3Balls extends SequentialCommandGroup {
 
           /* ROTATE AND MOVE TO 2nd BALL */
       
-      new AutonRotate(.15,120),
+      new AutonRotate(.15, 87),  //80
       new IntakeExtendSpin(),
-      new TrapezoidDrive(15, 0),
+      new TrapezoidDrive(11, 0),
       new AutoBallTwoFlywheelAngle(),
       new WaitCommand(1),
           /* AUTON 3BALL ZONE */
       new IntakeRetractStop(),
-      new AutonRotate(-1.5, 40),
+      new AutonRotate(-.15, 68),
       // new WaitCommand(2),
       new AutoShoot50(),
-      new WaitCommand(3),
+      new WaitCommand(2),
       new AutonStopShootParallel()
     );
   }

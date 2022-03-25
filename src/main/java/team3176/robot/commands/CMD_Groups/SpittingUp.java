@@ -27,8 +27,8 @@ public class SpittingUp extends CommandBase {
     m_Intake.spinVelocityPercent(0.5);
     m_Indexer.setPCT(0.5);
     m_Feeder.setPCT(0.5);
-    m_Flywheel.setPCT(0.2, 0.2);
-    m_Angler.moveToAngle(ShooterLocationValues.POINTS[0][5]);
+    m_Flywheel.setPCT(0.15, 0.15);
+    m_Angler.moveToAngle(ShooterLocationValues.POINTS[1][5]);
   }
 
   @Override

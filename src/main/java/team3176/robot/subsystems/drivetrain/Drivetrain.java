@@ -211,7 +211,9 @@ public class Drivetrain extends SubsystemBase {
     if (!isTurboOn) {
       this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+      //this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+
     }
     if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
       this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
