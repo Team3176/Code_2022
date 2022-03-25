@@ -16,10 +16,12 @@ import team3176.robot.commands.Shooter.AnglerZeroAtMax;
 import team3176.robot.commands.Vision.VisionSpinCorrectionOff;
 import team3176.robot.commands.Vision.VisionSpinCorrectionOn;
 import team3176.robot.commands.Drivetrain.imported.AutonRotate;
+import team3176.robot.commands.Drivetrain.imported.SwerveResetGyro;
 
 public class Auto3Balls extends SequentialCommandGroup {
   public Auto3Balls() {
     addCommands(
+      new SwerveResetGyro(),
       new AnglerZeroAtMax(),
       new AutoBallOneFlywheelAngle(),
       new WaitCommand(0.5),
@@ -28,25 +30,23 @@ public class Auto3Balls extends SequentialCommandGroup {
       new AutonRotate(.15, 7),
       new IntakeRetractStop(),
       new AutoShoot50(),
-      new WaitCommand(3),
+      new WaitCommand(2),
       new AutonStopShootParallel(),
 
-          /* AUTON 3BALL ZONE */
-
-      new AutoBallTwoFlywheelAngle(),
+          /* ROTATE AND MOVE TO 2nd BALL */
+      
+      new AutonRotate(.15,120),
       new IntakeExtendSpin(),
-      new TrapezoidDrive(-7, 13),
-      new WaitCommand(1), 
-      //new VisionSpinCorrectionOn(),
-      // new AutonRotate(.15, 20),
+      new TrapezoidDrive(15, 0),
+      new AutoBallTwoFlywheelAngle(),
+      new WaitCommand(1),
+          /* AUTON 3BALL ZONE */
       new IntakeRetractStop(),
-      // new VisionSpinCorrectionOn(),
+      new AutonRotate(-1.5, 40),
+      new WaitCommand(2),
       new AutoShoot50(),
       new WaitCommand(3),
       new AutonStopShootParallel()
-      // new VisionSpinCorrectionOff()
-
-
     );
   }
 }
