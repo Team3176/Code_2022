@@ -17,7 +17,7 @@ public class AutoBallThreeFlywheelAngle extends InstantCommand {
 
   @Override
   public void initialize() {
-    m_Flywheel.spinMotorsVelocityPID(0.31, 0.18);
+    m_Flywheel.spinMotorsVelocityPID(0.32, 0.18);
     m_Angler.moveToAngle(55);
   }
 }
