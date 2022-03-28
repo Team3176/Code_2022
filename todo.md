@@ -11,4 +11,18 @@ Check if Kyle's autons function correctly
 
 Reduce "funnel impact point" by 1-2 feet
 
+Imp "spin with origin at location of one of four selected pods."
+
+Imp shooting interpolation
+
+Code new Climb logic
+
+Make Indexer automatically handle ball spacing better when shooting, particularly during fender shots
+
+Create 4 & 5 ball autos
+
+"Auto fire" mode upon target acquisition.  (Effectively remove delay between positioning and firing.)
+
+Add intake guidance system.
+
 
