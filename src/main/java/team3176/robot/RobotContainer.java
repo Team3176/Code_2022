@@ -95,7 +95,7 @@ public class RobotContainer {
     }
 
     m_autonChooser = new SendableChooser<>();
-    m_autonChooser.addOption("Auto: ExitTarmac", m_M);
+    m_autonChooser.setDefaultOption("Auto: ExitTarmac", m_M);
     // m_autonChooser.addOption("Auto: Block", m_B);
     m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
     m_autonChooser.addOption("Auto: Move 6in Right", m_6R);
