@@ -32,7 +32,7 @@ public class FlywheelAngleVisionInt extends CommandBase {
     tv = m_Vision.tv.getBoolean(false);
 
     m_Angler.moveToAngle(60);
-    m_Flywheel.spinMotorsVelocityPID(secondPowInt(), 0.20);
+    m_Flywheel.spinMotorsVelocityPID(thirdPowInt() * 0.95, 0.20);
   }
 
   public double secondPowInt() {
@@ -43,7 +43,10 @@ public class FlywheelAngleVisionInt extends CommandBase {
 
   public double thirdPowInt() {
     // y = 0.0007x^3 + 0.0059x^2 - 0.0046x + 0.3129
-    double pct = (0.0007 * ty * ty * ty) + (0.0059 * ty * ty) - (0.0046 * ty) + (0.3129);
+    // y = 0.0003x^3 + 0.0034x^2 - 0.0043x + 0.3177
+    // double pct = (0.0003 * ty * ty * ty) + (0.0034 * ty * ty) - (0.0043 * ty) + (0.3177);
+    // double pct = (0.00009 * ty * ty * ty) + (0.0014 * ty * ty) - (0.0056 * ty) + (0.3221);
+    double pct = (0.00003 * ty * ty * ty) + (0.0006 * ty * ty) - (0.008 * ty) + (0.3225);
     return pct;
   }
 
