@@ -169,6 +169,8 @@ public class RobotContainer {
     m_Controller.getOp_X().whileActiveOnce(new FlywheelAngleVision());
 
     m_Controller.getOp_LeftTrigger().whileActiveOnce(new ShootVision());
+
+    m_Controller.getOp_RightTrigger().whileActiveOnce(new FlywheelAngleVisionInt());
   }
 
   public void AutonInitRobotCentric() {
