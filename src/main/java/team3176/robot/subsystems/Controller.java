@@ -43,6 +43,15 @@ public class Controller {
   private final JoystickButton transStick_Button14;
   private final JoystickButton transStick_Button15;
   private final JoystickButton transStick_Button16;
+  private final POVButton transStick_HAT_0;
+  private final POVButton transStick_HAT_45;
+  private final POVButton transStick_HAT_90;
+  private final POVButton transStick_HAT_135;
+  private final POVButton transStick_HAT_180;
+  private final POVButton transStick_HAT_225;
+  private final POVButton transStick_HAT_270;
+  private final POVButton transStick_HAT_315;
+
 
   private final JoystickButton rotStick_Button1;
   private final JoystickButton rotStick_Button2;
@@ -60,6 +69,14 @@ public class Controller {
   private final JoystickButton rotStick_Button14;
   private final JoystickButton rotStick_Button15;
   private final JoystickButton rotStick_Button16;
+  private final POVButton rotStick_HAT_0;
+  private final POVButton rotStick_HAT_45;
+  private final POVButton rotStick_HAT_90;
+  private final POVButton rotStick_HAT_135;
+  private final POVButton rotStick_HAT_180;
+  private final POVButton rotStick_HAT_225;
+  private final POVButton rotStick_HAT_270;
+  private final POVButton rotStick_HAT_315;
 
   //TODO: Add slider
 
@@ -111,6 +128,20 @@ public class Controller {
     transStick_Button14 = new JoystickButton(transStick, 14);
     transStick_Button15 = new JoystickButton(transStick, 15);
     transStick_Button16 = new JoystickButton(transStick, 16);
+    
+    /** 
+     * The HAT on the transStick
+     * The values are 0 as UP going in a 360 circle CCW
+     */
+    transStick_HAT_0 = new POVButton(operator, 0);
+    transStick_HAT_45 = new POVButton(operator, 45);
+    transStick_HAT_90 = new POVButton(operator, 90);
+    transStick_HAT_135 = new POVButton(operator, 135);
+    transStick_HAT_180 = new POVButton(operator, 180);
+    transStick_HAT_225 = new POVButton(operator, 225);
+    transStick_HAT_270 = new POVButton(operator, 270);
+    transStick_HAT_315 = new POVButton(operator, 315);
+
 
     
     rotStick_Button1 = new JoystickButton(rotStick, 1);
@@ -129,6 +160,19 @@ public class Controller {
     rotStick_Button14 = new JoystickButton(rotStick, 14);
     rotStick_Button15 = new JoystickButton(rotStick, 15);
     rotStick_Button16 = new JoystickButton(rotStick, 16);
+    
+    /** 
+     * The HAT on the rotStick
+     * The values are 0 as UP going in a 360 circle CCW
+     */
+    rotStick_HAT_0 = new POVButton(operator, 0);
+    rotStick_HAT_45 = new POVButton(operator, 45);
+    rotStick_HAT_90 = new POVButton(operator, 90);
+    rotStick_HAT_135 = new POVButton(operator, 135);
+    rotStick_HAT_180 = new POVButton(operator, 180);
+    rotStick_HAT_225 = new POVButton(operator, 225);
+    rotStick_HAT_270 = new POVButton(operator, 270);
+    rotStick_HAT_315= new POVButton(operator, 315);
 
     /* 
      * The Xbox Controller Buttons 
@@ -157,6 +201,8 @@ public class Controller {
     op_Back_Double_Shift = new XboxDBLShift(operator, Button.kBack.value, Button.kLeftBumper.value, Button.kRightBumper.value);
     op_LTrigger = new XboxAxisAsButton(operator, Axis.kLeftTrigger.value, ControllerConstants.TRIGGER_THRESHOLD); //TODO: CHANGE THRESHOLD
     op_RTrigger = new XboxAxisAsButton(operator, Axis.kRightTrigger.value, ControllerConstants.TRIGGER_THRESHOLD);
+   
+    
     
     /**
      * The DPAD of the Xbox Controller
@@ -385,7 +431,18 @@ public class Controller {
   public JoystickButton getTransStick_Button14() {return transStick_Button14;}
   public JoystickButton getTransStick_Button15() {return transStick_Button15;}
   public JoystickButton getTransStick_Button16() {return transStick_Button16;}
+ 
+  public POVButton getTransStick_HAT_0() {return transStick_HAT_0;}
+  public POVButton getTransStick_HAT_45() {return transStick_HAT_45;}
+  public POVButton getTransStick_HAT_90() {return transStick_HAT_90;}
+  public POVButton getTransStick_HAT_135() {return transStick_HAT_135;}
+  public POVButton getTransStick_HAT_180() {return transStick_HAT_180;}
+  public POVButton getTransStick_HAT_235() {return transStick_HAT_225;}
+  public POVButton getTransStick_HAT_270() {return transStick_HAT_270;}
+  public POVButton getTransStick_HAT_315() {return transStick_HAT_315;}
 
+
+  
   public JoystickButton getRotStick_Button1() {return rotStick_Button1;}
   public JoystickButton getRotStick_Button2() {return rotStick_Button2;}
   public JoystickButton getRotStick_Button3() {return rotStick_Button3;}
@@ -402,6 +459,16 @@ public class Controller {
   public JoystickButton getRotStick_Button14() {return rotStick_Button14;}
   public JoystickButton getRotStick_Button15() {return rotStick_Button15;}
   public JoystickButton getRotStick_Button16() {return rotStick_Button16;}
+
+  public POVButton getRotStick_HAT_0() {return rotStick_HAT_0;}
+  public POVButton getRotStick_HAT_45() {return rotStick_HAT_45;}
+  public POVButton getRotStick_HAT_90() {return rotStick_HAT_90;}
+  public POVButton getRotStick_HAT_135() {return rotStick_HAT_135;}
+  public POVButton getRotStick_HAT_180() {return rotStick_HAT_180;}
+  public POVButton getRotStick_HAT_235() {return rotStick_HAT_225;}
+  public POVButton getRotStick_HAT_270() {return rotStick_HAT_270;}
+  public POVButton getRotStick_HAT_315() {return rotStick_HAT_315;}
+
 
   public Trigger getOp_A() {return op_A;}
   public Trigger getOp_A_FS() {return op_A_Shift;}
