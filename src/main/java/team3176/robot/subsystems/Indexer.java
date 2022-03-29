@@ -67,10 +67,6 @@ public class Indexer extends SubsystemBase {
     indexerMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
-  // public void IndexerSpin() {
-  // indexerMotor.set(0.1);
-  // }
-
   public int reportState() {
     // I2CReciever();
     int state = 0;
@@ -90,23 +86,6 @@ public class Indexer extends SubsystemBase {
 
   public void Down() { // TODO: RENAME TO SOMETHING BETTER
     indexerMotor.set(ControlMode.PercentOutput, -0.5);
-  }
-
-  public void requestState(int s) {
-    int state = reportState();
-    if (state == 100 && s == 110) {
-      Up();
-    } else {
-      while (s < state && reportState() != s) {
-        Up();
-      }
-      while (s > state && reportState() != s) {
-        Down();
-      }
-    }
-    if (s == reportState()) {
-      motorStop();
-    }
   }
 
   /**
