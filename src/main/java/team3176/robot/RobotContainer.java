@@ -80,7 +80,7 @@ public class RobotContainer {
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
 
-    m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.24, 0.18));
+    m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
 
     if (!MasterConstants.IS_TUNING_MODE) {
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
@@ -169,6 +169,8 @@ public class RobotContainer {
     m_Controller.getOp_X().whileActiveOnce(new FlywheelAngleVision());
 
     m_Controller.getOp_LeftTrigger().whileActiveOnce(new ShootVision());
+
+    m_Controller.getOp_RightTrigger().whileActiveOnce(new FlywheelAngleVisionInt());
   }
 
   public void AutonInitRobotCentric() {
