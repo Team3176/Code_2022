@@ -58,7 +58,7 @@ public class RobotContainer {
   private static final String m_3B = "s_3Ball";
   private static final String m_4B = "s_4Ball";
   private static final String m_3H = "s_3BallHanger";
-  
+
   public RobotContainer() {
     m_Controller = Controller.getInstance();
     m_Indexer = Indexer.getInstance();
@@ -76,20 +76,20 @@ public class RobotContainer {
     m_PDH.clearStickyFaults();
 
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    //TODO: ADD A WAY TO CLEAR STICKY FAULTS
+    // TODO: ADD A WAY TO CLEAR STICKY FAULTS
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
 
     m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.24, 0.18));
-    
-    if (!MasterConstants.IS_TUNING_MODE) { 
+
+    if (!MasterConstants.IS_TUNING_MODE) {
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
-        () -> m_Controller.getForward(), 
-        () -> m_Controller.getStrafe(),
-        () -> m_Controller.getSpin()//,
-        //() -> m_Controller.isFieldCentricButtonPressed(),
-        //() -> m_Controller.isRobotCentricButtonPressed()
-        ));
+          () -> m_Controller.getForward(),
+          () -> m_Controller.getStrafe(),
+          () -> m_Controller.getSpin()// ,
+      // () -> m_Controller.isFieldCentricButtonPressed(),
+      // () -> m_Controller.isRobotCentricButtonPressed()
+      ));
     } else {
       m_Drivetrain.setDefaultCommand(new SwerveDriveTune());
     }
@@ -115,7 +115,6 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-  
   private void configureButtonBindings() {
     m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
     m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
@@ -123,6 +122,11 @@ public class RobotContainer {
     //m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
     m_Controller.getTransStick_Button4().whenHeld(new CoordTypeToRobotCentric());
     m_Controller.getTransStick_Button4().whenReleased(new CoordTypeToFieldCentric());
+
+    m_Controller.getTransStick_HAT_45().whenHeld(new SwerveRotateAtPod(() -> m_Controller.getSpin(), 45.0));
+    m_Controller.getTransStick_HAT_135().whenHeld(new SwerveRotateAtPod(() -> m_Controller.getSpin(), 135.0));
+    m_Controller.getTransStick_HAT_235().whenHeld(new SwerveRotateAtPod(() -> m_Controller.getSpin(), 235.0));
+    m_Controller.getTransStick_HAT_315().whenHeld(new SwerveRotateAtPod(() -> m_Controller.getSpin(), 315.0));
 
     m_Controller.getRotStick_Button1().whenHeld(new VisionSpinCorrectionOn());
     m_Controller.getRotStick_Button1().whenReleased(new VisionSpinCorrectionOff());
@@ -170,30 +174,43 @@ public class RobotContainer {
   public void AutonInitRobotCentric() {
     m_CoordSys.setCoordTypeToRobotCentric();
   }
-  
+
   public void TelopInitFieldCentric() {
     m_CoordSys.setCoordTypeToFieldCentric();
   }
 
-
   public Command getAutonomousCommand() {
     String chosen = m_autonChooser.getSelected();
 
-    if(chosen.equals(m_M)) return new AutonExitTarmac();
+    if (chosen.equals(m_M))
+      return new AutonExitTarmac();
     // if(chosen.equals(m_B)) return new AutonBlock();
-    if(chosen.equals(m_6L)) return new TrapezoidDrive(0, -6);
-    if(chosen.equals(m_6R)) return new TrapezoidDrive(0, 6);
-    if(chosen.equals(m_6F)) return new TrapezoidDrive(6, 0);
-    if(chosen.equals(m_6B)) return new TrapezoidDrive(-6, 0);
-    if(chosen.equals(m_9F)) return new TrapezoidDrive(9, 0);
-    if(chosen.equals(m_9B)) return new TrapezoidDrive(-9 , 0);
-    if(chosen.equals(m_TS)) return new AutoInTarmacShoot();
-    if(chosen.equals(m_SI)) return new Auto2Balls();
-    if(chosen.equals(m_2H)) return new Auto2BallsAtHanger();
-    if(chosen.equals(m_MS)) return new AutoMoveAndShoot();
-    if(chosen.equals(m_3B)) return new Auto3Balls();
-    if(chosen.equals(m_4B)) return new Auto4Ball();
-    if(chosen.equals(m_3H)) return new Auton3BallAtHanger();
+    if (chosen.equals(m_6L))
+      return new TrapezoidDrive(0, -6);
+    if (chosen.equals(m_6R))
+      return new TrapezoidDrive(0, 6);
+    if (chosen.equals(m_6F))
+      return new TrapezoidDrive(6, 0);
+    if (chosen.equals(m_6B))
+      return new TrapezoidDrive(-6, 0);
+    if (chosen.equals(m_9F))
+      return new TrapezoidDrive(9, 0);
+    if (chosen.equals(m_9B))
+      return new TrapezoidDrive(-9, 0);
+    if (chosen.equals(m_TS))
+      return new AutoInTarmacShoot();
+    if (chosen.equals(m_SI))
+      return new Auto2Balls();
+    if (chosen.equals(m_2H))
+      return new Auto2BallsAtHanger();
+    if (chosen.equals(m_MS))
+      return new AutoMoveAndShoot();
+    if (chosen.equals(m_3B))
+      return new Auto3Balls();
+    if (chosen.equals(m_4B))
+      return new Auto4Ball();
+    if (chosen.equals(m_3H))
+      return new Auton3BallAtHanger();
 
     return new AutoInTarmacShoot();
   }
