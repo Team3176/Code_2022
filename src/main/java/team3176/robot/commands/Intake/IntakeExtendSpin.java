@@ -22,7 +22,7 @@ public class IntakeExtendSpin extends CommandBase {
   public void execute() {
     if (!(m_Intake.getPistonSetting())) {
       m_Intake.Extend();
-      m_Intake.spinVelocityPercent(0.4); // <-- temporary value //TODO: FIND ACTUAL VALUE
+      m_Intake.spinVelocityPercent(0.5); // <-- temporary value //TODO: FIND ACTUAL VALUE
     }
   }
 

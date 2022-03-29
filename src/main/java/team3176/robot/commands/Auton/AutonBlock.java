@@ -7,7 +7,7 @@ package team3176.robot.commands.Auton;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutonBlock extends CommandBase {
-  public AutonBlock() { //TODO: MAKE
+  public AutonBlock() { //TODO: make and it serves as a command that uses multiple camera data to block during auton
     // addRequirements()
   }
 

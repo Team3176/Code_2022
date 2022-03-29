@@ -5,15 +5,19 @@
 package team3176.robot.constants;
 
 public final class ShooterLocationValues {
-    public static final double[] POINT_LP_CENTER = {6, 6, 6}; //TODO: MEASURE VALUES
-    public static final double[] POINT_LP_EDGE = {6, 6, 6}; //TODO: MEASURE VALUES
-    public static final double[] POINT_WALL = {6, 6, 6}; //TODO: MEASURE VALUES
+    public static final double TY_2X_EDGE_OF_TARMAC = 10.922;       //ID: 0
+    //public static final double TY_2X_MID_OF_TARMAC_LINE = -4.7;
+    public static final double TY_2X_MID_OF_TARMAC_LINE = -2.0;
+    public static final double TY_2X_LAUNCH_PAD = -6.3;           //ID: 1
+    public static final double TY_2X_WALL_ZONE = -12.108;           //ID: 2
+
 
     public static final double[][] POINTS = {
-    //{Angle, Front Flywheel, Back Flywheel}
-        {6, 6, 6}, //Wall
-        {6, 6, 6}, //Edge Launch Pad
-        {6, 6, 6}, //Center Launch Pad
-        {6, 6, 6}
+    //{INTAKE, INDEXER, FEEDER, FLYWHEEL1, FLYWHEEL2, ANGLE}
+        {0.5, 0.5, 0.5, 0.30, 0.30, 79.5},  /* Fender */
+        {0.5, 0.5, 0.5, 0.31, 0.20, 60},    /* Edge of Tarmac */
+        {0.5, 0.5, 0.5, 0.40, 0.20, 60},    /* Launch Pad */
+        {0.5, 0.5, 0.5, 0.55, 0.25, 45},    /* Wall Zone */
+        {0.5, 0.5, 0.5, 0.52, 0.23, 52}     /* Wall */
     };
 }

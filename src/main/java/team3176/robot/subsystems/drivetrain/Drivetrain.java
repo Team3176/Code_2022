@@ -51,6 +51,7 @@ public class Drivetrain extends SubsystemBase {
   private static Drivetrain instance;
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
+  private Vision m_Vision = Vision.getInstance();
 
   //private Controller controller = Controller.getInstance();
 //private Vision m_Vision = Vision.getInstance();
@@ -210,12 +211,22 @@ public class Drivetrain extends SubsystemBase {
     if (!isTurboOn) {
       this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+      //this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     }
+
+    if (isTurboOn) {
+      this.spinCommand *= 2; 
+    }
+
     if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
       this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
       // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
 
+    }
+
+    if (m_Vision.getIsVisionSpinCorrectionOn()) {
+      this.spinCommand = m_Vision.getVisionSpinCorrection();
     }
 
     if (m_CoordSys.isFieldCentric()) {
@@ -504,7 +515,11 @@ public class Drivetrain extends SubsystemBase {
     this.arraytrack++;
     if (this.arraytrack > 3) {
       this.arraytrack = 0;
-    } 
+    }
+
+    SmartDashboard.putBoolean("Turbo", isTurboOn);
+    // SmartDashboard.putBoolean("Defense", currentDriveMode == driveMode.DEFENSE);
+    SmartDashboard.putBoolean("SpinLock", m_Gyro3176.getIsSpinLocked());
   }
 
   @Override

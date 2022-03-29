@@ -5,13 +5,16 @@
 package team3176.robot.commands.Auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import team3176.robot.commands.CMD_Groups.*;
+import team3176.robot.commands.Vision.VisionSpinCorrectionOn;
 
-public class Auton1Ball extends SequentialCommandGroup {
-  public Auton1Ball() {
+public class AutonVisionShootSequence extends SequentialCommandGroup {
+  public AutonVisionShootSequence() {
     addCommands(
-      new AutonExitTarmac(),
-      new ShootOneBall()
+      new FlywheelAngleVisionAuton(),
+      new WaitCommand(5),
+      new ShootVisionAuton()
     );
   }
 }

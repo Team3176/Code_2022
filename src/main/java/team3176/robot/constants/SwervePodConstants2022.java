@@ -35,8 +35,8 @@ public final class SwervePodConstants2022 {
     public static final double[][] THRUST_PID_2022 = {
         /* kP */     {0.15, 0.15, 0.15, 0.15},
         // /* kI */    {0.001, 0.0015, 0.0015, 0.005}, // using these don't work
-        /* kI */    {0.002, 0.002, 0.002, 0.002},
-        /* kD */   {5.0, 5.0, 5.0, 5.0},
+        /* kI */    {0.001, 0.001, 0.001, 0.001},
+        /* kD */   {2.0, 2.0, 2.0, 2.0},
         /* kF */    {0.0065, 0.0065, 0.0065, 0.0065},    // Feed forward gain constant
         /* I-Zne */ {150.0, 150.0, 150.0, 150.0}     // The range of error for kI to take affect (like a reverse deadband)
     };
@@ -106,7 +106,7 @@ public final class SwervePodConstants2022 {
     public static final double[] AZIMUTH_OFFSET =AZIMUTH_OFFSET_2022;
 
     public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_SHOOTER_IS_BOT_FRONT = {120.234,110.742, -77.168,-133.682};
-    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {-84.902, -14.414, 81.299, -4.359}; 
+    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {-84.902, -14.414, -32.080 , -6.855}; 
     public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_POSITION = AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT;
     public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 14.00;  //estimated loaded speed per Nathan;
 

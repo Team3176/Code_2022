@@ -5,16 +5,18 @@
 package team3176.robot.commands.Auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import team3176.robot.commands.CMD_Groups.*;
-import team3176.robot.commands.Intake.*;
+import team3176.robot.commands.Drivetrain.imported.*;
 
-public class Auton2Balls extends SequentialCommandGroup {
-  public Auton2Balls() {
+public class AutoMoveAndShoot extends SequentialCommandGroup {
+  public AutoMoveAndShoot() {
     addCommands(
-      new AutonExitTarmac(),
-      new IntakeIndexerIntegration(),
-      new IntakeSpint(),
-      new ShootTwoBalls()
+      new AutoBallOneFlywheelAngle(),
+      new TrapezoidDrive(5, 0),
+      new AutoShoot50(),
+      new WaitCommand(3),
+      new AutonStopShootParallel()
     );
   }
 }

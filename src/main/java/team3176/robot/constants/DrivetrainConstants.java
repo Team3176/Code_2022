@@ -48,7 +48,7 @@ public class DrivetrainConstants {
     public static final double WHEEL_DIAMETER_FEET = WHEEL_DIAMETER_INCHES / 12.0 ; // Inches
     public static final double WHEEL_DIAMETER = WHEEL_DIAMETER_INCHES;
 
-    public static final double MAX_WHEEL_SPEED_INCHES_PER_SECOND = 165.48; // inches/s
+    public static final double MAX_WHEEL_SPEED_INCHES_PER_SECOND = 192.00; //165.48; // inches/s
     public static final double MAX_WHEEL_SPEED_METERS_PER_SECOND = Units.inchesToMeters(MAX_WHEEL_SPEED_INCHES_PER_SECOND); 
     public static final double MAX_WHEEL_SPEED_FEET_PER_SECOND = MAX_WHEEL_SPEED_INCHES_PER_SECOND / 12.0 ; // 13.5 ft/s
     public static final double MAX_WHEEL_SPEED = MAX_WHEEL_SPEED_INCHES_PER_SECOND;
@@ -58,10 +58,10 @@ public class DrivetrainConstants {
     public static final double MAX_ACCEL_FEET_PER_SECOND = MAX_ACCEL_INCHES_PER_SECOND / 12.0; // Unknown units - likely ft/(s*s)
     public static final double MAX_ACCEL = MAX_ACCEL_INCHES_PER_SECOND;
 
-    public static final double MAX_ROT_SPEED_RADIANS_PER_SECOND = 5.0; // rad/s
+    public static final double MAX_ROT_SPEED_RADIANS_PER_SECOND = 8.0; // 5.0; // rad/s
     public static final double MAX_ROT_SPEED = 5.0; // rad/s
     
-    public static final double MAX_ROT_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 1; // rad/s*s
+    public static final double MAX_ROT_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2; // rad/s*s
 
     public static final double NON_TURBO_PERCENT_OUT_CAP = 0.7; //1; //TODO: CHANGE BACK and fix for AUTON if needed
 

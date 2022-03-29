@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -103,10 +105,20 @@ public class Intake extends SubsystemBase {
     this.ballCount = 0;
   }
 
+  public void shuffleboardPercentOutput()
+  {
+    double percent = SmartDashboard.getNumber(IntakeConstants.kShuffleboardPercentName, 0.0);
+    intakeMotor.set(ControlMode.PercentOutput, percent);
+    SmartDashboard.putNumber("IntakeTics/100ms", intakeMotor.getSelectedSensorVelocity());
+    if (percent != 0) {
+      motorSetting = true;
+    }
+  }
+
   public void putSmartDashboardControlCommands() {
-     SmartDashboard.putNumber("Intake PCT", 0);
-     SmartDashboard.putBoolean("Intake Piston", false);
-     SmartDashboard.putBoolean("Intake Piston Allow Toggle", false);
+    //  SmartDashboard.putNumber("Intake PCT", 0);
+    //  SmartDashboard.putBoolean("Intake Piston", false);
+    //  SmartDashboard.putBoolean("Intake Piston Allow Toggle", false);
      isSmartDashboardTestControlsShown = true;
   }
 

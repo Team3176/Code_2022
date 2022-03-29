@@ -42,8 +42,8 @@ public class Feeder extends SubsystemBase
     feederMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
     this.feederMotor.configNominalOutputForward(0, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.configNominalOutputReverse(0, FeederConstants.kTIMEOUT_MS);
-    // this.feederMotor.configPeakOutputForward(0.25, FeederConstants.kTIMEOUT_MS);
-    // this.feederMotor.configPeakOutputReverse(-0.25, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.configPeakOutputForward(1.0, FeederConstants.kTIMEOUT_MS);
+    this.feederMotor.configPeakOutputReverse(-1.0, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.configAllowableClosedloopError(FeederConstants.kPID_LOOP_IDX, FeederConstants.ALLOWABLE_CLOSED_LOOP_ERROR, FeederConstants.kTIMEOUT_MS);
     this.feederMotor.config_kF(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][3], FeederConstants.kTIMEOUT_MS);
     this.feederMotor.config_kP(FeederConstants.kPID_LOOP_IDX, FeederConstants.PIDFConstants[0][0], FeederConstants.kTIMEOUT_MS);
@@ -57,7 +57,7 @@ public class Feeder extends SubsystemBase
   {
     double output = SmartDashboard.getNumber(FeederConstants.kShuffleboardPercentName, 0.0);
     if (output >= -1 && output <= 1) { feederMotor.set(ControlMode.PercentOutput, output); }
-    SmartDashboard.putNumber("FeederRPMOut", feederMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("FeederTics/100msOut", feederMotor.getSelectedSensorVelocity());
   }
 
   public void setVelocityPID(double pctAsDecimal)
@@ -81,17 +81,26 @@ public class Feeder extends SubsystemBase
   }
 
   public void putSmartDashboardControlCommands() {
-    SmartDashboard.putNumber("Feeder PCT", 0);
+    // SmartDashboard.putNumber("Feeder PCT", 0);
     isSmartDashboardTestControlsShown = true;
  }
 
   public void setValuesFromSmartDashboard() {
-    smartDashboardLastPercent = SmartDashboard.getNumber("Intake PCT", 0);
+    smartDashboardLastPercent = SmartDashboard.getNumber("Feeder PCT", 0);
     feederMotor.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("Feeder PCT", 0)));
  }
 
   public void putSmartDashboardControlCommands(double startPercent) {
     SmartDashboard.putNumber("Feeder PCT", startPercent);
+  }
+
+  public void setPIDValuesFromSmartDashboard() {
+    smartDashboardLastPercent = SmartDashboard.getNumber("Feeder PID PCT", 0);
+    feederMotor.set(ControlMode.Velocity, (SmartDashboard.getNumber("Feeder PID PCT", 0) * Units3176.revolutionsPerMinute2ticsPer100MS(18730, 4096)));
+  }
+
+  public void putSmartDashboardPIDControlCommands(double startPercent) {
+    SmartDashboard.putNumber("Feeder PID PCT", startPercent);
   }
 
   public double getStartPercent() {return smartDashboardLastPercent;}

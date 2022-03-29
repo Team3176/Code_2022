@@ -4,38 +4,23 @@
 
 package team3176.robot.commands.Shooter;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.AnglerConstants;
-import team3176.robot.subsystems.Angler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import team3176.robot.commands.Shooter.AnglerSetMaxZero;
+import team3176.robot.commands.Shooter.AnglerMoveUpSlowly;
 
-/**
- * Moves the Angler until it reaches the lower limit switch. When it is reached, the Angler's encoder position is set to zero. Running this
- * (or the AnglerZeroAtMax command) on robot start is ABSOLUTELY NECESSARY if we want to set the Angler to a position based on a given
- * location instead of simply a change, as it will need a reference point to do that. This command provides that reference point until the
- * robot is power cycled.
- * @author Jared Brown
- */
-public class AnglerZeroAtMax extends CommandBase {
-  private Angler m_angler = Angler.getInstance();
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class AnglerZeroAtMax extends SequentialCommandGroup {
+  /** Creates a new AnglerZeroAtMax. */
   public AnglerZeroAtMax() {
-    addRequirements(m_angler);
-  }
-
-  @Override
-  public void initialize() {
-    m_angler.setVelocity(AnglerConstants.kDegreesPerSecondForZeroing);
-  }
-
-  @Override
-  public void execute() {}
-
-  @Override
-  public void end(boolean interrupted) {
-    m_angler.zeroAtMax();
-  }
-
-  @Override
-  public boolean isFinished() {
-    return m_angler.getLimiterHigh();
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    addCommands(
+        new AnglerMoveUpSlowly(),
+        new WaitCommand(0.25),
+        new AnglerSetMaxZero()
+    );
   }
 }

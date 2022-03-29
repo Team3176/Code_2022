@@ -28,17 +28,18 @@ public class TrapezoidDrive extends CommandBase {
     addRequirements(m_Drivetrain);
     this.distanceX = distanceX;
     this.distanceY = distanceY;
+    m_CoordSys.setCoordTypeToRobotCentric();
     double hyp = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     this.theta = Math.atan(distanceY / distanceX);
     profile = new TrapezoidProfile
-    (new TrapezoidProfile.Constraints(5, 2), new TrapezoidProfile.State(hyp, 0), new TrapezoidProfile.State(0, 0));
+    (new TrapezoidProfile.Constraints(9, 5), new TrapezoidProfile.State(hyp, 0), new TrapezoidProfile.State(0, 0));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_CoordSys.setCoordType(coordType.FIELD_CENTRIC);
-    m_gyro.setSpinLockAngle();
+    m_CoordSys.setCoordType(coordType.ROBOT_CENTRIC);
+    //m_gyro.setSpinLockAngle();
     //m_gyro.setSpinLock(true);
     timer.start();
   }

@@ -5,23 +5,19 @@
 package team3176.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.constants.MasterConstants;
 import team3176.robot.subsystems.Climb;
 
-/**
- * Retracts all of the Climb Pistons at Once
- */
+/* Retracts the Pistons */
 
- public class ClimbAllPistonRetract extends InstantCommand{
+public class ClimbPistonRetract extends InstantCommand {
   private Climb m_Climb = Climb.getInstance();
-
-  public ClimbAllPistonRetract() {
+  
+  public ClimbPistonRetract() {
     addRequirements(m_Climb);
   }
 
   @Override
   public void initialize() {
-    m_Climb.passivePistonsRetract();
-    if(!MasterConstants.ISCLIMBPASSIVE) {m_Climb.secondaryPistonsRetract();}
+    m_Climb.climbPistonsRetract();
   }
 }

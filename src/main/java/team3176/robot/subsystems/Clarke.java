@@ -202,7 +202,7 @@ public class Clarke extends SubsystemBase {
 
     publishAllData();
 
-    SmartDashboard.putNumber("Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
+    // SmartDashboard.putNumber("Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
   }
 
   private double calculateDeltaX(){
@@ -237,22 +237,22 @@ public class Clarke extends SubsystemBase {
   }
 
   private void publishAllData(){
-    SmartDashboard.putNumber("initialAngle", initialAngle);
+    // SmartDashboard.putNumber("initialAngle", initialAngle);
 
-    SmartDashboard.putBoolean("Has Targets", (tv.getDouble(0) == 1));
-    SmartDashboard.putNumber("tshort", tshort.getDouble(0));
-    SmartDashboard.putNumber("tvert", tvert.getDouble(0));
+    // SmartDashboard.putBoolean("Has Targets", (tv.getDouble(0) == 1));
+    // SmartDashboard.putNumber("tshort", tshort.getDouble(0));
+    // SmartDashboard.putNumber("tvert", tvert.getDouble(0));
 
     double numCorners = tcornx.getDoubleArray(new double[0]).length * 2;
-    SmartDashboard.putNumber("Number of Corners", (numCorners > 1) ? numCorners : null);
+    // SmartDashboard.putNumber("Number of Corners", (numCorners > 1) ? numCorners : null);
 
-    SmartDashboard.putNumber("Radius", radius);
-    SmartDashboard.putNumber("Horizontal Distance", deltaX);
-    SmartDashboard.putNumber("Vertical Distance", deltaY);
+    // SmartDashboard.putNumber("Radius", radius);
+    // SmartDashboard.putNumber("Horizontal Distance", deltaX);
+    // SmartDashboard.putNumber("Vertical Distance", deltaY);
 
-    SmartDashboard.putNumber("Distance According to Camera", deltaXCam);
+    // SmartDashboard.putNumber("Distance According to Camera", deltaXCam);
 
-    SmartDashboard.putNumber("Approx. Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
+    // SmartDashboard.putNumber("Approx. Latency (ms)", ((Timer.getFPGATimestamp() - startTime) * 1000) + tl.getDouble(0) + 11);
   }
 
   public double getCurrentPipeline(){

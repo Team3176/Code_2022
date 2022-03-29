@@ -22,6 +22,6 @@ public class FlywheelBackSpinSet extends InstantCommand {
 
   @Override
   public void initialize() {
-    m_Flywheel.spinMotors(this.front, this.back);
+    m_Flywheel.spinMotorsVelocityPID(this.front, this.back);
   }
 }

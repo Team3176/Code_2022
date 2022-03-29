@@ -5,22 +5,22 @@
 package team3176.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.constants.MasterConstants;
+import team3176.robot.subsystems.Angler;
 import team3176.robot.subsystems.Climb;
 
-/**
- * Extends the Secondary Pistons
- */
+/* Extend the Pistons */
 
-public class ClimbSecondaryPistonEngage extends InstantCommand {
+public class ClimbPistonEngage extends InstantCommand{
   private Climb m_Climb = Climb.getInstance();
-  
-  public ClimbSecondaryPistonEngage() {
-    addRequirements(m_Climb);
+  // private Angler m_Angler = Angler.getInstance();
+
+  public ClimbPistonEngage() {
+    addRequirements(m_Climb/*, m_Angler*/);
   }
 
   @Override
   public void initialize() {
-    if(!MasterConstants.ISCLIMBPASSIVE) {m_Climb.secondaryPistonsEngage();}
+    // m_Angler.moveToAngle(90);
+    m_Climb.climbPistonsEngage();
   }
 }

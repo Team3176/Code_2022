@@ -18,7 +18,7 @@ public class FlywheelPctOutput extends CommandBase {
   @Override
   public void initialize() {
     SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
-    SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName1, 0.0);
+    SmartDashboard.putNumber(FlywheelConstants.kShuffleboardPercentName2, 0.0);
   }
 
   @Override

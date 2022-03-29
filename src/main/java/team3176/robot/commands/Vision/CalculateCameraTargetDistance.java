@@ -44,7 +44,7 @@ public class CalculateCameraTargetDistance extends CommandBase {
     @Override
     public boolean isFinished(){
         if(checkIfFinished()){
-            SmartDashboard.putNumber("Average Distance", averageDistance);
+            // SmartDashboard.putNumber("Average Distance", averageDistance);
             return true;
         }
         return false;
