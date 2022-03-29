@@ -4,47 +4,54 @@
 
 package team3176.robot.commands.Intake;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.IntakeConstants;
 import team3176.robot.subsystems.Indexer;
 import team3176.robot.subsystems.Intake;
 
-public class Intaking extends CommandBase {
+public class IntakingDirectSpacing extends CommandBase {
   private Intake m_Intake = Intake.getInstance();
   private Indexer m_Indexer = Indexer.getInstance();
-  public Intaking() {
+  private int ballCount;
+  private boolean intakeLastLineState;
+
+  public IntakingDirectSpacing() { //TODO: Globalize Ball Count
     addRequirements(m_Intake, m_Indexer);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // m_Indexer.setModeLoading();
+    ballCount = 0;
+    intakeLastLineState = m_Intake.getLine();
     m_Indexer.Up();
     m_Intake.Extend();
     m_Intake.spinVelocityPercent(IntakeConstants.INTAKE_PCT);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Indexer.simpleIndexer();
+    if(!m_Intake.getLine() && (m_Intake.getLine() != intakeLastLineState)) {ballCount++;}
+    if(!m_Indexer.getFirstPos() && ballCount == 1) {
+      m_Indexer.motorStop();
+    }
+    if(!m_Indexer.getFirstPos() && ballCount == 2) {
+      while(m_Indexer.getThirdPos() || m_Indexer.getFirstPos()) {
+        m_Indexer.Up();
+      }
+    }
+
+    intakeLastLineState = m_Intake.getLine();
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_Intake.Retract();
-    Timer.delay(1); //TODO: TUNE AND FIND ALTERNATIVE
+    m_Indexer.motorStop();
     m_Intake.stopMotor();
-    // m_Indexer.setModeHolding();
-    m_Indexer.simpleIndexer();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (!m_Indexer.getThirdPos() && !m_Indexer.getFirstPos());
   }
 }

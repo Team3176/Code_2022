@@ -88,6 +88,8 @@ public class Intake extends SubsystemBase {
     return instance;
   }
 
+  public boolean getLine() {return ballSensor.get();}
+
   public void countBalls() {
     if (ballSensor.get() != lastBallSensorReading) {
       ballCountIncrement();

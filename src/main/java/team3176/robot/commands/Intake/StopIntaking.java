@@ -23,7 +23,7 @@ public class StopIntaking extends CommandBase {
     m_Intake.Retract();
     Timer.delay(1); //TODO: TUNE AND FIND ALTERNATIVE
     m_Intake.stopMotor();
-    m_Indexer.setModeLoading();
+    // m_Indexer.setModeLoading();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
