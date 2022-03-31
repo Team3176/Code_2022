@@ -16,15 +16,15 @@ public class SwervePivotAtPod extends CommandBase {
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private DoubleSupplier forwardCommand, strafeCommand, spinCommand;
-  private Double pov;
+  private Double hatPov, pov;
 
   private double radianOffset;
 
-  public SwervePivotAtPod(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand, DoubleSupplier spinCommand, Double pov) {
+  public SwervePivotAtPod(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand, DoubleSupplier spinCommand, Double hatPov) {
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;
     this.spinCommand = spinCommand;
-    this.pov = pov;
+    this.hatPov = hatPov;
     addRequirements(m_Drivetrain, m_Gyro);
   }
 
@@ -32,7 +32,7 @@ public class SwervePivotAtPod extends CommandBase {
   public void initialize() {
     double yaw = m_Gyro.getGyroAngle_inDegrees();
     if ((yaw >= 45 && yaw < 135) || (yaw >= 315)) {
-      switch (this.pov.intValue()) {
+      switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 90.0;
                   break;
         case 135: this.pov = this.pov + 90.0;
@@ -45,7 +45,7 @@ public class SwervePivotAtPod extends CommandBase {
     }
     
     if (yaw >= 135 && yaw < 225) {
-      switch (this.pov.intValue()) {
+      switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 180.0;
                   break;
         case 135: this.pov = this.pov + 180.0;
@@ -58,7 +58,7 @@ public class SwervePivotAtPod extends CommandBase {
     } 
 
     if (yaw >= 225 && yaw < 315) {
-      switch (this.pov.intValue()) {
+      switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 315.0;
                   break;
         case 135: this.pov = 45.0;
