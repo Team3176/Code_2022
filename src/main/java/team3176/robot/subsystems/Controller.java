@@ -437,7 +437,7 @@ public class Controller {
   public POVButton getTransStick_HAT_90() {return transStick_HAT_90;}
   public POVButton getTransStick_HAT_135() {return transStick_HAT_135;}
   public POVButton getTransStick_HAT_180() {return transStick_HAT_180;}
-  public POVButton getTransStick_HAT_235() {return transStick_HAT_225;}
+  public POVButton getTransStick_HAT_225() {return transStick_HAT_225;}
   public POVButton getTransStick_HAT_270() {return transStick_HAT_270;}
   public POVButton getTransStick_HAT_315() {return transStick_HAT_315;}
 
@@ -465,7 +465,7 @@ public class Controller {
   public POVButton getRotStick_HAT_90() {return rotStick_HAT_90;}
   public POVButton getRotStick_HAT_135() {return rotStick_HAT_135;}
   public POVButton getRotStick_HAT_180() {return rotStick_HAT_180;}
-  public POVButton getRotStick_HAT_235() {return rotStick_HAT_225;}
+  public POVButton getRotStick_HAT_225() {return rotStick_HAT_225;}
   public POVButton getRotStick_HAT_270() {return rotStick_HAT_270;}
   public POVButton getRotStick_HAT_315() {return rotStick_HAT_315;}
 

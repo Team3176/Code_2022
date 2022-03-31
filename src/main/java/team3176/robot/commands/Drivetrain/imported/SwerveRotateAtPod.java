@@ -12,10 +12,10 @@ import team3176.robot.subsystems.drivetrain.Gyro3176;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 
 public class SwerveRotateAtPod extends CommandBase {
-  private Drivetrain drivetrain = Drivetrain.getInstance();
+  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
-  private DoubleSupplier orbitSpeed;
+  private DoubleSupplier forwardCommand, strafeCommand, spinCommand;
   private Double pov;
 
   private double orbitEtherRadius = 30.0; // inches
@@ -24,43 +24,59 @@ public class SwerveRotateAtPod extends CommandBase {
 
   private double radianOffset;
 
-  public SwerveRotateAtPod(DoubleSupplier orbitSpeed, Double pov) {
-    this.orbitSpeed = orbitSpeed;
+  public SwerveRotateAtPod(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand, DoubleSupplier spinCommand, Double pov) {
+    this.forwardCommand = forwardCommand;
+    this.strafeCommand = strafeCommand;
+    this.spinCommand = spinCommand;
     this.pov = pov;
-    addRequirements(drivetrain);
+    addRequirements(m_Drivetrain);
   }
 
   @Override
   public void initialize() {
-    if(m_coordSys.getCurrentCoordType() == coordType.FIELD_CENTRIC) {
-      wasFieldCentric = true;
-    } else {
-      wasFieldCentric = false;
-    }
+    //if(m_coordSys.getCurrentCoordType() == coordType.FIELD_CENTRIC) {
+    //  wasFieldCentric = true;
+    //} else {
+    //  wasFieldCentric = false;
+   // }
     radianOffset = m_gyro.getCurrentChassisYaw() - m_coordSys.getFieldCentricOffset();
 
     // SmartDashboard.putNumber("currentAngle", drivetrain.getCurrentAngle());
     // SmartDashboard.putNumber("getFieldCentricOffset", drivetrain.getFieldCentricOffset());
     // SmartDashboard.putNumber("radianOffset", radianOffset);
 
-    drivetrain.setDriveMode(driveMode.ORBIT);
-    m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
+    //m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
   }
 
   @Override
   public void execute() {
 
-    double forwardCommand = orbitSpeed.getAsDouble() * Math.cos(radianOffset);
-    double strafeCommand = orbitSpeed.getAsDouble() * Math.sin(radianOffset);
+    //double forwardCommand = orbitSpeed.getAsDouble() * Math.cos(radianOffset);
+    //double strafeCommand = orbitSpeed.getAsDouble() * Math.sin(radianOffset);
 
-    if(pov == 45.0 || pov == 90.0 || pov == 135.0) { // If on right side
-      // Orbit Clockwise
-      drivetrain.drive(forwardCommand, strafeCommand, orbitSpeed.getAsDouble() / orbitEtherRadius /* inches */);
-    } 
-    else if (pov == 225.0 || pov == 270.0 || pov == 315.0) { // If on left side
-      // Orbit Counter-Clockwise
-      drivetrain.drive(forwardCommand, strafeCommand, -orbitSpeed.getAsDouble() / orbitEtherRadius /* inches */);
+    if (pov == 45.0) {
+      m_Drivetrain.setDriveMode(driveMode.PIVOTFR);
     }
+
+    if (pov == 135.0) {
+      m_Drivetrain.setDriveMode(driveMode.PIVOTFL);
+    }
+
+    if (pov == 225.0) {
+      m_Drivetrain.setDriveMode(driveMode.PIVOTBL);
+    }
+
+    if (pov == 315.0 ) {
+      m_Drivetrain.setDriveMode(driveMode.PIVOTBR);
+    }
+
+      // Orbit Clockwise
+      //drivetrain.drive(forwardCommand, strafeCommand, orbitSpeed.getAsDouble() / orbitEtherRadius /* inches */);
+    //} 
+    //else if (pov == 225.0 || pov == 270.0 || pov == 315.0) { // If on left side
+      // Orbit Counter-Clockwise
+    m_Drivetrain.drive(forwardCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 10 /* inches */);
+    //}
   }
 
   @Override
@@ -68,11 +84,12 @@ public class SwerveRotateAtPod extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    if(wasFieldCentric) {
+    //if(wasFieldCentric) {
 
-      m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
-    } else {
-      m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
-    }
+     // m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
+    //} else {
+     // m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
+   //// }
+    m_Drivetrain.setDriveMode(driveMode.DRIVE);
   }
 }

@@ -106,7 +106,7 @@ public class Drivetrain extends SubsystemBase {
   double angleAvgRollingWindow;
 
   public enum driveMode {
-    DEFENSE, DRIVE, VISION, ORBIT
+    DEFENSE, DRIVE, VISION, ORBIT, PIVOTFR, PIVOTFL, PIVOTBL, PIVOTBR
   }
 
   private SwervePod2022 podFR;
@@ -349,11 +349,13 @@ public class Drivetrain extends SubsystemBase {
       }
 
       // Find the highest pod speed then normalize if a pod is exceeding our max speed by scaling down all the speeds
+      if (! (currentDriveMode == driveMode.PIVOTFR)) {  
       relMaxSpeed = Math.max(Math.max(podDrive[0], podDrive[1]), Math.max(podDrive[2], podDrive[3]));
       if (relMaxSpeed > DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND) {
         for (int idx = 0; idx < pods.size(); idx++) {
           podDrive[idx] /= relMaxSpeed / DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND;
         }
+      }
       }
 
       // Set calculated drive and spins to each pod
@@ -407,13 +409,57 @@ public class Drivetrain extends SubsystemBase {
     // else /* component D */ { return 2 * width; } // Puts radius to the right of
     // bot at distance w
     // } else {
-    if (component.equals("A") || component.equals("B")) {
-      return length / 2.0;
-    } else {
-      return width / 2.0;
-    } // TODO: place to check for forward vs back pods working vs not working
+   
     // }
-    /// return 0.0; // TODO: this method needs cleanup and logic-checking
+    if (currentDriveMode == driveMode.PIVOTFR) {
+      if (component.equals("B") || component.equals("C")) {
+        return 0.0;
+      } else if (component.equals("A")) {
+        return length;
+      } else if (component.equals("D")) {
+        return width; 
+      } 
+    }
+
+    if (currentDriveMode == driveMode.PIVOTFL) {
+      if (component.equals("B") || component.equals("D")) {
+        return 0.0;
+      } else if (component.equals("A")) {
+        return length;
+      } else if (component.equals("C")) {
+        return width;
+      }
+    }
+
+    if (currentDriveMode == driveMode.PIVOTBL) {
+      if (component.equals("A") || component.equals("D")) {
+        return 0.0;
+      } else if (component.equals("B")) {
+        return length;
+      } else if (component.equals("C")) {
+        return width;
+      }
+    }
+
+    if (currentDriveMode == driveMode.PIVOTBR) {
+      if (component.equals("A") || component.equals("C")) {
+        return 0.0;
+      } else if (component.equals("B")) { 
+        return length;
+      } else if (component.equals("D")) {
+        return width;
+      }
+    }
+
+    if (currentDriveMode == driveMode.DRIVE) {
+      if (component.equals("A") || component.equals("B")) {
+        return length / 2.0;
+      } else {
+        return width / 2.0;
+      } // TODO: place to check for forward vs back pods working vs not working
+    }
+
+     return 0.0; // TODO: this method needs cleanup and logic-checking
   }
 
   public void setDriveMode(driveMode wantedDriveMode) {

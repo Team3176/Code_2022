@@ -92,6 +92,10 @@ public class Gyro3176 extends SubsystemBase {
     return getNavxAngle_inRadians();
   }
 
+  /**
+   * Updates currentAngle by polling the navX, and returns the Yaw in units of radians 
+   * @return this.currentAngle
+   */
   public double getCurrentChassisYaw() {
     updateNavxAngle();
     return this.currentAngle;

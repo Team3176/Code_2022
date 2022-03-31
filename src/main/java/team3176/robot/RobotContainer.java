@@ -123,10 +123,26 @@ public class RobotContainer {
     m_Controller.getTransStick_Button4().whenHeld(new CoordTypeToRobotCentric());
     m_Controller.getTransStick_Button4().whenReleased(new CoordTypeToFieldCentric());
 
-    m_Controller.getTransStick_HAT_45().whenHeld(new SwerveRotateAtPod(() -> m_Controller.getSpin(), 45.0));
-    m_Controller.getTransStick_HAT_135().whenHeld(new SwerveRotateAtPod(() -> m_Controller.getSpin(), 135.0));
-    m_Controller.getTransStick_HAT_235().whenHeld(new SwerveRotateAtPod(() -> m_Controller.getSpin(), 235.0));
-    m_Controller.getTransStick_HAT_315().whenHeld(new SwerveRotateAtPod(() -> m_Controller.getSpin(), 315.0));
+    m_Controller.getTransStick_HAT_45().whenHeld(new SwerveRotateAtPod(
+        () -> m_Controller.getForward(),
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin(), 
+        45.0));
+    m_Controller.getTransStick_HAT_135().whenHeld(new SwerveRotateAtPod(
+        () -> m_Controller.getForward(),
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin(), 
+        135.0));
+    m_Controller.getTransStick_HAT_225().whenHeld(new SwerveRotateAtPod(
+        () -> m_Controller.getForward(),
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin(), 
+        225.0));
+    m_Controller.getTransStick_HAT_315().whenHeld(new SwerveRotateAtPod(
+        () -> m_Controller.getForward(),
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin(), 
+        315.0));
 
     m_Controller.getRotStick_Button1().whenHeld(new VisionSpinCorrectionOn());
     m_Controller.getRotStick_Button1().whenReleased(new VisionSpinCorrectionOff());
