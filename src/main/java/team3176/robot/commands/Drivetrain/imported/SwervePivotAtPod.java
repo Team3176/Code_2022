@@ -11,48 +11,73 @@ import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 
-public class SwerveRotateAtPod extends CommandBase {
+public class SwervePivotAtPod extends CommandBase {
   private Drivetrain m_Drivetrain = Drivetrain.getInstance();
-  private Gyro3176 m_gyro = Gyro3176.getInstance();
-  private CoordSys m_coordSys = CoordSys.getInstance();
+  private Gyro3176 m_Gyro = Gyro3176.getInstance();
+  private CoordSys m_CoordSys = CoordSys.getInstance();
   private DoubleSupplier forwardCommand, strafeCommand, spinCommand;
   private Double pov;
 
-  private double orbitEtherRadius = 30.0; // inches
-
-  private boolean wasFieldCentric;
-
   private double radianOffset;
 
-  public SwerveRotateAtPod(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand, DoubleSupplier spinCommand, Double pov) {
+  public SwervePivotAtPod(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand, DoubleSupplier spinCommand, Double pov) {
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;
     this.spinCommand = spinCommand;
     this.pov = pov;
-    addRequirements(m_Drivetrain);
+    addRequirements(m_Drivetrain, m_Gyro);
   }
 
   @Override
   public void initialize() {
-    //if(m_coordSys.getCurrentCoordType() == coordType.FIELD_CENTRIC) {
-    //  wasFieldCentric = true;
-    //} else {
-    //  wasFieldCentric = false;
-   // }
-    radianOffset = m_gyro.getCurrentChassisYaw() - m_coordSys.getFieldCentricOffset();
+    double yaw = m_Gyro.getGyroAngle_inDegrees();
+    if ((yaw >= 45 && yaw < 135) || (yaw >= 315)) {
+      switch (this.pov.intValue()) {
+        case 45:  this.pov = this.pov + 90.0;
+                  break;
+        case 135: this.pov = this.pov + 90.0;
+                  break;
+        case 225: this.pov = this.pov + 90.0;
+                  break;
+        case 315: this.pov = 45.0;
+                  break;
+      }
+    }
+    
+    if (yaw >= 135 && yaw < 225) {
+      switch (this.pov.intValue()) {
+        case 45:  this.pov = this.pov + 180.0;
+                  break;
+        case 135: this.pov = this.pov + 180.0;
+                  break;
+        case 225: this.pov = 45.0;
+                  break;
+        case 315: this.pov = 135.0;
+                  break;
+      }
+    } 
 
-    // SmartDashboard.putNumber("currentAngle", drivetrain.getCurrentAngle());
-    // SmartDashboard.putNumber("getFieldCentricOffset", drivetrain.getFieldCentricOffset());
-    // SmartDashboard.putNumber("radianOffset", radianOffset);
+    if (yaw >= 225 && yaw < 315) {
+      switch (this.pov.intValue()) {
+        case 45:  this.pov = this.pov + 315.0;
+                  break;
+        case 135: this.pov = 45.0;
+                  break;
+        case 225: this.pov = 135.0;
+                  break;
+        case 315: this.pov = 225.0;
+                  break;
+      }
+    }
 
-    //m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
+
+    radianOffset = m_Gyro.getCurrentChassisYaw() - m_CoordSys.getFieldCentricOffset();
+
   }
 
   @Override
   public void execute() {
 
-    //double forwardCommand = orbitSpeed.getAsDouble() * Math.cos(radianOffset);
-    //double strafeCommand = orbitSpeed.getAsDouble() * Math.sin(radianOffset);
 
     if (pov == 45.0) {
       m_Drivetrain.setDriveMode(driveMode.PIVOTFR);
@@ -70,13 +95,7 @@ public class SwerveRotateAtPod extends CommandBase {
       m_Drivetrain.setDriveMode(driveMode.PIVOTBR);
     }
 
-      // Orbit Clockwise
-      //drivetrain.drive(forwardCommand, strafeCommand, orbitSpeed.getAsDouble() / orbitEtherRadius /* inches */);
-    //} 
-    //else if (pov == 225.0 || pov == 270.0 || pov == 315.0) { // If on left side
-      // Orbit Counter-Clockwise
-    m_Drivetrain.drive(forwardCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 10 /* inches */);
-    //}
+    m_Drivetrain.drive(forwardCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 25 /* inches */); //}
   }
 
   @Override
@@ -86,10 +105,6 @@ public class SwerveRotateAtPod extends CommandBase {
   public void end(boolean interrupted) {
     //if(wasFieldCentric) {
 
-     // m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
-    //} else {
-     // m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
-   //// }
     m_Drivetrain.setDriveMode(driveMode.DRIVE);
   }
 }
