@@ -4,16 +4,21 @@
 
 package team3176.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.IntakeConstants;
 import team3176.robot.subsystems.Indexer;
 import team3176.robot.subsystems.Intake;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class IntakingDirect2 extends CommandBase {
   private Intake m_Intake = Intake.getInstance();
   private Indexer m_Indexer = Indexer.getInstance();
+  private CommandScheduler m_scheduler;
+
   public IntakingDirect2() {
     addRequirements(m_Intake, m_Indexer);
+    m_scheduler = CommandScheduler.getInstance();
   }
 
   // Called when the command is initially scheduled.
@@ -37,10 +42,18 @@ public class IntakingDirect2 extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    /*
     // interrupted conditional is there so it doesn't screw up IntakeReject, which interrupts this command to reject balls
     if (!interrupted) {
       m_Intake.Retract();
     }
+    */
+
+    // check if IntakeReject is what interrupted this command. If it is NOT, then retract the intake.
+    if (!m_scheduler.isScheduled(new IntakeReject())) {
+      m_Intake.Retract();
+    }
+
     // m_Indexer.setModeHolding();
     // m_Indexer.simpleIndexer();
   }
