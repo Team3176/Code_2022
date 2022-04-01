@@ -11,13 +11,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.command.Command;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.constants.IntakeConstants;
 import team3176.robot.subsystems.IntakeIO.IntakeIOInputs;
+import edu.wpi.first.wpilibj.util.Color;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.DriverStation;
+import team3176.robot.commands.Intake.IntakeReject;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Intake extends SubsystemBase {
   private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
@@ -27,6 +36,10 @@ public class Intake extends SubsystemBase {
   private boolean motorSetting = false;
   private boolean lastBallSensorReading = true;
   private DigitalInput ballSensor;
+  private ColorSensorV3 colorSensor;
+  private boolean isSensingColor;
+  private String ballToReject = "";
+  private SendableChooser<String> practiceAlliance;
   public int ballCount = 0;
   private boolean isIntaking = false;
   private boolean isSmartDashboardTestControlsShown;
@@ -37,6 +50,7 @@ public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final IntakeIOInputs inputs = new IntakeIOInputs();
   private static Intake instance;
+  private CommandScheduler m_scheduler;
 
   public int getBallCount() {return this.ballCount;}
 
@@ -44,6 +58,13 @@ public class Intake extends SubsystemBase {
     this.io = io;
     intakeMotor.setInverted(true);
     ballSensor = new DigitalInput(IntakeConstants.BALL_SENSOR_DIO);
+    colorSensor = new ColorSensorV3(I2C.Port.kMXP);
+    practiceAlliance = new SendableChooser<String>();
+    practiceAlliance.setDefaultOption("Blue", "Blue");
+    practiceAlliance.addOption("Red", "Red");
+    SmartDashboard.putData(practiceAlliance);
+    SmartDashboard.putBoolean("IsSensingColor", true); // show this on Shuffleboard as a toggle button
+    m_scheduler = CommandScheduler.getInstance();
   }
 
   public void Extend() {
@@ -157,6 +178,48 @@ public class Intake extends SubsystemBase {
       if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
       setValuesFromSmartDashboard();
     }
+
+    // Ball rejection logic
+    this.isSensingColor = SmartDashboard.getBoolean("IsSensingColor", true);
+
+    if (isSensingColor && isIntaking && motorSetting && (DriverStation.isAutonomousEnabled() || DriverStation.isTeleopEnabled()))
+    {
+      if (DriverStation.isFMSAttached())
+      {
+        switch (DriverStation.getAlliance()) {
+          case Red: this.ballToReject = "Blue";
+                    break;
+          case Blue: this.ballToReject = "Red";
+                    break;
+          case Invalid: this.ballToReject = "";
+                    break;
+        }
+      } else {
+        switch (practiceAlliance.getSelected()) {
+          case "Red": this.ballToReject = "Blue";
+                    break;
+          case "Blue": this.ballToReject = "Red";
+                    break;
+        }
+      }
+
+      Color detectedColor = colorSensor.getColor();
+      String ballColor = "";
+      if (detectedColor.red >= IntakeConstants.redBallR && detectedColor.green < IntakeConstants.redBallG && detectedColor.blue < IntakeConstants.redBallB) {
+        SmartDashboard.putString("Ball Color", "RED");
+        ballColor = "Red";
+      } else if (detectedColor.blue >= IntakeConstants.blueBallB && detectedColor.green < IntakeConstants.blueBallG && detectedColor.red < IntakeConstants.blueBallR) {
+        SmartDashboard.putString("Ball Color", "BLUE");
+        ballColor = "Blue";
+      } else {
+        SmartDashboard.putString("Ball Color", "?");
+        ballColor = "?";
+      }
+      if (this.ballToReject.equals(ballColor) && !m_scheduler.isScheduled(new IntakeReject()) && (intakeMotor.getMotorOutputPercent() > 0 && intakeMotor.getSelectedSensorVelocity() > 0)) { // Is that the right way to ask if a command is scheduled?
+        new IntakeReject();
+      }
+    }
+
   }
 
   public void runVoltage(double volts) {

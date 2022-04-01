@@ -14,5 +14,17 @@ public final class IntakeConstants {
     public static final double INTAKE_GEAR_RATIO = 5.0;
     public static final int BALL_SENSOR_DIO = 5;
 
+    // The + or - after the value is whether the value tends to increase (+) or decrease (-) as the distance of the ball from the
+    // color sensor decreases.
+    // Example: redBallR is the red value detected when a red ball was ~4 inches from the sensor
+    public static final double redBallR = .420; // +
+    public static final double redBallG = .405; // -
+    public static final double redBallB = .165; // -
+    public static final double blueBallR = .275; // -
+    public static final double blueBallG = .465; // -
+    public static final double blueBallB = .250; // +
+
+    public static final double kTimeForRejection = 1.0; // time to run motors in reverse (sec) when rejecting the wrong color ball
+
     public static final String kShuffleboardPercentName = "Intake%Set";
 }

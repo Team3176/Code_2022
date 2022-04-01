@@ -24,6 +24,7 @@ public class StopIntakeAndIndexer extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (m_Intake.isExtended()) { m_Intake.Retract(); }
     m_Intake.stopMotor();
     m_Indexer.motorStop();
   }

@@ -4,50 +4,43 @@
 
 package team3176.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.IntakeConstants;
-import team3176.robot.subsystems.Indexer;
 import team3176.robot.subsystems.Intake;
 
-public class IntakingDirect2 extends CommandBase {
-  private Intake m_Intake = Intake.getInstance();
-  private Indexer m_Indexer = Indexer.getInstance();
-  public IntakingDirect2() {
-    addRequirements(m_Intake, m_Indexer);
+public class IntakeReject extends CommandBase {
+  /** Creates a new IntakeReject. */
+  private Intake m_intake = Intake.getInstance();
+  private double startTime;
+
+  public IntakeReject() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // m_Indexer.setModeLoading();
-    m_Indexer.Up();
-    m_Intake.Extend();
-    m_Intake.spinVelocityPercent(IntakeConstants.INTAKE_PCT);
+    startTime = Timer.getFPGATimestamp();
+    if (!m_intake.isExtended()) { m_intake.Extend(); }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_Indexer.simpleIndexer();
-    if(!m_Indexer.getSecondPos()) {
-      m_Indexer.motorStop();
-    }
+    m_intake.spinVelocityPercent(-IntakeConstants.INTAKE_PCT);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // interrupted conditional is there so it doesn't screw up IntakeReject, which interrupts this command to reject balls
-    if (!interrupted) {
-      m_Intake.Retract();
-    }
-    // m_Indexer.setModeHolding();
-    // m_Indexer.simpleIndexer();
+    m_intake.stopMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return ((Timer.getFPGATimestamp() - startTime) >= IntakeConstants.kTimeForRejection);
   }
 }
