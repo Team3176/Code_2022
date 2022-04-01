@@ -31,7 +31,7 @@ public class SwervePivotAtPod extends CommandBase {
   @Override
   public void initialize() {
     double yaw = m_Gyro.getGyroAngle_inDegrees();
-    if ((yaw >= 45 && yaw < 135) || (yaw >= 315)) {
+    if ((yaw <= 45 && yaw >= 135) || (yaw >= 315)) {
       switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 90.0;
                   break;
@@ -44,7 +44,7 @@ public class SwervePivotAtPod extends CommandBase {
       }
     }
     
-    if (yaw >= 135 && yaw < 225) {
+    if (yaw >= 135 || yaw <= -135) {
       switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 180.0;
                   break;
@@ -57,7 +57,7 @@ public class SwervePivotAtPod extends CommandBase {
       }
     } 
 
-    if (yaw >= 225 && yaw < 315) {
+    if (yaw > -135  && yaw < -45) {
       switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 315.0;
                   break;
