@@ -25,13 +25,18 @@ public class SwervePivotAtPod extends CommandBase {
     this.strafeCommand = strafeCommand;
     this.spinCommand = spinCommand;
     this.hatPov = hatPov;
+    this.pov = this.hatPov;
     addRequirements(m_Drivetrain, m_Gyro);
   }
 
   @Override
   public void initialize() {
+    double mYaw = 0;
     double yaw = m_Gyro.getGyroAngle_inDegrees();
-    if ((yaw <= 45 && yaw >= 135) || (yaw >= 315)) {
+
+    if (yaw < 0) { mYaw = yaw % -180.0; } else { mYaw = yaw % 180;}
+
+    if ((mYaw >= 45 && mYaw < 135)) {
       switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 90.0;
                   break;
@@ -44,7 +49,7 @@ public class SwervePivotAtPod extends CommandBase {
       }
     }
     
-    if (yaw >= 135 || yaw <= -135) {
+    if ((mYaw >= 135 && mYaw <= 180) || (mYaw < -135 && mYaw >= -180)) {
       switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 180.0;
                   break;
@@ -57,7 +62,7 @@ public class SwervePivotAtPod extends CommandBase {
       }
     } 
 
-    if (yaw > -135  && yaw < -45) {
+    if (mYaw >= -135 && mYaw < -45) {
       switch (this.hatPov.intValue()) {
         case 45:  this.pov = this.pov + 315.0;
                   break;
@@ -69,6 +74,7 @@ public class SwervePivotAtPod extends CommandBase {
                   break;
       }
     }
+
 
 
     radianOffset = m_Gyro.getCurrentChassisYaw() - m_CoordSys.getFieldCentricOffset();

@@ -517,6 +517,14 @@ public class SwervePod2022 {
         return azimuthEncoder.getPosition(); 
     }
 
+    public void boostThrustAcceleration() {
+        this.thrustController.configClosedloopRamp(0.25);   
+    }
+
+    public void unboostThrustAcceleration() {
+        this.thrustController.configClosedloopRamp(0.5);   
+    }
+
     public void initializeSmartDashboard() {
 
         // SmartDashboard.putNumber("P"+(this.id)+".podAzimuth_setpoint_angle", 0);

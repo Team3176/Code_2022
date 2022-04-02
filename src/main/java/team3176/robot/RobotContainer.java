@@ -146,8 +146,8 @@ public class RobotContainer {
         () -> m_Controller.getSpin(), 
         315.0));
 
-    m_Controller.getRotStick_Button1().whileActiveOnce(new FlywheelAngleVisionInt());
-    m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVision());
+    m_Controller.getRotStick_Button1().whileActiveOnce(new FlywheelAngleVisionIntAutoFire());
+    m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVisionAutoFire());
     
     m_Controller.getRotStick_Button1().whenHeld(new VisionSpinCorrectionOn());
     m_Controller.getRotStick_Button1().whenReleased(new VisionSpinCorrectionOff());
