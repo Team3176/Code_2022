@@ -57,6 +57,7 @@ public class RobotContainer {
   private static final String m_MS = "s_MoveAndShoot";
   private static final String m_3B = "s_3Ball";
   private static final String m_4B = "s_4Ball";
+  private static final String m_5B = "s_5Ball";
   private static final String m_3H = "s_3BallHanger";
 
   public RobotContainer() {
@@ -110,6 +111,7 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: 3 Ball (Right)", m_3B);
     m_autonChooser.addOption("Auto: 3 Ball (Left/Hanger)", m_3H);
     m_autonChooser.addOption("Auto: 4 Ball", m_4B);
+    m_autonChooser.addOption("Auto: 5 Ball", m_5B);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
@@ -144,6 +146,9 @@ public class RobotContainer {
         () -> m_Controller.getSpin(), 
         315.0));
 
+    m_Controller.getRotStick_Button1().whileActiveOnce(new FlywheelAngleVisionInt());
+    m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVision());
+    
     m_Controller.getRotStick_Button1().whenHeld(new VisionSpinCorrectionOn());
     m_Controller.getRotStick_Button1().whenReleased(new VisionSpinCorrectionOff());
     // m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
@@ -185,7 +190,6 @@ public class RobotContainer {
     m_Controller.getOp_X().whileActiveOnce(new FlywheelAngleVision());
 
     m_Controller.getOp_LeftTrigger().whileActiveOnce(new ShootVision());
-    m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVision());
 
     m_Controller.getOp_RightTrigger().whileActiveOnce(new FlywheelAngleVisionInt());
   }
@@ -228,6 +232,8 @@ public class RobotContainer {
       return new Auto3Balls();
     if (chosen.equals(m_4B))
       return new Auto4Ball();
+    if (chosen.equals(m_5B))
+      return new Auto5Ball();
     if (chosen.equals(m_3H))
       return new Auton3BallAtHanger();
 
