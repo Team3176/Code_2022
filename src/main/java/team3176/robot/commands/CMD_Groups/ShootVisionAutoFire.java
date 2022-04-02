@@ -17,7 +17,7 @@ public class ShootVisionAutoFire extends CommandBase {
   private Feeder m_Feeder = Feeder.getInstance();
   private Vision m_Vision = Vision.getInstance();
   private double ty, tx;
-  private boolean tv;
+  private double tv;
 
   public ShootVisionAutoFire() {
     addRequirements(m_Intake, m_Indexer, m_Feeder);
@@ -27,7 +27,7 @@ public class ShootVisionAutoFire extends CommandBase {
   public void initialize() {
     tx = m_Vision.tx.getDouble(0);
     ty = m_Vision.ty.getDouble(0);
-    tv = m_Vision.tv.getBoolean(false);
+    tv = m_Vision.tv.getDouble(0);
   }
 
   @Override
@@ -35,9 +35,9 @@ public class ShootVisionAutoFire extends CommandBase {
     m_Vision.updateVisionData();
     tx = m_Vision.tx.getDouble(0);
     ty = m_Vision.ty.getDouble(0);
-    tv = m_Vision.tv.getBoolean(false);
+    tv = m_Vision.tv.getDouble(0);
     
-    if (tx < 1 && tx > -1 && tv) {
+    if (tx < 3 && tx > -3 && tv == 1) {
       if(ty >= ShooterLocationValues.TY_2X_EDGE_OF_TARMAC ) {
         m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[0][0]);
         m_Indexer.setVelocity(ShooterLocationValues.POINTS[0][1]);

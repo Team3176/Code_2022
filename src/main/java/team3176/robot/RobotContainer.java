@@ -59,6 +59,8 @@ public class RobotContainer {
   private static final String m_4B = "s_4Ball";
   private static final String m_5B = "s_5Ball";
   private static final String m_3H = "s_3BallHanger";
+  private static final String m_2C = "s_2BallCitrus";
+  private static final String m_Rot = "s_Rot";
 
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -112,6 +114,8 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: 3 Ball (Left/Hanger)", m_3H);
     m_autonChooser.addOption("Auto: 4 Ball", m_4B);
     m_autonChooser.addOption("Auto: 5 Ball", m_5B);
+    m_autonChooser.addOption("Auto: 2 Ball Citrus (Left/Hanger)", m_2C);
+    m_autonChooser.addOption("Auto: Rotation", m_Rot);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
@@ -236,6 +240,10 @@ public class RobotContainer {
       return new Auto5Ball();
     if (chosen.equals(m_3H))
       return new Auton3BallAtHanger();
+    if (chosen.equals(m_2C))
+      return new Auto2BallCitrus();
+    if (chosen.equals(m_Rot))
+      return new AutonRotate(0.15, 90);
 
     return new AutoInTarmacShoot();
   }

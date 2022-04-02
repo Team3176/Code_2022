@@ -5,7 +5,6 @@
 package team3176.robot.commands.CMD_Groups;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.ShooterLocationValues;
 import team3176.robot.subsystems.Angler;
 import team3176.robot.subsystems.Flywheel;
 import team3176.robot.subsystems.Vision;
@@ -26,34 +25,32 @@ public class FlywheelAngleVisionAuton extends CommandBase {
     ty = m_Vision.ty.getDouble(0);
     tv = m_Vision.tv.getBoolean(false);
 
-    if(ty >= ShooterLocationValues.TY_2X_EDGE_OF_TARMAC || (ty == 0 && !tv)) {
-      // System.out.println("TARMAC ZONE");
-    }
-    else if(ty >= ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE && ty < ShooterLocationValues.TY_2X_EDGE_OF_TARMAC) {
-      // System.out.println("TARMAC LINE");
-      m_Angler.moveToAngle(ShooterLocationValues.POINTS[1][5]);
-      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[1][3], ShooterLocationValues.POINTS[1][4]);
-    }
-    else if(ty < ShooterLocationValues.TY_2X_MID_OF_TARMAC_LINE && ty >= ShooterLocationValues.TY_2X_LAUNCH_PAD) {
-      // System.out.println("LAUNCH PAD ZONE");
-      m_Angler.moveToAngle(ShooterLocationValues.POINTS[2][5]);
-      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[2][3], ShooterLocationValues.POINTS[2][4]);
-    }
-    else if(ty < ShooterLocationValues.TY_2X_LAUNCH_PAD && ty >= ShooterLocationValues.TY_2X_WALL_ZONE) {
-      // System.out.println("PRE-WALL ZONE");
-      m_Angler.moveToAngle(ShooterLocationValues.POINTS[3][5]);
-      m_Flywheel.spinMotorsVelocityPID(ShooterLocationValues.POINTS[3][3], ShooterLocationValues.POINTS[3][4]);
-    }
-    else if(ty < ShooterLocationValues.TY_2X_WALL_ZONE) {
-      // System.out.println("WALL ZONE");
-    }
+    m_Angler.moveToAngle(60);
+    m_Flywheel.spinMotorsVelocityPID(thirdPowInt() * 0.95, 0.20);
   }
 
   @Override
-  public void execute() {}
+  public void execute() {
+  }
+
+  public double secondPowInt() {
+    // y = 0.0013x^2 - 0.0041x + 0.3217
+    double pct = (0.0013 * ty * ty) - (0.0041 * ty) + (0.3217);
+    return pct;
+  }
+
+  public double thirdPowInt() {
+    // y = 0.0007x^3 + 0.0059x^2 - 0.0046x + 0.3129
+    // y = 0.0003x^3 + 0.0034x^2 - 0.0043x + 0.3177
+    // double pct = (0.0003 * ty * ty * ty) + (0.0034 * ty * ty) - (0.0043 * ty) + (0.3177);
+    // double pct = (0.00009 * ty * ty * ty) + (0.0014 * ty * ty) - (0.0056 * ty) + (0.3221);
+    double pct = (0.00003 * ty * ty * ty) + (0.0006 * ty * ty) - (0.008 * ty) + (0.3225);
+    return pct;
+  }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   @Override
   public boolean isFinished() {

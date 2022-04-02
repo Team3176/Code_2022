@@ -213,16 +213,16 @@ public class Drivetrain extends SubsystemBase {
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       //this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
-      for (int idx = 0; idx < (pods.size()); idx++) {
-        pods.get(idx).unboostThrustAcceleration();
-      }
+      // for (int idx = 0; idx < (pods.size()); idx++) {
+      //   pods.get(idx).unboostThrustAcceleration();
+      // }
     }
 
     if (isTurboOn) {
       this.spinCommand *= 2; 
-      for (int idx = 0; idx < (pods.size()); idx++) {
-        pods.get(idx).boostThrustAcceleration();
-      }
+      // for (int idx = 0; idx < (pods.size()); idx++) {
+      //   pods.get(idx).boostThrustAcceleration();
+      // }
     }
 
     if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {

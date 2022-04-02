@@ -1,30 +1,41 @@
 Test if we can disable compressor if below 10V, and renenable if above 10V  (merger2_charAbsSW) 
 
-Thur night:  
-            Chris copy working code base to 2 usbsticks
-            Create backup branch of working code base
-            Make a copy branch labelled columbusDay1
-             
+Test "spin with origin at location of one of four selected pods."
 
-x -Check if AutonExitTarmmac moves ~10feet.  Are we moving ~10ft?  Are we moving in right direction?
--Check accuracy of auton rotate CMD
+Code new Climb logic (High Most Likely to be the one added)
 
-x -Reduce "funnel impact point" by 1-2 feet
+Make Intake rejection system using color sensor (Rev color sensor v3)
 
-? -Imp "spin with origin at location of one of four selected pods."
+Add intake guidance system.
 
-x -Imp shooting interpolation
+Fix Defence Mode (current version set it to spin orientation)
 
--Code new Climb logic
+Look into why the Indexer values stop updating
 
--Make Indexer automatically handle ball spacing better when shooting, particularly during fender shots
+See why auto messes up after we deploy (low prio because we checklist after we deploy)
 
-- Make Intake rejection system using color sensor (Rev color sensor v3)
+See if we have four falcons for the tank bot
+    - If not add Sparks and NEOs
 
--Create 4 & 5 ball autos
+Monitor Mount (box tubing)
 
--"Auto fire" mode upon target acquisition.  (Effectively remove delay between positioning and firing.)
+Speed Up Auton (5* Ball = ~20sec)
+    - Speed Up AutonRotate (and keep accuracy)
+    - Test TrapezoidRotate
+    - TrapezoidDrive with a spin command
+    - Speed Up TrapezoidDrive
 
--Add intake guidance system.
+Fix the NavX Offset (the reset in every auto is not very useful)
 
+Machine Learning
+    - Finish Training
+    - Test on Robot
 
+Target Tracking (If no target the spin correction doesn't take control) ***
+
+Test if boosting the acceleration in turbo breaks the PID
+
+Improve the bandwith of the camera
+	- Remove unused SmartDashboard additions
+	- Is SmartDashboard faster than Shuffleboard
+  
