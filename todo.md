@@ -11,6 +11,8 @@ Add intake guidance system.
 Fix Defence Mode (current version set it to spin orientation)
 
 Look into why the Indexer values stop updating
+    - Why indexer stops moving during Intaking or reverses direction
+    - Check encoder settings.  Is it continuous at max tic limits as it rolls over?
 
 See why auto messes up after we deploy (low prio because we checklist after we deploy)
 
@@ -30,6 +32,10 @@ Fix the NavX Offset (the reset in every auto is not very useful)
 Machine Learning
     - Finish Training
     - Test on Robot
+    - Test upload2.py with opencv getRGB trick
+    - Weigh Clarke box
+
+Autofire -- make it so autofire only acts if no transStick input
 
 Target Tracking (If no target the spin correction doesn't take control) ***
 
@@ -38,4 +44,6 @@ Test if boosting the acceleration in turbo breaks the PID
 Improve the bandwith of the camera
 	- Remove unused SmartDashboard additions
 	- Is SmartDashboard faster than Shuffleboard
+    - Is limelight firmware the latest (2022.2.2)?
+    - Investigate moving fisheye to Rio-server?
   
