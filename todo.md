@@ -1,49 +1,50 @@
-Test if we can disable compressor if below 10V, and renenable if above 10V  (merger2_charAbsSW) 
+- Test if we can disable compressor if below 10V, and renenable if above 10V  (merger2_charAbsSW) 
 
-Test "spin with origin at location of one of four selected pods."
+- Test "spin with origin at location of one of four selected pods."
 
-Code new Climb logic (High Most Likely to be the one added)
+- Code new Climb logic (High Most Likely to be the one added)
 
-Make Intake rejection system using color sensor (Rev color sensor v3)
+- Test Intake rejection system using color sensor (Rev color sensor v3)
 
-Add intake guidance system.
+x - Fix Defence Mode (current version set it to spin orientation)
 
-Fix Defence Mode (current version set it to spin orientation)
-
-Look into why the Indexer values stop updating
+- Look into why the Indexer values stop updating
     - Why indexer stops moving during Intaking or reverses direction
     - Check encoder settings.  Is it continuous at max tic limits as it rolls over?
 
-See why auto messes up after we deploy (low prio because we checklist after we deploy)
+- See why auto messes up after we deploy (low prio because we checklist after we deploy)
 
-See if we have four falcons for the tank bot
-    - If not add Sparks and NEOs
+- Have CIMs on Tank bot switched to the Neos (make sure we aren't using up our backup store of Sparkmaxes) 
 
-Monitor Mount (box tubing)
+x - Monitor Mount (box tubing)
 
-Speed Up Auton (5* Ball = ~20sec)
+- Speed Up Auton (5* Ball = ~20sec)
     - Speed Up AutonRotate (and keep accuracy)
     - Test TrapezoidRotate
     - TrapezoidDrive with a spin command
     - Speed Up TrapezoidDrive
 
-Fix the NavX Offset (the reset in every auto is not very useful)
+- Fix the NavX Offset (the reset in every auto is not very useful)
 
-Machine Learning
+- Add intake guidance system.
+- Machine Learning
     - Finish Training
     - Test on Robot
     - Test upload2.py with opencv getRGB trick
     - Weigh Clarke box
 
-Autofire -- make it so autofire only acts if no transStick input
+- Autofire -- make it so autofire only acts if no transStick input
 
-Target Tracking (If no target the spin correction doesn't take control) ***
+- Target Tracking (If no target the spin correction doesn't take control) ***
 
-Test if boosting the acceleration in turbo breaks the PID
+- Test if boosting the acceleration in turbo breaks the PID
 
-Improve the bandwith of the camera
+- Improve the bandwith of the camera
 	- Remove unused SmartDashboard additions
 	- Is SmartDashboard faster than Shuffleboard
     - Is limelight firmware the latest (2022.2.2)?
     - Investigate moving fisheye to Rio-server?
-  
+
+- Ask Kyle to change Auton3BallAtHanger to use spittingDown instead of AutonShoot50.
+
+- Ask Kyle to change AutonInterfere to use spittingDown instead of AutonShoot50.
