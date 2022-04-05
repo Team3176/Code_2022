@@ -327,9 +327,9 @@ public class SwervePod2022 {
 
 
     /**
-     * @param podThrust represents desired thrust of swervepod Range = -1 to 1 or
+     * @param podDrive (thrust) represents desired thrust of swervepod Range = -1 to 1 or
      *                 ft-per-sec?
-     * @param podazimuth  represents desired angle of swervepod. Range = -pi to pi.
+     * @param podAzimuth  represents desired angle of swervepod. Range = -pi to pi.
      */
     public void set(double podDrive, double podAzimuth) {
         this.podThrust = podDrive;
