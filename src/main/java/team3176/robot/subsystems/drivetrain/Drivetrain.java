@@ -379,10 +379,18 @@ public class Drivetrain extends SubsystemBase {
       //SmartDashboard.putBoolean("orbiting", isOrbiting());
     } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defensive position
       double smallNum = Math.pow(10, -5);
+      /*
+      // OLD DEFENSE
       pods.get(0).set(smallNum, -1.0 * Math.PI / 4.0);
       pods.get(1).set(smallNum, 1.0 * Math.PI / 4.0);
       pods.get(2).set(smallNum, 3.0 * Math.PI / 4.0);
       pods.get(3).set(smallNum, -3.0 * Math.PI / 4.0);
+      */
+      // NEW DEFENSE
+      pods.get(0).set(smallNum, 1.0 * Math.PI / 4.0);
+      pods.get(1).set(smallNum, -1.0 * Math.PI / 4.0);
+      pods.get(2).set(smallNum, -3.0 * Math.PI / 4.0);
+      pods.get(3).set(smallNum, 3.0 * Math.PI / 4.0);
     }
   }
 

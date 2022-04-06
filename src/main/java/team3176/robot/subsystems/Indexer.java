@@ -25,12 +25,15 @@ public class Indexer extends SubsystemBase {
   private boolean[] sensorBoolArray = new boolean[IndexerConstants.NUM_OF_SENSORS];
   private boolean isSmartDashboardTestControlsShown;
   private boolean firstPos, secondPos, thirdPos;
+  private boolean lastFirstPos, lastSecondPos, lastThirdPos;
   private int lastState = 222;
   private int currentState = 222;
   private double startingEncoderTic;
   private int ballCount;
   private int mycounter = 0;
   private double smartDashboardLastPercent = 0.0;
+  private int lastI2CUpdateLoops;
+  private boolean twoMinuteLock;
 
   private Intake m_Intake;
 
@@ -42,6 +45,8 @@ public class Indexer extends SubsystemBase {
   private Indexer(IndexerIO io) {
     this.io = io;
 
+    lastI2CUpdateLoops = 0;
+    twoMinuteLock = false;
     this.currentState = reportState();
     indexerMotor = new TalonSRX(IndexerConstants.INDEXER_CAN_ID);
     ballCount = 0;
@@ -102,11 +107,26 @@ public class Indexer extends SubsystemBase {
       sensorBoolArray[i] = sensorByteArray[i] != 0;
     }
 
-    this.firstPos = sensorBoolArray[0];
-    this.secondPos = sensorBoolArray[1];
-    this.thirdPos = sensorBoolArray[2];
+    if(!twoMinuteLock) {
+      this.firstPos = sensorBoolArray[0];
+      this.secondPos = sensorBoolArray[1];
+      this.thirdPos = sensorBoolArray[2];
+    }
 
-    double ticvalue = indexerMotor.getSelectedSensorPosition();
+    if(secondPos != lastSecondPos) {
+      lastI2CUpdateLoops = 0;
+    }
+
+    lastI2CUpdateLoops++;
+    if(twoMinuteLock && lastI2CUpdateLoops > 200) {
+      twoMinuteLock = false;
+    }
+    if(lastI2CUpdateLoops >= 6000) { //2 Minutes
+      this.secondPos = false;
+      this.twoMinuteLock = true;
+    }
+
+    // double ticvalue = indexerMotor.getSelectedSensorPosition();
     
     if (mycounter > 100) {
       // System.out.println(secondPos);
@@ -115,6 +135,10 @@ public class Indexer extends SubsystemBase {
     } else {
       mycounter++;
     }
+
+    this.lastFirstPos = this.firstPos;
+    this.lastSecondPos = this.secondPos;
+    this.lastThirdPos = this.thirdPos;
   }
 
   public void putSmartDashboardControlCommands() {
