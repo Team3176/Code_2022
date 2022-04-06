@@ -4,7 +4,9 @@
 
 - Code new Climb logic (High Most Likely to be the one added)
 
-- Test Intake rejection system using color sensor (Rev color sensor v3)
+Test4 Intake rejection system using color sensor (Rev color sensor v3)
+
+Add intake guidance system.
 
 x - Fix Defence Mode (current version set it to spin orientation)
 
@@ -44,3 +46,13 @@ x - Monitor Mount (box tubing)
 	- Is SmartDashboard faster than Shuffleboard
     - Is limelight firmware the latest (2022.2.2)?
     - Investigate moving fisheye to Rio-server?
+  
+
+Make new autons
+    - AutonKeepAway -- pick up opponents balls, turn and spit them into hanger
+    - AutonInterference -- run 2 ball, then turn and go pick up 3rd ball, then turn aim at opponents ball and spit at opponents ball to knock it out of position
+
+Make Pivot (spin move) user interface work as follows:
+    - press forward on hat to select front of bot
+    - then if rot stick left, pivot of FL pod.  If rotStick right then pivot off FR pod.
+

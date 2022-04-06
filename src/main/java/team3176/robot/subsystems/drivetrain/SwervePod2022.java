@@ -215,7 +215,7 @@ public class SwervePod2022 {
             if (this.id == 2 ) {
                 this.thrustController.setInverted(false);
             }
-            if (this.id ==0 || this.id == 3) {
+            if (this.id ==0 || this.id ==1 || this.id == 3) {
                 this.thrustController.setInverted(true);
             }
         //} 
