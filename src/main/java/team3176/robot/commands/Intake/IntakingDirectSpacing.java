@@ -5,6 +5,7 @@
 package team3176.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team3176.robot.constants.IntakeConstants;
 import team3176.robot.subsystems.Indexer;
 import team3176.robot.subsystems.Intake;
@@ -45,7 +46,9 @@ public class IntakingDirectSpacing extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_Intake.Retract();
+    // if (!CommandScheduler.getInstance().isScheduled(new IntakeReject())) {
+      m_Intake.Retract();
+    // }
     m_Indexer.motorStop();
     m_Intake.stopMotor();
   }

@@ -39,6 +39,8 @@ public class Intake extends SubsystemBase {
   private ColorSensorV3 colorSensor;
   private boolean isSensingColor;
   private String ballToReject = "";
+  private int colorStreak = 0;
+  private String previousColor = "?";
   private SendableChooser<String> practiceAlliance;
   public int ballCount = 0;
   private boolean isIntaking = false;
@@ -215,8 +217,18 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putString("Ball Color", "?");
         ballColor = "?";
       }
-      if (this.ballToReject.equals(ballColor) && !m_scheduler.isScheduled(new IntakeReject()) && (intakeMotor.getMotorOutputPercent() > 0 && intakeMotor.getSelectedSensorVelocity() > 0)) { // Is that the right way to ask if a command is scheduled?
-        new IntakeReject();
+
+      if (ballColor.equals(this.previousColor) && !ballColor.equals("?")) {
+        colorStreak++;
+      } else {
+        colorStreak = 0;
+      }
+      this.previousColor = ballColor;
+
+      if (this.ballToReject.equals(ballColor) && !m_scheduler.isScheduled(new IntakeReject()) && 
+          (intakeMotor.getSelectedSensorVelocity() > 0 && this.isExtended) && this.colorStreak >= IntakeConstants.kStreakForRejection) 
+      { // Is that the right way to ask if a command is scheduled?
+        m_scheduler.schedule(true, new IntakeReject());
       }
     }
 

@@ -24,7 +24,10 @@ public final class IntakeConstants {
     public static final double blueBallG = .465; // -
     public static final double blueBallB = .250; // +
 
-    public static final double kTimeForRejection = 1.0; // time to run motors in reverse (sec) when rejecting the wrong color ball
+    // time to run motors in reverse (sec) when rejecting the wrong color ball
+    public static final double kTimeForRejection = 1.0;
+    // # of code iterations in a row that the color sensor must detect the same color ball before rejecting it (should be small)
+    public static final int kStreakForRejection = 3;
 
     public static final String kShuffleboardPercentName = "Intake%Set";
 }
