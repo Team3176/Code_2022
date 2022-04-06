@@ -44,7 +44,3 @@ x - Monitor Mount (box tubing)
 	- Is SmartDashboard faster than Shuffleboard
     - Is limelight firmware the latest (2022.2.2)?
     - Investigate moving fisheye to Rio-server?
-
-- Ask Kyle to change Auton3BallAtHanger to use spittingDown instead of AutonShoot50.
-
-- Ask Kyle to change AutonInterfere to use spittingDown instead of AutonShoot50.

@@ -66,6 +66,8 @@ public class Indexer extends SubsystemBase {
         IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][4],
         IndexerConstants.kTIMEOUT_MS);
+
+    I2CReciever(); //TODO: TEST
   }
   
   public void motorStop() {
@@ -118,9 +120,9 @@ public class Indexer extends SubsystemBase {
     }
 
     lastI2CUpdateLoops++;
-    if(twoMinuteLock && lastI2CUpdateLoops > 200) {
-      twoMinuteLock = false;
-    }
+    // if(twoMinuteLock && lastI2CUpdateLoops > 200) {
+    //   twoMinuteLock = false;
+    // }
     if(lastI2CUpdateLoops >= 6000) { //2 Minutes
       this.secondPos = false;
       this.twoMinuteLock = true;
@@ -186,7 +188,7 @@ public class Indexer extends SubsystemBase {
     // System.out.println(reportState());
     // }
 
-    I2CReciever();
+    // I2CReciever();
     SmartDashboard.putBoolean("Indexer 2nd Line", getSecondPos());
   }
 
