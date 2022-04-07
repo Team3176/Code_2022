@@ -26,20 +26,6 @@ public class TrapezoidRotate extends CommandBase {
   private double botCircumferance = 12.315;  //feet
   private double botCircumferancePer1Degree;
 
-  /**
-   * 
-   * @param direction  +1 makes it turn right, -1 makes it turn left
-   * @param angle  scales as follows
-   *                5=~10 degrees
-   *                10 = 45
-   *                20 = 90
-   *                22.5 = 135
-   *                25 = 180
-   *                27.5 = 225
-   *                32.5 - 35 = 270
-   *                42.5 - 45 = 325
-   *                52.5 = 180
-   */
   public TrapezoidRotate(double direction, double angle) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Drivetrain);

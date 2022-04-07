@@ -21,8 +21,7 @@ public class Auto3Balls extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
       new TrapezoidDrive(5, 0),
-      new TrapezoidRotate(1,5),
-      //new AutonRotate(.15, 7),
+      new AutonRotate(.15, 7),
       new IntakeRetractStop(),
       new AutoShoot50(),
       new WaitCommand(1.1),
@@ -31,15 +30,13 @@ public class Auto3Balls extends SequentialCommandGroup {
           /* ROTATE AND MOVE TO 2nd BALL */
       
       new AutoBallThreeFlywheelAngle(),
-      new TrapezoidRotate(1,20),
-      //new AutonRotate(.15, 87),  //80
+      new AutonRotate(.15, 87),  //80
       new IntakeExtendSpin(),
       new TrapezoidDrive(11, 0),
       // new WaitCommand(1),
           /* AUTON 3BALL ZONE */
       new IntakeRetractStop(),
-      new TrapezoidRotate(-1,7),
-      //new AutonRotate(-.15, 58),
+      new AutonRotate(-.15, 58),
       // new WaitCommand(2),
       new AutoShoot50(),
       new WaitCommand(1.1),
