@@ -62,6 +62,8 @@ public class RobotContainer {
   private static final String m_2C = "s_2BallCitrus";
   private static final String m_Int = "s_Interfere";
   private static final String m_Rot = "s_Rot";
+  private static final String m_TrapRot = "s_TrapRot";
+  private static final String m_TrapDriveRot = "s_TrapDriveRot";
 
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -118,6 +120,8 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: 2 Ball Citrus (Left/Hanger)", m_2C);
     m_autonChooser.addOption("Auto: Interfere (Left/Hanger)", m_Int);
     m_autonChooser.addOption("Auto: Rotation", m_Rot);
+    m_autonChooser.addOption("Auto: TrapRotate", m_TrapRot);
+    m_autonChooser.addOption("Auto: TrapDriveRotate", m_TrapDriveRot);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
@@ -248,6 +252,11 @@ public class RobotContainer {
       return new AutoInterfere();
     if (chosen.equals(m_Rot))
       return new AutonRotate(0.15, 90);
+    if (chosen.equals(m_TrapRot))
+      return new TrapezoidRotate(-1, 5);
+    if (chosen.equals(m_TrapDriveRot))
+      return new TrapezoidDriveRotate(3,0, 1, 5); 
+
 
     return new AutoInTarmacShoot();
   }

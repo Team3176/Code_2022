@@ -4,13 +4,9 @@
 
 - Code new Climb logic (High Most Likely to be the one added)
 
-Test4 Intake rejection system using color sensor (Rev color sensor v3)
+- Test Intake rejection system using color sensor (Rev color sensor v3)
 
 Add intake guidance system.
-
-x - Fix Defence Mode (current version set it to spin orientation)
-
-Fix Defence Mode (current version set it to spin orientation)
 
 Look into why the Indexer values stop updating
     - Why indexer stops moving during Intaking or reverses direction
@@ -18,7 +14,7 @@ Look into why the Indexer values stop updating
 
 - See why auto messes up after we deploy (low prio because we checklist after we deploy)
 
-- Have CIMs on Tank bot switched to the Neos (make sure we aren't using up our backup store of Sparkmaxes) 
+x- Have CIMs on Tank bot switched to the Neos (make sure we aren't using up our backup store of Sparkmaxes) 
 
 x - Monitor Mount (box tubing)
 
@@ -50,11 +46,11 @@ x - Monitor Mount (box tubing)
     - Investigate moving fisheye to Rio-server?
   
 
-Make new autons
+- Make new autons
     - AutonKeepAway -- pick up opponents balls, turn and spit them into hanger
     - AutonInterference -- run 2 ball, then turn and go pick up 3rd ball, then turn aim at opponents ball and spit at opponents ball to knock it out of position
 
-Make Pivot (spin move) user interface work as follows:
+- Make Pivot (spin move) user interface work as follows:
     - press forward on hat to select front of bot
     - then if rot stick left, pivot of FL pod.  If rotStick right then pivot off FR pod.
 
