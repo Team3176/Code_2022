@@ -20,8 +20,7 @@ public class Auto4Ball extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
       new TrapezoidDrive(5, 0),
-      new TrapezoidRotate(1,5),
-      //new AutonRotate(.15, 7),
+      new AutonRotate(.15, 7),
       new IntakeRetractStop(),
       new AutoShoot50(),
       new WaitCommand(2),
@@ -29,16 +28,14 @@ public class Auto4Ball extends SequentialCommandGroup {
 
           /* ROTATE AND MOVE TO 2nd BALL */
       
-      new TrapezoidRotate(1,22.5),
-      //new AutonRotate(.15,120),
+      new AutonRotate(.15,120),
       new IntakeExtendSpin(),
       new TrapezoidDrive(15, 0),
       new AutoBallTwoFlywheelAngle(),
       new WaitCommand(1),
           /* AUTON 3BALL ZONE */
       new IntakeRetractStop(),
-      new TrapezoidRotate(-1,10),
-      //new AutonRotate(-1.5, 40),
+      new AutonRotate(-1.5, 40),
       // new WaitCommand(2),
       new AutoShoot50(),
       new WaitCommand(1),
@@ -51,8 +48,7 @@ public class Auto4Ball extends SequentialCommandGroup {
       // new AutonRotate(-.15, 45),  //TODO: FIND ANGLE Not Sure I We Even Need (if we do it should be small)
       new TrapezoidDrive(14, 0), //TODO: FIND DISTANCE
       new IntakeRetractStop(),
-      new TrapezoidRotate(1,11),
-      //new AutonRotate(.15, 50), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
+      new AutonRotate(.15, 50), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
       new AutoShoot50(),
       new WaitCommand(2),
       new AutonStopShootParallel()
