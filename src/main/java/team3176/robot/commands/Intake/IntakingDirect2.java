@@ -29,7 +29,7 @@ public class IntakingDirect2 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_Indexer.simpleIndexer();
+    m_Indexer.I2CReciever(); //TODO: TEST
     if(!m_Indexer.getSecondPos()) {
       m_Indexer.motorStop();
     }
