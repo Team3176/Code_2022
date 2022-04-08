@@ -86,7 +86,7 @@ public class SwervePivotAtPod extends CommandBase {
 
 
     if (pov == 45.0) {
-      m_Drivetrain.setDriveMode(driveMode.PIVOTFR);
+      m_Drivetrain.setDriveMode(driveMode.PIVOTBL);
     }
 
     if (pov == 135.0) {
@@ -94,7 +94,7 @@ public class SwervePivotAtPod extends CommandBase {
     }
 
     if (pov == 225.0) {
-      m_Drivetrain.setDriveMode(driveMode.PIVOTBL);
+      m_Drivetrain.setDriveMode(driveMode.PIVOTFR);
     }
 
     if (pov == 315.0 ) {
