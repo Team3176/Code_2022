@@ -80,8 +80,7 @@ public class TrapezoidRotate extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Drivetrain.drive(0, 0, 0);
-    m_gyro.setSpinLockToOff();
+    m_Drivetrain.setPodsAzimuthHome();
   }
 
   // Returns true when the command should end.

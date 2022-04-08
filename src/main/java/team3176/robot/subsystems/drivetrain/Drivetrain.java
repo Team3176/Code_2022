@@ -402,6 +402,14 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+  public void setPodsAzimuthHome() {
+      double smallNum = Math.pow(10, -5);
+      pods.get(0).set(smallNum, 0 * Math.PI / 4.0);
+      pods.get(1).set(smallNum, 0 * Math.PI / 4.0);
+      pods.get(2).set(smallNum, 0 * Math.PI / 4.0);
+      pods.get(3).set(smallNum, 0 * Math.PI / 4.0);
+  }
+
   public void sendPodsAzimuthToHome() {
     for (int idx = 0; idx < (pods.size()); idx++) {
       pods.get(idx).goHome();
