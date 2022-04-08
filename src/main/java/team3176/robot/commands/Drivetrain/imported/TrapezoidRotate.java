@@ -38,7 +38,7 @@ public class TrapezoidRotate extends CommandBase {
    *                27.5 = 225
    *                32.5 - 35 = 270
    *                42.5 - 45 = 325
-   *                52.5 = 180
+   *                52.5 = 360
    */
   public TrapezoidRotate(double direction, double angle) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
     // Use addRequirements() here to declare subsystem dependencies.
@@ -80,6 +80,7 @@ public class TrapezoidRotate extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_Drivetrain.drive(0, 0, 0);
     m_gyro.setSpinLockToOff();
   }
 

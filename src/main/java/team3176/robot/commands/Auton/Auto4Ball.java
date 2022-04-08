@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Drivetrain.imported.*;
+import team3176.robot.commands.Indexer.IndexerForward;
+import team3176.robot.commands.Indexer.IndexerStop;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
 
@@ -16,42 +18,29 @@ public class Auto4Ball extends SequentialCommandGroup {
     addCommands(
       new SwerveResetGyro(),
       new AnglerZeroAtMax(),
-      new AutoBallOneFlywheelAngle(),
+      new AutoBallTwoFlywheelAngle(),
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
-      new TrapezoidDrive(5, 0),
-      new TrapezoidRotate(1,5),
+      new TrapezoidDrive(6, 0),
+      new TrapezoidRotate(-1,5),
       //new AutonRotate(.15, 7),
       new IntakeRetractStop(),
       new AutoShoot50(),
       new WaitCommand(2),
       new AutonStopShootParallel(),
-
-          /* ROTATE AND MOVE TO 2nd BALL */
-      
-      new TrapezoidRotate(1,22.5),
-      //new AutonRotate(.15,120),
-      new IntakeExtendSpin(),
-      new TrapezoidDrive(15, 0),
-      new AutoBallTwoFlywheelAngle(),
-      new WaitCommand(1),
-          /* AUTON 3BALL ZONE */
-      new IntakeRetractStop(),
-      new TrapezoidRotate(-1,10),
-      //new AutonRotate(-1.5, 40),
-      // new WaitCommand(2),
-      new AutoShoot50(),
-      new WaitCommand(1),
-      new AutonStopShootParallel(),
-
+      new TrapezoidRotate(1, 4),
+ 
       /** 4 Ball */
-      new FlywheelAngleWall(),
+
+      new AutoBallTwoFlywheelAngle(),
       new IntakeExtendSpin(),
-      new TrapezoidDrive(0, 4), //TODO: FIND DISTANCE
-      // new AutonRotate(-.15, 45),  //TODO: FIND ANGLE Not Sure I We Even Need (if we do it should be small)
-      new TrapezoidDrive(14, 0), //TODO: FIND DISTANCE
+      new IndexerForward(),
+      new TrapezoidDrive(19, 0), //TODO: FIND DISTANCE
+      new WaitCommand(1.5),
       new IntakeRetractStop(),
-      new TrapezoidRotate(1,11),
+      new IndexerStop(),
+      new TrapezoidDrive(-17, 0),
+      new TrapezoidRotate(-1, 6),
       //new AutonRotate(.15, 50), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
       new AutoShoot50(),
       new WaitCommand(2),
