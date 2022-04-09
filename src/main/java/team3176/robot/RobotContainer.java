@@ -253,7 +253,7 @@ public class RobotContainer {
     if (chosen.equals(m_Rot))
       return new AutonRotate(0.15, 90);
     if (chosen.equals(m_TrapRot))
-      return new TrapezoidRotate(-1, 5);
+      return new TrapezoidRotate(-1, 20);
     if (chosen.equals(m_TrapDriveRot))
       return new TrapezoidDriveRotate(3,0, 1, 5); 
 
