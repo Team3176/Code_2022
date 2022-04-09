@@ -80,8 +80,12 @@ public class TrapezoidRotate extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    double smallnum = Math.pow(10,-10);
+    //m_Drivetrain.drive(smallnum, smallnum, smallnum);
+    //m_Drivetrain.drive(0,0,0);
     m_Drivetrain.stopMotors();
     timer.stop();
+    //System.out.println("######################################################################################################################     TrapRot.end()");
   }
 
   // Returns true when the command should end.

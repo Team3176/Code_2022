@@ -33,7 +33,10 @@ public class TimeDelay extends CommandBase {
   }
 
   @Override
-  public void execute() {}
+  public void execute() {
+    double smallnum=Math.pow(10,-20);
+    m_Drivetrain.drive(smallnum, smallnum, smallnum);
+  }
 
   @Override
   public void end(boolean interrupted) {
@@ -42,7 +45,7 @@ public class TimeDelay extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if(Timer.getFPGATimestamp() >= setTime + startTime) return true;
+    if(Timer.getFPGATimestamp() > setTime + startTime) return true;
     if(clock.get() > setTime) return true;
     return false;
   }

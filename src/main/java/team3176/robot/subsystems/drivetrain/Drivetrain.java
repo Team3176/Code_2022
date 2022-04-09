@@ -422,6 +422,20 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  public void setSwerveKillSwitchOn() {
+    for (int idx = 0; idx < (pods.size()); idx++) {
+      pods.get(idx).setKillSwitchOn();
+    }
+  }
+
+
+  public void setSwerveKillSwitchOff() {
+    for (int idx = 0; idx < (pods.size()); idx++) {
+      pods.get(idx).setKillSwitchOff();
+    }
+  }
+
+
   private double getRadius(String component) {
     // Omitted if driveStatements where we pivoted around a pod
     // This'll be orbit and dosado in the future
