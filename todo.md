@@ -48,6 +48,9 @@
 
 - Make sure fisheye view (top of FoV) is not obstructed by Clarke box
 
+- Ask Aden to print 4 more sets of 2inch setDriveMode in PLA+
+
+- Ask Cate to chrun out rollers in TPU
 ## NOW IRRELEVANT
 
 - Look into why the Indexer values stop updating

@@ -22,7 +22,7 @@ import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 
-public class SwervePivotAtPod extends CommandBase {
+public class SwervePivotAtPodQuad extends CommandBase {
   private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
@@ -31,7 +31,7 @@ public class SwervePivotAtPod extends CommandBase {
 
   private double radianOffset;
 
-  public SwervePivotAtPod(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand, DoubleSupplier spinCommand, Double hatPov) {
+  public SwervePivotAtPodQuad(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand, DoubleSupplier spinCommand, Double hatPov) {
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;
     this.spinCommand = spinCommand;
@@ -43,7 +43,7 @@ public class SwervePivotAtPod extends CommandBase {
   @Override
   public void initialize() {
     double mYaw = 0;
-    double yaw = m_Gyro.getGyroAngle_inDegrees();
+    double yaw = m_Gyro.getYaw();
 
     if (yaw < 0) { mYaw = yaw % -180.0; } else { mYaw = yaw % 180;}
 
@@ -95,7 +95,7 @@ public class SwervePivotAtPod extends CommandBase {
   @Override
   public void execute() {
 
-
+/*
     if (pov == 45.0) {
       m_Drivetrain.setDriveMode(driveMode.PIVOTBL);
     }
@@ -111,6 +111,7 @@ public class SwervePivotAtPod extends CommandBase {
     if (pov == 315.0 ) {
       m_Drivetrain.setDriveMode(driveMode.PIVOTBR);
     }
+    */
 
     m_Drivetrain.drive(forwardCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 25 /* inches */); //}
   }

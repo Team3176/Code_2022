@@ -135,22 +135,32 @@ public class RobotContainer {
     m_Controller.getTransStick_Button4().whenHeld(new CoordTypeToRobotCentric());
     m_Controller.getTransStick_Button4().whenReleased(new CoordTypeToFieldCentric());
 
-    m_Controller.getTransStick_HAT_45().whenHeld(new SwervePivotAtPod(
+    m_Controller.getTransStick_HAT_0().whileHeld(new SwervePivotAtPodBi(
+        () -> m_Controller.getForward(),
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin(), 
+        0.0));
+    m_Controller.getTransStick_HAT_45().whileHeld(new SwervePivotAtPodBi(
         () -> m_Controller.getForward(),
         () -> m_Controller.getStrafe(),
         () -> m_Controller.getSpin(), 
         45.0));
-    m_Controller.getTransStick_HAT_135().whenHeld(new SwervePivotAtPod(
+    m_Controller.getTransStick_HAT_135().whileHeld(new SwervePivotAtPodBi(
         () -> m_Controller.getForward(),
         () -> m_Controller.getStrafe(),
         () -> m_Controller.getSpin(), 
         135.0));
-    m_Controller.getTransStick_HAT_225().whenHeld(new SwervePivotAtPod(
+    m_Controller.getTransStick_HAT_180().whileHeld(new SwervePivotAtPodBi(
+        () -> m_Controller.getForward(),
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin(), 
+        180.0));
+    m_Controller.getTransStick_HAT_225().whileHeld(new SwervePivotAtPodBi(
         () -> m_Controller.getForward(),
         () -> m_Controller.getStrafe(),
         () -> m_Controller.getSpin(), 
         225.0));
-    m_Controller.getTransStick_HAT_315().whenHeld(new SwervePivotAtPod(
+    m_Controller.getTransStick_HAT_315().whileHeld(new SwervePivotAtPodBi(
         () -> m_Controller.getForward(),
         () -> m_Controller.getStrafe(),
         () -> m_Controller.getSpin(), 
