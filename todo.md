@@ -46,6 +46,8 @@
 
 - Try moving Fisheye off arduino and directly to Rio (use usb hub)
 
+- Make sure fisheye view (top of FoV) is not obstructed by Clarke box
+
 ## NOW IRRELEVANT
 
 - Look into why the Indexer values stop updating
