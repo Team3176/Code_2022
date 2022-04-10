@@ -56,6 +56,7 @@ public class RobotContainer {
   private static final String m_2H = "s_2BallHanger";
   private static final String m_MS = "s_MoveAndShoot";
   private static final String m_3B = "s_3Ball";
+  private static final String m_3BS = "s_3BallSlow";
   private static final String m_4B = "s_4Ball";
   private static final String m_5B = "s_5Ball";
   private static final String m_3H = "s_3BallHanger";
@@ -114,6 +115,7 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: 2 Ball (Left/Hanger)", m_2H);
     m_autonChooser.addOption("Auto: Exit and Shoot", m_MS);
     m_autonChooser.addOption("Auto: 3 Ball (Right)", m_3B);
+    m_autonChooser.addOption("Auto: 3 Ball Slow (Right)", m_3BS);
     m_autonChooser.addOption("Auto: 3 Ball (Left/Hanger)", m_3H);
     m_autonChooser.addOption("Auto: 4 Ball", m_4B);
     m_autonChooser.addOption("Auto: 5 Ball", m_5B);
@@ -240,6 +242,8 @@ public class RobotContainer {
       return new AutoMoveAndShoot();
     if (chosen.equals(m_3B))
       return new Auto3Balls();
+    if (chosen.equals(m_3BS))
+      return new Auto3BallSlow();
     if (chosen.equals(m_4B))
       return new Auto4Ball();
     if (chosen.equals(m_5B))
