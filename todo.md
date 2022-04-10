@@ -6,17 +6,13 @@
 
 - Test Intake rejection system using color sensor (Rev color sensor v3)
 
-Add intake guidance system.
 
 Look into why the Indexer values stop updating
     - Why indexer stops moving during Intaking or reverses direction
-    - Check encoder settings.  Is it continuous at max tic limits as it rolls over?
+    - Check encoder settings.  Is it continuous at max tic limits as it rolls over
+    - Just move middle linebreak off arduino to a DIO.
 
-- See why auto messes up after we deploy (low prio because we checklist after we deploy)
-
-x- Have CIMs on Tank bot switched to the Neos (make sure we aren't using up our backup store of Sparkmaxes) 
-
-x - Monitor Mount (box tubing)
+- See why auto messes up after we deploy 
 
 - Speed Up Auton (5* Ball = ~20sec)
     - Speed Up AutonRotate (and keep accuracy)
@@ -24,9 +20,8 @@ x - Monitor Mount (box tubing)
     - TrapezoidDrive with a spin command
     - Speed Up TrapezoidDrive
 
-- Fix the NavX Offset (the reset in every auto is not very useful)
-
 - Add intake guidance system.
+    - Why network issues when it's transmitting?
 - Machine Learning
     - Finish Training
     - Test on Robot
@@ -44,7 +39,8 @@ x - Monitor Mount (box tubing)
 	- Is SmartDashboard faster than Shuffleboard
     - Is limelight firmware the latest (2022.2.2)?
     - Investigate moving fisheye to Rio-server?
-  
+
+- Test adding to conditional (line 40) a check if transStick input is 0 on both axises and if so fire.
 
 - Make new autons
     - AutonKeepAway -- pick up opponents balls, turn and spit them into hanger
@@ -54,3 +50,4 @@ x - Monitor Mount (box tubing)
     - press forward on hat to select front of bot
     - then if rot stick left, pivot of FL pod.  If rotStick right then pivot off FR pod.
 
+- Try moving Fisheye off arduino and directly to Rio (use usb hub)
