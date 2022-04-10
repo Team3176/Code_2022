@@ -22,6 +22,8 @@ public final class IndexerConstants {
     public static final double RAMP_RATE = 0.5; //seconds to go from 0 to full
     public static final int I2C_DEVICE_ADDRESS = 8;
     public static final double INDEXER_GEAR_RATIO = 7.0;
+    public static final int SECOND_LINEBREAK_DIO = 7;
+
 
      // Constant order: P, I, D, F, IZone
      public static final double[][] PIDFConstants = { {0.8, 0.0008, 0.7, 0.0, 350}, {0.16, 0.0000065, 0.75, 0.12, 300} };
