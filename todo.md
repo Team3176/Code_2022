@@ -36,7 +36,7 @@
 
 - Test if boosting the acceleration in turbo breaks the PID
 
-- Improve the bandwith of the camera
+- Improve the bandwidth of the camera
   - Remove unused SmartDashboard additions
   - Is SmartDashboard faster than Shuffleboard
   - Is limelight firmware the latest (2022.2.2)?
