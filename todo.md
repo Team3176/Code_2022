@@ -1,6 +1,6 @@
 # TODO.md
 
-- Test if we can disable compressor if below 10V, and renenable if above 10V  (merger2_charAbsSW)
+- Test if we can disable compressor if below 10V, and re-enable if above 10V  (merger2_charAbsSW)
 
 - Test "spin with origin at location of one of four selected pods."
 
@@ -36,7 +36,7 @@
 
 - Test if boosting the acceleration in turbo breaks the PID
 
-- Improve the bandwith of the camera
+- Improve the bandwidth of the camera
   - Remove unused SmartDashboard additions
   - Is SmartDashboard faster than Shuffleboard
   - Is limelight firmware the latest (2022.2.2)?
