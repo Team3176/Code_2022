@@ -11,8 +11,8 @@ import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Drivetrain.imported.*;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
-public class Auto3Balls extends SequentialCommandGroup {
-  public Auto3Balls() {
+public class Auto3BallSlow extends SequentialCommandGroup {
+  public Auto3BallSlow() {
     addCommands(
       // new SwerveResetGyro(),
       // new AnglerZeroAtMax(),
@@ -43,7 +43,7 @@ public class Auto3Balls extends SequentialCommandGroup {
           /* AUTON 3BALL ZONE */
       new IntakeRetractStop(),
       // new SequentialCommandGroup(new TrapezoidRotate(-1,13)),
-      new TrapezoidRotate(-1,16.5), //Was 13
+      new TrapezoidRotate(-1,16), //Was 13
 //      // new SwerveDefenseOn(),
       //new AutonRotate(-.15, 58) 
        //new WaitCommand(2),

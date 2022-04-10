@@ -12,6 +12,8 @@ import team3176.robot.commands.Indexer.IndexerForward;
 import team3176.robot.commands.Indexer.IndexerStop;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
+import team3176.robot.commands.Vision.VisionSpinCorrectionOff;
+import team3176.robot.commands.Vision.VisionSpinCorrectionOn;
 
 public class Auto4Ball extends SequentialCommandGroup {
   public Auto4Ball() {
@@ -22,27 +24,33 @@ public class Auto4Ball extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
       new TrapezoidDrive(6, 0),
-      new TrapezoidRotate(-1,5),
+      new FlywheelAngleVisionAuton(),
+      new TrapezoidRotate(-1,7), //Was 5
       //new AutonRotate(.15, 7),
+      new WaitCommand(0.5),
       new IntakeRetractStop(),
       new AutoShoot50(),
       new WaitCommand(2),
-      new AutonStopShootParallel(),
-      new TrapezoidRotate(1, 4),
+      new AutonStopBeltsParallel(),
+      new TrapezoidRotate(1, 6), //Was 4
  
       /** 4 Ball */
 
       new AutoBallTwoFlywheelAngle(),
       new IntakeExtendSpin(),
       new IndexerForward(),
-      new TrapezoidDrive(19, 0), //TODO: FIND DISTANCE
+      new TrapezoidDrive(19.5, 0), //TODO: FIND DISTANCE
       new WaitCommand(1.5),
       new IntakeRetractStop(),
       new IndexerStop(),
       new TrapezoidDrive(-17, 0),
       new TrapezoidRotate(-1, 6),
+      new VisionSpinCorrectionOn(),
+      new FlywheelAngleVisionAuton(),
+      new TrapezoidRotate(-1,2),
       //new AutonRotate(.15, 50), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
       new AutoShoot50(),
+      new VisionSpinCorrectionOff(),
       new WaitCommand(2),
       new AutonStopShootParallel()
     );

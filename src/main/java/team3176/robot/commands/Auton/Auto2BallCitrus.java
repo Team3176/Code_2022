@@ -21,7 +21,7 @@ public class Auto2BallCitrus extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
       new TrapezoidDrive(6, 0),   
-      new AutonRotate(-.15, 5),
+      new AutonRotate(-.15, 4.5),
       new IntakeRetractStop(),
       new AutoShoot50(),
       new WaitCommand(2),
@@ -30,33 +30,33 @@ public class Auto2BallCitrus extends SequentialCommandGroup {
       /* Citrus Zone */
         //Line
       new ParallelCommandGroup(
-        new AutonRotate(.15, 90),
+        new AutonRotate(.15, 80), //Was 90
         new AutoBallOneFlywheelAngle(),
         new IntakeExtendSpin()
       ),
       new TrapezoidDrive(5, 0),
       new ParallelCommandGroup(
         new IntakeRetractStop(),
-        new AutonRotate(.15, 45)
+        new AutonRotate(.15, 48) //Was 45, 50
       ),
       
       new AutoShoot50(),
-      new WaitCommand(0.5),
-      new AutonStopShootParallel(),
+      new WaitCommand(1),
+      new AutonStopShootParallel()//,
         //Mid
-      new ParallelCommandGroup(
-        new AutoBallOneFlywheelAngle(),
-        new AutonRotate(.15, 135),
-        new IntakeExtendSpin()
-      ),
-      new TrapezoidDrive(14, 0),
-      new ParallelCommandGroup(
-        new IntakeRetractStop(),
-        new AutonRotate(-.15, 90)
-      ),
-      new AutoShoot50(),
-      new WaitCommand(0.5),
-      new AutonStopShootParallel()
+      // new ParallelCommandGroup(
+      //   new AutoBallOneFlywheelAngle(),
+      //   new AutonRotate(.15, 135),
+      //   new IntakeExtendSpin()
+      // ),
+      // new TrapezoidDrive(14, 0),
+      // new ParallelCommandGroup(
+      //   new IntakeRetractStop(),
+      //   new AutonRotate(-.15, 90)
+      // ),
+      // new AutoShoot50(),
+      // new WaitCommand(0.5),
+      // new AutonStopShootParallel()
     );
   }
 }
