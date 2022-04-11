@@ -4,6 +4,7 @@
 
 package team3176.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.IndexerConstants;
 import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
@@ -34,6 +35,7 @@ public class Indexer extends SubsystemBase {
   private double smartDashboardLastPercent = 0.0;
   private int lastI2CUpdateLoops;
   private boolean twoMinuteLock;
+  private DigitalInput secondLinebreak;
 
   private Intake m_Intake;
 
@@ -67,7 +69,10 @@ public class Indexer extends SubsystemBase {
     this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][4],
         IndexerConstants.kTIMEOUT_MS);
 
-    I2CReciever(); //TODO: TEST
+    //I2CReciever(); 
+     secondLinebreak = new DigitalInput(IndexerConstants.SECOND_LINEBREAK_DIO);
+     secondPos = secondLinebreak.get();
+
   }
   
   public void motorStop() {
@@ -170,6 +175,8 @@ public class Indexer extends SubsystemBase {
 
   @Override
   public void periodic() {
+    this.secondPos = secondLinebreak.get();
+
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Indexer", inputs);
     Logger.getInstance().recordOutput("Indexer/Bool0", sensorBoolArray[0]);

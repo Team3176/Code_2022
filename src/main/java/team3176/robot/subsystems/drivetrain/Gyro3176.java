@@ -70,6 +70,10 @@ public class Gyro3176 extends SubsystemBase {
     Rotation2d angle = new Rotation2d(getNavxAngle_inRadians());
     return angle;
   }
+
+  public double getYaw() {
+    return gyro.getYaw();
+  }
   
   private void updateNavxAngle() {
     // -pi to pi; 0 = straight
