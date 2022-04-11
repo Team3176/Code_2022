@@ -2,6 +2,8 @@
 
 - Test if we can disable compressor if below 10V, and re-enable if above 10V  (merger2_charAbsSW)
 
+- Sparkmax (CAN 11) needs firmware update
+
 - Test "spin with origin at location of one of four selected pods."
 
 - Code new Climb logic (High Most Likely to be the one added)
