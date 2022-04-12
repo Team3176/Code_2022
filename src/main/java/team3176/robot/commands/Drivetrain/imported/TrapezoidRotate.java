@@ -49,7 +49,7 @@ public class TrapezoidRotate extends CommandBase {
     m_CoordSys.setCoordTypeToRobotCentric();
     //double hyp = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     //this.theta = Math.atan(distanceY / distanceX);
-    this.direction = direction;
+    this.direction = -direction;
     this.rotation_distance = angle * botCircumferancePer1Degree;
     profile = new TrapezoidProfile
     (new TrapezoidProfile.Constraints(14, 12), new TrapezoidProfile.State(rotation_distance, 0), new TrapezoidProfile.State(0, 0));
