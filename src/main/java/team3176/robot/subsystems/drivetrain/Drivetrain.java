@@ -40,8 +40,8 @@ import team3176.robot.subsystems.Vision;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
-import org.littletonrobotics.junction.Logger;
-import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
+// import org.littletonrobotics.junction.Logger;
+// import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
 
 
 
@@ -119,11 +119,11 @@ public class Drivetrain extends SubsystemBase {
   private PID3176 spinLockPID;
 
 
-  private final DrivetrainIO io;
-  private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
+  // private final DrivetrainIO io;
+  // private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
 
-  private Drivetrain(DrivetrainIO io) {
-    this.io = io;
+  private Drivetrain(/*DrivetrainIO io*/) {
+    // this.io = io;
     
     // Instantiate pods
     podFR = new SwervePod2022(0, driveControllers[0], azimuthControllers[0]);
@@ -174,7 +174,7 @@ public class Drivetrain extends SubsystemBase {
 
   // Prevents more than one instance of drivetrian
   public static Drivetrain getInstance() {
-    if(instance == null) {instance = new Drivetrain(new DrivetrainIO() {});}
+    if(instance == null) {instance = new Drivetrain(/*new DrivetrainIO() {}*/);}
     return instance;
   }
 

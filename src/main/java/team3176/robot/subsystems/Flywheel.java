@@ -6,10 +6,10 @@ package team3176.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.FlywheelConstants;
-import team3176.robot.subsystems.FlywheelIO.FlywheelIOInputs;
+// import team3176.robot.subsystems.FlywheelIO.FlywheelIOInputs;
 import team3176.robot.util.God.Units3176;
 
-import org.littletonrobotics.junction.Logger;
+// import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -21,8 +21,8 @@ public class Flywheel extends SubsystemBase {
   private TalonFX flywheelMotor1;
   private TalonFX flywheelMotor2;
 
-  private final FlywheelIO io;
-  private final FlywheelIOInputs inputs = new FlywheelIOInputs();
+  // private final FlywheelIO io;
+  // private final FlywheelIOInputs inputs = new FlywheelIOInputs();
   private static Flywheel instance;
   private boolean isSmartDashboardTestControlsShown;
   public String mode = "";
@@ -31,8 +31,8 @@ public class Flywheel extends SubsystemBase {
   private double smartDashboardLastPercent2 = 0.0;
   private boolean autoSpinFlywheels;
 
-  public Flywheel(FlywheelIO io) {
-    this.io = io;
+  public Flywheel(/*FlywheelIO io*/) {
+    // this.io = io;
 
     flywheelMotor1 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON1_CAN_ID);
     flywheelMotor2 = new TalonFX(FlywheelConstants.FLYWHEEL_FALCON2_CAN_ID);
@@ -165,9 +165,9 @@ public class Flywheel extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Logger.getInstance().processInputs("Flywheel", inputs);
-    Logger.getInstance().recordOutput("Flywheel/Velocity 1", getFlywheelVelocity1());
-    Logger.getInstance().recordOutput("Flywheel/Velocity 2", getFlywheelVelocity2());
+    // Logger.getInstance().processInputs("Flywheel", inputs);
+    // Logger.getInstance().recordOutput("Flywheel/Velocity 1", getFlywheelVelocity1());
+    // Logger.getInstance().recordOutput("Flywheel/Velocity 2", getFlywheelVelocity2());
 
     if(mode.equals("test")) {
       if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
@@ -175,6 +175,7 @@ public class Flywheel extends SubsystemBase {
     }
   }
 
+  /*
   public void runVoltage(double volts) {
     io.setVoltage(volts);
   }
@@ -194,6 +195,7 @@ public class Flywheel extends SubsystemBase {
   public void setFlywheelVelocity2(double velocity) {
     io.setFlywheelVelocity2(velocity);
   }
+  */
 
   @Override
   public void simulationPeriodic() {
@@ -201,7 +203,7 @@ public class Flywheel extends SubsystemBase {
   }
 
   public static Flywheel getInstance() {
-    if(instance == null) {instance = new Flywheel(new FlywheelIO() {});}
+    if(instance == null) {instance = new Flywheel(/*new FlywheelIO() {}*/);}
     return instance;
   } 
 }

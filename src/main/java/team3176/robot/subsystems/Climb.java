@@ -8,8 +8,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import org.littletonrobotics.junction.Logger;
-import team3176.robot.subsystems.ClimbIO.ClimbIOInputs;
+// import org.littletonrobotics.junction.Logger;
+// import team3176.robot.subsystems.ClimbIO.ClimbIOInputs;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -23,12 +23,12 @@ import team3176.robot.constants.MasterConstants;
 public class Climb extends SubsystemBase {
   private static Climb instance;
   public static Climb getInstance() {
-    if(instance == null) {instance = new Climb(new ClimbIO() {});}
+    if(instance == null) {instance = new Climb(/*new ClimbIO() {}*/);}
     return instance;
   }
 
-  private final ClimbIO io;
-  private final ClimbIOInputs inputs = new ClimbIOInputs();
+  // private final ClimbIO io;
+  // private final ClimbIOInputs inputs = new ClimbIOInputs();
 
 
   private DoubleSolenoid climbPistons;
@@ -36,8 +36,8 @@ public class Climb extends SubsystemBase {
   private boolean isSmartDashboardTestControlsShown;
   public String mode = ""; //auto, teleop, test, disabled
 
-  private Climb(ClimbIO io) {
-    this.io = io;
+  private Climb(/*ClimbIO io*/) {
+    // this.io = io;
     isSmartDashboardTestControlsShown = false;
     climbPistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.PISTON_OPEN_ID, ClimbConstants.PISTON_CLOSE_ID);
     isClimbExtened = false;    
@@ -86,9 +86,9 @@ public class Climb extends SubsystemBase {
       setValuesFromSmartDashboard();
     }
 
-    io.updateInputs(inputs);
-    Logger.getInstance().processInputs("Climb", inputs);
-    Logger.getInstance().recordOutput("Climb/Extended", isClimbExtened);
+    // io.updateInputs(inputs);
+    // Logger.getInstance().processInputs("Climb", inputs);
+    // Logger.getInstance().recordOutput("Climb/Extended", isClimbExtened);
   }
 
   @Override

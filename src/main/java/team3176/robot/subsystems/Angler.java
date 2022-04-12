@@ -6,9 +6,8 @@ package team3176.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.AnglerConstants;
-import team3176.robot.subsystems.AnglerIO.AnglerIOInputs;
-
-import org.littletonrobotics.junction.Logger;
+// import team3176.robot.subsystems.AnglerIO.AnglerIOInputs;
+// import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -33,8 +32,8 @@ public class Angler extends SubsystemBase {
 
   private boolean isSmartDashboardTestControlsShown;
 
-  private final AnglerIO io;
-  private final AnglerIOInputs inputs = new AnglerIOInputs();
+  // private final AnglerIO io;
+  // private final AnglerIOInputs inputs = new AnglerIOInputs();
   private static Angler instance;
   public String mode = "";
 
@@ -53,9 +52,9 @@ public class Angler extends SubsystemBase {
    
    private double lastSmartDashboardAngle;
 
-  public Angler(AnglerIO io) 
+  public Angler(/*AnglerIO io*/) 
   {
-    this.io = io;
+    // this.io = io;
 
     this.hasMotorBeenZeroedAtMax = false;
     this.intent = 0;
@@ -276,9 +275,9 @@ public class Angler extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    Logger.getInstance().processInputs("Angler", inputs);
-    Logger.getInstance().recordOutput("Angler/Position", getAnglerPosition());
-    //System.out.println(!bottomLimiter.get() + ", " + !topLimiter.get());
+    // Logger.getInstance().processInputs("Angler", inputs);
+    // Logger.getInstance().recordOutput("Angler/Position", getAnglerPosition());
+    // System.out.println(!bottomLimiter.get() + ", " + !topLimiter.get());
 
     this.periodicLimiterCheck(anglerMotor.getMotorOutputVoltage());
 
@@ -295,10 +294,11 @@ public class Angler extends SubsystemBase {
     SmartDashboard.putBoolean("AnglerBottomLimitPressed", !bottomLimiter.get());
   }
 
+  /*
   public void runVoltage(double volts) {
     io.setVoltage(volts);
   }
-
+  
   public double getAnglerPosition()
   {
     return inputs.position;
@@ -308,6 +308,7 @@ public class Angler extends SubsystemBase {
   {
     io.setAnglerPosition(position);
   }
+  */
 
   @Override
   public void simulationPeriodic() {
@@ -315,7 +316,7 @@ public class Angler extends SubsystemBase {
   }
 
   public static Angler getInstance() {
-    if(instance == null) {instance = new Angler(new AnglerIO() {});}
+    if(instance == null) {instance = new Angler(/*new AnglerIO() {}*/);}
     return instance;
   }
 

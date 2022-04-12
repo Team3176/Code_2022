@@ -7,7 +7,7 @@ package team3176.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.IndexerConstants;
-import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
+// import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
 import team3176.robot.util.God.Units3176;
 import team3176.robot.subsystems.Intake;
 
@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.littletonrobotics.junction.Logger;
+// import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj.I2C;
 
 public class Indexer extends SubsystemBase {
@@ -39,13 +39,13 @@ public class Indexer extends SubsystemBase {
 
   private Intake m_Intake;
 
-  private final IndexerIO io;
-  private final IndexerIOInputs inputs = new IndexerIOInputs();
+  // private final IndexerIO io;
+  // private final IndexerIOInputs inputs = new IndexerIOInputs();
 
   private I2C m_I2C;
 
-  private Indexer(IndexerIO io) {
-    this.io = io;
+  private Indexer(/*IndexerIO io*/) {
+    // this.io = io;
 
     lastI2CUpdateLoops = 0;
     twoMinuteLock = false;
@@ -177,11 +177,13 @@ public class Indexer extends SubsystemBase {
   public void periodic() {
     this.secondPos = secondLinebreak.get();
 
+    /*
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Indexer", inputs);
     Logger.getInstance().recordOutput("Indexer/Bool0", sensorBoolArray[0]);
     Logger.getInstance().recordOutput("Indexer/Bool1", sensorBoolArray[1]);
     Logger.getInstance().recordOutput("Indexer/Bool2", sensorBoolArray[2]);
+    */
 
     if (mode.equals("test")) {
       if (!isSmartDashboardTestControlsShown)
@@ -204,8 +206,7 @@ public class Indexer extends SubsystemBase {
 
   public static Indexer getInstance() {
     if (instance == null) {
-      instance = new Indexer(new IndexerIO() {
-      });
+      instance = new Indexer(/*new IndexerIO() {}*/);
     }
     return instance;
   }

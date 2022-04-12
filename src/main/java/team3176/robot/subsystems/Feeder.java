@@ -6,11 +6,11 @@ package team3176.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.FeederConstants;
-import team3176.robot.subsystems.FeederIO.FeederIOInputs;
+// import team3176.robot.subsystems.FeederIO.FeederIOInputs;
 import team3176.robot.util.God.Units3176;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.littletonrobotics.junction.Logger; 
+// import org.littletonrobotics.junction.Logger; 
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -26,17 +26,17 @@ public class Feeder extends SubsystemBase
 {
   private TalonSRX feederMotor;
 
-  private final FeederIO io;
-  private final FeederIOInputs inputs = new FeederIOInputs();
+  // private final FeederIO io;
+  // private final FeederIOInputs inputs = new FeederIOInputs();
   private static Feeder instance;
   private boolean isSmartDashboardTestControlsShown = false;
   public String mode = "";
   private boolean isFeederRunning = false;
   private double smartDashboardLastPercent = 0.0;
 
-  public Feeder(FeederIO io)
+  public Feeder(/*FeederIO io*/)
   {
-    this.io = io;
+    // this.io = io;
 
     feederMotor = new TalonSRX(FeederConstants.FEEDER_MOTOR_CAN_ID);
     feederMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); 
@@ -108,8 +108,8 @@ public class Feeder extends SubsystemBase
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    Logger.getInstance().processInputs("Feeder", inputs);
-    Logger.getInstance().recordOutput("Feeder/Velocity", getFeederVelocity());
+    // Logger.getInstance().processInputs("Feeder", inputs);
+    // Logger.getInstance().recordOutput("Feeder/Velocity", getFeederVelocity());
 
     if (mode.equals("test"))
     {
@@ -118,6 +118,7 @@ public class Feeder extends SubsystemBase
     }
   }
 
+  /*
   public void runVoltage(double volts) {
     io.setVoltage(volts);
   }
@@ -131,6 +132,7 @@ public class Feeder extends SubsystemBase
   {
     return inputs.velocity;
   }
+  */
 
   @Override
   public void simulationPeriodic() {
@@ -138,7 +140,7 @@ public class Feeder extends SubsystemBase
   }
 
   public static Feeder getInstance() {
-    if(instance == null) {instance = new Feeder(new FeederIO() {});}
+    if(instance == null) {instance = new Feeder(/*new FeederIO() {}*/);}
     return instance;
   }
 

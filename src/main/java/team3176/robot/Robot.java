@@ -6,10 +6,11 @@ package team3176.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import org.littletonrobotics.junction.LoggedRobot;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
-import org.littletonrobotics.junction.io.*;
+import edu.wpi.first.wpilibj.TimedRobot;
+// import org.littletonrobotics.junction.LoggedRobot;
+// import org.littletonrobotics.junction.Logger;
+// import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
+// import org.littletonrobotics.junction.io.*;
 
 import team3176.robot.commands.Drivetrain.imported.SwerveDrive;
 import team3176.robot.constants.MasterConstants;
@@ -24,7 +25,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends LoggedRobot {
+public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -47,6 +48,7 @@ public class Robot extends LoggedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard
 
+    /*
     if(MasterConstants.IS_LOGGING_MODE) {
       setUseTiming(isReal()); // Run as fast as possible during replay
       LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
@@ -63,6 +65,7 @@ public class Robot extends LoggedRobot {
         Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
       }
     }
+    */
 
     m_Intake = Intake.getInstance();
     m_Indexer = Indexer.getInstance();
@@ -96,10 +99,12 @@ public class Robot extends LoggedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
+    /*
     if (MasterConstants.IS_CMD_SCH_LOGGING) {
       Logger.getInstance().recordOutput("Scheduler Commands", NetworkTableInstance.getDefault()
         .getEntry("/LiveWindow/Ungrouped/Scheduler/Names").getStringArray(new String[] {}));
     }
+    */
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

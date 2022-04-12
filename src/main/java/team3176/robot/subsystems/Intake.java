@@ -4,7 +4,7 @@
 
 package team3176.robot.subsystems;
 
-import org.littletonrobotics.junction.Logger;
+// import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,7 +17,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team3176.robot.constants.IntakeConstants;
-import team3176.robot.subsystems.IntakeIO.IntakeIOInputs;
+// import team3176.robot.subsystems.IntakeIO.IntakeIOInputs;
 
 public class Intake extends SubsystemBase {
   private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
@@ -34,14 +34,14 @@ public class Intake extends SubsystemBase {
   public boolean isExtended;
   private double smartDashboardLastPercent = 0.0;
 
-  private final IntakeIO io;
-  private final IntakeIOInputs inputs = new IntakeIOInputs();
+  // private final IntakeIO io;
+  // private final IntakeIOInputs inputs = new IntakeIOInputs();
   private static Intake instance;
 
   public int getBallCount() {return this.ballCount;}
 
-  private Intake(IntakeIO io) {
-    this.io = io;
+  private Intake(/*IntakeIO io*/) {
+    // this.io = io;
     intakeMotor.setInverted(true);
     ballSensor = new DigitalInput(IntakeConstants.BALL_SENSOR_DIO);
   }
@@ -84,7 +84,7 @@ public class Intake extends SubsystemBase {
   }
 
   public static Intake getInstance() {
-    if(instance == null) {instance = new Intake(new IntakeIO() {});}
+    if(instance == null) {instance = new Intake(/*new IntakeIO() {}*/);}
     return instance;
   }
 
@@ -148,10 +148,12 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     if (isIntaking) { countBalls(); }
+    /*
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Intake", inputs);
     Logger.getInstance().recordOutput("Intake/Velocity", getIntakeVelocity());
     Logger.getInstance().recordOutput("Intake/PistonState", getPistonState());
+    */
 
     if(mode.equals("test")) {
       if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
@@ -159,6 +161,7 @@ public class Intake extends SubsystemBase {
     }
   }
 
+  /*
   public void runVoltage(double volts) {
     io.setVoltage(volts);
   }
@@ -178,6 +181,7 @@ public class Intake extends SubsystemBase {
   public boolean getPistonState() {
     return inputs.isExtend;
   }
+  */
 
   @Override
   public void simulationPeriodic() {}
