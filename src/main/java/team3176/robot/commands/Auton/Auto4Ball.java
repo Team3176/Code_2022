@@ -48,6 +48,7 @@ public class Auto4Ball extends SequentialCommandGroup {
       new VisionSpinCorrectionOn(),
       new FlywheelAngleVisionAuton(),
       new TrapezoidRotate(-1,2),
+      new AlignVizYawSpinCorrection(),
       //new AutonRotate(.15, 50), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
       new AutoShoot50(),
       new VisionSpinCorrectionOff(),
