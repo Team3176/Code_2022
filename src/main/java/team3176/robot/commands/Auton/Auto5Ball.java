@@ -46,7 +46,6 @@ public class Auto5Ball extends SequentialCommandGroup {
       //new AutonRotate(-.15, 58),
       // new WaitCommand(2),
       new AutoShoot50(),
-      new SpittingUpAuton(), //TODO: REPLACE
       new WaitCommand(1.1),
       new AutonStopBeltsParallel(),
 

@@ -51,6 +51,7 @@ public class Clarke extends SubsystemBase {
   private double centX;
   private double center;
   private NetworkTableEntry detections;
+  private NetworkTableEntry detected_color;
     
   private double activePipeline = 1;
   private double startTime;
@@ -74,7 +75,8 @@ public class Clarke extends SubsystemBase {
   private PIDController peeEyeDee = new PIDController(.01, 0.0, 0.0);
   private int idxCounter = 0; 
   
-  private String returned_color, target_color;
+  private String returned_color = "bs";
+  private String target_color;
   private boolean isClarkeSpinCorrectionOn = false;
   private double clarkeSpinCorrection;
 
@@ -111,8 +113,10 @@ public class Clarke extends SubsystemBase {
     //for(String e : returnedArray){
     //  System.out.println(e);
     //}
+    System.out.println(returnedArray);
     for(int i = 0; i < returnedArray.length; i++){
       int ahead = i + 1;
+      //System.out.println(returnedArray[i]);
       if(returnedArray[i].equals("\"xmax\":") && !maxIsSet){
         if (returnedArray[ahead].length() > 3){
           returnedArray[ahead] = returnedArray[ahead].substring(0,3);
@@ -139,15 +143,15 @@ public class Clarke extends SubsystemBase {
         this.minX = Integer.parseInt(returnedArray[ahead]);
         minIsSet = true;
       }
-      if(returnedArray[i].equals("\"red\"")) { this.returned_color = "red"; }
-      if(returnedArray[i].equals("\"blue\"")) { this.returned_color = "blue"; }
-      if(returnedArray[i].equals("\"invalid\"")) { this.returned_color = "invalid"; }
     }
 
+    //System.out.println("Targeting "+ this.target_color + " and "+ this.returned_color +" found"); 
   }
   public void updateMLData(){ 
     piTable = tableInstance.getTable("ML");
     detections = piTable.getEntry("detections");
+    detected_color = piTable.getEntry("color");
+    this.returned_color = detected_color.getString("bs");
     
     //String myvalue = detections.getStringArray("detections"); 
   }
@@ -164,6 +168,7 @@ public class Clarke extends SubsystemBase {
   } 
 
   public void calcCenter(){
+    center = 0.099999;
     centX =  ( maxX -  minX) / 2;
     center = (160.0/2.0) - centX;
     SmartDashboard.putString("Clarke.color", returned_color);
