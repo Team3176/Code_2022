@@ -40,6 +40,7 @@ public class Robot extends LoggedRobot {
   private Vision m_Vision;
   private Clarke m_Clarke;
   private AnalogPotentiometer m_pressureSensor;
+  private Pneumatics m_Pneumatics;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -76,8 +77,9 @@ public class Robot extends LoggedRobot {
     m_Controller = Controller.getInstance();
     m_Vision = Vision.getInstance();
     m_Clarke = Clarke.getInstance();
+    m_Pneumatics = Pneumatics.getInstance();
 
-    m_pressureSensor = new AnalogPotentiometer(1/*, scale [ex: 250], offset[ex: -25]*/);
+    // m_pressureSensor = new AnalogPotentiometer(1/*, scale [ex: 250], offset[ex: -25]*/);
 
     m_Vision.setActivePipeline(2);
     //CameraServer.startAutomaticCapture(); //Fish-I Camera
@@ -101,9 +103,9 @@ public class Robot extends LoggedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putNumber("PSI", m_pressureSensor.get());
-    SmartDashboard.putBoolean("Climb", m_pressureSensor.get() > 40);
-    SmartDashboard.putBoolean("High Climb", m_pressureSensor.get() > 60);
+    // SmartDashboard.putNumber("PSI ps", m_pressureSensor.get());
+    // SmartDashboard.putBoolean("Climb ps", m_pressureSensor.get() > 40);
+    // SmartDashboard.putBoolean("High Climb ps", m_pressureSensor.get() > 60);
 
     if (MasterConstants.IS_CMD_SCH_LOGGING) {
       Logger.getInstance().recordOutput("Scheduler Commands", NetworkTableInstance.getDefault()

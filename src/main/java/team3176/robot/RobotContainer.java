@@ -32,7 +32,6 @@ public class RobotContainer {
   private final PowerDistribution m_PDH;
   private final Intake m_Intake;
   private final Controller m_Controller;
-  private final Compressor m_Compressor;
   private final Drivetrain m_Drivetrain;
   private final CoordSys m_CoordSys;
   private final Vision m_Vision;
@@ -42,6 +41,7 @@ public class RobotContainer {
   private final Indexer m_Indexer;
   private final Climb m_Climb;
   private final Clarke m_Clarke;
+  private final Pneumatics m_Pneumatics;
   private SendableChooser<String> m_autonChooser;
   // private static final String m_B = "s_Block";
   private static final String m_M = "s_ExitTarmac";
@@ -78,15 +78,11 @@ public class RobotContainer {
     m_CoordSys = CoordSys.getInstance();
     m_Climb = Climb.getInstance();
     m_Clarke = Clarke.getInstance();
+    m_Pneumatics = Pneumatics.getInstance();
 
     m_PDH = new PowerDistribution(1, ModuleType.kRev);
     m_PDH.clearStickyFaults();
     
-    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    // TODO: ADD A WAY TO CLEAR STICKY FAULTS
-    // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
-    m_Compressor.enableDigital();
-
     m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
 
     if (!MasterConstants.IS_TUNING_MODE) {
