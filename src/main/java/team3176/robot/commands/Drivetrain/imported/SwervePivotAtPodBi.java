@@ -101,7 +101,7 @@ public class SwervePivotAtPodBi extends CommandBase {
 
     if (pov == 315 || pov == 0 || pov == 45) {
       if ((m_yaw >= -45 && m_yaw <=0) || (m_yaw >= 0 && m_yaw <= 44 )) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTFRBR);
+        m_Drivetrain.setDriveMode(driveMode.PIVOTBRBL);
       }
       if (m_yaw >= 45 && m_yaw <= 134) {
         m_Drivetrain.setDriveMode(driveMode.PIVOTFRBR);

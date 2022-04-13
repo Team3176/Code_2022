@@ -470,12 +470,13 @@ public class Drivetrain extends SubsystemBase {
       if (spinCommandInit > 0) { pivotpoint = "PIVOTFL";}
     }
     if (currentDriveMode == driveMode.PIVOTFLBL) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTFL"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTBL";}
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFL"; }
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL";}
     }
     if (currentDriveMode == driveMode.PIVOTBLBR) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTBR";}
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL"; 
+         }
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTBR"; this.spinCommand = -this.spinCommand;}
     }
     if (currentDriveMode == driveMode.PIVOTBRFR) {
       if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; }
@@ -486,8 +487,8 @@ public class Drivetrain extends SubsystemBase {
       if (spinCommandInit > 0) { pivotpoint = "PIVOTBL";}
     }
     if (currentDriveMode == driveMode.PIVOTFRBR) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTFR"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTBR";}
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFR"; this.spinCommand = -1 * this.spinCommand; }
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; this.spinCommand = -1 * this.spinCommand;}
     }
     if (currentDriveMode == driveMode.PIVOTFLFR) {
       if (spinCommandInit < 0) { pivotpoint = "PIVOTFL"; }
