@@ -57,6 +57,7 @@ public class AlignVizYawSpinCorrection extends SequentialCommandGroup {
   @Override
   public void execute() {
     this.yawError = m_Vision.tx.getDouble(0);
+    m_drivetrain.drive(0,0,0);
   }
 
   // Called once the command ends or is interrupted.
