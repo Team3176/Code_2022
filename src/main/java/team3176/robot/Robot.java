@@ -17,6 +17,8 @@ import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -37,6 +39,7 @@ public class Robot extends LoggedRobot {
   private Controller m_Controller;
   private Vision m_Vision;
   private Clarke m_Clarke;
+  private AnalogPotentiometer m_pressureSensor;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -74,6 +77,8 @@ public class Robot extends LoggedRobot {
     m_Vision = Vision.getInstance();
     m_Clarke = Clarke.getInstance();
 
+    m_pressureSensor = new AnalogPotentiometer(1/*, scale [ex: 250], offset[ex: -25]*/);
+
     m_Vision.setActivePipeline(2);
     //CameraServer.startAutomaticCapture(); //Fish-I Camera
     // CameraServer.startAutomaticCapture("Fish-I", 0);
@@ -95,6 +100,10 @@ public class Robot extends LoggedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    SmartDashboard.putNumber("PSI", m_pressureSensor.get());
+    SmartDashboard.putBoolean("Climb", m_pressureSensor.get() > 40);
+    SmartDashboard.putBoolean("High Climb", m_pressureSensor.get() > 60);
 
     if (MasterConstants.IS_CMD_SCH_LOGGING) {
       Logger.getInstance().recordOutput("Scheduler Commands", NetworkTableInstance.getDefault()
