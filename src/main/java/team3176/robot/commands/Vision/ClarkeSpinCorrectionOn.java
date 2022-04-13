@@ -11,20 +11,20 @@ import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 import team3176.robot.subsystems.Vision;
 import team3176.robot.subsystems.Clarke;
 
-public class VisionSpinCorrectionOn extends InstantCommand {
+public class ClarkeSpinCorrectionOn extends InstantCommand {
   private Vision m_Vision = Vision.getInstance();
   private Clarke m_Clarke = Clarke.getInstance();
   private Drivetrain m_Drivetrain = Drivetrain.getInstance();
 
 
-  public VisionSpinCorrectionOn() {
+  public ClarkeSpinCorrectionOn() {
     addRequirements(m_Vision);
   }
 
   @Override
   public void initialize() {
-    if (!m_Clarke.getIsClarkeSpinCorrectionOn()) {
-      m_Vision.setVisionSpinCorrection(true);
+    if (!m_Vision.getIsVisionSpinCorrectionOn()){
+      m_Clarke.setClarkeSpinCorrection(true);
     }
   }
 }

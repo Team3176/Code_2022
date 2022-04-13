@@ -169,13 +169,21 @@ public class RobotContainer {
         315.0));
 
     m_Controller.getRotStick_Button1().whileActiveOnce(new FlywheelAngleVisionIntAutoFire());
-    m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVisionAutoFire());
-    
     m_Controller.getRotStick_Button1().whenHeld(new VisionSpinCorrectionOn());
     m_Controller.getRotStick_Button1().whenReleased(new VisionSpinCorrectionOff());
+    m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVisionAutoFire());
+    /*
+    m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVisionTrueAutoFire(
+        () -> m_Controller.getForward(),
+        () -> m_Controller.getStrafe(),
+        () -> m_Controller.getSpin() 
+    ));
+    */
     // m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
-    m_Controller.getRotStick_Button3().whenHeld(new SwerveSpinLockOn());
-    m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
+    m_Controller.getRotStick_Button3().whenHeld(new ClarkeSpinCorrectionOn());
+    m_Controller.getRotStick_Button3().whenHeld(new ClarkeSpinCorrectionOff());
+    //m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
+    //m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     // m_Controller.getRotStick_Button5().whenPressed(new SwervePodsAzimuthGoHome());
 

@@ -36,7 +36,7 @@ public class Robot extends LoggedRobot {
   private Drivetrain m_Drivetrain;
   private Controller m_Controller;
   private Vision m_Vision;
-  // private Clarke m_Clarke;
+  private Clarke m_Clarke;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -72,10 +72,10 @@ public class Robot extends LoggedRobot {
     m_Drivetrain = Drivetrain.getInstance();
     m_Controller = Controller.getInstance();
     m_Vision = Vision.getInstance();
-    // m_Clarke = Clarke.getInstance();
+    m_Clarke = Clarke.getInstance();
 
     m_Vision.setActivePipeline(2);
-    CameraServer.startAutomaticCapture(); //Fish-I Camera
+    //CameraServer.startAutomaticCapture(); //Fish-I Camera
     // CameraServer.startAutomaticCapture("Fish-I", 0);
 
     m_robotContainer = new RobotContainer();

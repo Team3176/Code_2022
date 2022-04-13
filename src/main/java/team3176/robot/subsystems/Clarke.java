@@ -7,6 +7,8 @@ package team3176.robot.subsystems;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -28,6 +30,7 @@ public class Clarke extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
 
+  private DriverStation m_DriverStation;
   public NetworkTableInstance tableInstance;
   public NetworkTable piTable;
   public NetworkTableEntry tv;
@@ -68,8 +71,13 @@ public class Clarke extends SubsystemBase {
   private double initialYVelocity; // m/s
   private double finalYVelocity; // m/s
   private double time; // seconds
-  PIDController peeEyeDee = new PIDController(1.0, 0.0, 0.0);
+  private PIDController peeEyeDee = new PIDController(.01, 0.0, 0.0);
   private int idxCounter = 0; 
+  
+  private String returned_color, target_color;
+  private boolean isClarkeSpinCorrectionOn = false;
+  private double clarkeSpinCorrection;
+
   private ObjectMapper mapper;
   //private int ballLocation = -999; // -999=no ball detected, 0=ball to left, 1=ball exactly 0 degrees forward, 2=ball to right
   //private double ballDegrees = -999; // degrees away from pi where ball is located. Positive = to left. Negative = to right. Zero = straight ahead.
@@ -80,11 +88,18 @@ public class Clarke extends SubsystemBase {
   public Clarke(){
     tableInstance = NetworkTableInstance.getDefault();
     piTable = tableInstance.getTable("ML");
+    setTargetColor();
 
+    if (m_DriverStation.getAlliance().equals(Alliance.Red)) {this.target_color = "red";}
+    if (m_DriverStation.getAlliance().equals(Alliance.Blue)) {this.target_color = "blue";}
     
     updateVisionData();
     //piTable.getEntry("pipeline").setNumber(activePipeline);
     
+  }
+
+  public void setTargetColor() {
+
   }
   public void findMinAndMax(){
     String jsonString = detections.getString("{ \"xmax\" : \"0\" , \"xmin\" : \"0\"}"); //the current values are just test cases, make them zero again before comp.
@@ -124,6 +139,9 @@ public class Clarke extends SubsystemBase {
         this.minX = Integer.parseInt(returnedArray[ahead]);
         minIsSet = true;
       }
+      if(returnedArray[i].equals("\"red\"")) { this.returned_color = "red"; }
+      if(returnedArray[i].equals("\"blue\"")) { this.returned_color = "blue"; }
+      if(returnedArray[i].equals("\"invalid\"")) { this.returned_color = "invalid"; }
     }
 
   }
@@ -132,17 +150,61 @@ public class Clarke extends SubsystemBase {
     detections = piTable.getEntry("detections");
     
     //String myvalue = detections.getStringArray("detections"); 
-
-
   }
 
-  public void getCenter(){
-    centX =  ( maxX -  minX) / 2;
-    center = (680.0/2.0) - centX;
+  public double getCenter(){
+    double returnValue = 0;
+    if (this.returned_color == this.target_color) {
+      updateMLData();
+      findMinAndMax();
+      calcCenter();
+      returnValue = this.center;
+    } 
+    return returnValue;
   } 
 
-  public double pidCalc(){
-    return peeEyeDee.calculate(center, 0);
+  public void calcCenter(){
+    centX =  ( maxX -  minX) / 2;
+    center = (160.0/2.0) - centX;
+    SmartDashboard.putString("Clarke.color", returned_color);
+    SmartDashboard.putNumber("Clarke.center", center);
+  } 
+  public boolean getIsClarkeSpinCorrectionOn(){
+    return this.isClarkeSpinCorrectionOn;
+  }
+
+  public void setClarkeSpinCorrection(boolean onOrOff) {
+    this.isClarkeSpinCorrectionOn = onOrOff;
+    SmartDashboard.putBoolean("ClarkeSpinCorrectionOn", isClarkeSpinCorrectionOn);
+  }
+
+  public void setClarkeSpinCorrectionOn(){
+    if (this.tv.getBoolean(false)) { 
+      setClarkeSpinCorrection(true);
+      SmartDashboard.putBoolean("ClarkeSpinCorrectionOn", true);
+    }
+  }
+  
+  public void setClarkeSpinCorrectionOff(){
+    setClarkeSpinCorrection(false);
+    SmartDashboard.putBoolean("ClarkeSpinCorrectionOn", false);
+  }
+
+
+  public void toggleClarkeSpinCorrectionOnOff(){
+    setClarkeSpinCorrection(!isClarkeSpinCorrectionOn);
+    SmartDashboard.putBoolean("ClarkeSpinCorrectionOn", isClarkeSpinCorrectionOn);
+  }  
+
+  public double getClarkeSpinCorrection(){
+    double spinCorrection = 0; 
+    if (this.returned_color == this.target_color) {
+      updateMLData();
+      findMinAndMax();
+      calcCenter();
+      spinCorrection = peeEyeDee.calculate(center, 0);
+    } 
+    return spinCorrection;
   }
 
 
@@ -177,6 +239,7 @@ public class Clarke extends SubsystemBase {
  
       updateMLData();
       findMinAndMax();
+      calcCenter();
       //System.out.println(this.maxX);
       //System.out.println(this.minX);
       this.idxCounter = 0;

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 import team3176.robot.subsystems.Feeder;
+import team3176.robot.subsystems.Vision;
 import team3176.robot.subsystems.Clarke;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 
@@ -22,10 +23,11 @@ import team3176.robot.subsystems.drivetrain.CoordSys;
  * used to call AutoRotate(tx) to rotate the bot until the angle is within the range 
  * formed by upperTxLimit and lowerTxLimit
  */
-public class AlignVizYawViaClarke extends SequentialCommandGroup {
+public class AlignClarkeYawSpinCorrection extends SequentialCommandGroup {
 
-  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
-  private Clarke m_Clarke = Clarke.getInstance();
+  private Drivetrain m_drivetrain = Drivetrain.getInstance();
+  private Vision m_Vision = Vision.getInstance();
+  private Clarke m_Clarke= Clarke.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
   
   private double tx, yawError;
@@ -33,9 +35,10 @@ public class AlignVizYawViaClarke extends SequentialCommandGroup {
   private double kP, minCommand;
 
   /** Creates a new AutonAlign. */
-  public AlignVizYawViaClarke() {
-    addRequirements(m_Drivetrain);
+  public AlignClarkeYawSpinCorrection() {
+    addRequirements(m_drivetrain);
     addRequirements(m_Clarke);
+    //addRequirements(m_Vision);
     //addRequirements(m_Transfer);
   }
 
@@ -49,21 +52,22 @@ public class AlignVizYawViaClarke extends SequentialCommandGroup {
     this.minCommand = 0.001;
     this.upperTxLimit = 3;
     this.lowerTxLimit = -3;
-    m_Drivetrain.drive(0,0,0);
-    //m_Clarke.setVisionSpinCorrectionOn();
+    m_drivetrain.drive(0,0,0);
+    m_Clarke.setClarkeSpinCorrectionOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.yawError = m_Clarke.tx.getDouble(0);
+    this.yawError = m_Clarke.getCenter();
+    m_drivetrain.drive(0,0,0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_Drivetrain.stopMotors();
-      //m_Clarke.setVisionSpinCorrectionOff();
+      m_drivetrain.stopMotors();
+      m_Clarke.setClarkeSpinCorrectionOff();
       //m_Vision.setPipeline(3);
   }
 

@@ -341,6 +341,7 @@ public class Vision extends SubsystemBase {
   }
 
   public double getVisionSpinCorrection() {
+    updateVisionData();
     this.visionSpinCorrection = visionSpinLockPID.calculate(this.tx.getDouble(0), 0);
     return visionSpinCorrection;
   }
