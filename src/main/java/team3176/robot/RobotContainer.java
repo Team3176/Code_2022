@@ -54,6 +54,7 @@ public class RobotContainer {
   private static final String m_TS = "s_ShootAndLeave";
   private static final String m_SI = "s_LeaveAndShootTwo";
   private static final String m_2H = "s_2BallHanger";
+  private static final String m_2M = "s_2BallMid";
   private static final String m_MS = "s_MoveAndShoot";
   private static final String m_3B = "s_3Ball";
   private static final String m_3BS = "s_3BallSlow";
@@ -61,6 +62,7 @@ public class RobotContainer {
   private static final String m_5B = "s_5Ball";
   private static final String m_3H = "s_3BallHanger";
   private static final String m_2C = "s_2BallCitrus";
+  private static final String m_2EC = "s_2BallExtraCitrus";
   private static final String m_Int = "s_Interfere";
   private static final String m_Rot = "s_Rot";
   private static final String m_TrapRot = "s_TrapRot";
@@ -113,6 +115,7 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Shoot and Exit Tarmac", m_TS);
     m_autonChooser.addOption("Auto: 2 Ball (Right)", m_SI);
     m_autonChooser.addOption("Auto: 2 Ball (Left/Hanger)", m_2H);
+    m_autonChooser.addOption("Auto: 2 Ball (Middle)", m_2M);
     m_autonChooser.addOption("Auto: Exit and Shoot", m_MS);
     m_autonChooser.addOption("Auto: 3 Ball (Right)", m_3B);
     m_autonChooser.addOption("Auto: 3 Ball Slow (Right)", m_3BS);
@@ -120,6 +123,7 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: 4 Ball", m_4B);
     m_autonChooser.addOption("Auto: 5 Ball", m_5B);
     m_autonChooser.addOption("Auto: 2 Ball Citrus (Left/Hanger)", m_2C);
+    m_autonChooser.addOption("Auto: 2 Ball Extra Citrus (Left/Hanger)", m_2EC);
     m_autonChooser.addOption("Auto: Interfere (Left/Hanger)", m_Int);
     m_autonChooser.addOption("Auto: Rotation", m_Rot);
     m_autonChooser.addOption("Auto: TrapRotate", m_TrapRot);
@@ -256,6 +260,8 @@ public class RobotContainer {
       return new Auto2Balls();
     if (chosen.equals(m_2H))
       return new Auto2BallsAtHanger();
+    if (chosen.equals(m_2M))
+      return new Auto2BallsMiddle();
     if (chosen.equals(m_MS))
       return new AutoMoveAndShoot();
     if (chosen.equals(m_3B))
@@ -270,6 +276,8 @@ public class RobotContainer {
       return new Auton3BallAtHanger();
     if (chosen.equals(m_2C))
       return new Auto2BallCitrus();
+    if (chosen.equals(m_2EC))
+      return new Auto2BallExtraCitrus();
     if (chosen.equals(m_Int))
       return new AutoInterfere();
     if (chosen.equals(m_Rot))
