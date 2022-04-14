@@ -5,7 +5,7 @@ import numpy as np
 from time import time
 import tflite_runtime.interpreter as tflite
 from cscore import CameraServer, VideoSource, UsbCamera, MjpegServer
-from networktables import NetworkTables, NetworkTablesInstance
+from networktables import NetworkTablesInstance
 import cv2
 import collections
 import json
@@ -112,16 +112,11 @@ class Tester:
         print("Connecting to Network Tables")
         ntinst = NetworkTablesInstance.getDefault()
         ntinst.startClientTeam(config_parser.team)
-        #ntinst.startDSClient()
+        ntinst.startDSClient()
         self.entry = ntinst.getTable("ML").getEntry("detections")
 
         self.coral_entry = ntinst.getTable("ML").getEntry("coral")
         self.fps_entry = ntinst.getTable("ML").getEntry("fps")
-        self.color_entry = ntinst.getTable("ML").getEntry("color")
-        self.xmin_entry = ntinst.getTable("ML").getEntry("xmin")
-        self.xmax_entry = ntinst.getTable("ML").getEntry("xmax")
-        self.width_entry = ntinst.getTable("ML").getEntry("width")
-        self.height_entry = ntinst.getTable("ML").getEntry("height")
         self.resolution_entry = ntinst.getTable("ML").getEntry("resolution")
         self.temp_entry = []
 
@@ -130,15 +125,8 @@ class Tester:
         camera = cs.startAutomaticCapture()
         camera_config = config_parser.cameras[0]
         WIDTH, HEIGHT = camera_config["width"], camera_config["height"]
-        #camera.setResolution(WIDTH, HEIGHT)
-        #self.cvSink = cs.getVideo()
-        self.cvSink = cv2.VideoCapture(0)
-        self.cvSink.set(cv2.CAP_PROP_FRAME_WIDTH, 160)
-        self.cvSink.set(cv2.CAP_PROP_FRAME_HEIGHT, 120)
-        WIDTH = 160
-        self.width_entry.setNumber(WIDTH)
-        HEIGHT = 120
-        self.height_entry.setNumber(HEIGHT)
+        camera.setResolution(WIDTH, HEIGHT)
+        self.cvSink = cs.getVideo()
         self.img = np.zeros(shape=(HEIGHT, WIDTH, 3), dtype=np.uint8)
         self.output = cs.putVideo("Axon", WIDTH, HEIGHT)
         self.frames = 0
@@ -167,14 +155,14 @@ class Tester:
                         avg[2] += color[0] #Blue
                         #print(str(i)+" "+str(c)+" "+str(avg[0])+ " "+str(avg[1])+" "+str(avg[2]))
                         numPixels += 1
-
+                    
                 c += 1
             i += 1
         if (len(avg) > 0 and numPixels > 0):
             avg[0] = avg[0] / numPixels
             avg[1] = avg[1] / numPixels
             avg[2] = avg[2] / numPixels
-
+            
         print(avg)
         return avg
 
@@ -191,8 +179,7 @@ class Tester:
         while True:
             start = time()
             # Acquire frame and resize to expected shape [1xHxWx3]
-            #ret, frame_cv2 = self.cvSink.grabFrame(self.img)
-            ret, frame_cv2 = self.cvSink.read()
+            ret, frame_cv2 = self.cvSink.grabFrame(self.img)
             if not ret:
                 print("Image failed")
                 continue
@@ -205,7 +192,6 @@ class Tester:
 
             # output
             boxes, class_ids, scores, x_scale, y_scale = self.get_output(scale)
-            #print(len(boxes))
             for i in range(len(boxes)):
                 if scores[i] > 0.5:
                     ymin, xmin, ymax, xmax = boxes[i]
@@ -244,21 +230,12 @@ class Tester:
                     if self.isWithinTolerance(red, averages, redtolerance):
                         class_ids[i] = 0
                         cv2.rectangle(frame_cv2, (xmin, ymin), (xmax, ymax), red, 2)
-                        self.color_entry.setString("red")
-                        self.xmin_entry.setNumber(xmin)
-                        self.xmax_entry.setNumber(xmax)
                     elif self.isWithinTolerance(blue, averages, bluetolerance):
                         class_ids[i] = 1
                         cv2.rectangle(frame_cv2, (xmin, ymin), (xmax, ymax), blue, 2)
-                        self.color_entry.setString("blue")
-                        self.xmin_entry.setNumber(xmin)
-                        self.xmax_entry.setNumber(xmax)
                     else:
                         class_ids[i] = 2
                         cv2.rectangle(frame_cv2, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
-                        self.color_entry.setString("invalid")
-                        self.xmin_entry.setNumber(xmin)
-                        self.xmax_entry.setNumber(xmax)
 
             for i in range(len(boxes)):
                 if scores[i] > .5:
@@ -271,17 +248,11 @@ class Tester:
                     if class_id not in range(len(self.labels)):
                         continue
 
-                    frame_cv2 = self.label_frame(frame_cv2, self.labels[class_id], boxes[i], scores[i], x_scale, y_scale)
-                #if scores[i] < .5:
-                #  self.color_entry.setString("null")
-
-            #self.output.putFrame(frame_cv2)
-            if self.frames % 2 == 0:
-              self.entry.setString(json.dumps(self.temp_entry))
-              self.temp_entry = []
-              self.color_entry.setString("null")
-              self.xmin_entry.setNumber(0)
-              self.xmax_entry.setNumber(0)
+                    frame_cv2 = self.label_frame(frame_cv2, self.labels[class_id], boxes[i], scores[i], x_scale,
+                                                 y_scale)
+            self.output.putFrame(frame_cv2)
+            self.entry.setString(json.dumps(self.temp_entry))
+            self.temp_entry = []
             if self.frames % 100 == 0:
                 print("Completed", self.frames, "frames. FPS:", (1 / (time() - start)))
             if self.frames % 10 == 0:
