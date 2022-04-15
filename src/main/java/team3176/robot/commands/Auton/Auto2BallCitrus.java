@@ -31,7 +31,7 @@ public class Auto2BallCitrus extends SequentialCommandGroup {
         //Line
       new ParallelCommandGroup(
         new AutonRotate(.15, 80), //Was 90
-        new AutoBallOneFlywheelAngle(),
+        new AutoBallCitrusOneFlywheelAngle(),
         new IntakeExtendSpin()
       ),
       new TrapezoidDrive(5, 0),

@@ -44,7 +44,7 @@ public class AutonRotate extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(0,0,-rotationSpeed);
+    drivetrain.drive(0,0,rotationSpeed);
     currentAngle = -m_gyro.getNavxAngle_inDegrees();
     SmartDashboard.putNumber("Rotate.initialAngle", initialAngle);
     SmartDashboard.putNumber("Rotate.currentAngle", currentAngle);

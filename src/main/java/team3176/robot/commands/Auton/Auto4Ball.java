@@ -32,14 +32,14 @@ public class Auto4Ball extends SequentialCommandGroup {
       new AutoShoot50(),
       new WaitCommand(2),
       new AutonStopBeltsParallel(),
-      new TrapezoidRotate(1, 6), //Was 4
+      new TrapezoidRotate(1, 7), //Was 4, 6
  
       /** 4 Ball */
 
       new AutoBallTwoFlywheelAngle(),
       new IntakeExtendSpin(),
       new IndexerForward(),
-      new TrapezoidDrive(19.5, 0), //TODO: FIND DISTANCE
+      new TrapezoidDrive(18.5, 0), //TODO: FIND DISTANCE
       new WaitCommand(1.5),
       new IntakeRetractStop(),
       new IndexerStop(),
