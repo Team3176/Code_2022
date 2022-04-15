@@ -10,6 +10,9 @@ import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+
+import javax.sound.sampled.SourceDataLine;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public class TrapezoidRotate extends CommandBase {
@@ -75,6 +78,7 @@ public class TrapezoidRotate extends CommandBase {
     double spinCommand = setPoint.velocity * rotation_distance;
     if (this.direction > 0) {spinCommand *= -1;}
     m_Drivetrain.drive(0, 0, spinCommand);
+    System.out.println("auto trapeziod constants " + timer.get() + " : " + spinCommand);
 
     // System.out.println("X: " + distanceX + ", Y: " + distanceY);
   }

@@ -112,7 +112,7 @@ class Tester:
         print("Connecting to Network Tables")
         ntinst = NetworkTablesInstance.getDefault()
         ntinst.startClientTeam(config_parser.team)
-        ntinst.startDSClient()
+        #ntinst.startDSClient()
         self.entry = ntinst.getTable("ML").getEntry("detections")
 
         self.coral_entry = ntinst.getTable("ML").getEntry("coral")
@@ -217,10 +217,10 @@ class Tester:
                         print(xmin, xmax, ymin, ymax)
                         continue
 
-                    red = [105,  24, 28]
+                    red = [225,  55, 105]
                     #red = [0, 0, 0]
                     redtolerance = [30, 30, 30]
-                    blue = [25, 22,  38]
+                    blue = [62, 155,  220]
                     bluetolerance = [30, 30, 30]
 
                     cropped = frame_cv2[ymin:ymax, xmin: xmax]

@@ -126,8 +126,8 @@ class Tester:
         self.temp_entry = []
 
         print("Starting camera server")
-        cs = CameraServer.getInstance()
-        camera = cs.startAutomaticCapture()
+        #cs = CameraServer.getInstance()
+        #camera = cs.startAutomaticCapture()
         camera_config = config_parser.cameras[0]
         WIDTH, HEIGHT = camera_config["width"], camera_config["height"]
         #camera.setResolution(WIDTH, HEIGHT)
@@ -135,12 +135,12 @@ class Tester:
         self.cvSink = cv2.VideoCapture(0)
         self.cvSink.set(cv2.CAP_PROP_FRAME_WIDTH, 160)
         self.cvSink.set(cv2.CAP_PROP_FRAME_HEIGHT, 120)
-        WIDTH = 160
+        WIDTH = 680
         self.width_entry.setNumber(WIDTH)
-        HEIGHT = 120
+        HEIGHT = 420
         self.height_entry.setNumber(HEIGHT)
         self.img = np.zeros(shape=(HEIGHT, WIDTH, 3), dtype=np.uint8)
-        self.output = cs.putVideo("Axon", WIDTH, HEIGHT)
+        #self.output = cs.putVideo("Axon", WIDTH, HEIGHT)
         self.frames = 0
 
         self.coral_entry.setString(self.hardware_type)
@@ -231,11 +231,11 @@ class Tester:
                         print(xmin, xmax, ymin, ymax)
                         continue
 
-                    red = [105,  24, 28]
+                    red = [225,  55, 105]
                     #red = [0, 0, 0]
-                    redtolerance = [30, 30, 30]
-                    blue = [25, 22,  38]
-                    bluetolerance = [30, 30, 30]
+                    redtolerance = [40, 40, 40]
+                    blue = [62, 155,  220]
+                    bluetolerance = [40, 40, 40]
 
                     cropped = frame_cv2[ymin:ymax, xmin: xmax]
                     averages = self.getAverages(ymin, xmin, ymax, xmax, cropped)
