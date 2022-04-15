@@ -105,11 +105,13 @@ public class Robot extends LoggedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
+   /* 
     m_Intake.mode = "disabled";
     m_Indexer.mode = "disabled";
     m_Angler.mode = "disabled";
     m_Flywheel.mode = "disabled";
     m_Feeder.mode = "disabled";
+    */
   }
 
   @Override
@@ -118,13 +120,15 @@ public class Robot extends LoggedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    /*
     m_Intake.mode = "auto";
     m_Indexer.mode = "auto";
     m_Angler.mode = "auto";
     m_Flywheel.mode = "auto";
     m_Feeder.mode = "auto";
+    */
     
-    m_robotContainer.AutonInitRobotCentric();
+    //m_robotContainer.AutonInitRobotCentric();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command
@@ -148,11 +152,13 @@ public class Robot extends LoggedRobot {
       m_autonomousCommand.cancel();
     }
 
+    /*
     m_Intake.mode = "teleop";
     m_Indexer.mode = "teleop";
     m_Angler.mode = "teleop";
     m_Flywheel.mode = "teleop";
     m_Feeder.mode = "teleop";
+    */
     
     m_robotContainer.TelopInitFieldCentric();
   }
@@ -165,11 +171,13 @@ public class Robot extends LoggedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    /*
     m_Intake.mode = "test";
     m_Indexer.mode = "test";
     m_Angler.mode = "test";
     m_Flywheel.mode = "test";
     m_Feeder.mode = "test";
+    */
 
     m_Drivetrain.setDefaultCommand(new SwerveDrive(
         () -> m_Controller.getForward(), 

@@ -46,6 +46,7 @@ public class TrapezoidRotate extends CommandBase {
     //this.distanceX = distanceX;
     //this.distanceY = distanceY;
     this.botCircumferancePer1Degree = botCircumferance / 360;
+    m_CoordSys.setCoordTypeToFieldCentric();
     m_CoordSys.setCoordTypeToRobotCentric();
     //double hyp = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     //this.theta = Math.atan(distanceY / distanceX);

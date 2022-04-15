@@ -13,7 +13,6 @@
 - See why auto messes up after we deploy
 
 - Speed Up Auton (5* Ball = ~20sec)
-  - Speed Up AutonRotate (and keep accuracy)
   - Test TrapezoidRotate
   - TrapezoidDrive with a spin command
   - Speed Up TrapezoidDrive
@@ -35,7 +34,7 @@
   - Remove unused SmartDashboard additions
   - Is SmartDashboard faster than Shuffleboard
   - Is limelight firmware the latest (2022.2.2)?
-  - Investigate moving fisheye to Rio-server?
+  - Try moving Fisheye off arduino and directly to Rio (use usb hub)
 
 - Test adding to conditional (line 40) a check if transStick input is 0 on both axises and if so fire.
 
@@ -46,11 +45,7 @@
   - press forward on hat to select front of bot
   - then if rot stick left, pivot of FL pod.  If rotStick right then pivot off FR pod.
 
-- Try moving Fisheye off arduino and directly to Rio (use usb hub)
-
 - Make sure fisheye view (top of FoV) is not obstructed by Clarke box
-
-- Ask Aden to print 4 more sets of 2inch setDriveMode in PLA+
 
 - Ask Cate to chrun out rollers in TPU
 
