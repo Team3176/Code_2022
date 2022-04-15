@@ -74,6 +74,7 @@ public class TrapezoidRotate extends CommandBase {
     //double velocityY = setPoint.velocity * Math.sin(theta);
     double spinCommand = setPoint.velocity * rotation_distance;
     if (this.direction > 0) {spinCommand *= -1;}
+    double smallnum = Math.pow(10,-10);
     m_Drivetrain.drive(0, 0, spinCommand);
 
     // System.out.println("X: " + distanceX + ", Y: " + distanceY);
