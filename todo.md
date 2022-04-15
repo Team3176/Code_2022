@@ -56,3 +56,6 @@
   - Check encoder settings.  Is it continuous at max tic limits as it rolls over
 
 - Test if boosting the acceleration in turbo breaks the PID
+
+
+This is a test of my hand after hitting it on wades' truck

@@ -15,7 +15,7 @@ import javax.sound.sampled.SourceDataLine;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
-public class TrapezoidRotate extends CommandBase {
+public class AutonRotatePidGyro extends CommandBase {
   /** Creates a new TrapezoidDrive. */
   private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
@@ -43,7 +43,7 @@ public class TrapezoidRotate extends CommandBase {
    *                42.5 - 45 = 325
    *                52.5 = 360
    */
-  public TrapezoidRotate(double direction, double angle) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
+  public AutonRotatePidGyro(double direction, double angle) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Drivetrain);
     //this.distanceX = distanceX;
@@ -77,7 +77,7 @@ public class TrapezoidRotate extends CommandBase {
     //double velocityY = setPoint.velocity * Math.sin(theta);
     double spinCommand = setPoint.velocity * rotation_distance;
     if (this.direction > 0) {spinCommand *= -1;}
-    double smallnum = Math.pow(10,-9);
+    double smallnum = Math.pow(10,-10);
     m_Drivetrain.drive(smallnum, smallnum, spinCommand);
     System.out.println("auto trapeziod constants " + timer.get() + " : " + spinCommand);
 
