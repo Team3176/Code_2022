@@ -29,10 +29,10 @@ public class Auto4Ball extends SequentialCommandGroup {
       //new AutonRotate(.15, 7),
       new WaitCommand(0.5),
       new IntakeRetractStop(),
-      new AutoShoot50(),
+      new AutoShoot50(), // shoot first 2 bals
       new WaitCommand(2),
       new AutonStopBeltsParallel(),
-      new TrapezoidRotate(1, 7), //Was 4, 6
+      new TrapezoidRotate(1, 6.5), //TODO: FIX ROTATION! (Was 1, 7, and earlier was 4, 6)
  
       /** 4 Ball */
 
