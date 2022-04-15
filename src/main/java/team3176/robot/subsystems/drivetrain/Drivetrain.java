@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.subsystems.Controller;
 import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.Clarke;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
@@ -52,6 +53,7 @@ public class Drivetrain extends SubsystemBase {
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
   private Vision m_Vision = Vision.getInstance();
+  private Clarke m_Clarke = Clarke.getInstance();
 
   //private Controller controller = Controller.getInstance();
 //private Vision m_Vision = Vision.getInstance();
@@ -235,6 +237,10 @@ public class Drivetrain extends SubsystemBase {
 
     if (m_Vision.getIsVisionSpinCorrectionOn()) {
       this.spinCommand = m_Vision.getVisionSpinCorrection();
+    }
+    
+    if (m_Clarke.getIsClarkeSpinCorrectionOn()) {
+      this.spinCommand = m_Clarke.getClarkeSpinCorrection(); 
     }
 
     if (m_CoordSys.isFieldCentric()) {
@@ -464,12 +470,13 @@ public class Drivetrain extends SubsystemBase {
       if (spinCommandInit > 0) { pivotpoint = "PIVOTFL";}
     }
     if (currentDriveMode == driveMode.PIVOTFLBL) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTFL"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTBL";}
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFL"; }
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL";}
     }
     if (currentDriveMode == driveMode.PIVOTBLBR) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTBR";}
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL"; 
+         }
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTBR"; this.spinCommand = -this.spinCommand;}
     }
     if (currentDriveMode == driveMode.PIVOTBRFR) {
       if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; }
@@ -480,8 +487,8 @@ public class Drivetrain extends SubsystemBase {
       if (spinCommandInit > 0) { pivotpoint = "PIVOTBL";}
     }
     if (currentDriveMode == driveMode.PIVOTFRBR) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTFR"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTBR";}
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFR"; this.spinCommand = -1 * this.spinCommand; }
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; this.spinCommand = -1 * this.spinCommand;}
     }
     if (currentDriveMode == driveMode.PIVOTFLFR) {
       if (spinCommandInit < 0) { pivotpoint = "PIVOTFL"; }

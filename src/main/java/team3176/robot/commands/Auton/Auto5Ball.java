@@ -28,8 +28,7 @@ public class Auto5Ball extends SequentialCommandGroup {
       new TrapezoidRotate(1,5),
       //new AutonRotate(.15, 7),
       new IntakeRetractStop(),
-      // new AutoShoot50(),
-        new SpittingUpAuton(), //TODO: REPLACE
+      new AutoShoot50(),
       new WaitCommand(1.1),
       new AutonStopBeltsParallel(),
 
@@ -46,8 +45,7 @@ public class Auto5Ball extends SequentialCommandGroup {
       new TrapezoidRotate(-1,7),
       //new AutonRotate(-.15, 58),
       // new WaitCommand(2),
-      // new AutoShoot50(),
-        new SpittingUpAuton(), //TODO: REPLACE
+      new AutoShoot50(),
       new WaitCommand(1.1),
       new AutonStopBeltsParallel(),
 
@@ -76,8 +74,8 @@ public class Auto5Ball extends SequentialCommandGroup {
         new FlywheelAngleVisionAuton(),
         new VisionSpinCorrectionOn()
       ),
-      // new AutoShoot50(),
-        new SpittingUpAuton(), //TODO: REPLACE
+      new AlignVizYawSpinCorrection(),
+      new AutoShoot50(),
       new WaitCommand(2),
       new ParallelCommandGroup(
         new VisionSpinCorrectionOff(),

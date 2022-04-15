@@ -15,8 +15,8 @@ import team3176.robot.commands.Shooter.*;
 import team3176.robot.commands.Vision.VisionSpinCorrectionOff;
 import team3176.robot.commands.Vision.VisionSpinCorrectionOn;
 
-public class Auto4Ball extends SequentialCommandGroup {
-  public Auto4Ball() {
+public class Auto2BallsMiddle extends SequentialCommandGroup {
+  public Auto2BallsMiddle() {
     addCommands(
       new SwerveResetGyro(),
       new AnglerZeroAtMax(),
@@ -31,29 +31,8 @@ public class Auto4Ball extends SequentialCommandGroup {
       new IntakeRetractStop(),
       new AutoShoot50(),
       new WaitCommand(2),
-      new AutonStopBeltsParallel(),
-      new TrapezoidRotate(1, 6), //Was 4
- 
-      /** 4 Ball */
+      new AutonStopBeltsParallel() 
 
-      new AutoBallTwoFlywheelAngle(),
-      new IntakeExtendSpin(),
-      new IndexerForward(),
-      new TrapezoidDrive(19.5, 0), //TODO: FIND DISTANCE
-      new WaitCommand(1.5),
-      new IntakeRetractStop(),
-      new IndexerStop(),
-      new TrapezoidDrive(-17, 0),
-      new TrapezoidRotate(-1, 6),
-      new VisionSpinCorrectionOn(),
-      new FlywheelAngleVisionAuton(),
-      new TrapezoidRotate(-1,2),
-      new AlignVizYawSpinCorrection(),
-      //new AutonRotate(.15, 50), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
-      new AutoShoot50(),
-      new VisionSpinCorrectionOff(),
-      new WaitCommand(2),
-      new AutonStopShootParallel()
     );
   }
 }

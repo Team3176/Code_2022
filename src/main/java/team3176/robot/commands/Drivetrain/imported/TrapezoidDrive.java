@@ -26,8 +26,8 @@ public class TrapezoidDrive extends CommandBase {
   public TrapezoidDrive(double distanceX, double distanceY) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Drivetrain);
-    this.distanceX = distanceX;
-    this.distanceY = distanceY;
+    this.distanceX = -distanceX;
+    this.distanceY = -distanceY;
     m_CoordSys.setCoordTypeToRobotCentric();
     double hyp = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     this.theta = Math.atan(distanceY / distanceX);
@@ -58,7 +58,7 @@ public class TrapezoidDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_gyro.setSpinLockToOff();
+    //m_gyro.setSpinLockToOff();
   }
 
   // Returns true when the command should end.
