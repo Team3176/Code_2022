@@ -5,11 +5,15 @@
 package team3176.robot.commands.Drivetrain.imported;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.pidwrappers.PIDEncoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import edu.wpi.first.math.controller.PIDController;
+import team3176.robot.util.God.PID3176;
+
 
 import javax.sound.sampled.SourceDataLine;
 
@@ -23,33 +27,41 @@ public class AutonRotatePidGyro extends CommandBase {
   private TrapezoidProfile profile;
   private double botCircumferance = 12.315;  //feet
   private double initial_yaw;
-  private double yaw_diff;
+  private double requestedYawChange;
   private double yaw_TrueSetpoint;
+  private PIDController rotationController;
+  //private PID3176 rotationController;
+  private double deadbandOfRequestedYawChange; 
 
   /**
    * 
    * @param direction  
    * @param angle  
    */
-  public AutonRotatePidGyro(double yaw_setpoint) {
+  public AutonRotatePidGyro(double requestedYawChange) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Drivetrain);
     addRequirements(m_Gyro);
-    m_CoordSys.setCoordTypeToFieldCentric();
-    m_CoordSys.setCoordTypeToRobotCentric();
-    this.yaw_diff = yaw_setpoint;
-    this.yaw_TrueSetpoint = this.initial_yaw + yaw_setpoint;
+    this.requestedYawChange= requestedYawChange;
+    rotationController = new PIDController(.15, 0, 0);
+    deadbandOfRequestedYawChange = 5;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     initial_yaw = m_Gyro.getYaw();
+    this.yaw_TrueSetpoint = initial_yaw + this.requestedYawChange;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double yawError = m_Gyro.getYaw() - this.yaw_TrueSetpoint; 
+    double spinCommand = rotationController.calculate(yawError,this.yaw_TrueSetpoint);
+    double smallnum = Math.pow(10,-9);
+    m_Drivetrain.drive(smallnum, smallnum, spinCommand);
   }
 
   // Called once the command ends or is interrupted.
@@ -66,6 +78,9 @@ public class AutonRotatePidGyro extends CommandBase {
   @Override
   public boolean isFinished() {
     //return profile.isFinished(timer.get());
+    if ((m_Gyro.getYaw() < (this.yaw_TrueSetpoint + this.deadbandOfRequestedYawChange)) && (m_Gyro.getYaw() > (this.yaw_TrueSetpoint - this.deadbandOfRequestedYawChange))) {
+      return true;
+    }
     return false;
   }
 }
