@@ -18,6 +18,7 @@ import team3176.robot.subsystems.drivetrain.Drivetrain;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -31,6 +32,7 @@ public class Robot extends LoggedRobot {
 
   private RobotContainer m_robotContainer;
   private Intake m_Intake;
+  // private Climb m_Climb; //
   private Indexer m_Indexer;
   private Angler m_Angler;
   private Flywheel m_Flywheel;
@@ -76,6 +78,7 @@ public class Robot extends LoggedRobot {
     m_Controller = Controller.getInstance();
     m_Vision = Vision.getInstance();
     m_Clarke = Clarke.getInstance();
+    // m_Climb = Climb.getInstance(); //
 
     //m_pressureSensor = new AnalogPotentiometer(1/*, scale [ex: 250], offset[ex: -25]*/);
 
@@ -177,7 +180,11 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    // if (Timer.getMatchTime() < 0.5) {
+    //   m_Climb.climbPistonsRetract();
+    // }
+  }
 
   @Override
   public void testInit() {
