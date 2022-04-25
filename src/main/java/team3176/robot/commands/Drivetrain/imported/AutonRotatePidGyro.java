@@ -33,10 +33,8 @@ public class AutonRotatePidGyro extends CommandBase {
   //private PID3176 rotationController;
   private double deadbandOfRequestedYawChange; 
 
-  /**
-   * 
-   * @param direction  
-   * @param angle  
+  /** 
+   * @param angle change in angle (degrees)
    */
   public AutonRotatePidGyro(double requestedYawChange) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -44,7 +42,7 @@ public class AutonRotatePidGyro extends CommandBase {
     addRequirements(m_Gyro);
     this.requestedYawChange= requestedYawChange;
     rotationController = new PIDController(.15, 0, 0);
-    deadbandOfRequestedYawChange = 5;
+    deadbandOfRequestedYawChange = 3;
   }
 
   // Called when the command is initially scheduled.
