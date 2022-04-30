@@ -231,10 +231,12 @@ class Tester:
                         print(xmin, xmax, ymin, ymax)
                         continue
 
-                    red = [225,  55, 105]
+                    #red = [225,  55, 105]
                     #red = [0, 0, 0]
-                    redtolerance = [40, 40, 40]
-                    blue = [62, 155,  220]
+                    red = [105, 50, 50]
+                    redtolerance = [60, 40, 40]
+                    #blue = [62, 155,  220]
+                    blue = [30, 75, 130]
                     bluetolerance = [40, 40, 40]
 
                     cropped = frame_cv2[ymin:ymax, xmin: xmax]

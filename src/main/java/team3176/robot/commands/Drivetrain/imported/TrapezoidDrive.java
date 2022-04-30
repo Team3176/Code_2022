@@ -41,6 +41,7 @@ public class TrapezoidDrive extends CommandBase {
     m_CoordSys.setCoordType(coordType.ROBOT_CENTRIC);
     //m_gyro.setSpinLockAngle();
     //m_gyro.setSpinLock(true);
+    timer.reset();
     timer.start();
   }
 

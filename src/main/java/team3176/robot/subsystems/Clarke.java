@@ -75,7 +75,7 @@ public class Clarke extends SubsystemBase {
   private double initialYVelocity; // m/s
   private double finalYVelocity; // m/s
   private double time; // seconds
-  private PIDController peeEyeDee = new PIDController(.01, 0.0, 0.0);
+  private PIDController peeEyeDee = new PIDController(.15, 0.0, 0.0);
   private int idxCounter = 0; 
   
   private String returned_color = "bs";
@@ -177,16 +177,16 @@ public class Clarke extends SubsystemBase {
     //System.out.println(this.centX);
     if (this.centX > width / 2.0) {
       this.center = (this.centX - width/2.0);
-    }
-    if ((this.centX == 0) || (this.centX < ((width/2.0)+5) && this.centX > ((width/2.0)-5))) {
+    } else
+    // if ((this.centX == 0) || (this.centX < ((width/2.0)+5) && this.centX > ((width/2.0)-5))) {  
+    if(this.centX == width/2){
       this.center = 0;
-    }
-    if (this.centX < width / 2.0) {
+    } else     if (this.centX < width / 2.0) {
       this.center = -((width /2) - this.centX);
     }
-    if ((this.centX == 0) || (this.centX < ((width/2.0)+5) && this.centX > ((width/2.0)-5))) {
+    /*if ((this.centX == 0) || (this.centX < ((width/2.0)+5) && this.centX > ((width/2.0)-5))) {
       this.center = 0;
-    }
+    }*/
 
     
     SmartDashboard.putString("Clarke.color", returned_color);
@@ -248,12 +248,14 @@ public class Clarke extends SubsystemBase {
 
   public double getClarkeSpinCorrection(){
     double spinCorrection = 0; 
-    if (this.returned_color == this.target_color) {
+    SmartDashboard.putString("Clarke.target_color",this.target_color);
+    SmartDashboard.putString("Clarke.returned_color",this.returned_color);
+    //if (this.returned_color == this.target_color) {
       updateMLData();
       findMinAndMax();
       spinCorrection = peeEyeDee.calculate(center, 0);
-    } 
-    return spinCorrection;
+    //} 
+    return (1 * spinCorrection);
   }
 
 
@@ -283,7 +285,7 @@ public class Clarke extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run during simulation
-    if (idxCounter++ > 100) {
+    if (idxCounter++ > 1) {
       // A value of 100 in the above conditionals means execution block of conditional will execute every ~2seconds.
  
       updateMLData();

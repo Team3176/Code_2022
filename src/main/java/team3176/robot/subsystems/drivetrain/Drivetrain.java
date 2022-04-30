@@ -241,6 +241,7 @@ public class Drivetrain extends SubsystemBase {
     
     if (m_Clarke.getIsClarkeSpinCorrectionOn()) {
       this.spinCommand = m_Clarke.getClarkeSpinCorrection(); 
+      SmartDashboard.putNumber("Drivetrain_ClarkeSpinCommand",this.spinCommand);
     }
 
     if (m_CoordSys.isFieldCentric()) {
