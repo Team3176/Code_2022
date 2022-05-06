@@ -87,11 +87,12 @@ public class RobotContainer {
 
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     // TODO: ADD A WAY TO CLEAR STICKY FAULTS
-    // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
-    m_Compressor.enableDigital();
+    m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
+    //m_Compressor.enableDigital();
 
-    m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
-
+    //m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
+    new SwerveSpinLockOn();
+    
     if (!MasterConstants.IS_TUNING_MODE) {
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
           () -> m_Controller.getForward(),
@@ -186,51 +187,51 @@ public class RobotContainer {
      * () -> m_Controller.getSpin()
      * ));
      */
-    // m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
-    m_Controller.getRotStick_Button3().whenHeld(new ClarkeSpinCorrectionOn());
-    m_Controller.getRotStick_Button3().whenReleased(new ClarkeSpinCorrectionOff());
-    // m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
-    // m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
+    //m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
+    //m_Controller.getRotStick_Button3().whenHeld(new ClarkeSpinCorrectionOn());
+    //m_Controller.getRotStick_Button3().whenReleased(new ClarkeSpinCorrectionOff());
+    // m_Controller.getRotStick_Button3().whenHeld(new SwerveSpinLockOff());
+    // m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOn());
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     // m_Controller.getRotStick_Button5().whenPressed(new
     // SwervePodsAzimuthGoHome());
 
-    m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
-    m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
+    //m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
+    //m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
 
-    m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
-    m_Controller.getOp_B().whenActive(new FlywheelStop());
+    //m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
+    //m_Controller.getOp_B().whenActive(new FlywheelStop());
 
-    m_Controller.getOp_Back_FS().whileActiveOnce(new IndexerBackWhenHeld());
-    m_Controller.getOp_Start_FS().whileActiveOnce(new IndexerForwardWhenHeld());
-    m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
-    m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
+    //m_Controller.getOp_Back_FS().whileActiveOnce(new IndexerBackWhenHeld());
+    //m_Controller.getOp_Start_FS().whileActiveOnce(new IndexerForwardWhenHeld());
+    //m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
+    //m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
 
-    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
+    //m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
                                                                    // SAME BUTTON
     m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
-    m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
+    //m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
 
-    m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
-    m_Controller.getOp_DPAD_DOWN().whenActive(new VisionZoom2x());
+    //m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
+    //m_Controller.getOp_DPAD_DOWN().whenActive(new VisionZoom2x());
 
-    m_Controller.getOp_DPAD_LEFT().whenActive(new FlywheelAngleFender());
-    m_Controller.getOp_DPAD_RIGHT().whenActive(new FlywheelAngleWall());
+    //m_Controller.getOp_DPAD_LEFT().whenActive(new FlywheelAngleFender());
+    //m_Controller.getOp_DPAD_RIGHT().whenActive(new FlywheelAngleWall());
 
-    m_Controller.getOp_A_FS().whileActiveOnce(new AnglerZeroAtMax());
-    m_Controller.getOp_Y_FS().whenActive(new FlywheelDefaultCommandStop());
+    //m_Controller.getOp_A_FS().whileActiveOnce(new AnglerZeroAtMax());
+    //m_Controller.getOp_Y_FS().whenActive(new FlywheelDefaultCommandStop());
 
-    m_Controller.getOp_Back().whileActiveOnce(new SpittingDown());
-    m_Controller.getOp_Start().whileActiveOnce(new SpittingUp());
+    //m_Controller.getOp_Back().whileActiveOnce(new SpittingDown());
+    //m_Controller.getOp_Start().whileActiveOnce(new SpittingUp());
 
     // m_Controller.getOp_Back().whileActiveOnce(new FlywheelPIDToggleTest());
     // m_Controller.getOp_Start().whileActiveOnce(new ShootPIDToggleTest());
 
-    m_Controller.getOp_X().whileActiveOnce(new FlywheelAngleVision());
+    //m_Controller.getOp_X().whileActiveOnce(new FlywheelAngleVision());
 
-    m_Controller.getOp_LeftTrigger().whileActiveOnce(new ShootVision());
+    //m_Controller.getOp_LeftTrigger().whileActiveOnce(new ShootVision());
 
-    m_Controller.getOp_RightTrigger().whileActiveOnce(new FlywheelAngleVisionInt());
+    //m_Controller.getOp_RightTrigger().whileActiveOnce(new FlywheelAngleVisionInt());
   }
 
   public void AutonInitRobotCentric() {
