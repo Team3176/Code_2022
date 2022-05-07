@@ -190,8 +190,8 @@ public class RobotContainer {
     //m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
     //m_Controller.getRotStick_Button3().whenHeld(new ClarkeSpinCorrectionOn());
     //m_Controller.getRotStick_Button3().whenReleased(new ClarkeSpinCorrectionOff());
-    // m_Controller.getRotStick_Button3().whenHeld(new SwerveSpinLockOff());
-    // m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOn());
+     m_Controller.getRotStick_Button3().whenHeld(new SwerveSpinLockOff());
+    m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOn());
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
     // m_Controller.getRotStick_Button5().whenPressed(new
     // SwervePodsAzimuthGoHome());
@@ -200,14 +200,14 @@ public class RobotContainer {
     //m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
 
     //m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
-    //m_Controller.getOp_B().whenActive(new FlywheelStop());
+    m_Controller.getOp_B().whenActive(new FlywheelStop());
 
     //m_Controller.getOp_Back_FS().whileActiveOnce(new IndexerBackWhenHeld());
     //m_Controller.getOp_Start_FS().whileActiveOnce(new IndexerForwardWhenHeld());
-    //m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
-    //m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
+    m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
+    m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
 
-    //m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
+    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
                                                                    // SAME BUTTON
     m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
     //m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());

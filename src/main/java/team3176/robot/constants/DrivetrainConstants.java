@@ -63,7 +63,7 @@ public class DrivetrainConstants {
     
     public static final double MAX_ROT_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2; // rad/s*s
 
-    public static final double NON_TURBO_PERCENT_OUT_CAP = 0.7; //1; //TODO: CHANGE BACK and fix for AUTON if needed
+    public static final double NON_TURBO_PERCENT_OUT_CAP = 0.3; //1; //TODO: CHANGE BACK and fix for AUTON if needed
 
     //public static final double LENGTH_CENTER_TO_CENTER = 23.5;
     //public static final double WIDTH_CENTER_TO_CENTER = 23.5;
