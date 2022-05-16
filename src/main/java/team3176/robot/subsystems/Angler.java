@@ -52,6 +52,8 @@ public class Angler extends SubsystemBase {
    private int intent;
    
    private double lastSmartDashboardAngle;
+   
+   public double desiredAngle;
 
   public Angler(AnglerIO io) 
   {
@@ -188,6 +190,7 @@ public class Angler extends SubsystemBase {
   {
     if (newAngle >= AnglerConstants.kAnglerMinDegrees && newAngle <= AnglerConstants.kAnglerMaxDegrees) {
       this.engagePIDMotorPosition(-(AnglerConstants.kAnglerMaxDegrees - newAngle) * AnglerConstants.TICS_OF_MOTOR_PER_DEGREE);
+      this.desiredAngle = newAngle;
     }
   }
 
@@ -217,6 +220,7 @@ public class Angler extends SubsystemBase {
     this.anglerMotor.setSelectedSensorPosition(0.0, AnglerConstants.kPID_LOOP_IDX, AnglerConstants.kTIMEOUT_MS);
     this.motorZero = AnglerConstants.kAnglerMaxDegrees;
     this.hasMotorBeenZeroedAtMax = true;
+    this.desiredAngle = this.motorZero;
   }
 
   /**
@@ -307,6 +311,14 @@ public class Angler extends SubsystemBase {
   public void setAnglerPosition(double position)
   {
     io.setAnglerPosition(position);
+  }
+
+  public void incrAnglerDesiredAngle() {
+    this.desiredAngle += 0.05;
+  }
+
+  public void decrAnglerDesiredAngle() {
+    this.desiredAngle -= 0.05;
   }
 
   @Override

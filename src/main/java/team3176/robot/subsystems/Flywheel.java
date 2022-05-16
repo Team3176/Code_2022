@@ -30,6 +30,8 @@ public class Flywheel extends SubsystemBase {
   private double smartDashboardLastPercent1 = 0.0;
   private double smartDashboardLastPercent2 = 0.0;
   private boolean autoSpinFlywheels;
+  public double flywheel1Pct;
+  public double flywheel2Pct;
 
   public Flywheel(FlywheelIO io) {
     this.io = io;
@@ -193,6 +195,22 @@ public class Flywheel extends SubsystemBase {
 
   public void setFlywheelVelocity2(double velocity) {
     io.setFlywheelVelocity2(velocity);
+  }
+
+  public void incrFlywheelVelocity1() {
+    this.flywheel1Pct += 0.05;
+  }
+
+  public void incrFlywheelVelocity2() {
+    this.flywheel2Pct += 0.05;
+  }
+
+  public void decrFlywheelVelocity1() {
+    this.flywheel1Pct -= 0.05;
+  }
+
+  public void decrFlywheelVelocity2() {
+    this.flywheel2Pct -= 0.05;
   }
 
   @Override

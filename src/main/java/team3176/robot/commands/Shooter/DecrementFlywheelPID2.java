@@ -7,25 +7,24 @@ package team3176.robot.commands.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.Flywheel;
 
-public class FlywheelVelocityPID extends CommandBase {
+public class DecrementFlywheelPID2 extends CommandBase {
   private Flywheel m_Flywheel = Flywheel.getInstance();
   double pct1 = 0.30;
   double pct2 = 0.30;
+  double pct2b = 0;
 
-  public FlywheelVelocityPID() {
+  public DecrementFlywheelPID2() {
     addRequirements(m_Flywheel);
-  }
-
-  public FlywheelVelocityPID(double pct1, double pct2) {
-    addRequirements(m_Flywheel);
-    this.pct1 = pct1;
-    this.pct2 = pct2;
+    this.pct1 = m_Flywheel.flywheel1Pct;
+    this.pct2 = m_Flywheel.flywheel2Pct;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Flywheel.spinMotorsVelocityPID(this.pct1, this.pct2);
+    m_Flywheel.decrFlywheelVelocity2();
+    this.pct2b = m_Flywheel.flywheel2Pct;
+    m_Flywheel.spinMotorsVelocityPID(this.pct1, this.pct2b);
   }
 
   @Override
@@ -33,11 +32,14 @@ public class FlywheelVelocityPID extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_Flywheel.stopMotors();
   }
 
   @Override
   public boolean isFinished() {
+    if (this.pct2b < this.pct2) {
+      return true;
+    } else {
     return false;
+    }
   }
 }
