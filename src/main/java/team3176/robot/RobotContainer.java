@@ -206,13 +206,22 @@ public class RobotContainer {
     m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
     m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
 
+    /*  STEALING THE DOUBLE SHIFT LAYER TO USE AS INCREMENT/DECREMENT LAYER
     m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
                                                                    // SAME BUTTON
     m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
     m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
+    */
 
-    m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
-    m_Controller.getOp_DPAD_DOWN().whenActive(new VisionZoom2x());
+    m_Controller.getOp_Y_DS().whenActive(new IncrementFlywheelPID1());
+    m_Controller.getOp_B_DS().whenActive(new DecrementFlywheelPID1());
+    m_Controller.getOp_X_DS().whenActive(new IncrementFlywheelPID2());
+    m_Controller.getOp_A_DS().whenActive(new DecrementFlywheelPID2());
+    m_Controller.getOp_DPAD_UP().whenActive(new IncrementAnglerAngle());
+    m_Controller.getOp_DPAD_DOWN().whenActive(new DecrementAnglerAngle());
+
+//    m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
+//    m_Controller.getOp_DPAD_DOWN().whenActive(new VisionZoom2x());
 
     m_Controller.getOp_DPAD_LEFT().whenActive(new FlywheelAngleFender());
     m_Controller.getOp_DPAD_RIGHT().whenActive(new FlywheelAngleWall());

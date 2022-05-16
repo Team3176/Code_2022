@@ -5,27 +5,24 @@
 package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Flywheel;
+import team3176.robot.subsystems.Angler;
 
-public class FlywheelVelocityPID extends CommandBase {
-  private Flywheel m_Flywheel = Flywheel.getInstance();
-  double pct1 = 0.30;
-  double pct2 = 0.30;
+public class DecrementAnglerAngle extends CommandBase {
+  private Angler m_Angler = Angler.getInstance();
+  double startingAngle;
+  double wantedAngle;
 
-  public FlywheelVelocityPID() {
-    addRequirements(m_Flywheel);
-  }
-
-  public FlywheelVelocityPID(double pct1, double pct2) {
-    addRequirements(m_Flywheel);
-    this.pct1 = pct1;
-    this.pct2 = pct2;
+  public DecrementAnglerAngle() {
+    addRequirements(m_Angler);
+    this.startingAngle = m_Angler.desiredAngle;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Flywheel.spinMotorsVelocityPID(this.pct1, this.pct2);
+    m_Angler.decrAnglerDesiredAngle();
+    this.wantedAngle = m_Angler.desiredAngle;
+    m_Angler.moveToAngle(this.wantedAngle);
   }
 
   @Override
@@ -33,11 +30,14 @@ public class FlywheelVelocityPID extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_Flywheel.stopMotors();
   }
 
   @Override
   public boolean isFinished() {
+    if (this.wantedAngle < this.startingAngle) {
+      return true;
+    } else {
     return false;
+    }
   }
 }
