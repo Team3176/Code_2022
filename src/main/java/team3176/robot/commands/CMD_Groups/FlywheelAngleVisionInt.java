@@ -32,7 +32,7 @@ public class FlywheelAngleVisionInt extends CommandBase {
     tv = m_Vision.tv.getBoolean(false);
 
     m_Angler.moveToAngle(60);
-    m_Flywheel.spinMotorsVelocityPID(thirdPowInt() * 0.95, 0.20);
+    //m_Flywheel.spinMotorsVelocityPID(thirdPowInt() * 0.95, 0.20);
   }
 
   public double secondPowInt() {

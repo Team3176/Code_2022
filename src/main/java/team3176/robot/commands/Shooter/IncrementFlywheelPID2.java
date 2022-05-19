@@ -14,7 +14,7 @@ public class IncrementFlywheelPID2 extends CommandBase {
   double pct2b = 0;
 
   public IncrementFlywheelPID2() {
-    addRequirements(m_Flywheel);
+    //addRequirements(m_Flywheel);
     this.pct1 = m_Flywheel.flywheel1Pct;
     this.pct2 = m_Flywheel.flywheel2Pct;
   }
@@ -24,11 +24,13 @@ public class IncrementFlywheelPID2 extends CommandBase {
   public void initialize() {
     m_Flywheel.incrFlywheelVelocity2();
     this.pct2b = m_Flywheel.flywheel2Pct;
-    m_Flywheel.spinMotorsVelocityPID(this.pct1, this.pct2b);
   }
 
   @Override
-  public void execute() {}
+  public void execute() {
+    this.pct1 = m_Flywheel.flywheel1Pct;
+    m_Flywheel.spinMotorsVelocityPID(this.pct1, this.pct2b);
+  }
 
   @Override
   public void end(boolean interrupted) {
@@ -36,10 +38,6 @@ public class IncrementFlywheelPID2 extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if (this.pct2b > this.pct2) {
-      return true;
-    } else {
-    return false;
-    }
+    return true;
   }
 }

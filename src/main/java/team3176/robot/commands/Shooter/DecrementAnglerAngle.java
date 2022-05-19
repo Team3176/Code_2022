@@ -22,11 +22,12 @@ public class DecrementAnglerAngle extends CommandBase {
   public void initialize() {
     m_Angler.decrAnglerDesiredAngle();
     this.wantedAngle = m_Angler.desiredAngle;
-    m_Angler.moveToAngle(this.wantedAngle);
   }
 
   @Override
-  public void execute() {}
+  public void execute() {
+    m_Angler.moveToAngle(this.wantedAngle);
+  }
 
   @Override
   public void end(boolean interrupted) {
@@ -34,7 +35,8 @@ public class DecrementAnglerAngle extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if (this.wantedAngle < this.startingAngle) {
+    double currentAngle = m_Angler.desiredAngle;
+    if (currentAngle < this.startingAngle) {
       return true;
     } else {
     return false;

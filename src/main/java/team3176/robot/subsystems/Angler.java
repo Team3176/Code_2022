@@ -201,6 +201,7 @@ public class Angler extends SubsystemBase {
    */
   public void changeAngle(double angleChange)
   {
+    this.desiredAngle = this.desiredAngle + angleChange;
     double changeInTics = angleChange * AnglerConstants.TICS_OF_MOTOR_PER_DEGREE;
     this.engagePIDMotorPosition(anglerMotor.getSelectedSensorPosition() + changeInTics);
   }
@@ -297,6 +298,7 @@ public class Angler extends SubsystemBase {
     SmartDashboard.putNumber("AnglerEncoderPos", anglerMotor.getSelectedSensorPosition());
     SmartDashboard.putBoolean("AnglerTopLimitPressed", !topLimiter.get());
     SmartDashboard.putBoolean("AnglerBottomLimitPressed", !bottomLimiter.get());
+    SmartDashboard.putNumber("Angler.thisAngle", this.desiredAngle);
   }
 
   public void runVoltage(double volts) {

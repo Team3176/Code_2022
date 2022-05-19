@@ -175,6 +175,8 @@ public class Flywheel extends SubsystemBase {
       if(!isSmartDashboardTestControlsShown) putSmartDashboardControlCommands();
       setValuesFromSmartDashboard();
     }
+    SmartDashboard.putNumber("flywheel1Pct",this.flywheel1Pct);
+    SmartDashboard.putNumber("flywheel2Pct",this.flywheel2Pct);
   }
 
   public void runVoltage(double volts) {
