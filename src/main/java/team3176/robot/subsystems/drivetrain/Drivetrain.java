@@ -216,7 +216,7 @@ public class Drivetrain extends SubsystemBase {
       this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       //this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
-      this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+      this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP * 3;
        //for (int idx = 0; idx < (pods.size()); idx++) {
        //  pods.get(idx).unboostThrustAcceleration();
        //}

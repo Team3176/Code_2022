@@ -87,10 +87,10 @@ public class RobotContainer {
 
     m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     // TODO: ADD A WAY TO CLEAR STICKY FAULTS
-    m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
-    //m_Compressor.enableDigital();
+    // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
+    m_Compressor.enableDigital();
 
-    //m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
+    m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
     new SwerveSpinLockOn();
     
     if (!MasterConstants.IS_TUNING_MODE) {
@@ -137,48 +137,48 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
-    m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
-    m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
+    // m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
+    // m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
+    // m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
     // m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
     m_Controller.getTransStick_Button4().whenHeld(new CoordTypeToRobotCentric());
     m_Controller.getTransStick_Button4().whenReleased(new CoordTypeToFieldCentric());
 
-    m_Controller.getTransStick_HAT_0().whileHeld(new SwervePivotAtPodBi(
-        () -> m_Controller.getForward(),
-        () -> m_Controller.getStrafe(),
-        () -> m_Controller.getSpin(),
-        0.0));
-    m_Controller.getTransStick_HAT_45().whileHeld(new SwervePivotAtPodBi(
-        () -> m_Controller.getForward(),
-        () -> m_Controller.getStrafe(),
-        () -> m_Controller.getSpin(),
-        45.0));
-    m_Controller.getTransStick_HAT_135().whileHeld(new SwervePivotAtPodBi(
-        () -> m_Controller.getForward(),
-        () -> m_Controller.getStrafe(),
-        () -> m_Controller.getSpin(),
-        135.0));
-    m_Controller.getTransStick_HAT_180().whileHeld(new SwervePivotAtPodBi(
-        () -> m_Controller.getForward(),
-        () -> m_Controller.getStrafe(),
-        () -> m_Controller.getSpin(),
-        180.0));
-    m_Controller.getTransStick_HAT_225().whileHeld(new SwervePivotAtPodBi(
-        () -> m_Controller.getForward(),
-        () -> m_Controller.getStrafe(),
-        () -> m_Controller.getSpin(),
-        225.0));
-    m_Controller.getTransStick_HAT_315().whileHeld(new SwervePivotAtPodBi(
-        () -> m_Controller.getForward(),
-        () -> m_Controller.getStrafe(),
-        () -> m_Controller.getSpin(),
-        315.0));
+    // m_Controller.getTransStick_HAT_0().whileHeld(new SwervePivotAtPodBi(
+    //     () -> m_Controller.getForward(),
+    //     () -> m_Controller.getStrafe(),
+    //     () -> m_Controller.getSpin(),
+    //     0.0));
+    // m_Controller.getTransStick_HAT_45().whileHeld(new SwervePivotAtPodBi(
+    //     () -> m_Controller.getForward(),
+    //     () -> m_Controller.getStrafe(),
+    //     () -> m_Controller.getSpin(),
+    //     45.0));
+    // m_Controller.getTransStick_HAT_135().whileHeld(new SwervePivotAtPodBi(
+    //     () -> m_Controller.getForward(),
+    //     () -> m_Controller.getStrafe(),
+    //     () -> m_Controller.getSpin(),
+    //     135.0));
+    // m_Controller.getTransStick_HAT_180().whileHeld(new SwervePivotAtPodBi(
+    //     () -> m_Controller.getForward(),
+    //     () -> m_Controller.getStrafe(),
+    //     () -> m_Controller.getSpin(),
+    //     180.0));
+    // m_Controller.getTransStick_HAT_225().whileHeld(new SwervePivotAtPodBi(
+    //     () -> m_Controller.getForward(),
+    //     () -> m_Controller.getStrafe(),
+    //     () -> m_Controller.getSpin(),
+    //     225.0));
+    // m_Controller.getTransStick_HAT_315().whileHeld(new SwervePivotAtPodBi(
+    //     () -> m_Controller.getForward(),
+    //     () -> m_Controller.getStrafe(),
+    //     () -> m_Controller.getSpin(),
+    //     315.0));
 
-    m_Controller.getRotStick_Button1().whileActiveOnce(new FlywheelAngleVisionIntAutoFire());
-    m_Controller.getRotStick_Button1().whenHeld(new VisionSpinCorrectionOn());
-    m_Controller.getRotStick_Button1().whenReleased(new VisionSpinCorrectionOff());
-    m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVisionAutoFire());
+    // m_Controller.getRotStick_Button1().whileActiveOnce(new FlywheelAngleVisionIntAutoFire());
+    // m_Controller.getRotStick_Button1().whenHeld(new VisionSpinCorrectionOn());
+    // m_Controller.getRotStick_Button1().whenReleased(new VisionSpinCorrectionOff());
+    // m_Controller.getRotStick_Button2().whileActiveOnce(new ShootVisionAutoFire());
     /*
      * m_Controller.getRotStick_Button2().whileActiveOnce(new
      * ShootVisionTrueAutoFire(
@@ -196,20 +196,20 @@ public class RobotContainer {
     // m_Controller.getRotStick_Button5().whenPressed(new
     // SwervePodsAzimuthGoHome());
 
-    //m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
-    //m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
+    m_Controller.getOp_A().whileActiveOnce(new IntakingDirect2());
+    m_Controller.getOp_A().whenInactive(new DelayedIntakeStop());
 
-    //m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
-    m_Controller.getOp_B().whenActive(new FlywheelStop());
+    // m_Controller.getOp_Y().whileActiveOnce(new ShootSetVals());
+    // m_Controller.getOp_B().whenActive(new FlywheelStop());
 
     //m_Controller.getOp_Back_FS().whileActiveOnce(new IndexerBackWhenHeld());
     //m_Controller.getOp_Start_FS().whileActiveOnce(new IndexerForwardWhenHeld());
-    m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
-    m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
+    // m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
+    // m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
 
-    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
+    // m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
                                                                    // SAME BUTTON
-    m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
+    // m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
     //m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
 
     //m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
@@ -229,9 +229,9 @@ public class RobotContainer {
 
     //m_Controller.getOp_X().whileActiveOnce(new FlywheelAngleVision());
 
-    //m_Controller.getOp_LeftTrigger().whileActiveOnce(new ShootVision());
-
-    //m_Controller.getOp_RightTrigger().whileActiveOnce(new FlywheelAngleVisionInt());
+    m_Controller.getOp_LeftTrigger().whileActiveOnce(new ShootVision());
+    m_Controller.getOp_DPAD_DOWN().whileActiveOnce(new AnglerZeroAtMax());
+    m_Controller.getOp_DPAD_UP().whileActiveOnce(new AnglerInput(60));
   }
 
   public void AutonInitRobotCentric() {
@@ -243,58 +243,58 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    String chosen = m_autonChooser.getSelected();
+    // String chosen = m_autonChooser.getSelected();
 
-    if (chosen.equals(m_M))
-      return new AutonExitTarmac();
-    // if(chosen.equals(m_B)) return new AutonBlock();
-    if (chosen.equals(m_6L))
-      return new TrapezoidDrive(0, -6);
-    if (chosen.equals(m_6R))
-      return new TrapezoidDrive(0, 6);
-    if (chosen.equals(m_6F))
-      return new TrapezoidDrive(6, 0);
-    if (chosen.equals(m_6B))
-      return new TrapezoidDrive(-6, 0);
-    if (chosen.equals(m_9F))
-      return new TrapezoidDrive(9, 0);
-    if (chosen.equals(m_9B))
-      return new TrapezoidDrive(-9, 0);
-    if (chosen.equals(m_TS))
-      return new AutoInTarmacShoot();
-    if (chosen.equals(m_SI))
-      return new Auto2Balls();
-    if (chosen.equals(m_2H))
-      return new Auto2BallsAtHanger();
-    if (chosen.equals(m_2M))
-      return new Auto2BallsMiddle();
-    if (chosen.equals(m_MS))
-      return new AutoMoveAndShoot();
-    if (chosen.equals(m_3B))
-      return new Auto3Balls();
-    if (chosen.equals(m_3BS))
-      return new Auto3BallSlow();
-    if (chosen.equals(m_4B))
-      return new Auto4Ball();
-    if (chosen.equals(m_4G))
-      return new Auto4BallGyro();
-    if (chosen.equals(m_5B))
-      return new Auto5Ball();
-    if (chosen.equals(m_3H))
-      return new Auton3BallAtHanger();
-    if (chosen.equals(m_2C))
-      return new Auto2BallCitrus();
-    if (chosen.equals(m_2EC))
-      return new Auto2BallExtraCitrus();
-    if (chosen.equals(m_Int))
-      return new AutoInterfere();
-    if (chosen.equals(m_Rot))
-      return new AutonRotate(0.15, 90);
-    if (chosen.equals(m_TrapRot))
-      return new TrapezoidRotate(-1, 20);
-    if (chosen.equals(m_TrapDriveRot))
-      return new TrapezoidDriveRotate(3, 0, 1, 5);
+    // if (chosen.equals(m_M))
+    //   return new AutonExitTarmac();
+    // // if(chosen.equals(m_B)) return new AutonBlock();
+    // if (chosen.equals(m_6L))
+    //   return new TrapezoidDrive(0, -6);
+    // if (chosen.equals(m_6R))
+    //   return new TrapezoidDrive(0, 6);
+    // if (chosen.equals(m_6F))
+    //   return new TrapezoidDrive(6, 0);
+    // if (chosen.equals(m_6B))
+    //   return new TrapezoidDrive(-6, 0);
+    // if (chosen.equals(m_9F))
+    //   return new TrapezoidDrive(9, 0);
+    // if (chosen.equals(m_9B))
+    //   return new TrapezoidDrive(-9, 0);
+    // if (chosen.equals(m_TS))
+    //   return new AutoInTarmacShoot();
+    // if (chosen.equals(m_SI))
+    //   return new Auto2Balls();
+    // if (chosen.equals(m_2H))
+    //   return new Auto2BallsAtHanger();
+    // if (chosen.equals(m_2M))
+    //   return new Auto2BallsMiddle();
+    // if (chosen.equals(m_MS))
+    //   return new AutoMoveAndShoot();
+    // if (chosen.equals(m_3B))
+    //   return new Auto3Balls();
+    // if (chosen.equals(m_3BS))
+    //   return new Auto3BallSlow();
+    // if (chosen.equals(m_4B))
+    //   return new Auto4Ball();
+    // if (chosen.equals(m_4G))
+    //   return new Auto4BallGyro();
+    // if (chosen.equals(m_5B))
+    //   return new Auto5Ball();
+    // if (chosen.equals(m_3H))
+    //   return new Auton3BallAtHanger();
+    // if (chosen.equals(m_2C))
+    //   return new Auto2BallCitrus();
+    // if (chosen.equals(m_2EC))
+    //   return new Auto2BallExtraCitrus();
+    // if (chosen.equals(m_Int))
+    //   return new AutoInterfere();
+    // if (chosen.equals(m_Rot))
+    //   return new AutonRotate(0.15, 90);
+    // if (chosen.equals(m_TrapRot))
+    //   return new TrapezoidRotate(-1, 20);
+    // if (chosen.equals(m_TrapDriveRot))
+    //   return new TrapezoidDriveRotate(3, 0, 1, 5);
 
-    return new AutoInTarmacShoot();
+    return new TrapezoidDrive(0, 0);
   }
 }
