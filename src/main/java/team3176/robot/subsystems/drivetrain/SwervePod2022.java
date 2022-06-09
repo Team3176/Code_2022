@@ -124,7 +124,6 @@ public class SwervePod2022 {
     private NetworkTableEntry NT_kP_Azimuth;
     private NetworkTableEntry NT_kI_Azimuth;
     private NetworkTableEntry NT_kD_Azimuth;
-    private boolean killswitch = false;
 
 
     public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {
@@ -356,10 +355,9 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(id) + ".optimizdAbsAzimuthPos",optmizdAzimuthAbsPos);
         SmartDashboard.putNumber("P"+(id) + ".turnOutput",turnOutput);
         */
-        //if ( !killswitch) {
+ 
         azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
         thrustController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
-        //}
         }
     
 
@@ -527,12 +525,6 @@ public class SwervePod2022 {
         this.thrustController.configClosedloopRamp(0.5);   
     }
 
-    public void setKillSwitchOn() {
-        this.killswitch = true;
-    }
-    public void setKillSwitchOff() {
-        this.killswitch = false;
-    }
 
     public void initializeSmartDashboard() {
 

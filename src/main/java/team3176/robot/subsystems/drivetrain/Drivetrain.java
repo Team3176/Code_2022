@@ -217,9 +217,8 @@ public class Drivetrain extends SubsystemBase {
 
     if (m_CoordSys.isFieldCentric()) {
 
-      // System.out.println("Drivetrain ran under isFieldCentric -----------------------------------------------------------------------------------------------------------------------------------");
+      // System.out.println("Drivetrain ran under isFieldCentric ----------------------------------------------------------------------------------------------");
 
-      double currentAngle = m_Gyro3176.getCurrentChassisYaw();
       final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw())
           + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw()));
       this.strafeCommand = (-this.forwardCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw())
@@ -254,16 +253,12 @@ public class Drivetrain extends SubsystemBase {
   }
 
   /**
-   * 
+   * Robot Centric Forward, strafe, and spin to set individual pods commanded spin speed and drive speed
    * @param forwardCommand feet per second
    * @param strafeCommand  feet per second
    * @param spinCommand    feet per second
    */
   private void calculateNSetPodPositions(double forwardCommand, double strafeCommand, double spinCommand) {
-
-    this.forwardCommand = forwardCommand;
-    this.strafeCommand = strafeCommand;
-    this.spinCommand = spinCommand;
 
     if (currentDriveMode != driveMode.DEFENSE) {
       // Create arrays for the speed and angle of each pod
@@ -297,42 +292,11 @@ public class Drivetrain extends SubsystemBase {
       // /END Ether Eqns -- Ether's official derivation
       // ###########################################################
 
-      /*
-       * // ########################################################### // BEGIN:
-       * Ether Eqns -- JonH derivation 2021-02-15 // +X := axis of chassis forward
-       * movement ... we think // -Y := axis of chassis strafe to starboard/right ...
-       * we think // ###########################################################
-       * double a = this.forwardCommand - this.spinCommand * width/2; double b =
-       * this.forwardCommand + this.spinCommand * width/2; double c =
-       * this.strafeCommand - this.spinCommand * length/2; double d =
-       * this.strafeCommand + this.spinCommand * length/2;
-       * 
-       * // Calculate speed and angle of each pod // TODO: Verify order of atan2
-       * parameters. atan2(y,x) is formal java def, // but past implementations and
-       * ether use atan2(x,y). podDrive[0] = Math.sqrt(Math.pow(b,2) + Math.pow(d,2));
-       * podSpin[0] = Math.atan2(d, b);
-       * 
-       * podDrive[1] = Math.sqrt(Math.pow(b,2) + Math.pow(c,2)); podSpin[1] =
-       * Math.atan2(c, b);
-       * 
-       * podDrive[2] = Math.sqrt(Math.pow(a,2) + Math.pow(c,2)); podSpin[2] =
-       * Math.atan2(c, a);
-       * 
-       * podDrive[3] = Math.sqrt(Math.pow(a,2) + Math.pow(d,2)); podSpin[3] =
-       * Math.atan2(d, a); //
-       * ########################################################### // END: Ether
-       * Eqns -- JonH derivation 2021-02-15 //
-       * ###########################################################
-       */
-
-      // SmartDashboard.putNumber("a", a);
-      // SmartDashboard.putNumber("b", b);
-      // SmartDashboard.putNumber("c", c);
-      // SmartDashboard.putNumber("d", d);
-      for (int idx = 0; idx < 4; idx++) {
-        // SmartDashboard.putNumber("preScale P" + (idx + 1) + " podDrive",
-        // podDrive[idx]);
-      }
+     
+      // for (int idx = 0; idx < 4; idx++) {
+      //   SmartDashboard.putNumber("preScale P" + (idx + 1) + " podDrive",
+      //   podDrive[idx]);
+      // }
 
       // Find the highest pod speed then normalize if a pod is exceeding our max speed by scaling down all the speeds
 //      if (! (currentDriveMode == driveMode.PIVOTFR)) {  
@@ -345,18 +309,9 @@ public class Drivetrain extends SubsystemBase {
  //     }
 
       // Set calculated drive and spins to each pod
-      // for(int idx = 0; idx < pods.size(); idx++) {
       for (int idx = 0; idx < (pods.size()); idx++) {
-        pods.get(idx).set(podDrive[idx], podSpin[idx]); // TODO: try doing pods.size() - 1 in for conditional, then
-                                                        // outside for loop
-                                                        // do a hardcode set of pods.get(3).set(0.1, 0.0);
-        // SmartDashboard.putNumber("pod" + idx + " drive", podDrive[idx]);
-        // SmartDashboard.putNumber("pod" + idx + " spin", podSpin[idx]);
+        pods.get(idx).set(podDrive[idx], podSpin[idx]); 
       }
-      // pods.get(3).set(0.1,1.57);
-
-
-      //SmartDashboard.putBoolean("orbiting", isOrbiting());
     } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defensive position
       double smallNum = Math.pow(10, -5);
       /*
@@ -375,6 +330,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void stopMotors() {
+    //TODO: this seems to voilate a data flow overiding pods and could cause issues should be a state variable
     for (int idx = 0; idx < (pods.size()); idx++) {
       driveControllers[idx].set(ControlMode.PercentOutput, 0);
       azimuthControllers[idx].set(0);
@@ -399,19 +355,6 @@ public class Drivetrain extends SubsystemBase {
   public void setCurrentPodPosAsHome() {
     for (int idx = 0; idx < (pods.size()); idx++) {
       pods.get(idx).setCurrentPositionAsHome();
-    }
-  }
-
-  public void setSwerveKillSwitchOn() {
-    for (int idx = 0; idx < (pods.size()); idx++) {
-      pods.get(idx).setKillSwitchOn();
-    }
-  }
-
-
-  public void setSwerveKillSwitchOff() {
-    for (int idx = 0; idx < (pods.size()); idx++) {
-      pods.get(idx).setKillSwitchOff();
     }
   }
 
