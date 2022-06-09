@@ -5,10 +5,10 @@
 package team3176.robot.subsystems.drivetrain;
 
 import edu.wpi.first.math.filter.MedianFilter;
-import edu.wpi.first.math.geometry.Pose2d;
+//import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
+//import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 import team3176.robot.constants.DrivetrainConstants;
@@ -23,10 +23,8 @@ public class Gyro3176 extends SubsystemBase {
   private double gyroOffset_in_Degrees = 0;
   
   private double currentAngle;
-  private double lastAngle;
 
 
-  private double lastGyroClock;
 
   private boolean isSpinLocked;
   private double spinLockAngle;
