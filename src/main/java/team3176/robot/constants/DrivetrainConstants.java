@@ -3,9 +3,9 @@ package team3176.robot.constants;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
+//import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.math.util.Units;
-import team3176.robot.constants.MasterConstants;
+//import team3176.robot.constants.MasterConstants;
 
 public class DrivetrainConstants {
     // IDs for Drivetrain motors and solenoids
