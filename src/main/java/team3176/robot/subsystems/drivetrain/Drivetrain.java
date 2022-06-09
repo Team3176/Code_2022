@@ -56,15 +56,13 @@ public class Drivetrain extends SubsystemBase {
   private Clarke m_Clarke = Clarke.getInstance();
 
   //private Controller controller = Controller.getInstance();
-//private Vision m_Vision = Vision.getInstance();
+  //private Vision m_Vision = Vision.getInstance();
 
  // private PowerDistribution PDP = new PowerDistribution(PowerManagementConstants.PDP_CAN_ID, ModuleType.kCTRE);
 
   private ArrayList<SwervePod2022> pods;
 
   private driveMode currentDriveMode;
-
-  private boolean autonVision;
 
   public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_ONE_CID),
       new TalonFX(DrivetrainConstants.THRUST_TWO_CID), new TalonFX(DrivetrainConstants.THRUST_THREE_CID),
@@ -76,33 +74,18 @@ public class Drivetrain extends SubsystemBase {
 
   private double length; // robot's wheelbase
   private double width; // robot's trackwidth
-  private double k_etherRadius; // radius used in A,B,C,D component calc's of ether decomposition
-
-  private double maxSpeed_InchesPerSec;
-  private double maxVel;
-  private double maxRotation;
-  private double maxAccel;
 
   private double relMaxSpeed;
-  private double lastAngle;
-
-  private double startTime = 0;
-  private double currentTIme = 0;
-
-  private boolean isVisionDriving;
 
   private double forwardCommand;
   private double strafeCommand;
   private double spinCommand;
   private double spinCommandInit;
 
-  private double spinLockAngle;
   // private PID3176 spinLockPID;
   // private PIDController spinLockPID;
 
   private boolean isTurboOn = false;
-  
-  private int spinEncoderIdxCount = 0;
 
   private int arraytrack;
   double[] angleHist = { 0.0, 0.0, 0.0, 0.0, 0.0 };
@@ -117,12 +100,10 @@ public class Drivetrain extends SubsystemBase {
   private SwervePod2022 podBL;
   private SwervePod2022 podBR;
 
-  private double lockP, lockI, lockD;
-  private PID3176 spinLockPID;
 
 
   private final DrivetrainIO io;
-  private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
+  //private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
 
   private Drivetrain(DrivetrainIO io) {
     this.io = io;
@@ -140,24 +121,16 @@ public class Drivetrain extends SubsystemBase {
     pods.add(podBL);
     pods.add(podBR);
 
-    autonVision = false;
 
     // Setting constants
     length = DrivetrainConstants.LENGTH;
     width = DrivetrainConstants.WIDTH;
-    k_etherRadius = Math.sqrt(Math.pow(length, 2) / Math.pow(width, 2)) / 2;
-
-    maxSpeed_InchesPerSec = DrivetrainConstants.MAX_WHEEL_SPEED_INCHES_PER_SECOND;
-    maxRotation = DrivetrainConstants.MAX_ROT_SPEED;
-    maxAccel = DrivetrainConstants.MAX_ACCEL;
     
     //SmartDashboard.putNumber("currentAngle", m_Gyro3176.getCurrentChassisYaw());
 
     // SmartDashboard.putNumber("forwardCommand", 0);
     // SmartDashboard.putNumber("strafeCommand", 0);
     // SmartDashboard.putNumber("spinCommand", 0);
-
-    isVisionDriving = false;
 
     arraytrack = 0;
     angleAvgRollingWindow = 0;
@@ -231,8 +204,6 @@ public class Drivetrain extends SubsystemBase {
 
     if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
       this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
-      // this.spinCommand = spinLockPID.calculate(getNavxAngle(), spinLockAngle);
-
     }
 
     if (m_Vision.getIsVisionSpinCorrectionOn()) {
@@ -623,14 +594,9 @@ public class Drivetrain extends SubsystemBase {
    /** 
     * Calculates average angle value based on rolling window of last five angle measurements
     */
-  public void calcAngleAvgRollingWindow() {
-    this.angleHist[this.arraytrack] = m_Gyro3176.getCurrentChassisYaw();
-    angleAvgRollingWindow = (this.angleHist[0] + this.angleHist[1] + this.angleHist[2] + this.angleHist[3]
-        + this.angleHist[4]) / 5;
-  }
 
   public double getAngleAvgRollingWindow() {
-    return this.angleAvgRollingWindow;
+    return m_Gyro3176.getAngleAvgRollingWindow();
   }
 
 
@@ -665,16 +631,7 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler every 500ms
-    if(spinEncoderIdxCount++ > 25) { 
-      for (int idx = 0; idx < (pods.size()); idx++) { 
-        spinEncoderIdxCount = 0;
-        //pods.get(idx).updateAzimuthEncoder(); 
-        //pods.get(idx).updateAzimuthAbsEncoder();
-        //pods.get(0).podAzimuth = SmartDashboard.getNumber("P0.podSpin_setpoint_angle",0);
-      }
-    }
     
-    calcAngleAvgRollingWindow();
     this.arraytrack++;
     if (this.arraytrack > 3) {
       this.arraytrack = 0;

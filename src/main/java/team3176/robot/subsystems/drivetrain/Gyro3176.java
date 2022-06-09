@@ -4,6 +4,7 @@
 
 package team3176.robot.subsystems.drivetrain;
 
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,12 +32,14 @@ public class Gyro3176 extends SubsystemBase {
   private double spinLockAngle;
 
   private PID3176 spinLockPID;
+  private MedianFilter angleAvgRollingWindow;
   
   public Gyro3176() {
       
     // Instantiating the gyro
     gyro = new AHRS(SPI.Port.kMXP);
     gyro.reset();
+    angleAvgRollingWindow = new MedianFilter(5);
     // gyro.setAngleAdjustment(90.0);
     // gyroUpdateOffset();
     updateNavxAngle();
@@ -158,7 +161,9 @@ public class Gyro3176 extends SubsystemBase {
     // this is what the NavX senses as north, and the value reported is the angle the NavX reads as the north direction
     return gyro.getCompassHeading();
   }
-
+  public double getAngleAvgRollingWindow() {
+    return angleAvgRollingWindow.calculate(this.getCurrentChassisYaw());
+  }
   @Override
   public void periodic() {
     updateNavxAngle();
