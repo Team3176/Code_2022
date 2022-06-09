@@ -70,6 +70,10 @@ public class Gyro3176 extends SubsystemBase {
     Rotation2d angle = new Rotation2d(getNavxAngle_inRadians());
     return angle;
   }
+
+  public double getYaw() {
+    return gyro.getYaw();
+  }
   
   private void updateNavxAngle() {
     // -pi to pi; 0 = straight
@@ -92,6 +96,10 @@ public class Gyro3176 extends SubsystemBase {
     return getNavxAngle_inRadians();
   }
 
+  /**
+   * Updates currentAngle by polling the navX, and returns the Yaw in units of radians 
+   * @return this.currentAngle
+   */
   public double getCurrentChassisYaw() {
     updateNavxAngle();
     return this.currentAngle;
@@ -142,7 +150,15 @@ public class Gyro3176 extends SubsystemBase {
   public boolean getIsSpinLockTrue() {
     return this.isSpinLocked;
   }
-      
+  
+  /**
+   * @return The degree position of the north direction, according to what the NavX thinks zero is.
+   */
+  public double getNorth() {
+    // this is what the NavX senses as north, and the value reported is the angle the NavX reads as the north direction
+    return gyro.getCompassHeading();
+  }
+
   @Override
   public void periodic() {
     updateNavxAngle();

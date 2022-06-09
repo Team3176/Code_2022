@@ -124,6 +124,7 @@ public class SwervePod2022 {
     private NetworkTableEntry NT_kP_Azimuth;
     private NetworkTableEntry NT_kI_Azimuth;
     private NetworkTableEntry NT_kD_Azimuth;
+    private boolean killswitch = false;
 
 
     public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {
@@ -212,10 +213,10 @@ public class SwervePod2022 {
         //}
         //if (MasterConstants.IS_PRACTICE_BOT == false) {
             //if (this.id == 2 || this.id == 3) {
-            if (this.id == 2 ) {
+            if (this.id == 0 || this.id == 2 ) {
                 this.thrustController.setInverted(false);
             }
-            if (this.id ==0 || this.id == 3) {
+            if ( this.id == 3) {
                 this.thrustController.setInverted(true);
             }
         //} 
@@ -327,9 +328,9 @@ public class SwervePod2022 {
 
 
     /**
-     * @param podThrust represents desired thrust of swervepod Range = -1 to 1 or
+     * @param podDrive (thrust) represents desired thrust of swervepod Range = -1 to 1 or
      *                 ft-per-sec?
-     * @param podazimuth  represents desired angle of swervepod. Range = -pi to pi.
+     * @param podAzimuth  represents desired angle of swervepod. Range = -pi to pi.
      */
     public void set(double podDrive, double podAzimuth) {
         this.podThrust = podDrive;
@@ -355,9 +356,10 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(id) + ".optimizdAbsAzimuthPos",optmizdAzimuthAbsPos);
         SmartDashboard.putNumber("P"+(id) + ".turnOutput",turnOutput);
         */
-
+        //if ( !killswitch) {
         azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
         thrustController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
+        //}
         }
     
 
@@ -515,6 +517,21 @@ public class SwervePod2022 {
      */
     public double getAzimuth() {
         return azimuthEncoder.getPosition(); 
+    }
+
+    public void boostThrustAcceleration() {
+        this.thrustController.configClosedloopRamp(0.25);   
+    }
+
+    public void unboostThrustAcceleration() {
+        this.thrustController.configClosedloopRamp(0.5);   
+    }
+
+    public void setKillSwitchOn() {
+        this.killswitch = true;
+    }
+    public void setKillSwitchOff() {
+        this.killswitch = false;
     }
 
     public void initializeSmartDashboard() {

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import team3176.robot.commands.CMD_Groups.AutoBallOneFlywheelAngle;
 import team3176.robot.commands.CMD_Groups.AutoShoot50;
 import team3176.robot.commands.Drivetrain.imported.TrapezoidDrive;
+import team3176.robot.commands.Drivetrain.imported.TrapezoidRotate;
 import team3176.robot.commands.Intake.IntakeExtendSpin;
 import team3176.robot.commands.Intake.IntakeRetractStop;
 import team3176.robot.commands.Shooter.AnglerZeroAtMax;
@@ -23,8 +24,9 @@ public class Auto2BallsAtHanger extends SequentialCommandGroup {
       new AutoBallOneFlywheelAngle(),
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
-      new TrapezoidDrive(6, 0),   
-      new AutonRotate(-.15, 5),
+      new TrapezoidDrive(6, 0),  
+      new TrapezoidRotate(-1, 5), 
+      //new AutonRotate(-.15, 5),
       new IntakeRetractStop(),
       new AutoShoot50(),
       new WaitCommand(2),

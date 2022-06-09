@@ -26,6 +26,7 @@ public class AlignVizYawPLoop extends SequentialCommandGroup {
 
   private Drivetrain m_drivetrain = Drivetrain.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
+  private Vision m_Vision = Vision.getInstance();
   //private Vision m_Vision = Vision.getInstance();
   //private Transfer m_Transfer = Transfer.getInstance();
   private double tx, yawError, steerCorrection;
@@ -44,7 +45,7 @@ public class AlignVizYawPLoop extends SequentialCommandGroup {
     m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
     //m_Vision.setPipeline(1);
     //m_Vision.turnLEDsOn();
-    this.kP = -0.01;
+    this.kP = -0.005;
     this.minCommand = 0.001;
     this.upperTxLimit = 2;
     this.lowerTxLimit = -2;
@@ -53,8 +54,9 @@ public class AlignVizYawPLoop extends SequentialCommandGroup {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //this.tx =  m_Vision.getTx();
-    this.yawError = -tx;
+    m_Vision.updateVisionData();
+    this.tx =  m_Vision.tx.getDouble(0);
+    this.yawError = tx;
     //new AutonRotate(.1, tx);
     if (tx > upperTxLimit) {
       steerCorrection =  kP * yawError - minCommand;

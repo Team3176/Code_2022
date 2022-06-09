@@ -20,7 +20,7 @@ public class Intaking extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Indexer.setModeLoading();
+    // m_Indexer.setModeLoading();
     m_Indexer.Up();
     m_Intake.Extend();
     m_Intake.spinVelocityPercent(IntakeConstants.INTAKE_PCT);
@@ -38,7 +38,7 @@ public class Intaking extends CommandBase {
     m_Intake.Retract();
     Timer.delay(1); //TODO: TUNE AND FIND ALTERNATIVE
     m_Intake.stopMotor();
-    m_Indexer.setModeHolding();
+    // m_Indexer.setModeHolding();
     m_Indexer.simpleIndexer();
   }
 

@@ -6,40 +6,51 @@ package team3176.robot.commands.Auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Drivetrain.imported.*;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
-
 public class Auto3Balls extends SequentialCommandGroup {
   public Auto3Balls() {
     addCommands(
-      new SwerveResetGyro(),
-      new AnglerZeroAtMax(),
+      // new SwerveResetGyro(),
+      // new AnglerZeroAtMax(),
+      new AnglerSetMaxZero(),
       new AutoBallOneFlywheelAngle(),
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
       new TrapezoidDrive(5, 0),
-      new AutonRotate(.15, 7),
+      //new SequentialCommandGroup(new TrapezoidRotate(5,0)),
+      new TrapezoidRotate(1,5),
+//      // new SwerveDefenseOn(),
+      //new AutonRotate(.15, 7),
       new IntakeRetractStop(),
       new AutoShoot50(),
-      new WaitCommand(2),
-      new AutonStopShootParallel(),
+      new WaitCommand(2.5), //Was 1.1
+      new AutonStopBeltsParallel(),
 
           /* ROTATE AND MOVE TO 2nd BALL */
       
-      new AutonRotate(.15, 87),  //80
-      new IntakeExtendSpin(),
-      new TrapezoidDrive(11, 0),
       new AutoBallThreeFlywheelAngle(),
-      new WaitCommand(1),
+//      // new SwerveDefenseOff(),
+      // new SequentialCommandGroup(new TrapezoidRotate(1,17.75)),
+      new TrapezoidRotate(1,22), //Was 17.75, 20
+      //new AutonRotate(.15, 87),  //80
+      new IntakeExtendSpin(),
+      new TrapezoidDrive(12, 0),
+//      // new WaitCommand(1),
           /* AUTON 3BALL ZONE */
       new IntakeRetractStop(),
-      new AutonRotate(-.15, 58),
-      // new WaitCommand(2),
-      new AutoShoot50(),
-      new WaitCommand(2),
-      new AutonStopShootParallel()
+      // new SequentialCommandGroup(new TrapezoidRotate(-1,13)),
+      new TrapezoidRotate(-1,16.5), //Was 13
+//      // new SwerveDefenseOn(),
+      //new AutonRotate(-.15, 58) 
+       //new WaitCommand(2),
+       new AutoShoot50(),
+      new WaitCommand(1.1),
+      new AutonStopShootParallel()//,
+//      // new SwerveDefenseOff()
     );
   }
 }

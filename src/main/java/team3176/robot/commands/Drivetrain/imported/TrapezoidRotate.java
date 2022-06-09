@@ -10,6 +10,9 @@ import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+
+import javax.sound.sampled.SourceDataLine;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public class TrapezoidRotate extends CommandBase {
@@ -22,17 +25,38 @@ public class TrapezoidRotate extends CommandBase {
   private double theta;
   private double distanceX;
   private double distanceY;
+  private double rotation_distance, direction;
+  private double botCircumferance = 12.315;  //feet
+  private double botCircumferancePer1Degree;
 
-  public TrapezoidRotate(double distanceX, double distanceY) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
+  /**
+   * 
+   * @param direction  +1 makes it turn right, -1 makes it turn left
+   * @param angle  scales as follows
+   *                5=~10 degrees
+   *                10 = 45
+   *                20 = 90
+   *                22.5 = 135
+   *                25 = 180
+   *                27.5 = 225
+   *                32.5 - 35 = 270
+   *                42.5 - 45 = 325
+   *                52.5 = 360
+   */
+  public TrapezoidRotate(double direction, double angle) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Drivetrain);
-    this.distanceX = distanceX;
-    this.distanceY = distanceY;
+    //this.distanceX = distanceX;
+    //this.distanceY = distanceY;
+    this.botCircumferancePer1Degree = botCircumferance / 360;
+    m_CoordSys.setCoordTypeToFieldCentric();
     m_CoordSys.setCoordTypeToRobotCentric();
-    double hyp = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-    this.theta = Math.atan(distanceY / distanceX);
+    //double hyp = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    //this.theta = Math.atan(distanceY / distanceX);
+    this.direction = -direction;
+    this.rotation_distance = angle * botCircumferancePer1Degree;
     profile = new TrapezoidProfile
-    (new TrapezoidProfile.Constraints(9, 5), new TrapezoidProfile.State(hyp, 0), new TrapezoidProfile.State(0, 0));
+    (new TrapezoidProfile.Constraints(14, 12), new TrapezoidProfile.State(rotation_distance, 0), new TrapezoidProfile.State(0, 0));
   }
 
   // Called when the command is initially scheduled.
@@ -41,6 +65,7 @@ public class TrapezoidRotate extends CommandBase {
     m_CoordSys.setCoordType(coordType.ROBOT_CENTRIC);
     //m_gyro.setSpinLockAngle();
     //m_gyro.setSpinLock(true);
+    timer.reset();
     timer.start();
   }
 
@@ -48,9 +73,13 @@ public class TrapezoidRotate extends CommandBase {
   @Override
   public void execute() {
     TrapezoidProfile.State setPoint = profile.calculate(timer.get());
-    double velocityX = setPoint.velocity * Math.cos(theta);
-    double velocityY = setPoint.velocity * Math.sin(theta);
-    m_Drivetrain.drive(Math.copySign(velocityX, distanceX), Math.copySign(velocityY, distanceY), 0);
+    /// double velocityX = setPoint.velocity * Math.cos(theta);
+    //double velocityY = setPoint.velocity * Math.sin(theta);
+    double spinCommand = setPoint.velocity * rotation_distance;
+    if (this.direction > 0) {spinCommand *= -1;}
+    double smallnum = Math.pow(10,-9);
+    m_Drivetrain.drive(smallnum, smallnum, spinCommand);
+    System.out.println("auto trapeziod constants " + timer.get() + " : " + spinCommand);
 
     // System.out.println("X: " + distanceX + ", Y: " + distanceY);
   }
@@ -58,7 +87,12 @@ public class TrapezoidRotate extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_gyro.setSpinLockToOff();
+    double smallnum = Math.pow(10,-10);
+    //m_Drivetrain.drive(smallnum, smallnum, smallnum);
+    //m_Drivetrain.drive(0,0,0);
+    m_Drivetrain.stopMotors();
+    timer.stop();
+    //System.out.println("######################################################################################################################     TrapRot.end()");
   }
 
   // Returns true when the command should end.

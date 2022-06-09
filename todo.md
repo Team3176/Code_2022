@@ -1,28 +1,34 @@
-Test if we can disable compressor if below 10V, and renenable if above 10V  (merger2_charAbsSW) 
+# TODO.md
 
-Thur night:  Chris copy working code base to 2 usbsticks
-             Create backup branch of working code base
-             Make a copy branch labelled columbusDay1
-             
+- Make Swerve Pivot's user interface work as follows:
+  - press forward on hat to select front of bot
+  - then if rot stick left, pivot of FL pod.  If rotStick right then pivot off FR pod.
 
-Check if AutonExitTarmmac moves ~10feet.  Are we moving ~10ft?  Are we moving in right direction?
-Check accuracy of auton rotate CMD
-Check if Kyle's autons function correctly
+- Test if we can disable compressor if below 10V, and re-enable if above 10V  (merger2_charAbsSW)
 
-Reduce "funnel impact point" by 1-2 feet
+- Debug why auto messes up after we new deploy w/o teleop-ing first
 
-Imp "spin with origin at location of one of four selected pods."
+- Speed Up Auton (5* Ball = ~20sec)
+  - TrapezoidDrive with a spin command
 
-Imp shooting interpolation
+- Machine Learning
+  - Demonstrate usage in 4-ball, 5-ball
+  - Demonstrate intake guidance assistance in teleop.
 
-Code new Climb logic
+- Autofire -- make it so autofire only acts if no transStick input
+  - Test adding conditional (line 40) a check if transStick input is 0 on both axises and if so fire.
 
-Make Indexer automatically handle ball spacing better when shooting, particularly during fender shots
+- Target Tracking (If no target the spin correction doesn't take control) ***
 
-Create 4 & 5 ball autos
+- Make new autons
+  - AutonInterference -- run 2 ball, then turn and go pick up 3rd ball, then turn aim at opponents ball and spit at opponents ball to knock it out of position
 
-"Auto fire" mode upon target acquisition.  (Effectively remove delay between positioning and firing.)
+- Test Intake rejection system using color sensor (Rev color sensor v3)
 
-Add intake guidance system.
+## NOW IRRELEVANT
 
+- Look into why the Indexer values stop updating
+  - Why indexer stops moving during Intaking or reverses direction
+  - Check encoder settings.  Is it continuous at max tic limits as it rolls over
 
+- Test if boosting the acceleration in turbo breaks the PID

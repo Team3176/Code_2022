@@ -6,6 +6,7 @@ package team3176.robot.commands.Util;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
 
 /**
  * TimeDelay Command to use in Command Groups to make sure that the commands have equal spacing
@@ -13,20 +14,29 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TimeDelay extends CommandBase {
   private double setTime;
+  private double startTime;
   private Timer clock;
+  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
 
   public TimeDelay(double delay) {
+    startTime = Timer.getFPGATimestamp();
     setTime = delay;
     clock = new Timer();
+
+    addRequirements(m_Drivetrain);
   }
 
   @Override
   public void initialize() {
     clock.start();
+    m_Drivetrain.drive(0, 0, 0);
   }
 
   @Override
-  public void execute() {}
+  public void execute() {
+    double smallnum=Math.pow(10,-20);
+    m_Drivetrain.drive(smallnum, smallnum, smallnum);
+  }
 
   @Override
   public void end(boolean interrupted) {
@@ -35,7 +45,8 @@ public class TimeDelay extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if(clock.get() >= setTime) return true;
+    if(Timer.getFPGATimestamp() > setTime + startTime) return true;
+    if(clock.get() > setTime) return true;
     return false;
   }
 }

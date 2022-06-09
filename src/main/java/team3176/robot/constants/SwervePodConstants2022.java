@@ -63,7 +63,7 @@ public final class SwervePodConstants2022 {
                      //{0.55, 0.55, 0.55, 0.55},
                     // {.6, .6, .6, .6},
                     //{.00, .00, .00, .00},
-                    {1.5, 1.5, 1.5, 1.5},
+                    {1.3, 1.3, 1.3, 1.3},
         /* kI */    //{0.00065, 0.0, 0.0, 0.0},//<-Jared N550 internal encoder
         /* kI */    //{0.0, 0.0, 0.0, 0.0},
         /* kI */    //{0.05, 0.05, 0.05, 0.05},
@@ -74,7 +74,7 @@ public final class SwervePodConstants2022 {
                      //{0.0, 0.0, 0.0, 0.0},
                      //{0.001, 0.001, 0.001, 0.001},
                      //{.05, .05, .05, .05},
-                     {.05, .05, .05, .05},
+                     {.08, .08, .08, .08},
     //    /* kD */    {25.0, 50.0, 500.0, 100.0},
     /* kF */    {0.0, 0.0, 0.0, 0.0},    // Feed forward gain constant//<-Jared N550 internal encoder
                 //{10, 0.0, 0.0, 0.0},   //kIz constant//<-Jared N550 internal encoder
@@ -106,7 +106,10 @@ public final class SwervePodConstants2022 {
     public static final double[] AZIMUTH_OFFSET =AZIMUTH_OFFSET_2022;
 
     public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_SHOOTER_IS_BOT_FRONT = {120.234,110.742, -77.168,-133.682};
-    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {-84.902, -14.414, -32.080 , -6.855}; 
+    //public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {  -127.354,124.365,-32.695,-15.564}; 
+    //public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {  -95.537, -176.221, -39.551, -178.242 }; 
+    //public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = { 82.178, -179.561, -42.627, 162.686 };
+    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = { -31.99, -179.561, -29.355, 162.686 }; 
     public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_POSITION = AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT;
     public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 14.00;  //estimated loaded speed per Nathan;
 

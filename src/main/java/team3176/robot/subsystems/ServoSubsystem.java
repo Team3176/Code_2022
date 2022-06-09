@@ -30,6 +30,10 @@ public class ServoSubsystem extends SubsystemBase {
     servo.set(angle);
   }
 
+  void setInNeutral() {
+    servo.setDisabled();
+  }
+
   @Override
   public void periodic() {}
 }

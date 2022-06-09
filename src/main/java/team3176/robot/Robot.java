@@ -15,7 +15,11 @@ import team3176.robot.commands.Drivetrain.imported.SwerveDrive;
 import team3176.robot.constants.MasterConstants;
 import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,6 +32,7 @@ public class Robot extends LoggedRobot {
 
   private RobotContainer m_robotContainer;
   private Intake m_Intake;
+  // private Climb m_Climb; //
   private Indexer m_Indexer;
   private Angler m_Angler;
   private Flywheel m_Flywheel;
@@ -35,6 +40,8 @@ public class Robot extends LoggedRobot {
   private Drivetrain m_Drivetrain;
   private Controller m_Controller;
   private Vision m_Vision;
+  private Clarke m_Clarke;
+  //private AnalogPotentiometer m_pressureSensor;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -70,8 +77,14 @@ public class Robot extends LoggedRobot {
     m_Drivetrain = Drivetrain.getInstance();
     m_Controller = Controller.getInstance();
     m_Vision = Vision.getInstance();
+    m_Clarke = Clarke.getInstance();
+    // m_Climb = Climb.getInstance(); //
+
+    //m_pressureSensor = new AnalogPotentiometer(1/*, scale [ex: 250], offset[ex: -25]*/);
 
     m_Vision.setActivePipeline(2);
+    //CameraServer.startAutomaticCapture(); //Fish-I Camera
+    // CameraServer.startAutomaticCapture("Fish-I", 0);
 
     m_robotContainer = new RobotContainer();
   }
@@ -91,6 +104,12 @@ public class Robot extends LoggedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
+    /*
+    SmartDashboard.putNumber("PSI", m_pressureSensor.get());
+    SmartDashboard.putBoolean("Climb", m_pressureSensor.get() > 40);
+    SmartDashboard.putBoolean("High Climb", m_pressureSensor.get() > 60);
+    */
+
     if (MasterConstants.IS_CMD_SCH_LOGGING) {
       Logger.getInstance().recordOutput("Scheduler Commands", NetworkTableInstance.getDefault()
         .getEntry("/LiveWindow/Ungrouped/Scheduler/Names").getStringArray(new String[] {}));
@@ -100,11 +119,13 @@ public class Robot extends LoggedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
+   /* 
     m_Intake.mode = "disabled";
     m_Indexer.mode = "disabled";
     m_Angler.mode = "disabled";
     m_Flywheel.mode = "disabled";
     m_Feeder.mode = "disabled";
+    */
   }
 
   @Override
@@ -113,13 +134,16 @@ public class Robot extends LoggedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    /*
     m_Intake.mode = "auto";
     m_Indexer.mode = "auto";
     m_Angler.mode = "auto";
     m_Flywheel.mode = "auto";
     m_Feeder.mode = "auto";
+    */
     
-    m_robotContainer.AutonInitRobotCentric();
+    //m_robotContainer.AutonInitRobotCentric();
+    m_robotContainer.TelopInitFieldCentric();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command
@@ -143,28 +167,36 @@ public class Robot extends LoggedRobot {
       m_autonomousCommand.cancel();
     }
 
+    /*
     m_Intake.mode = "teleop";
     m_Indexer.mode = "teleop";
     m_Angler.mode = "teleop";
     m_Flywheel.mode = "teleop";
     m_Feeder.mode = "teleop";
+    */
     
     m_robotContainer.TelopInitFieldCentric();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    // if (Timer.getMatchTime() < 0.5) {
+    //   m_Climb.climbPistonsRetract();
+    // }
+  }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    /*
     m_Intake.mode = "test";
     m_Indexer.mode = "test";
     m_Angler.mode = "test";
     m_Flywheel.mode = "test";
     m_Feeder.mode = "test";
+    */
 
     m_Drivetrain.setDefaultCommand(new SwerveDrive(
         () -> m_Controller.getForward(), 

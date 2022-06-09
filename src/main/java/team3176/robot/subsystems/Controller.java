@@ -133,14 +133,14 @@ public class Controller {
      * The HAT on the transStick
      * The values are 0 as UP going in a 360 circle CCW
      */
-    transStick_HAT_0 = new POVButton(operator, 0);
-    transStick_HAT_45 = new POVButton(operator, 45);
-    transStick_HAT_90 = new POVButton(operator, 90);
-    transStick_HAT_135 = new POVButton(operator, 135);
-    transStick_HAT_180 = new POVButton(operator, 180);
-    transStick_HAT_225 = new POVButton(operator, 225);
-    transStick_HAT_270 = new POVButton(operator, 270);
-    transStick_HAT_315 = new POVButton(operator, 315);
+    transStick_HAT_0 = new POVButton(transStick, 0);
+    transStick_HAT_45 = new POVButton(transStick, 45);
+    transStick_HAT_90 = new POVButton(transStick, 90);
+    transStick_HAT_135 = new POVButton(transStick, 135);
+    transStick_HAT_180 = new POVButton(transStick, 180);
+    transStick_HAT_225 = new POVButton(transStick, 225);
+    transStick_HAT_270 = new POVButton(transStick, 270);
+    transStick_HAT_315 = new POVButton(transStick, 315);
 
 
     
@@ -165,14 +165,14 @@ public class Controller {
      * The HAT on the rotStick
      * The values are 0 as UP going in a 360 circle CCW
      */
-    rotStick_HAT_0 = new POVButton(operator, 0);
-    rotStick_HAT_45 = new POVButton(operator, 45);
-    rotStick_HAT_90 = new POVButton(operator, 90);
-    rotStick_HAT_135 = new POVButton(operator, 135);
-    rotStick_HAT_180 = new POVButton(operator, 180);
-    rotStick_HAT_225 = new POVButton(operator, 225);
-    rotStick_HAT_270 = new POVButton(operator, 270);
-    rotStick_HAT_315= new POVButton(operator, 315);
+    rotStick_HAT_0 = new POVButton(rotStick, 0);
+    rotStick_HAT_45 = new POVButton(rotStick, 45);
+    rotStick_HAT_90 = new POVButton(rotStick, 90);
+    rotStick_HAT_135 = new POVButton(rotStick, 135);
+    rotStick_HAT_180 = new POVButton(rotStick, 180);
+    rotStick_HAT_225 = new POVButton(rotStick, 225);
+    rotStick_HAT_270 = new POVButton(rotStick, 270);
+    rotStick_HAT_315= new POVButton(rotStick, 315);
 
     /* 
      * The Xbox Controller Buttons 
@@ -437,7 +437,7 @@ public class Controller {
   public POVButton getTransStick_HAT_90() {return transStick_HAT_90;}
   public POVButton getTransStick_HAT_135() {return transStick_HAT_135;}
   public POVButton getTransStick_HAT_180() {return transStick_HAT_180;}
-  public POVButton getTransStick_HAT_235() {return transStick_HAT_225;}
+  public POVButton getTransStick_HAT_225() {return transStick_HAT_225;}
   public POVButton getTransStick_HAT_270() {return transStick_HAT_270;}
   public POVButton getTransStick_HAT_315() {return transStick_HAT_315;}
 
@@ -465,7 +465,7 @@ public class Controller {
   public POVButton getRotStick_HAT_90() {return rotStick_HAT_90;}
   public POVButton getRotStick_HAT_135() {return rotStick_HAT_135;}
   public POVButton getRotStick_HAT_180() {return rotStick_HAT_180;}
-  public POVButton getRotStick_HAT_235() {return rotStick_HAT_225;}
+  public POVButton getRotStick_HAT_225() {return rotStick_HAT_225;}
   public POVButton getRotStick_HAT_270() {return rotStick_HAT_270;}
   public POVButton getRotStick_HAT_315() {return rotStick_HAT_315;}
 

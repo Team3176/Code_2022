@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.subsystems.Controller;
 import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.Clarke;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
@@ -52,6 +53,7 @@ public class Drivetrain extends SubsystemBase {
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
   private Vision m_Vision = Vision.getInstance();
+  private Clarke m_Clarke = Clarke.getInstance();
 
   //private Controller controller = Controller.getInstance();
 //private Vision m_Vision = Vision.getInstance();
@@ -92,6 +94,7 @@ public class Drivetrain extends SubsystemBase {
   private double forwardCommand;
   private double strafeCommand;
   private double spinCommand;
+  private double spinCommandInit;
 
   private double spinLockAngle;
   // private PID3176 spinLockPID;
@@ -106,7 +109,7 @@ public class Drivetrain extends SubsystemBase {
   double angleAvgRollingWindow;
 
   public enum driveMode {
-    DEFENSE, DRIVE, VISION, ORBIT
+    DEFENSE, DRIVE, VISION, ORBIT, PIVOTFRFL, PIVOTFLBL, PIVOTBLBR, PIVOTBRFR, PIVOTBRBL, PIVOTFRBR, PIVOTFLFR, PIVOTBLFL
   }
 
   private SwervePod2022 podFR;
@@ -194,6 +197,7 @@ public class Drivetrain extends SubsystemBase {
    * @param spinCommand    feet per second
    */
   public void drive(double forwardCommand, double strafeCommand, double spinCommand) {
+    this.spinCommandInit = -spinCommand;
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
     this.spinCommand = spinCommand;
@@ -213,10 +217,16 @@ public class Drivetrain extends SubsystemBase {
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       //this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+       //for (int idx = 0; idx < (pods.size()); idx++) {
+       //  pods.get(idx).unboostThrustAcceleration();
+       //}
     }
 
     if (isTurboOn) {
       this.spinCommand *= 2; 
+       //for (int idx = 0; idx < (pods.size()); idx++) {
+       //  pods.get(idx).boostThrustAcceleration();
+       //}
     }
 
     if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
@@ -227,6 +237,11 @@ public class Drivetrain extends SubsystemBase {
 
     if (m_Vision.getIsVisionSpinCorrectionOn()) {
       this.spinCommand = m_Vision.getVisionSpinCorrection();
+    }
+    
+    if (m_Clarke.getIsClarkeSpinCorrectionOn()) {
+      this.spinCommand = m_Clarke.getClarkeSpinCorrection(); 
+      SmartDashboard.putNumber("Drivetrain_ClarkeSpinCommand",this.spinCommand);
     }
 
     if (m_CoordSys.isFieldCentric()) {
@@ -349,12 +364,14 @@ public class Drivetrain extends SubsystemBase {
       }
 
       // Find the highest pod speed then normalize if a pod is exceeding our max speed by scaling down all the speeds
+//      if (! (currentDriveMode == driveMode.PIVOTFR)) {  
       relMaxSpeed = Math.max(Math.max(podDrive[0], podDrive[1]), Math.max(podDrive[2], podDrive[3]));
       if (relMaxSpeed > DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND) {
         for (int idx = 0; idx < pods.size(); idx++) {
           podDrive[idx] /= relMaxSpeed / DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND;
         }
       }
+ //     }
 
       // Set calculated drive and spins to each pod
       // for(int idx = 0; idx < pods.size(); idx++) {
@@ -371,10 +388,18 @@ public class Drivetrain extends SubsystemBase {
       //SmartDashboard.putBoolean("orbiting", isOrbiting());
     } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defensive position
       double smallNum = Math.pow(10, -5);
+      /*
+      // OLD DEFENSE
       pods.get(0).set(smallNum, -1.0 * Math.PI / 4.0);
       pods.get(1).set(smallNum, 1.0 * Math.PI / 4.0);
       pods.get(2).set(smallNum, 3.0 * Math.PI / 4.0);
       pods.get(3).set(smallNum, -3.0 * Math.PI / 4.0);
+      */
+      // NEW DEFENSE
+      pods.get(0).set(smallNum, 1.0 * Math.PI / 4.0);
+      pods.get(1).set(smallNum, -1.0 * Math.PI / 4.0);
+      pods.get(2).set(smallNum, -3.0 * Math.PI / 4.0);
+      pods.get(3).set(smallNum, 3.0 * Math.PI / 4.0);
     }
   }
 
@@ -384,6 +409,14 @@ public class Drivetrain extends SubsystemBase {
       azimuthControllers[idx].set(0);
     }
 
+  }
+
+  public void setPodsAzimuthHome() {
+      double smallNum = Math.pow(10, -5);
+      pods.get(0).set(smallNum, 0 * Math.PI / 4.0);
+      pods.get(1).set(smallNum, 0 * Math.PI / 4.0);
+      pods.get(2).set(smallNum, 0 * Math.PI / 4.0);
+      pods.get(3).set(smallNum, 0 * Math.PI / 4.0);
   }
 
   public void sendPodsAzimuthToHome() {
@@ -398,6 +431,20 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  public void setSwerveKillSwitchOn() {
+    for (int idx = 0; idx < (pods.size()); idx++) {
+      pods.get(idx).setKillSwitchOn();
+    }
+  }
+
+
+  public void setSwerveKillSwitchOff() {
+    for (int idx = 0; idx < (pods.size()); idx++) {
+      pods.get(idx).setKillSwitchOff();
+    }
+  }
+
+
   private double getRadius(String component) {
     // Omitted if driveStatements where we pivoted around a pod
     // This'll be orbit and dosado in the future
@@ -407,13 +454,129 @@ public class Drivetrain extends SubsystemBase {
     // else /* component D */ { return 2 * width; } // Puts radius to the right of
     // bot at distance w
     // } else {
-    if (component.equals("A") || component.equals("B")) {
-      return length / 2.0;
-    } else {
-      return width / 2.0;
-    } // TODO: place to check for forward vs back pods working vs not working
+   
     // }
-    /// return 0.0; // TODO: this method needs cleanup and logic-checking
+
+    if (currentDriveMode == driveMode.DRIVE) {
+      if (component.equals("A") || component.equals("B")) {
+        return length / 2.0;
+      } else {
+        return width / 2.0;
+      } // TODO: place to check for forward vs back pods working vs not working
+    }
+
+    String pivotpoint = ""; 
+    if (currentDriveMode == driveMode.PIVOTFRFL) {
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTFR"; }
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFL";}
+    }
+    if (currentDriveMode == driveMode.PIVOTFLBL) {
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFL"; }
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL";}
+    }
+    if (currentDriveMode == driveMode.PIVOTBLBR) {
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL"; 
+         }
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTBR"; this.spinCommand = -this.spinCommand;}
+    }
+    if (currentDriveMode == driveMode.PIVOTBRFR) {
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; }
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFR";}
+    }
+    if (currentDriveMode == driveMode.PIVOTBRBL) {
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; }
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTBL";}
+    }
+    if (currentDriveMode == driveMode.PIVOTFRBR) {
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFR"; this.spinCommand = -1 * this.spinCommand; }
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; this.spinCommand = -1 * this.spinCommand;}
+    }
+    if (currentDriveMode == driveMode.PIVOTFLFR) {
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTFL"; }
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFR";}
+    }
+    if (currentDriveMode == driveMode.PIVOTBLFL) {
+      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL"; }
+      if (spinCommandInit > 0) { pivotpoint = "PIVOTFL";}
+    }
+    switch(pivotpoint) {
+      case "PIVOTFR": if (component.equals("B") || component.equals("C")) { 
+                        return 0.0;
+                      } else if (component.equals("A")) {
+                        return length;
+                      } else if (component.equals("D")) {
+                        return width; 
+                      } 
+                      break;
+      case "PIVOTFL": if (component.equals("B") || component.equals("D")) {
+                        return 0.0;
+                      } else if (component.equals("A")) {
+                        return length;
+                      } else if (component.equals("C")) {
+                        return width;
+                      }
+                      break;
+      case "PIVOTBL": if (component.equals("A") || component.equals("D")) {
+                        return 0.0;
+                      } else if (component.equals("B")) {
+                        return length;
+                      } else if (component.equals("C")) {
+                        return width;
+                      }
+                      break;
+      case "PIVOTBR": if (component.equals("A") || component.equals("C")) {
+                        return 0.0;
+                      } else if (component.equals("B")) { 
+                        return length;
+                      } else if (component.equals("D")) {
+                        return width;
+                      }
+    }
+
+    /*
+    if (currentDriveMode == driveMode.PIVOTFR) {
+      if (component.equals("B") || component.equals("C")) {
+        return 0.0;
+      } else if (component.equals("A")) {
+        return length;
+      } else if (component.equals("D")) {
+        return width; 
+      } 
+    }
+
+    if (currentDriveMode == driveMode.PIVOTFL) {
+      if (component.equals("B") || component.equals("D")) {
+        return 0.0;
+      } else if (component.equals("A")) {
+        return length;
+      } else if (component.equals("C")) {
+        return width;
+      }
+    }
+
+    if (currentDriveMode == driveMode.PIVOTBL) {
+      if (component.equals("A") || component.equals("D")) {
+        return 0.0;
+      } else if (component.equals("B")) {
+        return length;
+      } else if (component.equals("C")) {
+        return width;
+      }
+    }
+
+    if (currentDriveMode == driveMode.PIVOTBR) {
+      if (component.equals("A") || component.equals("C")) {
+        return 0.0;
+      } else if (component.equals("B")) { 
+        return length;
+      } else if (component.equals("D")) {
+        return width;
+      }
+    }
+
+    */
+
+     return 0.0; // TODO: this method needs cleanup and logic-checking
   }
 
   public void setDriveMode(driveMode wantedDriveMode) {
