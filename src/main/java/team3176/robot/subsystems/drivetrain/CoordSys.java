@@ -5,9 +5,10 @@
 package team3176.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.util.sendable.Sendable;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
+//import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+//import edu.wpi.first.util.sendable.Sendable;
+//import team3176.robot.subsystems.drivetrain.Gyro3176;
+
 public class CoordSys extends SubsystemBase {
   private static CoordSys instance = new CoordSys(); 
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
@@ -18,7 +19,6 @@ public class CoordSys extends SubsystemBase {
     FIELD_CENTRIC, ROBOT_CENTRIC
   }
   private coordType currentCoordType;
-  private coordType lastCoordType;
   private double fieldCentricOffset = 0.0;
 
 
