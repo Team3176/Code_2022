@@ -31,6 +31,7 @@ import team3176.robot.util.God.PID3176;
 import team3176.robot.constants.DrivetrainConstants;
 // import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 
 import java.util.ArrayList;
 
@@ -162,8 +163,28 @@ public class Drivetrain extends SubsystemBase {
    * = Pi..-2PI // right? // Fixed by new rescaling at line 140?
    * pods.get(0).set(smallNum, angle); }
    */
-
-  /**
+  
+   /**
+    * public facing drive command that allows command to specify if the command is field centric or not
+    * @param forwardCommand feet per second
+    * @param strafeCommand feet per second
+    * @param spinCommand feet per second
+    * @param type  FIELD CENTRIC or ROBOT_CENTRIC
+    */
+  public void drive(double forwardCommand, double strafeCommand, double spinCommand, coordType type) {
+    this.forwardCommand = forwardCommand;
+    this.strafeCommand = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
+    this.spinCommand = spinCommand;
+    if(type == coordType.FIELD_CENTRIC) {
+      final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw())
+          + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw()));
+      this.strafeCommand = (-this.forwardCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw())
+          + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw()));
+      this.forwardCommand = temp;
+    }
+    drive(forwardCommand, strafeCommand, spinCommand);
+  }
+   /**
    * 
    * @param forwardCommand feet per second
    * @param strafeCommand  feet per second
@@ -174,82 +195,37 @@ public class Drivetrain extends SubsystemBase {
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
     this.spinCommand = spinCommand;
-    // System.out.println("Forward Command" + forwardCommand);
-
-    // this.forwardCommand = SmartDashboard.getNumber("forwardCommand", 0);
-    // this.strafeCommand = SmartDashboard.getNumber("strafeCommand", 0);
-    // this.spinCommand = SmartDashboard.getNumber("spinCommand", 0);
-
-    // SmartDashboard.putNumber("drive()InputForwardCommand", forwardCommand);
-    // SmartDashboard.putNumber("drive()InputStrafeCommand", strafeCommand);
-    // SmartDashboard.putNumber("drive()InputSpinCommand", spinCommand);
-
  
     if (!isTurboOn) {
       this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       //this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
-       //for (int idx = 0; idx < (pods.size()); idx++) {
-       //  pods.get(idx).unboostThrustAcceleration();
-       //}
-    }
-
-    if (isTurboOn) {
+    } else {
       this.spinCommand *= 2; 
-       //for (int idx = 0; idx < (pods.size()); idx++) {
-       //  pods.get(idx).boostThrustAcceleration();
-       //}
     }
 
+
+      
+    
+
+    //these should be mutually exclusive 
     if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
       this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
     }
 
-    if (m_Vision.getIsVisionSpinCorrectionOn()) {
+    else if (m_Vision.getIsVisionSpinCorrectionOn()) {
       this.spinCommand = m_Vision.getVisionSpinCorrection();
     }
     
-    if (m_Clarke.getIsClarkeSpinCorrectionOn()) {
+    else if (m_Clarke.getIsClarkeSpinCorrectionOn()) {
       this.spinCommand = m_Clarke.getClarkeSpinCorrection(); 
       SmartDashboard.putNumber("Drivetrain_ClarkeSpinCommand",this.spinCommand);
     }
 
-    if (m_CoordSys.isFieldCentric()) {
-
-      // System.out.println("Drivetrain ran under isFieldCentric ----------------------------------------------------------------------------------------------");
-
-      final double temp = (this.forwardCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw())
-          + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw()));
-      this.strafeCommand = (-this.forwardCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw())
-          + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw()));
-      // TEST BELOW TO SEE IF FIXES RC/FC ALIGNMENT
-      // final double temp = (this.forwardCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw())
-      // + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw()));
-      // this.strafeCommand = (-this.forwardCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw())
-      // + this.strafeCommand * Math.sin(m_Gyro3176.getCurrentChassisYaw()));
-      this.forwardCommand = temp;
-      SmartDashboard.putBoolean("isFieldCentricOn", true);
-    }
-    
-    if (m_CoordSys.isRobotCentric()) {
-      this.strafeCommand *= 1; // 0.75;
-      this.forwardCommand *= 1; // 0.75;
-      this.spinCommand *= 1; // 0.75;
-      SmartDashboard.putBoolean("isFieldCentricOn", false);
-    }
-
-    // SmartDashboard.putNumber("this.forwardCom_Drivetrain.drive",
-    // this.forwardCommand);
-    // SmartDashboard.putNumber("this.strafeCom_Drivetrain.drive",
-    // this.strafeCommand);
-    // TODO: Find out why this putNumber statement is making the spinLock work
-    // SmartDashboard.putNumber("this.spinCom_Drivetrain.drive", this.spinCommand);
+   
     calculateNSetPodPositions(this.forwardCommand, this.strafeCommand, this.spinCommand);
-    //for (int idx = 0; idx < (pods.size()); idx++) {
-    //  pods.get(idx).tune();
-    //}
-    //pods.get(1).tune();
+    
   }
 
   /**
@@ -293,10 +269,6 @@ public class Drivetrain extends SubsystemBase {
       // ###########################################################
 
      
-      // for (int idx = 0; idx < 4; idx++) {
-      //   SmartDashboard.putNumber("preScale P" + (idx + 1) + " podDrive",
-      //   podDrive[idx]);
-      // }
 
       // Find the highest pod speed then normalize if a pod is exceeding our max speed by scaling down all the speeds
 //      if (! (currentDriveMode == driveMode.PIVOTFR)) {  
@@ -314,14 +286,6 @@ public class Drivetrain extends SubsystemBase {
       }
     } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defensive position
       double smallNum = Math.pow(10, -5);
-      /*
-      // OLD DEFENSE
-      pods.get(0).set(smallNum, -1.0 * Math.PI / 4.0);
-      pods.get(1).set(smallNum, 1.0 * Math.PI / 4.0);
-      pods.get(2).set(smallNum, 3.0 * Math.PI / 4.0);
-      pods.get(3).set(smallNum, -3.0 * Math.PI / 4.0);
-      */
-      // NEW DEFENSE
       pods.get(0).set(smallNum, 1.0 * Math.PI / 4.0);
       pods.get(1).set(smallNum, -1.0 * Math.PI / 4.0);
       pods.get(2).set(smallNum, -3.0 * Math.PI / 4.0);
@@ -362,14 +326,6 @@ public class Drivetrain extends SubsystemBase {
   private double getRadius(String component) {
     // Omitted if driveStatements where we pivoted around a pod
     // This'll be orbit and dosado in the future
-    // if(currentDriveMode == driveMode.ORBIT) {
-    // if(component.equals("A") || component.equals("B")) { return length / 2.0; }
-    // else if(component.equals("C")) { return width; }
-    // else /* component D */ { return 2 * width; } // Puts radius to the right of
-    // bot at distance w
-    // } else {
-   
-    // }
 
     if (currentDriveMode == driveMode.DRIVE) {
       if (component.equals("A") || component.equals("B")) {
@@ -446,50 +402,6 @@ public class Drivetrain extends SubsystemBase {
                         return width;
                       }
     }
-
-    /*
-    if (currentDriveMode == driveMode.PIVOTFR) {
-      if (component.equals("B") || component.equals("C")) {
-        return 0.0;
-      } else if (component.equals("A")) {
-        return length;
-      } else if (component.equals("D")) {
-        return width; 
-      } 
-    }
-
-    if (currentDriveMode == driveMode.PIVOTFL) {
-      if (component.equals("B") || component.equals("D")) {
-        return 0.0;
-      } else if (component.equals("A")) {
-        return length;
-      } else if (component.equals("C")) {
-        return width;
-      }
-    }
-
-    if (currentDriveMode == driveMode.PIVOTBL) {
-      if (component.equals("A") || component.equals("D")) {
-        return 0.0;
-      } else if (component.equals("B")) {
-        return length;
-      } else if (component.equals("C")) {
-        return width;
-      }
-    }
-
-    if (currentDriveMode == driveMode.PIVOTBR) {
-      if (component.equals("A") || component.equals("C")) {
-        return 0.0;
-      } else if (component.equals("B")) { 
-        return length;
-      } else if (component.equals("D")) {
-        return width;
-      }
-    }
-
-    */
-
      return 0.0; // TODO: this method needs cleanup and logic-checking
   }
 
@@ -519,20 +431,6 @@ public class Drivetrain extends SubsystemBase {
     this.isTurboOn = onOrOff;
   }
 
-  /*
-   * public void drive(double drivePercent, double spinPercent) {
-   * SmartDashboard.putBoolean("Are we calling drive", true);
-   * pod1.velocityPIDDriveNSpin(drivePercent, spinPercent); //
-   * pod1.percentFFDriveNSpin(drivePercent, spinPercent); if(drivePercent > 1.4) {
-   * pod.velocityPIDDriveNSpin(5.0, 0.0); } else { pod.velocityPIDDriveNSpin(0.0,
-   * 0.0); } }
-   */
-
-  /*
-
-   * 
- 
-   */
 
    /** 
     * Calculates average angle value based on rolling window of last five angle measurements
