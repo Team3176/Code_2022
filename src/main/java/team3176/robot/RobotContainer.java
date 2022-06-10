@@ -138,8 +138,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
-    m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
+    m_Controller.getTransStick_Button1().whenHeld(new InstantCommand( () -> m_Drivetrain.setTurbo(true), m_Drivetrain));
+    m_Controller.getTransStick_Button1().whenReleased(new InstantCommand( () -> m_Drivetrain.setTurbo(false), m_Drivetrain));
     m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
     // m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
     m_Controller.getTransStick_Button4().whenHeld(new InstantCommand(m_CoordSys::setCoordTypeToRobotCentric,m_CoordSys));
