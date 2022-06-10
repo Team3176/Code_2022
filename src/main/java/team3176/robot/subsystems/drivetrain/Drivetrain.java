@@ -182,7 +182,16 @@ public class Drivetrain extends SubsystemBase {
           + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw()));
       this.forwardCommand = temp;
     }
-    drive(forwardCommand, strafeCommand, spinCommand);
+    p_drive(forwardCommand, strafeCommand, spinCommand);
+  }
+  /**
+   * default call will assume robot_centric
+   * @param forwardCommand
+   * @param strafeCommand
+   * @param spinCommand
+   */
+  public void drive(double forwardCommand, double strafeCommand, double spinCommand) {
+    drive(forwardCommand, strafeCommand, spinCommand, coordType.ROBOT_CENTRIC);
   }
    /**
    * 
@@ -190,7 +199,7 @@ public class Drivetrain extends SubsystemBase {
    * @param strafeCommand  feet per second
    * @param spinCommand    feet per second
    */
-  public void drive(double forwardCommand, double strafeCommand, double spinCommand) {
+  private void p_drive(double forwardCommand, double strafeCommand, double spinCommand) {
     this.spinCommandInit = -spinCommand;
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
@@ -205,19 +214,13 @@ public class Drivetrain extends SubsystemBase {
       this.spinCommand *= 2; 
     }
 
-
-      
-    
-
     //these should be mutually exclusive 
     if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
       this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
     }
-
     else if (m_Vision.getIsVisionSpinCorrectionOn()) {
       this.spinCommand = m_Vision.getVisionSpinCorrection();
     }
-    
     else if (m_Clarke.getIsClarkeSpinCorrectionOn()) {
       this.spinCommand = m_Clarke.getClarkeSpinCorrection(); 
       SmartDashboard.putNumber("Drivetrain_ClarkeSpinCommand",this.spinCommand);

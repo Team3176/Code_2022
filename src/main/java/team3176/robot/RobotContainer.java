@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.drivetrain.*;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 import team3176.robot.subsystems.Vision;
 
 import team3176.robot.commands.Climb.*;
@@ -140,8 +142,8 @@ public class RobotContainer {
     m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
     m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
     // m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
-    m_Controller.getTransStick_Button4().whenHeld(new CoordTypeToRobotCentric());
-    m_Controller.getTransStick_Button4().whenReleased(new CoordTypeToFieldCentric());
+    m_Controller.getTransStick_Button4().whenHeld(new InstantCommand(m_CoordSys::setCoordTypeToRobotCentric,m_CoordSys));
+    m_Controller.getTransStick_Button4().whenReleased(new InstantCommand(m_CoordSys::setCoordTypeToFieldCentric,m_CoordSys));
 
     m_Controller.getTransStick_HAT_0().whileHeld(new SwervePivotAtPodBi(
         () -> m_Controller.getForward(),

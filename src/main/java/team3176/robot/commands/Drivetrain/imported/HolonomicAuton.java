@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.subsystems.drivetrain.Odometry3176;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 
 public class HolonomicAuton extends CommandBase {
 
@@ -61,7 +62,7 @@ public class HolonomicAuton extends CommandBase {
     double strafeCommand = adjustedSpeeds.vyMetersPerSecond / DrivetrainConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND;
     double spinCommand = adjustedSpeeds.omegaRadiansPerSecond / DrivetrainConstants.MAX_ROT_SPEED_RADIANS_PER_SECOND;
 
-    drivetrain.drive(forwardCommand, strafeCommand, spinCommand);
+    drivetrain.drive(forwardCommand, strafeCommand, spinCommand, coordType.FIELD_CENTRIC);
   }
 
   @Override

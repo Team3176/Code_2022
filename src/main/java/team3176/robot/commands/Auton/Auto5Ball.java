@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Drivetrain.imported.*;
+import team3176.robot.commands.Drivetrain.imported.vision_control.AlignVizYawSpinCorrection;
 import team3176.robot.commands.Indexer.IndexerStop;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
