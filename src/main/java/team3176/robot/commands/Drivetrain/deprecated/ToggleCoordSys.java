@@ -1,4 +1,4 @@
-package team3176.robot.commands.Drivetrain.imported;
+package team3176.robot.commands.Drivetrain.deprecated;
 
 import java.util.function.DoubleSupplier;
 
@@ -8,20 +8,22 @@ import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
 
-public class SwerveSpinLockOn extends InstantCommand {
-  private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
-  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
+public class ToggleCoordSys extends InstantCommand {
+  private CoordSys m_CoordSys = CoordSys.getInstance();
 
 
-  public SwerveSpinLockOn() {
-    addRequirements(m_Gyro3176);
+  public ToggleCoordSys() {
+    addRequirements(m_CoordSys);
   }
 
   @Override
   public void initialize() {
-    m_Gyro3176.setSpinLockAngle();
-    m_Gyro3176.setSpinLockToOn();
+    if (m_CoordSys.isFieldCentric()) {
+      m_CoordSys.setCoordTypeToRobotCentric();
+    } else if (m_CoordSys.isRobotCentric()) {
+      m_CoordSys.setCoordTypeToFieldCentric();
+    }
   }
+
 }
