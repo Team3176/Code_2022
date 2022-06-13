@@ -6,7 +6,7 @@ package team3176.robot.commands.Test;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.FlywheelConstants;
-import team3176.robot.subsystems.Flywheel;
+import team3176.robot.subsystems.flywheel.Flywheel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FlywheelPctOutput extends CommandBase {

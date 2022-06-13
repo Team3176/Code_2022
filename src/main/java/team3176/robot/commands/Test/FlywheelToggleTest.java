@@ -5,7 +5,7 @@
 package team3176.robot.commands.Test;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Flywheel;
+import team3176.robot.subsystems.flywheel.Flywheel;
 
 public class FlywheelToggleTest extends CommandBase {
   private Flywheel m_Flywheel = Flywheel.getInstance();

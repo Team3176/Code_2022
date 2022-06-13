@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.Feeder;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.feeder.Feeder;
+import team3176.robot.subsystems.vision.Vision;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 
 

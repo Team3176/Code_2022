@@ -7,8 +7,8 @@ package team3176.robot.commands.Intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.IntakeConstants;
-import team3176.robot.subsystems.Indexer;
-import team3176.robot.subsystems.Intake;
+import team3176.robot.subsystems.indexer.Indexer;
+import team3176.robot.subsystems.intake.Intake;
 
 public class IntakingDirect2 extends CommandBase {
   private Intake m_Intake = Intake.getInstance();

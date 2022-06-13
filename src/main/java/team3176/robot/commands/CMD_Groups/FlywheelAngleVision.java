@@ -6,9 +6,9 @@ package team3176.robot.commands.CMD_Groups;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.ShooterLocationValues;
-import team3176.robot.subsystems.Angler;
-import team3176.robot.subsystems.Flywheel;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.angler.Angler;
+import team3176.robot.subsystems.flywheel.Flywheel;
+import team3176.robot.subsystems.vision.Vision;
 
 public class FlywheelAngleVision extends CommandBase {
   private Flywheel m_Flywheel = Flywheel.getInstance();

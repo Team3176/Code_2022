@@ -1,7 +1,7 @@
 package team3176.robot.commands.Vision;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.vision.Vision;
 
 public class SwitchVisionMode extends CommandBase {
     private final Vision m_Vision = Vision.getInstance();

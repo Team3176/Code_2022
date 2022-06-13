@@ -16,8 +16,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.drivetrain.*;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.Vision;
-
+import team3176.robot.subsystems.feeder.Feeder;
+import team3176.robot.subsystems.flywheel.Flywheel;
+import team3176.robot.subsystems.indexer.Indexer;
+import team3176.robot.subsystems.intake.Intake;
+import team3176.robot.subsystems.vision.Vision;
+import team3176.robot.subsystems.angler.Angler;
+import team3176.robot.subsystems.clarke.Clarke;
+import team3176.robot.subsystems.climb.Climb;
 import team3176.robot.commands.Climb.*;
 import team3176.robot.commands.Auton.*;
 import team3176.robot.commands.CMD_Groups.*;

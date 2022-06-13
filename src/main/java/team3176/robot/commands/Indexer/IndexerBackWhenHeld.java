@@ -5,7 +5,7 @@
 package team3176.robot.commands.Indexer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Indexer;
+import team3176.robot.subsystems.indexer.Indexer;
 
 public class IndexerBackWhenHeld extends CommandBase {
   private Indexer m_Indexer = Indexer.getInstance();

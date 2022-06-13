@@ -5,7 +5,7 @@
 package team3176.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Intake;
+import team3176.robot.subsystems.intake.Intake;
 
 /** An example command that uses an example subsystem. */
 public class IntakeExtendSpin extends CommandBase {
