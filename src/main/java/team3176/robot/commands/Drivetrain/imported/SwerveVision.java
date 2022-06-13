@@ -4,10 +4,10 @@ package team3176.robot.commands.Drivetrain.imported;
 import java.util.function.DoubleSupplier;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Vision;
 // import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
+import team3176.robot.subsystems.vision.Vision;
 
 /* 
 My hope for vision is that we'll be able to translate however we want but control of spin

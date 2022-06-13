@@ -6,7 +6,7 @@ package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.constants.AnglerConstants;
-import team3176.robot.subsystems.Angler;
+import team3176.robot.subsystems.angler.Angler;
 
 public class AnglerMin extends InstantCommand {
   private Angler m_Angler = Angler.getInstance();

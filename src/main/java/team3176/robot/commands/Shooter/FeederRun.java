@@ -6,7 +6,7 @@ package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.constants.FeederConstants;
-import team3176.robot.subsystems.Feeder;
+import team3176.robot.subsystems.feeder.Feeder;
 
 public class FeederRun extends InstantCommand {
   private Feeder m_Feeder = Feeder.getInstance();

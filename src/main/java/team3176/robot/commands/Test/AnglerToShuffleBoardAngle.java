@@ -6,7 +6,7 @@ package team3176.robot.commands.Test;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Angler;
+import team3176.robot.subsystems.angler.Angler;
 
 public class AnglerToShuffleBoardAngle extends CommandBase {
   /** Creates a new AnglerToShuffleBoardAngle. */

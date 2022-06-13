@@ -2,14 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems;
+package team3176.robot.subsystems.indexer;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.IndexerConstants;
-import team3176.robot.subsystems.IndexerIO.IndexerIOInputs;
 import team3176.robot.util.God.Units3176;
-import team3176.robot.subsystems.Intake;
+import team3176.robot.subsystems.indexer.IndexerIO.IndexerIOInputs;
+import team3176.robot.subsystems.intake.Intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;

@@ -6,7 +6,7 @@ package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.AnglerConstants;
-import team3176.robot.subsystems.Angler;
+import team3176.robot.subsystems.angler.Angler;
 
 /**
  * Moves the Angler until it reaches the lower limit switch. When it is reached, the Angler's encoder position is set to zero. Running this

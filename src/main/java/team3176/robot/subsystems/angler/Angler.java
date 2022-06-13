@@ -2,23 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems;
+package team3176.robot.subsystems.angler;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.AnglerConstants;
-import team3176.robot.subsystems.AnglerIO.AnglerIOInputs;
+import team3176.robot.subsystems.angler.AnglerIO.AnglerIOInputs;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -301,7 +295,7 @@ public class Angler extends SubsystemBase {
 
   public double getAnglerPosition()
   {
-    return inputs.position;
+    return inputs.positionRad;
   }
 
   public void setAnglerPosition(double position)
