@@ -63,7 +63,7 @@ public class Drivetrain extends SubsystemBase {
 
   private ArrayList<SwervePod2022> pods;
 
-  private driveMode currentDriveMode;
+  private driveMode currentDriveMode = driveMode.DRIVE;
 
   public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_ONE_CID),
       new TalonFX(DrivetrainConstants.THRUST_TWO_CID), new TalonFX(DrivetrainConstants.THRUST_THREE_CID),
