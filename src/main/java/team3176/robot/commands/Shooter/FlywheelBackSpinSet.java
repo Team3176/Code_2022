@@ -5,8 +5,8 @@
 package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.Flywheel;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.flywheel.Flywheel;
+import team3176.robot.subsystems.vision.Vision;
 
 public class FlywheelBackSpinSet extends InstantCommand {
   private Flywheel m_Flywheel = Flywheel.getInstance();

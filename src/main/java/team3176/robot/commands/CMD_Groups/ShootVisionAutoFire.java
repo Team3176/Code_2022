@@ -6,10 +6,10 @@ package team3176.robot.commands.CMD_Groups;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.constants.ShooterLocationValues;
-import team3176.robot.subsystems.Feeder;
-import team3176.robot.subsystems.Indexer;
-import team3176.robot.subsystems.Intake;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.feeder.Feeder;
+import team3176.robot.subsystems.indexer.Indexer;
+import team3176.robot.subsystems.intake.Intake;
+import team3176.robot.subsystems.vision.Vision;
 
 public class ShootVisionAutoFire extends CommandBase {
   private Intake m_Intake = Intake.getInstance();

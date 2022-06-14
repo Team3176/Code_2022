@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems;
+package team3176.robot.subsystems.feeder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.FeederConstants;
-import team3176.robot.subsystems.FeederIO.FeederIOInputs;
+import team3176.robot.subsystems.feeder.FeederIO.FeederIOInputs;
 import team3176.robot.util.God.Units3176;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

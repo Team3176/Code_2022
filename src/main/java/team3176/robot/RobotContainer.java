@@ -16,8 +16,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.drivetrain.*;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.Vision;
-
+import team3176.robot.subsystems.feeder.Feeder;
+import team3176.robot.subsystems.flywheel.Flywheel;
+import team3176.robot.subsystems.indexer.Indexer;
+import team3176.robot.subsystems.intake.Intake;
+import team3176.robot.subsystems.vision.Vision;
+import team3176.robot.subsystems.angler.Angler;
+import team3176.robot.subsystems.clarke.Clarke;
+import team3176.robot.subsystems.climb.Climb;
 import team3176.robot.commands.Climb.*;
 import team3176.robot.commands.Auton.*;
 import team3176.robot.commands.CMD_Groups.*;
@@ -47,6 +53,7 @@ public class RobotContainer {
   private SendableChooser<String> m_autonChooser;
   // private static final String m_B = "s_Block";
   private static final String m_M = "s_ExitTarmac";
+  private static final String M_EXITANDTUR_STRING = "s_ExitAndTurn";
   private static final String m_6L = "s_Move6inToTheLeft";
   private static final String m_6R = "s_Move6inToTheRight";
   private static final String m_6F = "s_Move6inToTheFront";
@@ -92,7 +99,7 @@ public class RobotContainer {
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
 
-    m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
+    //m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
 
     if (!MasterConstants.IS_TUNING_MODE) {
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
@@ -110,6 +117,7 @@ public class RobotContainer {
     m_autonChooser.setDefaultOption("Auto: ExitTarmac", m_M);
     // m_autonChooser.addOption("Auto: Block", m_B);
     m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
+    m_autonChooser.addOption("Auto: ExitAndTurn", M_EXITANDTUR_STRING);
     m_autonChooser.addOption("Auto: Move 6in Right", m_6R);
     m_autonChooser.addOption("Auto: Move 6in Forward", m_6F);
     m_autonChooser.addOption("Auto: Move 6in Backwards", m_6B);
@@ -249,6 +257,8 @@ public class RobotContainer {
     if (chosen.equals(m_M))
       return new AutonExitTarmac();
     // if(chosen.equals(m_B)) return new AutonBlock();
+    if (chosen.equals(M_EXITANDTUR_STRING))
+      return new  ExitAndTurn();
     if (chosen.equals(m_6L))
       return new TrapezoidDrive(0, -6);
     if (chosen.equals(m_6R))

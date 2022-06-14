@@ -37,13 +37,13 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.subsystems.Controller;
-import team3176.robot.subsystems.Vision;
-import team3176.robot.subsystems.Clarke;
+import team3176.robot.subsystems.clarke.Clarke;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
 import org.littletonrobotics.junction.Logger;
 import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
+import team3176.robot.subsystems.vision.Vision;
 
 
 

@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems;
+package team3176.robot.subsystems.flywheel;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.FlywheelConstants;
-import team3176.robot.subsystems.FlywheelIO.FlywheelIOInputs;
+import team3176.robot.subsystems.flywheel.FlywheelIO.FlywheelIOInputs;
 import team3176.robot.util.God.Units3176;
 
 import org.littletonrobotics.junction.Logger;

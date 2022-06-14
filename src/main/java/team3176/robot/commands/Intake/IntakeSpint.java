@@ -5,7 +5,7 @@
 package team3176.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Intake;
+import team3176.robot.subsystems.intake.Intake;
 
 public class IntakeSpint extends CommandBase { //TODO: RENAME SOMETIME
   private Intake m_Intake = Intake.getInstance();
