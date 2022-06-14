@@ -252,60 +252,60 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    String chosen = m_autonChooser.getSelected();
+    //String chosen = m_autonChooser.getSelected();
+    return new ExitAndTurn();
+    // if (chosen.equals(m_M))
+    //   return new AutonExitTarmac();
+    // // if(chosen.equals(m_B)) return new AutonBlock();
+    // if (chosen.equals(M_EXITANDTUR_STRING))
+    //   return new  ExitAndTurn();
+    // if (chosen.equals(m_6L))
+    //   return new TrapezoidDrive(0, -6);
+    // if (chosen.equals(m_6R))
+    //   return new TrapezoidDrive(0, 6);
+    // if (chosen.equals(m_6F))
+    //   return new TrapezoidDrive(6, 0);
+    // if (chosen.equals(m_6B))
+    //   return new TrapezoidDrive(-6, 0);
+    // if (chosen.equals(m_9F))
+    //   return new TrapezoidDrive(9, 0);
+    // if (chosen.equals(m_9B))
+    //   return new TrapezoidDrive(-9, 0);
+    // if (chosen.equals(m_TS))
+    //   return new AutoInTarmacShoot();
+    // if (chosen.equals(m_SI))
+    //   return new Auto2Balls();
+    // if (chosen.equals(m_2H))
+    //   return new Auto2BallsAtHanger();
+    // if (chosen.equals(m_2M))
+    //   return new Auto2BallsMiddle();
+    // if (chosen.equals(m_MS))
+    //   return new AutoMoveAndShoot();
+    // if (chosen.equals(m_3B))
+    //   return new Auto3Balls();
+    // if (chosen.equals(m_3BS))
+    //   return new Auto3BallSlow();
+    // if (chosen.equals(m_4B))
+    //   return new Auto4Ball();
+    // if (chosen.equals(m_4G))
+    //   return new Auto4BallGyro();
+    // if (chosen.equals(m_5B))
+    //   return new Auto5Ball();
+    // if (chosen.equals(m_3H))
+    //   return new Auton3BallAtHanger();
+    // if (chosen.equals(m_2C))
+    //   return new Auto2BallCitrus();
+    // if (chosen.equals(m_2EC))
+    //   return new Auto2BallExtraCitrus();
+    // if (chosen.equals(m_Int))
+    //   return new AutoInterfere();
+    // if (chosen.equals(m_Rot))
+    //   return new AutonRotate(0.15, 90);
+    // if (chosen.equals(m_TrapRot))
+    //   return new TrapezoidRotate(-1, 20);
+    // if (chosen.equals(m_TrapDriveRot))
+    //   return new TrapezoidDriveRotate(3, 0, 1, 5);
 
-    if (chosen.equals(m_M))
-      return new AutonExitTarmac();
-    // if(chosen.equals(m_B)) return new AutonBlock();
-    if (chosen.equals(M_EXITANDTUR_STRING))
-      return new  ExitAndTurn();
-    if (chosen.equals(m_6L))
-      return new TrapezoidDrive(0, -6);
-    if (chosen.equals(m_6R))
-      return new TrapezoidDrive(0, 6);
-    if (chosen.equals(m_6F))
-      return new TrapezoidDrive(6, 0);
-    if (chosen.equals(m_6B))
-      return new TrapezoidDrive(-6, 0);
-    if (chosen.equals(m_9F))
-      return new TrapezoidDrive(9, 0);
-    if (chosen.equals(m_9B))
-      return new TrapezoidDrive(-9, 0);
-    if (chosen.equals(m_TS))
-      return new AutoInTarmacShoot();
-    if (chosen.equals(m_SI))
-      return new Auto2Balls();
-    if (chosen.equals(m_2H))
-      return new Auto2BallsAtHanger();
-    if (chosen.equals(m_2M))
-      return new Auto2BallsMiddle();
-    if (chosen.equals(m_MS))
-      return new AutoMoveAndShoot();
-    if (chosen.equals(m_3B))
-      return new Auto3Balls();
-    if (chosen.equals(m_3BS))
-      return new Auto3BallSlow();
-    if (chosen.equals(m_4B))
-      return new Auto4Ball();
-    if (chosen.equals(m_4G))
-      return new Auto4BallGyro();
-    if (chosen.equals(m_5B))
-      return new Auto5Ball();
-    if (chosen.equals(m_3H))
-      return new Auton3BallAtHanger();
-    if (chosen.equals(m_2C))
-      return new Auto2BallCitrus();
-    if (chosen.equals(m_2EC))
-      return new Auto2BallExtraCitrus();
-    if (chosen.equals(m_Int))
-      return new AutoInterfere();
-    if (chosen.equals(m_Rot))
-      return new AutonRotate(0.15, 90);
-    if (chosen.equals(m_TrapRot))
-      return new TrapezoidRotate(-1, 20);
-    if (chosen.equals(m_TrapDriveRot))
-      return new TrapezoidDriveRotate(3, 0, 1, 5);
-
-    return new AutoInTarmacShoot();
+    // return new AutoInTarmacShoot();
   }
 }

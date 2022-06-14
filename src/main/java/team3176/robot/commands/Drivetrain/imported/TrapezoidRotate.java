@@ -65,6 +65,7 @@ public class TrapezoidRotate extends CommandBase {
   @Override
   public void initialize() {
     m_CoordSys.setCoordType(coordType.ROBOT_CENTRIC);
+    m_gyro.setSpinLockToOff();
     //m_gyro.setSpinLockAngle();
     //m_gyro.setSpinLock(true);
     timer = new Timer();
@@ -82,7 +83,7 @@ public class TrapezoidRotate extends CommandBase {
     double spinCommand = setPoint.velocity * rotation_distance;
     if (this.direction > 0) {spinCommand *= -1;}
     double smallnum = Math.pow(10,-9);
-    m_Drivetrain.drive(smallnum, smallnum, spinCommand);
+    m_Drivetrain.drive(0.0, 0.0, spinCommand);
     System.out.println("auto trapeziod constants " + timer.get() + " : " + spinCommand);
 
     // System.out.println("X: " + distanceX + ", Y: " + distanceY);
@@ -94,7 +95,7 @@ public class TrapezoidRotate extends CommandBase {
     double smallnum = Math.pow(10,-10);
     //m_Drivetrain.drive(smallnum, smallnum, smallnum);
     //m_Drivetrain.drive(0,0,0);
-    m_Drivetrain.stopMotors();
+    //m_Drivetrain.stopMotors();
     timer.stop();
     //System.out.println("######################################################################################################################     TrapRot.end()");
   }

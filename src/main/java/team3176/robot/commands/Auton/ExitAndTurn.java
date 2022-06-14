@@ -9,7 +9,8 @@ public class ExitAndTurn extends SequentialCommandGroup {
   public ExitAndTurn() {
     addCommands(
       new TrapezoidDrive(10, 0),
-      new SwerveTimedDrive(0.0, 0.0, .2).withTimeout(2),
+      new TrapezoidRotate(1, 70),
+      //new SwerveTimedDrive(0.0, 0.0, .2).withTimeout(2),
       new TrapezoidDrive(10, 0));
   }
 }

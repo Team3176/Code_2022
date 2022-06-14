@@ -357,6 +357,7 @@ public class SwervePod2022 {
  
         azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
         thrustController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
+        SwervePod2022SmartDashboardComments();
         }
     
 
@@ -590,8 +591,8 @@ public class SwervePod2022 {
 
 
         //set(double podThrust, double podAzimuth) comments start
-        // SmartDashboard.putNumber("P" + (id + 1) + " podThrust", this.podThrust);
-        // SmartDashboard.putNumber("P" + (id + 1) + " podAzimuth", this.podAzimuth);
+        SmartDashboard.putNumber("P" + (id + 1) + " podThrust", this.podThrust);
+        SmartDashboard.putNumber("P" + (id + 1) + " podAzimuth", this.podAzimuth);
 
         // SmartDashboard.putNumber("fps2ums:velTicsPer100ms", velTicsPer100ms);
         // SmartDashboard.putNumber("podThrust", this.podThrust);

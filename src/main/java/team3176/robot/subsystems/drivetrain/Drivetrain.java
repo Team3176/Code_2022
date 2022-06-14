@@ -63,7 +63,7 @@ public class Drivetrain extends SubsystemBase {
 
   private ArrayList<SwervePod2022> pods;
 
-  private driveMode currentDriveMode;
+  private driveMode currentDriveMode = driveMode.DRIVE;
 
   public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_ONE_CID),
       new TalonFX(DrivetrainConstants.THRUST_TWO_CID), new TalonFX(DrivetrainConstants.THRUST_THREE_CID),
@@ -379,7 +379,7 @@ public class Drivetrain extends SubsystemBase {
                         return length;
                       } else if (component.equals("D")) {
                         return width; 
-                      } 
+                      }
                       break;
       case "PIVOTFL": if (component.equals("B") || component.equals("D")) {
                         return 0.0;
@@ -484,6 +484,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putBoolean("Turbo", isTurboOn);
     // SmartDashboard.putBoolean("Defense", currentDriveMode == driveMode.DEFENSE);
     SmartDashboard.putBoolean("SpinLock", m_Gyro3176.getIsSpinLocked());
+    SmartDashboard.putString("Drivemode", "mode is" + this.currentDriveMode);
   }
 
   @Override
