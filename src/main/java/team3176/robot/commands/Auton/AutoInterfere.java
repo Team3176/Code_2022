@@ -14,7 +14,7 @@ import team3176.robot.commands.Shooter.*;
 public class AutoInterfere extends SequentialCommandGroup {
   public AutoInterfere() {
     addCommands(
-      new SwerveResetGyro(),
+      //new SwerveResetGyro(),
       new AnglerZeroAtMax(),
       new IntakeExtendSpin(),
       new TrapezoidDrive(5, 0),
