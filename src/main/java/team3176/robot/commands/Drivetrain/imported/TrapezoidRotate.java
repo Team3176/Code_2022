@@ -11,6 +11,8 @@ import team3176.robot.subsystems.drivetrain.Gyro3176;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 
+import java.sql.Time;
+
 import javax.sound.sampled.SourceDataLine;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -20,7 +22,7 @@ public class TrapezoidRotate extends CommandBase {
   private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
-  private Timer timer = new Timer();
+  private Timer timer;
   private TrapezoidProfile profile;
   private double theta;
   private double distanceX;
@@ -65,13 +67,15 @@ public class TrapezoidRotate extends CommandBase {
     m_CoordSys.setCoordType(coordType.ROBOT_CENTRIC);
     //m_gyro.setSpinLockAngle();
     //m_gyro.setSpinLock(true);
-    timer.reset();
+    timer = new Timer();
+    //timer.reset();
     timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //System.out.println("timer for auto: " + timer.get());
     TrapezoidProfile.State setPoint = profile.calculate(timer.get());
     /// double velocityX = setPoint.velocity * Math.cos(theta);
     //double velocityY = setPoint.velocity * Math.sin(theta);
