@@ -7,20 +7,10 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 //import team3176.robot.constants.MasterConstants;
 
-public class DrivetrainConstants {
+public class DrivetrainConstants extends DrivetrainHardwareMap {
     // IDs for Drivetrain motors and solenoids
 
-    //CAN IDs
-    public static final int THRUST_ONE_CID = 10;
-    public static final int THRUST_TWO_CID = 20;
-    public static final int THRUST_THREE_CID = 30;
-    public static final int THRUST_FOUR_CID = 40;
-
-    //CAN IDs
-    public static final int STEER_ONE_CID = 11;
-    public static final int STEER_TWO_CID = 21;
-    public static final int STEER_THREE_CID = 31;
-    public static final int STEER_FOUR_CID = 41;
+    
 
     public static final double POD0_LOCATION_X = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
     public static final double POD0_LOCATION_Y = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES

@@ -1,6 +1,6 @@
 package team3176.robot.constants;
 
-public final class SwervePodConstants2022 {
+public final class SwervePodConstants2022 extends DrivetrainHardwareMap {
 
     private static final double WHEEL_DIAMETER = DrivetrainConstants.WHEEL_DIAMETER;  // in inches
     //private static final double AZIMUTH_GEAR_RATIO = 70.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
@@ -9,7 +9,7 @@ public final class SwervePodConstants2022 {
     //private static final double THRUST_GEAR_RATIO = (54.0 / 14.0) * (48.0 / 30.0);  // 216/35?
     private static final double THRUST_GEAR_RATIO = (14.0/22.0) * (15.0/45.0);  
 
-    public static final int[] STEER_CANCODER_CID = {12, 22, 32, 42};
+    
     
 	/* Choose so that Talon does not report sensor out of phase */
 	public static boolean[] SENSOR_PHASE_ = {false, false, false, false};
@@ -105,12 +105,11 @@ public final class SwervePodConstants2022 {
     //public static final double[] AZIMUTH_OFFSET_2022 = {2703, 339, 2863, 2757}; // 2021 Bot //WTFOffsets
     public static final double[] AZIMUTH_OFFSET =AZIMUTH_OFFSET_2022;
 
-    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_SHOOTER_IS_BOT_FRONT = {120.234,110.742, -77.168,-133.682};
+    //public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_SHOOTER_IS_BOT_FRONT = {120.234,110.742, -77.168,-133.682};
     //public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {  -127.354,124.365,-32.695,-15.564}; 
     //public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = {  -95.537, -176.221, -39.551, -178.242 }; 
     //public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = { 82.178, -179.561, -42.627, 162.686 };
-    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT = { -73.213 , -179.561, 101.689, 162.686 }; 
-    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_POSITION = AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT;
+    public static final double[] AZIMUTH_ABS_ENCODER_OFFSET_POSITION = DrivetrainHardwareMap.AZIMUTH_ABS_ENCODER_OFFSET_IF_INTAKE_IS_BOT_FRONT;
     public static final double CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND = 14.00;  //estimated loaded speed per Nathan;
 
     public static final double METERS_TO_FEET_CONSTANT = 3.28084;

@@ -211,12 +211,12 @@ public class SwervePod2022 {
         //}
         //if (MasterConstants.IS_PRACTICE_BOT == false) {
             //if (this.id == 2 || this.id == 3) {
-            if (this.id == 1  ) {
+           // if (this.id == 1  ) {
                 this.thrustController.setInverted(false);
-            }
-            if ( this.id == 0 || this.id == 2 || this.id == 3) {
-                this.thrustController.setInverted(true);
-            }
+            // }
+            // if ( this.id == 0 || this.id == 2 || this.id == 3) {
+            //     this.thrustController.setInverted(true);
+            // }
         //} 
 
         // this.thrustController.setNeutralMode(NeutralMode.Brake);podName
