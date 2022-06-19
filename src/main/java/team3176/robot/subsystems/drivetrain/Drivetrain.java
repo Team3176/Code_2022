@@ -63,15 +63,15 @@ public class Drivetrain extends SubsystemBase {
 
   private ArrayList<SwervePod2022> pods;
 
-  private driveMode currentDriveMode;
+  private driveMode currentDriveMode = driveMode.DRIVE;
 
-  public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_ONE_CID),
-      new TalonFX(DrivetrainConstants.THRUST_TWO_CID), new TalonFX(DrivetrainConstants.THRUST_THREE_CID),
-      new TalonFX(DrivetrainConstants.THRUST_FOUR_CID) };
+  public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_FR_CID),
+      new TalonFX(DrivetrainConstants.THRUST_FL_CID), new TalonFX(DrivetrainConstants.THRUST_BL_CID),
+      new TalonFX(DrivetrainConstants.THRUST_BR_CID) };
 
-  public CANSparkMax[] azimuthControllers = { new CANSparkMax(DrivetrainConstants.STEER_ONE_CID, MotorType.kBrushless),
-      new CANSparkMax(DrivetrainConstants.STEER_TWO_CID, MotorType.kBrushless), new CANSparkMax(DrivetrainConstants.STEER_THREE_CID, MotorType.kBrushless),
-      new CANSparkMax(DrivetrainConstants.STEER_FOUR_CID, MotorType.kBrushless) };
+  public CANSparkMax[] azimuthControllers = { new CANSparkMax(DrivetrainConstants.STEER_FR_CID, MotorType.kBrushless),
+      new CANSparkMax(DrivetrainConstants.STEER_FL_CID, MotorType.kBrushless), new CANSparkMax(DrivetrainConstants.STEER_BL_CID, MotorType.kBrushless),
+      new CANSparkMax(DrivetrainConstants.STEER_BR_CID, MotorType.kBrushless) };
 
   private double length; // robot's wheelbase
   private double width; // robot's trackwidth
@@ -100,7 +100,6 @@ public class Drivetrain extends SubsystemBase {
   private SwervePod2022 podFL;
   private SwervePod2022 podBL;
   private SwervePod2022 podBR;
-
 
 
   private final DrivetrainIO io;
