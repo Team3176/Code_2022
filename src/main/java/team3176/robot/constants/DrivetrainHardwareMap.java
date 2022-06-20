@@ -34,9 +34,12 @@ public class DrivetrainHardwareMap {
     public static final int[] STEER_CANCODER_CID = 
     {FR.CANCODER_CID, FL.CANCODER_CID, BL.CANCODER_CID, BR.CANCODER_CID}; 
     
+
+    //The swerve pod offset is measured when the swerve pod is in the front right postion and the wheel gear is facing the right
+    // to counteract the offset caused by the mounting in different positions
     public static final double[] 
     AZIMUTH_ABS_ENCODER_OFFSET_POSITION = 
-    { FR.OFFSET, FL.OFFSET, BL.OFFSET, BR.OFFSET}; 
+    { FR.OFFSET, FL.OFFSET - 90.0, BL.OFFSET + 180, BR.OFFSET + 90.0}; 
 
      //CAN IDs static to the frame
      public static final int STEER_FR_CID = 11;
