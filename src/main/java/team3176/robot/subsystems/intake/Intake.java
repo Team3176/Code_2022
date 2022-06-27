@@ -21,7 +21,6 @@ import team3176.robot.subsystems.intake.IntakeIO.IntakeIOInputs;
 
 public class Intake extends SubsystemBase {
   private DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID1_FWD_CHAN, IntakeConstants.DSOLENOID1_REV_CHAN);
-//  private DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.DSOLENOID2_FWD_CHAN, IntakeConstants.DSOLENOID2_REV_CHAN);
   private TalonSRX intakeMotor = new TalonSRX(IntakeConstants.INTAKE_MOTOR_CAN_ID);
   private boolean pistonSetting = false;
   private boolean motorSetting = false;
@@ -49,7 +48,8 @@ public class Intake extends SubsystemBase {
   public void Extend() {
     isIntaking = true;
     pistonSetting = true;
-    piston1.set(Value.kForward);
+    // piston1.set(Value.kForward);
+    io.setPiston(true);
     // piston2.set(Value.kForward);
   }
 
@@ -60,12 +60,13 @@ public class Intake extends SubsystemBase {
   public void Retract() {
     isIntaking = false;
     pistonSetting = false;
-    piston1.set(Value.kReverse);
+    //piston1.set(Value.kReverse);
+    io.setPiston(false);
     // piston2.set(Value.kReverse);
   }
 
   public void spinVelocityPercent(double pct) {
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, pct);
+    // intakeMotor.set(TalonSRXControlMode.PercentOutput, pct);
     motorSetting = true;
     if(pct == 0) {motorSetting = false;}
   }
