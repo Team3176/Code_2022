@@ -187,12 +187,8 @@ public class Flywheel extends SubsystemBase {
     return inputs.velocity_2;
   }
 
-  public void setFlywheelVelocity1(double velocity) {
-    io.setFlywheelVelocity1(velocity);
-  }
-
-  public void setFlywheelVelocity2(double velocity) {
-    io.setFlywheelVelocity2(velocity);
+  public void setFlywheelVelocity(double velocity1, double velocity2) {
+    io.setFlywheelVelocity(velocity1, velocity2);
   }
 
   @Override

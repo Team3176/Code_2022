@@ -42,7 +42,5 @@ public interface FlywheelIO{
 
   /** Encoder Position of the Indexer */
 
-  public default void setFlywheelVelocity1(double velocity_1) {}
-
-  public default void setFlywheelVelocity2(double velocity_2) {}
+  public default void setFlywheelVelocity(double pctOne, double pctTwo) {}
 }

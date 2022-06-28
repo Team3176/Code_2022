@@ -26,17 +26,20 @@ public class IntakeIOTalonSRX implements IntakeIO
     }
 
     @Override
-    public default void setVoltage(double volts) {}
-
-    @Override
-    public default void setVelocity(double velocityRadPerSec) 
+    public void setVoltage(double volts) 
     {
-
+        intakeMotor.set(TalonSRXControlMode.PercentOutput, volts);
     }
 
     @Override
-    public default void setPiston(boolean isExtend) 
+    public void setVelocity(double velocityRadPerSec) 
     {
-        piston.(isExtend);
+        intakeMotor.set(TalonSRXControlMode.Velocity, velocityRadPerSec);
+    }
+
+    @Override
+    public void setPiston(boolean isExtend) 
+    {
+        piston.set(isExtend ? Value.kForward : Value.kReverse);
     }
 }   
