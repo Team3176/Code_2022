@@ -38,5 +38,7 @@ public interface FeederIO{
   public default void setVoltage(double volts) {}
 
   /** Velocity of the Feeder */
-  public default void setFeederVelocity(double velocity) {}
+  public default void setFeederVelocity(double pctAsDecimal) {}
+
+  public default void setFeederPCT(double pct) {}
 }

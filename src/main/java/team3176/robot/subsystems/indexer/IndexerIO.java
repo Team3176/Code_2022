@@ -44,7 +44,8 @@ public interface IndexerIO{
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
 
-  /** Encoder Position of the Indexer */
+  public default void setIndexerPCT(double pct) {}
 
+  /** Encoder Position of the Indexer */
   public default void setIndexerPosition(double position) {}
 }
