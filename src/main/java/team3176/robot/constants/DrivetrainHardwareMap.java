@@ -3,14 +3,22 @@ package team3176.robot.constants;
 public class DrivetrainHardwareMap {
     //statics constants for swerve pods 
     public static final SwervePodHardwareID pod001 = 
-    new SwervePodHardwareID( 10,  12,  -74.704);
+    new SwervePodHardwareID(  10,  12,  -74.704);
     public static final SwervePodHardwareID pod002 = 
-    new SwervePodHardwareID( 20,  22,  -12.480);
+    new SwervePodHardwareID(  20,  22,  -12.480);
     public static final SwervePodHardwareID pod003 = 
     new SwervePodHardwareID(  30,  32,  106.436);
     public static final SwervePodHardwareID pod004 = 
     new SwervePodHardwareID( 40,  42,  -178.945);
-    
+    public static final SwervePodHardwareID pod005 = 
+    new SwervePodHardwareID(  13,  14,  -74.704);
+    public static final SwervePodHardwareID pod006 = 
+    new SwervePodHardwareID(  23,  24,  -12.480);
+    public static final SwervePodHardwareID pod007 = 
+    new SwervePodHardwareID(  33,  34,  106.436);
+    public static final SwervePodHardwareID pod008 = 
+    new SwervePodHardwareID(  43,  54,  -178.945);
+
     
     public static final SwervePodHardwareID FR = pod001;
     public static final SwervePodHardwareID FL = pod002;
@@ -28,9 +36,11 @@ public class DrivetrainHardwareMap {
     //{12, 22, 32, 42};
     {(int) FR.CANCODER_CID, (int) FL.CANCODER_CID, (int) BL.CANCODER_CID, (int) BR.CANCODER_CID}; 
     
+
+    //The swerve pod offset is measured when the swerve pod is in the front right postion and the wheel gear is facing the right
+    // to counteract the offset caused by the mounting in different positions
     public static final double[] 
     AZIMUTH_ABS_ENCODER_OFFSET_POSITION = 
-    //{0, 0, 0, 0};
     { FR.OFFSET, FL.OFFSET, BL.OFFSET, BR.OFFSET}; 
 
      //CAN IDs static to the frame
@@ -45,7 +55,7 @@ class SwervePodHardwareID {
     public int THRUST_CID;
     public int CANCODER_CID;
     public double OFFSET;
-
+    SwervePodHardwareID(){}
     SwervePodHardwareID(int thrust_cid, int cancoder_cid, double offset) {
         this.THRUST_CID = thrust_cid;
         this.CANCODER_CID = cancoder_cid;
