@@ -181,7 +181,7 @@ public class Drivetrain extends SubsystemBase {
           + this.strafeCommand * Math.cos(m_Gyro3176.getCurrentChassisYaw()));
       this.forwardCommand = temp;
     }
-    p_drive(forwardCommand, strafeCommand, spinCommand);
+    p_drive(this.forwardCommand, this.strafeCommand, this.spinCommand);
   }
   /**
    * default call will assume robot_centric
@@ -190,7 +190,7 @@ public class Drivetrain extends SubsystemBase {
    * @param spinCommand
    */
   public void drive(double forwardCommand, double strafeCommand, double spinCommand) {
-    drive(forwardCommand, strafeCommand, spinCommand, coordType.ROBOT_CENTRIC);
+    drive(forwardCommand, strafeCommand, spinCommand, m_CoordSys.getCurrentCoordType());
   }
    /**
    * 
@@ -199,10 +199,10 @@ public class Drivetrain extends SubsystemBase {
    * @param spinCommand    feet per second
    */
   private void p_drive(double forwardCommand, double strafeCommand, double spinCommand) {
-    this.spinCommandInit = -spinCommand;
+    this.spinCommandInit = spinCommand;
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
-    this.spinCommand = spinCommand;
+    this.spinCommand = -spinCommand;
  
     if (!isTurboOn) {
       this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
