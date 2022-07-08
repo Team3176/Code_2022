@@ -202,7 +202,7 @@ public class Drivetrain extends SubsystemBase {
     this.spinCommandInit = spinCommand;
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
-    this.spinCommand = -spinCommand;
+    this.spinCommand = spinCommand;
  
     if (!isTurboOn) {
       this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;

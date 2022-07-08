@@ -197,11 +197,12 @@ public class RobotContainer {
      * ));
      */
     // m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
-    m_Controller.getRotStick_Button3().whenHeld(new ClarkeSpinCorrectionOn());
-    m_Controller.getRotStick_Button3().whenReleased(new ClarkeSpinCorrectionOff());
+    m_Controller.getRotStick_Button3().whileActiveOnce(new IntakingDirect2());
+    m_Controller.getRotStick_Button3().whenInactive(new DelayedIntakeStop());
     // m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
     // m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
+
     // m_Controller.getRotStick_Button5().whenPressed(new
     // SwervePodsAzimuthGoHome());
 
