@@ -47,5 +47,5 @@ public interface IndexerIO{
   public default void setIndexerPCT(double pct) {}
 
   /** Encoder Position of the Indexer */
-  public default void setIndexerPosition(double position) {}
+  public default void setIndexerState(int state) {}
 }

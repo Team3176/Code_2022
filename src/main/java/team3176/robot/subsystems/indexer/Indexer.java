@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.IndexerConstants;
 import team3176.robot.util.God.Units3176;
 import team3176.robot.subsystems.indexer.IndexerIO.IndexerIOInputs;
-import team3176.robot.subsystems.intake.Intake;
+// import team3176.robot.subsystems.intake.Intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -26,18 +26,19 @@ public class Indexer extends SubsystemBase {
   private boolean[] sensorBoolArray = new boolean[IndexerConstants.NUM_OF_SENSORS];
   private boolean isSmartDashboardTestControlsShown;
   private boolean firstPos, secondPos, thirdPos;
-  private boolean lastFirstPos, lastSecondPos, lastThirdPos;
-  private int lastState = 222;
-  private int currentState = 222;
-  private double startingEncoderTic;
-  private int ballCount;
+  // private boolean lastFirstPos, lastThirdPos;
+  private boolean lastSecondPos;
+  // private int lastState = 222;
+  // private int currentState = 222;
+  // private double startingEncoderTic;
+  // private int ballCount;
   private int mycounter = 0;
   private double smartDashboardLastPercent = 0.0;
   private int lastI2CUpdateLoops;
   private boolean twoMinuteLock;
   private DigitalInput secondLinebreak;
 
-  private Intake m_Intake;
+  // private Intake m_Intake;
 
   private final IndexerIO io;
   private final IndexerIOInputs inputs = new IndexerIOInputs();
@@ -49,10 +50,10 @@ public class Indexer extends SubsystemBase {
 
     lastI2CUpdateLoops = 0;
     twoMinuteLock = false;
-    this.currentState = reportState();
+    // this.currentState = reportState();
     indexerMotor = new TalonSRX(IndexerConstants.INDEXER_CAN_ID);
-    ballCount = 0;
-    m_Intake = Intake.getInstance();
+    // ballCount = 0;
+    // m_Intake = Intake.getInstance();
 
     m_I2C = new I2C(I2C.Port.kMXP, IndexerConstants.I2C_DEVICE_ADDRESS);
 
@@ -93,11 +94,13 @@ public class Indexer extends SubsystemBase {
   }
 
   public void Up() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, 0.5);
+    // indexerMotor.set(ControlMode.PercentOutput, 0.5);
+    io.setIndexerPCT(0.5);
   }
 
   public void Down() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, -0.5);
+    // indexerMotor.set(ControlMode.PercentOutput, -0.5);
+    io.setIndexerPCT(-0.5);
   }
 
   /**
@@ -143,9 +146,9 @@ public class Indexer extends SubsystemBase {
       mycounter++;
     }
 
-    this.lastFirstPos = this.firstPos;
+    // this.lastFirstPos = this.firstPos;
     this.lastSecondPos = this.secondPos;
-    this.lastThirdPos = this.thirdPos;
+    // this.lastThirdPos = this.thirdPos;
   }
 
   public void putSmartDashboardControlCommands() {

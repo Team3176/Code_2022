@@ -13,8 +13,6 @@ import team3176.robot.commands.Indexer.IndexerForward;
 import team3176.robot.commands.Indexer.IndexerStop;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
-import team3176.robot.commands.Vision.VisionSpinCorrectionOff;
-import team3176.robot.commands.Vision.VisionSpinCorrectionOn;
 
 public class Auto4BallGyro extends SequentialCommandGroup {
   public Auto4BallGyro() {

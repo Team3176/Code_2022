@@ -22,11 +22,7 @@ import team3176.robot.subsystems.flywheel.Flywheel;
 import team3176.robot.subsystems.indexer.Indexer;
 import team3176.robot.subsystems.intake.Intake;
 import team3176.robot.subsystems.vision.Vision;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to

@@ -6,43 +6,43 @@ package team3176.robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.*;
-import com.revrobotics.CANSparkMax.ControlType;
+// import com.revrobotics.*;
+// import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+// import edu.wpi.first.math.geometry.Pose2d;
+// import edu.wpi.first.math.geometry.Rotation2d;
+// import edu.wpi.first.math.kinematics.ChassisSpeeds;
 // import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+// import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+// import edu.wpi.first.math.kinematics.SwerveModuleState;
+// import edu.wpi.first.networktables.NetworkTableEntry;
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+// import edu.wpi.first.math.util.Units;
+// import edu.wpi.first.math.controller.PIDController;
+// import edu.wpi.first.wpilibj.PowerDistribution;
+// import edu.wpi.first.wpilibj.SPI;
+// import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import team3176.robot.util.God.PID3176;
+// import team3176.robot.util.God.PID3176;
 import team3176.robot.constants.DrivetrainConstants;
 // import team3176.robot.util.God.PID3176;
-import team3176.robot.subsystems.drivetrain.SwervePod2022;
+// import team3176.robot.subsystems.drivetrain.SwervePod2022;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import team3176.robot.subsystems.Controller;
+// import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import team3176.robot.subsystems.Controller;
 import team3176.robot.subsystems.clarke.Clarke;
-import team3176.robot.subsystems.drivetrain.CoordSys;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
+// import team3176.robot.subsystems.drivetrain.CoordSys;
+// import team3176.robot.subsystems.drivetrain.Gyro3176;
 
-import org.littletonrobotics.junction.Logger;
-import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
+// import org.littletonrobotics.junction.Logger;
+// import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
 import team3176.robot.subsystems.vision.Vision;
 
 
@@ -51,7 +51,7 @@ import team3176.robot.subsystems.vision.Vision;
 
 public class Drivetrain extends SubsystemBase {
   private static Drivetrain instance;
-  private CoordSys m_CoordSys = CoordSys.getInstance();
+  // private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
   private Vision m_Vision = Vision.getInstance();
   private Clarke m_Clarke = Clarke.getInstance();

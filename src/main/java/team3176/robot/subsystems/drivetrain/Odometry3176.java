@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import team3176.robot.subsystems.drivetrain.SwervePod2022;
+// import team3176.robot.subsystems.drivetrain.SwervePod2022;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.kinematics.*;
 import team3176.robot.constants.DrivetrainConstants; 
@@ -32,7 +32,7 @@ public class Odometry3176 extends SubsystemBase {
   private double strafeVelocity;
   private double spinVelocity;
   private SwerveDriveOdometry m_odometry; 
-  private Pose2d startingPos;
+  // private Pose2d startingPos;
   private Pose2d m_pose;
   
 

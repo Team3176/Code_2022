@@ -1,45 +1,45 @@
 package team3176.robot.subsystems.drivetrain;
 
 import java.util.Map;
-import java.util.function.DoubleSupplier;
+// import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+// import com.ctre.phoenix.motorcontrol.ControlMode;
+// import com.ctre.phoenix.motorcontrol.NeutralMode;
+// import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.*; 
+// import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+// import com.ctre.phoenix.motorcontrol.can.*; 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
+// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+// import com.revrobotics.SparkMaxPIDController;
+// import com.revrobotics.CANSparkMax.ControlType;
 
-import com.kauailabs.navx.frc.AHRS;
+// import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.MathUtil;
+// import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
+// import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.TimedRobot;
+// import edu.wpi.first.wpilibj.SPI;
+// import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import team3176.robot.RobotContainer;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+// import edu.wpi.first.math.util.Units;
+// import edu.wpi.first.wpilibj.interfaces.Gyro;
+// import team3176.robot.RobotContainer;
+// import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.constants.SwervePodConstants2022;
-import team3176.robot.constants.MasterConstants;
+// import team3176.robot.constants.MasterConstants;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -72,10 +72,10 @@ public class SwervePod2022 {
     private double kEncoderOffset; 
     //private double kAzimuthEncoderUnitsPerRevolution;
     private double kThrustEncoderUnitsPerRevolution;
-    private int off = 0;
+    // private int off = 0;
 
     private double lastEncoderPos;
-    private boolean useTheAbsEncoders;
+    // private boolean useTheAbsEncoders;
     private double radianError;
     private double radianPos;
     private double encoderError;
@@ -107,22 +107,22 @@ public class SwervePod2022 {
     private boolean isAutonSwerveControllerOptimizingAzimuthPos = false;
 
     private double PI = Math.PI;
-    private double maxFps = SwervePodConstants2022.CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND;
+    // private double maxFps = SwervePodConstants2022.CHASSIS_SPEED_MAX_EMPIRICAL_FEET_PER_SECOND;
 
-    private double startTics;
+    // private double startTics;
 
     private final PIDController m_ThrustPIDController, m_turningPIDController2;
     private final ProfiledPIDController m_turningProfiledPIDController;
     //private ProfiledPIDController m_turningPIDController;
-    private SwerveModuleState state;
-    private RelativeEncoder m_encoder;
+    // private SwerveModuleState state;
+    // private RelativeEncoder m_encoder;
 
     private ShuffleboardTab tab;
-    private NetworkTableEntry NT_encoderPos;
-    private NetworkTableEntry NT_podAzimuth_setpoint_angle;
-    private NetworkTableEntry NT_kP_Azimuth;
-    private NetworkTableEntry NT_kI_Azimuth;
-    private NetworkTableEntry NT_kD_Azimuth;
+    // private NetworkTableEntry NT_encoderPos;
+    // private NetworkTableEntry NT_podAzimuth_setpoint_angle;
+    // private NetworkTableEntry NT_kP_Azimuth;
+    // private NetworkTableEntry NT_kI_Azimuth;
+    // private NetworkTableEntry NT_kD_Azimuth;
 
 
     public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {

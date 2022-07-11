@@ -29,10 +29,4 @@ public class IndexerIOTalonSRX implements IndexerIO
         indexerMotor.set(ControlMode.PercentOutput, pct);
     }
 
-    @Override
-    public void setIndexerPosition(double position) 
-    {
-        
-    }
-
 }

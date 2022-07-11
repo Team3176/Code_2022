@@ -4,7 +4,6 @@
 
 package team3176.robot.commands.CMD_Groups;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;

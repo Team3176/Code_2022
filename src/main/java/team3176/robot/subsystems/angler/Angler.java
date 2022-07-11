@@ -34,7 +34,7 @@ public class Angler extends SubsystemBase {
 
   // Used to help us allow the angler to be touching a limit switch and move away from it. This value is only used for its sign.
   // This value is whatever value we have set the motor to, and we don't care what the ControlType is.
-  private double setValue;
+  // private double setValue;
 
   // used for Shuffleboard velocity + limit switch testing
   private double smartdashboardVelocity;

@@ -14,7 +14,6 @@ import team3176.robot.commands.Drivetrain.imported.TrapezoidRotate;
 import team3176.robot.commands.Intake.IntakeExtendSpin;
 import team3176.robot.commands.Intake.IntakeRetractStop;
 import team3176.robot.commands.Shooter.AnglerZeroAtMax;
-import team3176.robot.commands.Drivetrain.imported.AutonRotate;
 import team3176.robot.commands.Drivetrain.imported.SwerveResetGyro;
 
 

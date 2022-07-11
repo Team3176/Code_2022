@@ -1,8 +1,8 @@
 package team3176.robot.subsystems.flywheel;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+// import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+// import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import team3176.robot.constants.FlywheelConstants;
 import team3176.robot.util.God.Units3176;

@@ -4,21 +4,14 @@
 
 package team3176.robot.subsystems.climb;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
 import org.littletonrobotics.junction.Logger;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.ClimbConstants;
-import team3176.robot.constants.MasterConstants;
 import team3176.robot.subsystems.climb.ClimbIO.ClimbIOInputs;
 
 public class Climb extends SubsystemBase {
