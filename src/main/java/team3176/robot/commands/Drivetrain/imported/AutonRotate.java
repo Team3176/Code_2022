@@ -45,7 +45,7 @@ public class AutonRotate extends CommandBase {
   @Override
   public void execute() {
     drivetrain.drive(0,0,rotationSpeed);
-    currentAngle = m_gyro.getNavxAngle_inDegrees();
+    currentAngle = -m_gyro.getNavxAngle_inDegrees();
     SmartDashboard.putNumber("Rotate.initialAngle", initialAngle);
     SmartDashboard.putNumber("Rotate.currentAngle", currentAngle);
     // SmartDashboard.putNumber("goal", goal);

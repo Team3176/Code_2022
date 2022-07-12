@@ -3,13 +3,13 @@ package team3176.robot.constants;
 public class DrivetrainHardwareMap {
     //statics constants for swerve pods 
     public static final SwervePodHardwareID pod001 = 
-    new SwervePodHardwareID(  10,  12,  -74.704);
+    new SwervePodHardwareID(  10,  12,  105.296);
     public static final SwervePodHardwareID pod002 = 
-    new SwervePodHardwareID(  20,  22,  -12.480);
+    new SwervePodHardwareID(  20,  22,  167.520);
     public static final SwervePodHardwareID pod003 = 
-    new SwervePodHardwareID(  30,  32,  106.436);
+    new SwervePodHardwareID(  30,  32,  -73.564);
     public static final SwervePodHardwareID pod004 = 
-    new SwervePodHardwareID( 40,  42,  -178.945);
+    new SwervePodHardwareID( 40,  42,  1.055);
     public static final SwervePodHardwareID pod005 = 
     new SwervePodHardwareID(  13,  14,  -74.704);
     public static final SwervePodHardwareID pod006 = 

@@ -203,7 +203,7 @@ public class Drivetrain extends SubsystemBase {
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
     this.spinCommand = spinCommand;
- 
+    System.out.println("forward: "+ forwardCommand + "strafe: " + strafeCommand + "spin: " + spinCommand);
     if (!isTurboOn) {
       this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
@@ -248,24 +248,30 @@ public class Drivetrain extends SubsystemBase {
       // +Y := axis of chassis forward movement
       // +X := axis of chassis strafe to starboard/right
       // ###########################################################
-      double a = strafeCommand - spinCommand * getRadius("A");
-      double b = strafeCommand + spinCommand * getRadius("B");
+      // double a = strafeCommand - spinCommand * getRadius("A");
+      // double b = strafeCommand + spinCommand * getRadius("B");
       
-      double c = forwardCommand - spinCommand * getRadius("C");
-      double d = forwardCommand + spinCommand * getRadius("D");
+      // double c = forwardCommand - spinCommand * getRadius("C");
+      // double d = forwardCommand + spinCommand * getRadius("D");
+
+      double a = forwardCommand + spinCommand * length / 2.0;
+      double b = strafeCommand + spinCommand * width / 2.0;
+      
+      double c = forwardCommand - spinCommand * length / 2.0;
+      double d = strafeCommand - spinCommand * width / 2.0;
 
       // Calculate speed (podDrive[idx]) and angle (podSpin[idx]) of each pod
-      podDrive[0] = Math.sqrt(Math.pow(b, 2) + Math.pow(c, 2));
-      podSpin[0] = Math.atan2(b, c);
+      podDrive[0] = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+      podSpin[0] = Math.atan2(b, a);
+      //System.out.println("a: " + a + " b: "+ b+" spin: "+podSpin);
+      podDrive[1] = Math.sqrt(Math.pow(c, 2) + Math.pow(b, 2));
+      podSpin[1] = Math.atan2(b, c);
 
-      podDrive[1] = Math.sqrt(Math.pow(b, 2) + Math.pow(d, 2));
-      podSpin[1] = Math.atan2(b, d);
+      podDrive[2] = Math.sqrt(Math.pow(c, 2) + Math.pow(d, 2));
+      podSpin[2] = Math.atan2(d, c);
 
-      podDrive[2] = Math.sqrt(Math.pow(a, 2) + Math.pow(d, 2));
-      podSpin[2] = Math.atan2(a, d);
-
-      podDrive[3] = Math.sqrt(Math.pow(a, 2) + Math.pow(c, 2));
-      podSpin[3] = Math.atan2(a, c);
+      podDrive[3] = Math.sqrt(Math.pow(a, 2) + Math.pow(d, 2));
+      podSpin[3] = Math.atan2(d, a);
       // ###########################################################
       // /END Ether Eqns -- Ether's official derivation
       // ###########################################################
@@ -288,10 +294,14 @@ public class Drivetrain extends SubsystemBase {
       }
     } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defensive position
       double smallNum = Math.pow(10, -5);
-      pods.get(0).set(smallNum, 1.0 * Math.PI / 4.0);
-      pods.get(1).set(smallNum, -1.0 * Math.PI / 4.0);
-      pods.get(2).set(smallNum, -3.0 * Math.PI / 4.0);
-      pods.get(3).set(smallNum, 3.0 * Math.PI / 4.0);
+      // pods.get(0).set(smallNum, 1.0 * Math.PI / 4.0);
+      // pods.get(1).set(smallNum, -1.0 * Math.PI / 4.0);
+      // pods.get(2).set(smallNum, -3.0 * Math.PI / 4.0);
+      // pods.get(3).set(smallNum, 3.0 * Math.PI / 4.0);
+      pods.get(0).set(smallNum, 1.0 * Math.PI / 8.0);
+      pods.get(1).set(smallNum, -1.0 * Math.PI / 8.0);
+      pods.get(2).set(smallNum, -3.0 * Math.PI / 8.0);
+      pods.get(3).set(smallNum, 3.0 * Math.PI / 8.0);
     }
   }
 

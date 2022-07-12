@@ -130,6 +130,7 @@ public class SwervePod2022 {
         azimuthEncoder = new CANCoder(SwervePodConstants2022.STEER_CANCODER_CID[id]);
         azimuthEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         azimuthEncoder.configMagnetOffset(SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id]);
+        azimuthEncoder.configSensorDirection(true,100);
         updateAzimuthAbsEncoder();
         initializeSmartDashboard();
         
@@ -174,6 +175,7 @@ public class SwervePod2022 {
         m_turningPIDController2.setP(this.kP_Azimuth);
         m_turningPIDController2.setI(this.kI_Azimuth);
         m_turningPIDController2.setD(this.kD_Azimuth);
+        
 
         //this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth);
 
@@ -201,6 +203,7 @@ public class SwervePod2022 {
         this.thrustController.configFactoryDefault();
         //this.azimuthController.restoreFactoryDefaults();
         this.azimuthController.setOpenLoopRampRate(0.5);
+        this.azimuthController.setInverted(true);
         //this.azimuthController.setClosedLoopRampRate(0.5);
         //this.azimuthController.burnFlash();
 

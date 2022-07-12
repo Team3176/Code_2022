@@ -60,7 +60,7 @@ public class Gyro3176 extends SubsystemBase {
  
 
   public double getNavxAngle_inDegrees() {
-    return (gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
+    return (-gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
   }
   
   public double getNavxAngle_inRadians() {
@@ -73,7 +73,7 @@ public class Gyro3176 extends SubsystemBase {
   }
 
   public double getYaw() {
-    return gyro.getYaw();
+    return -gyro.getYaw();
   }
   
   private void updateNavxAngle() {
