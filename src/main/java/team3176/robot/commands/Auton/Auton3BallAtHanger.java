@@ -27,7 +27,7 @@ public class Auton3BallAtHanger extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
       new TrapezoidDrive(6, 0),
-      new TrapezoidRotate(-1,4),   
+      new TrapezoidRotate(1,4),   
       //new AutonRotate(-.15, 5),
       new IntakeRetractStop(),
       new AutoShoot50(),
@@ -37,13 +37,13 @@ public class Auton3BallAtHanger extends SequentialCommandGroup {
       /**3 Ball */
 
       new FlywheelAngleWall(),
-      new TrapezoidRotate(-1,20),
+      new TrapezoidRotate(1,20),
       //new AutonRotate(-.15, 80),
       new IntakeExtendSpin(),
       new TrapezoidDrive(26, 0),
       new IntakeRetractStop(),
      
-      new TrapezoidRotate(1,5),
+      new TrapezoidRotate(-1,5),
       //new AutonRotate(.15, 10),
       new WaitCommand(3),
       new AutoShoot50(),

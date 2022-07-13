@@ -261,9 +261,9 @@ public class RobotContainer {
     if (chosen.equals(M_EXITANDTUR_STRING))
       return new  ExitAndTurn();
     if (chosen.equals(m_6L))
-      return new TrapezoidDrive(0, -6);
-    if (chosen.equals(m_6R))
       return new TrapezoidDrive(0, 6);
+    if (chosen.equals(m_6R))
+      return new TrapezoidDrive(0, -6);
     if (chosen.equals(m_6F))
       return new TrapezoidDrive(6, 0);
     if (chosen.equals(m_6B))
@@ -301,7 +301,7 @@ public class RobotContainer {
     if (chosen.equals(m_Int))
       return new AutoInterfere();
     if (chosen.equals(m_Rot))
-      return new AutonRotate(0.15, 90);
+      return new AutonRotate(-0.15, 90);
     if (chosen.equals(m_TrapRot))
       return new TrapezoidRotate(-1, 20);
     if (chosen.equals(m_TrapDriveRot))

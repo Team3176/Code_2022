@@ -26,7 +26,7 @@ public class Auto5Ball extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
       new TrapezoidDrive(5, 0),
-      new TrapezoidRotate(1,5),
+      new TrapezoidRotate(-1,5),
       //new AutonRotate(.15, 7),
       new IntakeRetractStop(),
       new AutoShoot50(),
@@ -36,14 +36,14 @@ public class Auto5Ball extends SequentialCommandGroup {
           /* ROTATE AND MOVE TO 2nd BALL */
       
       new AutoBallThreeFlywheelAngle(),
-      new TrapezoidRotate(1,10),
+      new TrapezoidRotate(-1,10),
       //new AutonRotate(.15, 87),  //80
       new IntakeExtendSpin(),
       new TrapezoidDrive(11, 0),
       // new WaitCommand(1),
           /* AUTON 3BALL ZONE */
       new IntakeRetractStop(),
-      new TrapezoidRotate(-1,7),
+      new TrapezoidRotate(1,7),
       //new AutonRotate(-.15, 58),
       // new WaitCommand(2),
       new AutoShoot50(),
@@ -56,20 +56,20 @@ public class Auto5Ball extends SequentialCommandGroup {
       // new IntakeExtendSpin(),
       new IntakingAuton(),
       // new TrapezoidDrive(0, 4), //TODO: FIND DISTANCE
-      new TrapezoidRotate(1, 8),  //TODO: FIND ANGLE
+      new TrapezoidRotate(-1, 8),  //TODO: FIND ANGLE
       //new AutonRotate(.15, 28),  //TODO: FIND ANGLE
       new TrapezoidDrive(18, 0), //TODO: FIND DISTANCE
       new WaitCommand(1), //5 Ball Difference for loading in the gap between the Intake and Indexer.
-      new TrapezoidRotate(-1,9), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
+      new TrapezoidRotate(1,9), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
       //new AutonRotate(-.15, 40), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
       // new TrapezoidDrive(.4, 0),
       new WaitCommand(1),
       new IndexerStop(),
       new IntakeRetractStop(),
-      new TrapezoidRotate(1, 10),
+      new TrapezoidRotate(-1, 10),
       //new AutonRotate(.15, 40),
       new TrapezoidDrive(-9, 0),
-      new TrapezoidRotate(-1,8),
+      new TrapezoidRotate(1,8),
       //new AutonRotate(-.15, 30),
       new ParallelCommandGroup(
         new FlywheelAngleVisionAuton(),

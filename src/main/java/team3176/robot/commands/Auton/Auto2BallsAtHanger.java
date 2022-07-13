@@ -25,7 +25,7 @@ public class Auto2BallsAtHanger extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new IntakeExtendSpin(),
       new TrapezoidDrive(6, 0),  
-      new TrapezoidRotate(-1, 5), 
+      new TrapezoidRotate(1, 5), 
       //new AutonRotate(-.15, 5),
       new IntakeRetractStop(),
       new AutoShoot50(),
