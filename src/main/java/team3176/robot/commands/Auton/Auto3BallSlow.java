@@ -29,7 +29,7 @@ public class Auto3BallSlow extends SequentialCommandGroup {
           /* ROTATE AND MOVE TO 2nd BALL */
       
       new AutoBallThreeFlywheelAngle(),
-      new AutonRotate(.15, 87),
+      new AutonRotate(-.15, 87),
       new IntakeExtendSpin(),
       new TrapezoidDrive(12, 0),
 //      // new WaitCommand(1),
