@@ -16,7 +16,7 @@ public final class ShooterLocationValues {
     //{INTAKE, INDEXER, FEEDER, FLYWHEEL1, FLYWHEEL2, ANGLE}
         {0.5, 0.5, 0.5, 0.30, 0.30, 79.5},  /* Fender */
         {0.5, 0.5, 0.5, 0.31, 0.20, 60},    /* Edge of Tarmac */
-        {0.5, 0.5, 0.5, 0.40, 0.20, 60},    /* Launch Pad */
+        {0.5, 0.5, 0.5, 0.41, 0.20, 60},    /* Launch Pad */
         {0.5, 0.5, 0.5, 0.55, 0.25, 45},    /* Wall Zone */
         {0.5, 0.5, 0.5, 0.52, 0.23, 52}     /* Wall */
     };

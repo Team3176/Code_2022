@@ -99,7 +99,8 @@ public class RobotContainer {
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
 
-    //m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
+    m_Flywheel.setAutoSpinFlywheels(true);
+    m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
 
     if (!MasterConstants.IS_TUNING_MODE) {
       m_Drivetrain.setDefaultCommand(new SwerveDrive(
