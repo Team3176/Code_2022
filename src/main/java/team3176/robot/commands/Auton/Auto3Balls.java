@@ -31,7 +31,7 @@ public class Auto3Balls extends SequentialCommandGroup {
       new AutonStopBeltsParallel(),
 
           /* ROTATE AND MOVE TO 2nd BALL */
-      
+          
       new AutoBallThreeFlywheelAngle(),
 //      // new SwerveDefenseOff(),
       // new SequentialCommandGroup(new TrapezoidRotate(1,17.75)),
