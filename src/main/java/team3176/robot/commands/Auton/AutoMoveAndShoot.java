@@ -13,7 +13,7 @@ public class AutoMoveAndShoot extends SequentialCommandGroup {
   public AutoMoveAndShoot() {
     addCommands(
       new AutoBallOneFlywheelAngle(),
-      new WaitCommand(8),
+      new WaitCommand(10),
       new TrapezoidDrive(5, 0),
       new AutoShoot50(),
       new WaitCommand(3),
