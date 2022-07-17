@@ -222,6 +222,9 @@ public class RobotContainer {
                                                                    // SAME BUTTON
     m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
     m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
+    m_Controller.getOp_B_DS().whenActive(new AnglerZeroAtMax());
+    m_Controller.getOp_X_DS().whenActive(new ClimbPistonEngage());
+    m_Controller.getOp_Y_DS().whenActive(new AnglerZeroAtMax());
 
     m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
     m_Controller.getOp_DPAD_DOWN().whenActive(new VisionZoom2x());
