@@ -95,7 +95,7 @@ public class Drivetrain extends SubsystemBase {
   public enum driveMode {
     DEFENSE, DRIVE, VISION, ORBIT, PIVOTFRFL, PIVOTFLBL, PIVOTBLBR, PIVOTBRFR, PIVOTBRBL, PIVOTFRBR, PIVOTFLFR, PIVOTBLFL
   }
-
+  private SwerveModuleState[] pod_states = new SwerveModuleState[4];
   private SwervePod2022 podFR;
   private SwervePod2022 podFL;
   private SwervePod2022 podBL;
@@ -461,6 +461,11 @@ public class Drivetrain extends SubsystemBase {
     return pods.get(podID).getAzimuth();
   }
 
+  public SwerveModuleState getPodState(int podID) {
+    
+    return pods.get(podID).getState();
+  }
+
 /*
   public ChassisSpeeds getChassisSpeed() {
     return DrivetrainConstants.DRIVE_KINEMATICS.toChassisSpeeds(podFR.getState(), podFL.getState(), podBL.getState(), podBR.getState());
@@ -484,7 +489,7 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler every 500ms
-    
+     
     this.arraytrack++;
     if (this.arraytrack > 3) {
       this.arraytrack = 0;

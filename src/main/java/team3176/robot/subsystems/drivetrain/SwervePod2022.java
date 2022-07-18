@@ -72,10 +72,8 @@ public class SwervePod2022 {
     private double kEncoderOffset; 
     //private double kAzimuthEncoderUnitsPerRevolution;
     private double kThrustEncoderUnitsPerRevolution;
-    private int off = 0;
 
     private double lastEncoderPos;
-    private boolean useTheAbsEncoders;
     private double radianError;
     private double radianPos;
     private double encoderError;
@@ -326,7 +324,7 @@ public class SwervePod2022 {
 
 
 
-
+    
 
     /**
      * @param podDrive (thrust) represents desired thrust of swervepod Range = -1 to 1 or
@@ -518,7 +516,9 @@ public class SwervePod2022 {
     public double getAzimuth() {
         return azimuthEncoder.getPosition(); 
     }
-
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(getVelocity(),Rotation2d.fromDegrees(getAzimuth()));
+    }
     public void boostThrustAcceleration() {
         this.thrustController.configClosedloopRamp(0.25);   
     }

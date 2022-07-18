@@ -23,7 +23,7 @@ public class Gyro3176 extends SubsystemBase {
   private double gyroOffset_in_Degrees = 0;
   
   private double currentAngle;
-
+  private Rotation2d m_heading;
 
 
   private boolean isSpinLocked;
@@ -38,6 +38,7 @@ public class Gyro3176 extends SubsystemBase {
     gyro = new AHRS(SPI.Port.kMXP);
     gyro.reset();
     angleAvgRollingWindow = new MedianFilter(5);
+    m_heading = new Rotation2d();
     // gyro.setAngleAdjustment(90.0);
     // gyroUpdateOffset();
     updateNavxAngle();
@@ -80,6 +81,7 @@ public class Gyro3176 extends SubsystemBase {
     // -pi to pi; 0 = straight
     //this.currentAngle = (((Units.degreesToRadians(getNavxAngle_inDegrees()))) % (2 * Math.PI));
     this.currentAngle = ((getNavxAngle_inRadians()) % (2 * Math.PI));
+    this.m_heading = Rotation2d.fromDegrees(getNavxAngle_inDegrees());
     // gyro.getNavxAngle is returned in degrees.
     // Then converted to radians (ie *(Math.PI/180)).
     // And finally, it's modulus against 2pi is taken and returned as currentAngle.
@@ -106,11 +108,8 @@ public class Gyro3176 extends SubsystemBase {
     return this.currentAngle;
   }
 
-  public double getHeading() {
-    // SmartDashboard.putNumber("Drivetrain.getHeading_as_gyro.getRotation2d.getDegrees()", gyro.getRotation2d().getDegrees());
-    // SmartDashboard.putNumber("Drivetrain.getHeading_as_getNavxAngle_inDegrees()", getNavxAngle_inDegrees());
-    //return gyro.getRotation2d().getRadians() ; //+ Math.PI/2;
-    return getNavxAngle_inRadians() ; //+ Math.PI/2;
+  public Rotation2d getHeading() {
+    return m_heading;
   } 
   
   public void setSpinLockAngle() {
