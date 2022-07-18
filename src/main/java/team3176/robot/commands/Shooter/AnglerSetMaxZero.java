@@ -5,7 +5,7 @@
 package team3176.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.Angler;
+import team3176.robot.subsystems.angler.Angler;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

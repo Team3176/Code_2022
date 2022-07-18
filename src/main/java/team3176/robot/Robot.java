@@ -14,7 +14,15 @@ import org.littletonrobotics.junction.io.*;
 import team3176.robot.commands.Drivetrain.imported.SwerveDrive;
 import team3176.robot.constants.MasterConstants;
 import team3176.robot.subsystems.*;
+import team3176.robot.subsystems.angler.Angler;
+import team3176.robot.subsystems.clarke.Clarke;
+import team3176.robot.subsystems.climb.Climb;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.feeder.Feeder;
+import team3176.robot.subsystems.flywheel.Flywheel;
+import team3176.robot.subsystems.indexer.Indexer;
+import team3176.robot.subsystems.intake.Intake;
+import team3176.robot.subsystems.vision.Vision;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -32,7 +40,7 @@ public class Robot extends LoggedRobot {
 
   private RobotContainer m_robotContainer;
   private Intake m_Intake;
-  // private Climb m_Climb; //
+  private Climb m_Climb; //
   private Indexer m_Indexer;
   private Angler m_Angler;
   private Flywheel m_Flywheel;
@@ -78,7 +86,7 @@ public class Robot extends LoggedRobot {
     m_Controller = Controller.getInstance();
     m_Vision = Vision.getInstance();
     m_Clarke = Clarke.getInstance();
-    // m_Climb = Climb.getInstance(); //
+    m_Climb = Climb.getInstance(); //
 
     //m_pressureSensor = new AnalogPotentiometer(1/*, scale [ex: 250], offset[ex: -25]*/);
 
@@ -181,9 +189,9 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    // if (Timer.getMatchTime() < 0.5) {
-    //   m_Climb.climbPistonsRetract();
-    // }
+     if (Timer.getMatchTime() > 0 && Timer.getMatchTime() < 0.5) {
+       m_Climb.climbPistonsRetract();
+     }
   }
 
   @Override

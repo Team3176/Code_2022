@@ -19,7 +19,7 @@ public class AnglerZeroAtMax extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new AnglerMoveUpSlowly(),
-        new WaitCommand(0.25),
+        new WaitCommand(0.45),
         new AnglerSetMaxZero()
     );
   }

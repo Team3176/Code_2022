@@ -3,24 +3,14 @@ package team3176.robot.constants;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
+//import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.math.util.Units;
-import team3176.robot.constants.MasterConstants;
+//import team3176.robot.constants.MasterConstants;
 
-public class DrivetrainConstants {
+public class DrivetrainConstants extends DrivetrainHardwareMap {
     // IDs for Drivetrain motors and solenoids
 
-    //CAN IDs
-    public static final int THRUST_ONE_CID = 10;
-    public static final int THRUST_TWO_CID = 20;
-    public static final int THRUST_THREE_CID = 30;
-    public static final int THRUST_FOUR_CID = 40;
-
-    //CAN IDs
-    public static final int STEER_ONE_CID = 11;
-    public static final int STEER_TWO_CID = 21;
-    public static final int STEER_THREE_CID = 31;
-    public static final int STEER_FOUR_CID = 41;
+    
 
     public static final double POD0_LOCATION_X = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
     public static final double POD0_LOCATION_Y = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
@@ -33,13 +23,13 @@ public class DrivetrainConstants {
   
 
     // Drivetrain dimensions for kinematics and odometry
-    public static final double LENGTH_IN_METERS_2021 = 0.581; // measured in inches as 24.75
-    public static final double LENGTH_IN_INCHES_2021 = Units.metersToInches(LENGTH_IN_METERS_2021); //58.1 * (1.0/2.54); // 22.87 inches but measured in cm as 58.1cm
+    public static final double LENGTH_IN_METERS_2022 = 0.581; // measured in inches as 24.75
+    public static final double LENGTH_IN_INCHES_2022 = Units.metersToInches(LENGTH_IN_METERS_2022); //58.1 * (1.0/2.54); // 22.87 inches but measured in cm as 58.1cm
 
     public static final double WIDTH_IN_METERS_2022 = 0.61595; // measured in inches as 24.25in   24.75
     public static final double WIDTH_IN_INCHES_2022 = Units.metersToInches(WIDTH_IN_METERS_2022); //64.0 * (1.0/2.54); // 25.197 inches but measured in cm as 64.0cm
 
-    public static double LENGTH = LENGTH_IN_INCHES_2021;
+    public static double LENGTH = LENGTH_IN_INCHES_2022;
     public static double WIDTH = WIDTH_IN_INCHES_2022;
     public static double DRIVE_ENCODER_UNITS_PER_REVOLUTION;
 
@@ -100,8 +90,6 @@ public class DrivetrainConstants {
      */ 
 
      // Below line contains offset needed to rotate raw navx angle output such that +x=fore and +y=port
-    public static final double GYRO_ROTATIONAL_OFFSET_2019 = 0;/*Units.radiansToDegrees(Math.PI / 2); */  // Currently equivalent to +90 Degrees 
-    public static final double GYRO_ROTATIONAL_OFFSET_2021 =90; //-90;/*Units.radiansToDegrees(Math.PI / 2); */  // Currently equivalent to +90 Degrees 
     public static final double GYRO_ROTATIONAL_OFFSET_2022_practiceBot = 0; 
     public static final double GYRO_ROTATIONAL_OFFSET_2022_actualBot = 0; 
     public static final double GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING = (MasterConstants.IS_PRACTICE_BOT) ? GYRO_ROTATIONAL_OFFSET_2022_practiceBot : GYRO_ROTATIONAL_OFFSET_2022_actualBot; 

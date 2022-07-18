@@ -14,11 +14,11 @@ import team3176.robot.commands.Shooter.*;
 public class AutoInterfere extends SequentialCommandGroup {
   public AutoInterfere() {
     addCommands(
-      new SwerveResetGyro(),
+      //new SwerveResetGyro(),
       new AnglerZeroAtMax(),
       new IntakeExtendSpin(),
       new TrapezoidDrive(5, 0),
-      new TrapezoidRotate(1,22.5),
+      new TrapezoidRotate(-1,22.5),
       //new AutonRotate(.15, 100),
       new IntakeExtendReverse(),
       new WaitCommand(0.5),
@@ -27,12 +27,12 @@ public class AutoInterfere extends SequentialCommandGroup {
 
       //Score
       new AutoBallOneFlywheelAngle(),
-      new TrapezoidRotate(1,22.5),
+      new TrapezoidRotate(-1,22.5),
       //new AutonRotate(.15, 150),
       new IntakeExtendSpin(),
       new TrapezoidDrive(5, 0),
       new IntakeRetractStop(),
-      new TrapezoidRotate(1,20),
+      new TrapezoidRotate(-1,20),
       //new AutonRotate(.15, 90),
       new AutoShoot50(),
       new WaitCommand(1.2),

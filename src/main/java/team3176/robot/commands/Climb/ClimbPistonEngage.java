@@ -5,8 +5,8 @@
 package team3176.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.Angler;
-import team3176.robot.subsystems.Climb;
+import team3176.robot.subsystems.angler.Angler;
+import team3176.robot.subsystems.climb.Climb;
 
 /* Extend the Pistons */
 

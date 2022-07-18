@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Drivetrain.imported.*;
+import team3176.robot.commands.Drivetrain.imported.vision_control.AlignVizYawSpinCorrection;
 import team3176.robot.commands.Indexer.IndexerForward;
 import team3176.robot.commands.Indexer.IndexerStop;
 import team3176.robot.commands.Intake.*;
@@ -25,14 +26,14 @@ public class Auto4Ball extends SequentialCommandGroup {
       new IntakeExtendSpin(),
       new TrapezoidDrive(6, 0),
       new FlywheelAngleVisionAuton(),
-      new TrapezoidRotate(-1,7), //Was 5
+      new TrapezoidRotate(1,7), //Was 5
       //new AutonRotate(.15, 7),
       new WaitCommand(0.5),
       new IntakeRetractStop(),
       new AutoShoot50(), // shoot first 2 bals
       new WaitCommand(2),
       new AutonStopBeltsParallel(),
-      new TrapezoidRotate(1, 6.5), //TODO: FIX ROTATION! (Was 1, 7, and earlier was 4, 6)
+      new TrapezoidRotate(-1, 6.5), //TODO: FIX ROTATION! (Was 1, 7, and earlier was 4, 6)
  
       /** 4 Ball */
 
@@ -44,10 +45,10 @@ public class Auto4Ball extends SequentialCommandGroup {
       new IntakeRetractStop(),
       new IndexerStop(),
       new TrapezoidDrive(-17, 0),
-      new TrapezoidRotate(-1, 6),
+      new TrapezoidRotate(1, 6),
       new VisionSpinCorrectionOn(),
       new FlywheelAngleVisionAuton(),
-      new TrapezoidRotate(-1,2),
+      new TrapezoidRotate(1,2),
       new AlignVizYawSpinCorrection(),
       //new AutonRotate(.15, 50), //TODO: FIND ANGLE (a pure 50 deg whould prob overshoot)
       new AutoShoot50(),

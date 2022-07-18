@@ -4,10 +4,11 @@
 
 package team3176.robot.subsystems.drivetrain;
 
-import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.filter.MedianFilter;
+//import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
+//import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 import team3176.robot.constants.DrivetrainConstants;
@@ -22,21 +23,21 @@ public class Gyro3176 extends SubsystemBase {
   private double gyroOffset_in_Degrees = 0;
   
   private double currentAngle;
-  private double lastAngle;
 
 
-  private double lastGyroClock;
 
   private boolean isSpinLocked;
   private double spinLockAngle;
 
   private PID3176 spinLockPID;
+  private MedianFilter angleAvgRollingWindow;
   
   public Gyro3176() {
       
     // Instantiating the gyro
     gyro = new AHRS(SPI.Port.kMXP);
     gyro.reset();
+    angleAvgRollingWindow = new MedianFilter(5);
     // gyro.setAngleAdjustment(90.0);
     // gyroUpdateOffset();
     updateNavxAngle();
@@ -59,7 +60,7 @@ public class Gyro3176 extends SubsystemBase {
  
 
   public double getNavxAngle_inDegrees() {
-    return (gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
+    return (-gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
   }
   
   public double getNavxAngle_inRadians() {
@@ -72,7 +73,7 @@ public class Gyro3176 extends SubsystemBase {
   }
 
   public double getYaw() {
-    return gyro.getYaw();
+    return -gyro.getYaw();
   }
   
   private void updateNavxAngle() {
@@ -158,7 +159,9 @@ public class Gyro3176 extends SubsystemBase {
     // this is what the NavX senses as north, and the value reported is the angle the NavX reads as the north direction
     return gyro.getCompassHeading();
   }
-
+  public double getAngleAvgRollingWindow() {
+    return angleAvgRollingWindow.calculate(this.getCurrentChassisYaw());
+  }
   @Override
   public void periodic() {
     updateNavxAngle();

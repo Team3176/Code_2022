@@ -5,7 +5,7 @@
 package team3176.robot.commands.Vision;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.vision.Vision;
 
 public class VisionZoom3x extends InstantCommand {
   private Vision m_Vision = Vision.getInstance();

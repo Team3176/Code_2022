@@ -6,8 +6,8 @@ package team3176.robot.commands.Test;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.Intake;
 import team3176.robot.constants.IntakeConstants;
+import team3176.robot.subsystems.intake.Intake;
 
 public class IntakePctOutput extends CommandBase {
   /** Creates a new IntakePctOutput. */

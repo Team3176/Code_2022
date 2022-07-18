@@ -8,7 +8,7 @@ import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.subsystems.vision.Vision;
 
 public class VisionSpinCorrectionOff extends InstantCommand {
   private Vision m_Vision = Vision.getInstance();

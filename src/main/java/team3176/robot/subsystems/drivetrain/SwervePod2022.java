@@ -35,7 +35,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import team3176.robot.RobotContainer;
-import team3176.robot.commands.Drivetrain.imported.autoDis5Back;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 import team3176.robot.constants.DrivetrainConstants;
@@ -124,7 +123,6 @@ public class SwervePod2022 {
     private NetworkTableEntry NT_kP_Azimuth;
     private NetworkTableEntry NT_kI_Azimuth;
     private NetworkTableEntry NT_kD_Azimuth;
-    private boolean killswitch = false;
 
 
     public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {
@@ -132,6 +130,7 @@ public class SwervePod2022 {
         azimuthEncoder = new CANCoder(SwervePodConstants2022.STEER_CANCODER_CID[id]);
         azimuthEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         azimuthEncoder.configMagnetOffset(SwervePodConstants2022.AZIMUTH_ABS_ENCODER_OFFSET_POSITION[id]);
+        azimuthEncoder.configSensorDirection(true,100);
         updateAzimuthAbsEncoder();
         initializeSmartDashboard();
         
@@ -176,6 +175,7 @@ public class SwervePod2022 {
         m_turningPIDController2.setP(this.kP_Azimuth);
         m_turningPIDController2.setI(this.kI_Azimuth);
         m_turningPIDController2.setD(this.kD_Azimuth);
+        
 
         //this.azimuthController.setOpenLoopRampRate(this.kRampRate_Azimuth);
 
@@ -203,6 +203,7 @@ public class SwervePod2022 {
         this.thrustController.configFactoryDefault();
         //this.azimuthController.restoreFactoryDefaults();
         this.azimuthController.setOpenLoopRampRate(0.5);
+        this.azimuthController.setInverted(true);
         //this.azimuthController.setClosedLoopRampRate(0.5);
         //this.azimuthController.burnFlash();
 
@@ -213,12 +214,12 @@ public class SwervePod2022 {
         //}
         //if (MasterConstants.IS_PRACTICE_BOT == false) {
             //if (this.id == 2 || this.id == 3) {
-            if (this.id == 0 || this.id == 2 ) {
+           // if (this.id == 1  ) {
                 this.thrustController.setInverted(false);
-            }
-            if ( this.id == 3) {
-                this.thrustController.setInverted(true);
-            }
+            // }
+            // if ( this.id == 0 || this.id == 2 || this.id == 3) {
+            //     this.thrustController.setInverted(true);
+            // }
         //} 
 
         // this.thrustController.setNeutralMode(NeutralMode.Brake);podName
@@ -356,10 +357,9 @@ public class SwervePod2022 {
         SmartDashboard.putNumber("P"+(id) + ".optimizdAbsAzimuthPos",optmizdAzimuthAbsPos);
         SmartDashboard.putNumber("P"+(id) + ".turnOutput",turnOutput);
         */
-        //if ( !killswitch) {
+ 
         azimuthController.set(turnOutput * SwervePodConstants2022.AZIMUTH_SPARKMAX_MAX_OUTPUTPERCENT);
         thrustController.set(TalonFXControlMode.Velocity, velTicsPer100ms);
-        //}
         }
     
 
@@ -527,12 +527,6 @@ public class SwervePod2022 {
         this.thrustController.configClosedloopRamp(0.5);   
     }
 
-    public void setKillSwitchOn() {
-        this.killswitch = true;
-    }
-    public void setKillSwitchOff() {
-        this.killswitch = false;
-    }
 
     public void initializeSmartDashboard() {
 

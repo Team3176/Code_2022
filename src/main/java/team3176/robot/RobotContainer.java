@@ -12,10 +12,18 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.drivetrain.*;
-import team3176.robot.subsystems.Vision;
-
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.feeder.Feeder;
+import team3176.robot.subsystems.flywheel.Flywheel;
+import team3176.robot.subsystems.indexer.Indexer;
+import team3176.robot.subsystems.intake.Intake;
+import team3176.robot.subsystems.vision.Vision;
+import team3176.robot.subsystems.angler.Angler;
+import team3176.robot.subsystems.clarke.Clarke;
+import team3176.robot.subsystems.climb.Climb;
 import team3176.robot.commands.Climb.*;
 import team3176.robot.commands.Auton.*;
 import team3176.robot.commands.CMD_Groups.*;
@@ -45,6 +53,7 @@ public class RobotContainer {
   private SendableChooser<String> m_autonChooser;
   // private static final String m_B = "s_Block";
   private static final String m_M = "s_ExitTarmac";
+  private static final String M_EXITANDTUR_STRING = "s_ExitAndTurn";
   private static final String m_6L = "s_Move6inToTheLeft";
   private static final String m_6R = "s_Move6inToTheRight";
   private static final String m_6F = "s_Move6inToTheFront";
@@ -90,6 +99,7 @@ public class RobotContainer {
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
     m_Compressor.enableDigital();
 
+    m_Flywheel.setAutoSpinFlywheels(true);
     m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
 
     if (!MasterConstants.IS_TUNING_MODE) {
@@ -108,6 +118,7 @@ public class RobotContainer {
     m_autonChooser.setDefaultOption("Auto: ExitTarmac", m_M);
     // m_autonChooser.addOption("Auto: Block", m_B);
     m_autonChooser.addOption("Auto: Move 6in Left", m_6L);
+    m_autonChooser.addOption("Auto: ExitAndTurn", M_EXITANDTUR_STRING);
     m_autonChooser.addOption("Auto: Move 6in Right", m_6R);
     m_autonChooser.addOption("Auto: Move 6in Forward", m_6F);
     m_autonChooser.addOption("Auto: Move 6in Backwards", m_6B);
@@ -136,12 +147,12 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    m_Controller.getTransStick_Button1().whenHeld(new SwerveTurboOn());
-    m_Controller.getTransStick_Button1().whenReleased(new SwerveTurboOff());
+    m_Controller.getTransStick_Button1().whenHeld(new InstantCommand( () -> m_Drivetrain.setTurbo(true), m_Drivetrain));
+    m_Controller.getTransStick_Button1().whenReleased(new InstantCommand( () -> m_Drivetrain.setTurbo(false), m_Drivetrain));
     m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
     // m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
-    m_Controller.getTransStick_Button4().whenHeld(new CoordTypeToRobotCentric());
-    m_Controller.getTransStick_Button4().whenReleased(new CoordTypeToFieldCentric());
+    m_Controller.getTransStick_Button4().whenHeld(new InstantCommand(m_CoordSys::setCoordTypeToRobotCentric,m_CoordSys));
+    m_Controller.getTransStick_Button4().whenReleased(new InstantCommand(m_CoordSys::setCoordTypeToFieldCentric,m_CoordSys));
 
     m_Controller.getTransStick_HAT_0().whileHeld(new SwervePivotAtPodBi(
         () -> m_Controller.getForward(),
@@ -187,11 +198,12 @@ public class RobotContainer {
      * ));
      */
     // m_Controller.getRotStick_Button3().whenPressed(new ToggleSpinLock());
-    m_Controller.getRotStick_Button3().whenHeld(new ClarkeSpinCorrectionOn());
-    m_Controller.getRotStick_Button3().whenReleased(new ClarkeSpinCorrectionOff());
+    m_Controller.getRotStick_Button3().whileActiveOnce(new IntakingDirect2());
+    m_Controller.getRotStick_Button3().whenInactive(new DelayedIntakeStop());
     // m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
     // m_Controller.getRotStick_Button3().whenReleased(new SwerveSpinLockOff());
     m_Controller.getRotStick_Button4().whenPressed(new SwerveResetGyro());
+
     // m_Controller.getRotStick_Button5().whenPressed(new
     // SwervePodsAzimuthGoHome());
 
@@ -206,10 +218,14 @@ public class RobotContainer {
     m_Controller.getOp_Back_DS().whenActive(new ExtendIntake());
     m_Controller.getOp_Start_DS().whenActive(new RetractIntake());
 
-    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
-                                                                   // SAME BUTTON
-    m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
+    // m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
+    //                                                                // SAME BUTTON
+    // m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
     m_Controller.getOp_B_DS().whenActive(new ClimbPistonRetract());
+    m_Controller.getOp_B_DS().whenActive(new AnglerZeroAtMax());
+    // m_Controller.getOp_X_DS().whenActive(new ClimbPistonEngage());
+    m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage());
+    m_Controller.getOp_Y_DS().whenActive(new AnglerZeroAtMax());
 
     m_Controller.getOp_DPAD_UP().whenActive(new VisionDriverCam());
     m_Controller.getOp_DPAD_DOWN().whenActive(new VisionZoom2x());
@@ -247,10 +263,12 @@ public class RobotContainer {
     if (chosen.equals(m_M))
       return new AutonExitTarmac();
     // if(chosen.equals(m_B)) return new AutonBlock();
+    if (chosen.equals(M_EXITANDTUR_STRING))
+      return new  ExitAndTurn();
     if (chosen.equals(m_6L))
-      return new TrapezoidDrive(0, -6);
-    if (chosen.equals(m_6R))
       return new TrapezoidDrive(0, 6);
+    if (chosen.equals(m_6R))
+      return new TrapezoidDrive(0, -6);
     if (chosen.equals(m_6F))
       return new TrapezoidDrive(6, 0);
     if (chosen.equals(m_6B))
@@ -288,7 +306,7 @@ public class RobotContainer {
     if (chosen.equals(m_Int))
       return new AutoInterfere();
     if (chosen.equals(m_Rot))
-      return new AutonRotate(0.15, 90);
+      return new AutonRotate(-0.15, 90);
     if (chosen.equals(m_TrapRot))
       return new TrapezoidRotate(-1, 20);
     if (chosen.equals(m_TrapDriveRot))
@@ -296,4 +314,6 @@ public class RobotContainer {
 
     return new AutoInTarmacShoot();
   }
+
+  
 }

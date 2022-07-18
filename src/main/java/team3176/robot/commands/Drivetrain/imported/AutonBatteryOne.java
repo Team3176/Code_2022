@@ -7,7 +7,8 @@ package team3176.robot.commands.Drivetrain.imported;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import team3176.robot.subsystems.Vision;
+import team3176.robot.commands.Drivetrain.imported.vision_control.AlignVizDistBangBang;
+import team3176.robot.subsystems.vision.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

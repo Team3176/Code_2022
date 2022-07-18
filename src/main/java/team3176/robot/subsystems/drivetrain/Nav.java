@@ -5,12 +5,11 @@
 package team3176.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+//import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 
 public class Nav extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  private SwerveDriveOdometry odometry;
+  //private SwerveDriveOdometry odometry;
   private static Nav instance = new Nav();
   Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
   CoordSys m_CoordSys = CoordSys.getInstance();

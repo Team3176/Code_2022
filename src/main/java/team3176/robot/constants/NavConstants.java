@@ -6,6 +6,5 @@ package team3176.robot.constants;
 
 public final class NavConstants {
 
-    public static final double GYRO_COORDSYS_ROTATIONAL_OFFSET_2021 =90; //-90;/*Units.radiansToDegrees(Math.PI / 2); */  // Currently equivalent to +90 Degrees 
-    public static final double GYRO_COORDSYS_ROTATIONAL_OFFSET = GYRO_COORDSYS_ROTATIONAL_OFFSET_2021 ;
+    public static final double GYRO_COORDSYS_ROTATIONAL_OFFSET =  90;  //-90;/*Units.radiansToDegrees(Math.PI / 2); */  // Currently equivalent to +90 Degrees 
 }
