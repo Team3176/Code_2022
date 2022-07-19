@@ -275,7 +275,7 @@ public class Drivetrain extends SubsystemBase {
       // ###########################################################
       // /END Ether Eqns -- Ether's official derivation
       // ###########################################################
-
+pod_states[2].speedMetersPerSecond
      
 
       // Find the highest pod speed then normalize if a pod is exceeding our max speed by scaling down all the speeds
@@ -290,7 +290,8 @@ public class Drivetrain extends SubsystemBase {
 
       // Set calculated drive and spins to each pod
       for (int idx = 0; idx < (pods.size()); idx++) {
-        pods.get(idx).set(podDrive[idx], podSpin[idx]); 
+        //pods.get(idx).set(podDrive[idx], podSpin[idx]); 
+        pods.get(idx).set(pod_states[idx]);
       }
     } else if (currentDriveMode == driveMode.DEFENSE) { // Enter defensive position
       double smallNum = Math.pow(10, -5);
@@ -304,6 +305,8 @@ public class Drivetrain extends SubsystemBase {
       pods.get(3).set(smallNum, 3.0 * Math.PI / 8.0);
     }
   }
+  
+ 
 
   public void stopMotors() {
     //TODO: this seems to voilate a data flow overiding pods and could cause issues should be a state variable

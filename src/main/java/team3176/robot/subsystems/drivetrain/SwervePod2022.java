@@ -43,6 +43,8 @@ import team3176.robot.constants.MasterConstants;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
+
+import team3176.robot.util.instantPrintTest;
 import team3176.robot.util.God.*;
 
 
@@ -121,6 +123,8 @@ public class SwervePod2022 {
     private NetworkTableEntry NT_kP_Azimuth;
     private NetworkTableEntry NT_kI_Azimuth;
     private NetworkTableEntry NT_kD_Azimuth;
+
+    private SwerveModuleState pod_state;
 
 
     public SwervePod2022(int id, TalonFX thrustController, CANSparkMax azimuthController) {
@@ -322,7 +326,11 @@ public class SwervePod2022 {
 
     }
 
+    public void set(SwerveModuleState pod_state) {
+        this.pod_state = pod_state;
+        set(pod_state.speedMetersPerSecond, pod_state.angle.getRadians());
 
+    }
 
     
 
