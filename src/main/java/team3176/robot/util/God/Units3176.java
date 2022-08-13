@@ -52,7 +52,11 @@ public class Units3176{
     public static double feetPerSecond2metersPerSecond(double i) {
         return i / 3.2808; 
     }
-
+    
+    public static double metersPerSecond2feetPerSecond(double i) {
+        return i * 3.2808; 
+    }
+    
     public static double revolutionsPerMinute2ticsPer100MS(double maxRPM, double ticsPerRev) {
         return (maxRPM * ticsPerRev) / 600;
     }

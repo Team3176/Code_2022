@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import team3176.robot.util.God.PID3176;
+import team3176.robot.util.God.Units3176;
 import team3176.robot.constants.DrivetrainConstants;
 // import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
@@ -275,7 +276,7 @@ public class Drivetrain extends SubsystemBase {
       // ###########################################################
       // /END Ether Eqns -- Ether's official derivation
       // ###########################################################
-pod_states[2].speedMetersPerSecond
+//pod_states[2].speedMetersPerSecond
      
 
       // Find the highest pod speed then normalize if a pod is exceeding our max speed by scaling down all the speeds
@@ -287,6 +288,11 @@ pod_states[2].speedMetersPerSecond
         }
       }
  //     }
+
+      for (int idx = 0; idx < pods.size(); idx++) {
+        pod_states[idx].speedMetersPerSecond =  Units3176.feetPerSecond2metersPerSecond(podDrive[idx]);
+        pod_states[idx].angle.fromDegrees(Math.toDegrees(podSpin[idx]));
+      }
 
       // Set calculated drive and spins to each pod
       for (int idx = 0; idx < (pods.size()); idx++) {
