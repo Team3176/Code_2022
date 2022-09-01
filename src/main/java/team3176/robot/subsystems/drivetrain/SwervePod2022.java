@@ -326,6 +326,10 @@ public class SwervePod2022 {
 
     }
 
+    public void setDesiredState(SwerveModuleState desiredstate){
+        set(desiredstate);
+    }
+
     public void set(SwerveModuleState pod_state) {
         this.pod_state = pod_state;
         set(Units3176.metersPerSecond2feetPerSecond(pod_state.speedMetersPerSecond), pod_state.angle.getRadians());

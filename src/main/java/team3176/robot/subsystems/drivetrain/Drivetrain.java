@@ -120,8 +120,13 @@ public class Drivetrain extends SubsystemBase {
     pods.add(podFR);
     pods.add(podFL);
     pods.add(podBL);
-    pods.add(podBR);
+    pods.add(podBR);  
+    
+    Rotation2d emptyRotation2d = Rotation2d.fromDegrees(0.0);
 
+    for (int idx = 0; idx > 3 ; idx++) {
+      pod_states[idx] = SwerveModuleState(0.0, emptyRotation2d);
+    } 
 
     // Setting constants
     length = DrivetrainConstants.LENGTH;
@@ -289,13 +294,14 @@ public class Drivetrain extends SubsystemBase {
       }
  //     }
 
-      for (int idx = 0; idx < pods.size(); idx++) {
-        pod_states[idx].speedMetersPerSecond =  Units3176.feetPerSecond2metersPerSecond(podDrive[idx]);
+      for (int idx = 0; idx < (pods.size()-1); idx++) {
+        pod_states[idx].speedMetersPerSecond =  2;
+        //pod_states[idx].speedMetersPerSecond =  Units3176.feetPerSecond2metersPerSecond(podDrive[idx]);
         pod_states[idx].angle.fromDegrees(Math.toDegrees(podSpin[idx]));
       }
 
       // Set calculated drive and spins to each pod
-      for (int idx = 0; idx < (pods.size()); idx++) {
+      for (int idx = 0; idx < (pods.size()-1); idx++) {
         //pods.get(idx).set(podDrive[idx], podSpin[idx]); 
         pods.get(idx).set(pod_states[idx]);
       }
