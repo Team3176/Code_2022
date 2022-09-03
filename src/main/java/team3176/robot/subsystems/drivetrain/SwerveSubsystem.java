@@ -2,26 +2,27 @@ package team3176.robot.subsystems.drivetrain;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
+import team3176.robot.constants.DrivetrainConstants;
+import team3176.robot.subsystems.drivetrain.SwervePod2022;
 
 public class SwerveSubsystem extends SubsystemBase {
-    private final SwerveModule frontLeft;
+    private final SwervePod2022 frontLeft;
 
-    private final SwerveModule frontRight;
+    private final SwervePod2022 frontRight;
 
-    private final SwerveModule backLeft ;
+    private final SwervePod2022 backLeft ;
 
-    private final SwerveModule backRight;
+    private final SwervePod2022 backRight;
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DrivetrainConstants.kDriveKinematics,
             new Rotation2d(0));
 
     public SwerveSubsystem() {
@@ -70,7 +71,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, DrivetrainConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
