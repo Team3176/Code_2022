@@ -22,7 +22,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SwervePod2022 backRight;
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DrivetrainConstants.kDriveKinematics,
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DrivetrainConstants.DRIVE_KINEMATICS,
             new Rotation2d(0));
 
     public SwerveSubsystem() {
@@ -71,7 +71,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, DrivetrainConstants.kPhysicalMaxSpeedMetersPerSecond);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DrivetrainConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND);
         frontLeft.setDesiredState(desiredStates[0]);
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
