@@ -539,6 +539,9 @@ public class SwervePod2022 {
         this.thrustController.configClosedloopRamp(0.5);   
     }
 
+    public void stop(){
+        this.podThrust = 0;
+    }
 
     public void initializeSmartDashboard() {
 

@@ -38,13 +38,13 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.subsystems.Controller;
-import team3176.robot.subsystems.clarke.Clarke;
+//import team3176.robot.subsystems.clarke.Clarke;
 import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
 import org.littletonrobotics.junction.Logger;
 import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
-import team3176.robot.subsystems.vision.Vision;
+//import team3176.robot.subsystems.vision.Vision;
 
 
 
@@ -54,7 +54,7 @@ public class Drivetrain extends SubsystemBase {
   private static Drivetrain instance;
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
-  private Vision m_Vision = Vision.getInstance();
+  //private Vision m_Vision = Vision.getInstance();
   private Clarke m_Clarke = Clarke.getInstance();
 
   //private Controller controller = Controller.getInstance();
@@ -124,9 +124,9 @@ public class Drivetrain extends SubsystemBase {
     
     Rotation2d emptyRotation2d = Rotation2d.fromDegrees(0.0);
 
-    for (int idx = 0; idx > 3 ; idx++) {
+   /* for (int idx = 0; idx > 3 ; idx++) {
       pod_states[idx] = SwerveModuleState(0.0, emptyRotation2d);
-    } 
+    }*/
 
     // Setting constants
     length = DrivetrainConstants.LENGTH;
@@ -220,7 +220,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     //these should be mutually exclusive 
-    if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
+    /*if (m_Gyro3176.getIsSpinLocked() && !isOrbiting()) {
       this.spinCommand = m_Gyro3176.getSpinLockPIDCalc();
     }
     else if (m_Vision.getIsVisionSpinCorrectionOn()) {
@@ -229,7 +229,7 @@ public class Drivetrain extends SubsystemBase {
     else if (m_Clarke.getIsClarkeSpinCorrectionOn()) {
       this.spinCommand = m_Clarke.getClarkeSpinCorrection(); 
       SmartDashboard.putNumber("Drivetrain_ClarkeSpinCommand",this.spinCommand);
-    }
+    }*/
 
    
     calculateNSetPodPositions(this.forwardCommand, this.strafeCommand, this.spinCommand);
