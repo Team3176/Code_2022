@@ -9,9 +9,9 @@ import java.sql.Driver;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 import team3176.robot.subsystems.vision.Vision;
 
 
@@ -20,7 +20,7 @@ import team3176.robot.subsystems.vision.Vision;
  */
 public class RotateUntilTargetRecogd extends CommandBase {
 
-  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   //private Vision m_Vision = Vision.getInstance();
   private boolean tv;
@@ -40,14 +40,14 @@ public class RotateUntilTargetRecogd extends CommandBase {
   public void execute() {
     //this.tv =  m_Vision.getTv();
     //new AutonRotate(.1, tx);
-    m_Drivetrain.drive(0, 0, .5);
+    m_SwerveSubsystem.drive(0, 0, .5);
     // SmartDashboard.putBoolean("AutonAlign.tv", tv);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Drivetrain.drive(0,0,0);
+    m_SwerveSubsystem.drive(0,0,0);
       //m_Vision.turnLEDsOff();
   }
 

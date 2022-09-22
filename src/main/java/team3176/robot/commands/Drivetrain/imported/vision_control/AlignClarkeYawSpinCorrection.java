@@ -9,12 +9,12 @@ import java.sql.Driver;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 import team3176.robot.subsystems.feeder.Feeder;
 import team3176.robot.subsystems.vision.Vision;
 import team3176.robot.subsystems.clarke.Clarke;
-import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
 
 
 /**
@@ -25,7 +25,7 @@ import team3176.robot.subsystems.drivetrain.CoordSys;
  */
 public class AlignClarkeYawSpinCorrection extends SequentialCommandGroup {
 
-  private Drivetrain m_drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
   private Vision m_Vision = Vision.getInstance();
   private Clarke m_Clarke= Clarke.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
@@ -36,7 +36,7 @@ public class AlignClarkeYawSpinCorrection extends SequentialCommandGroup {
 
   /** Creates a new AutonAlign. */
   public AlignClarkeYawSpinCorrection() {
-    addRequirements(m_drivetrain);
+    addRequirements(m_SwerveSubsystem);
     addRequirements(m_Clarke);
     //addRequirements(m_Vision);
     //addRequirements(m_Transfer);
@@ -44,7 +44,7 @@ public class AlignClarkeYawSpinCorrection extends SequentialCommandGroup {
 
   @Override
   public void initialize() {
-    // m_drivetrain.setCoordType(coordType.ROBOT_CENTRIC);
+    // m_SwerveSubsystem.setCoordType(coordType.ROBOT_CENTRIC);
     m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
     //m_Vision.setPipeline(1);
     //m_Vision.turnLEDsOn();
@@ -52,7 +52,7 @@ public class AlignClarkeYawSpinCorrection extends SequentialCommandGroup {
     this.minCommand = 0.001;
     this.upperTxLimit = 3;
     this.lowerTxLimit = -3;
-    m_drivetrain.drive(0,0,0);
+    m_SwerveSubsystem.drive(0,0,0);
     m_Clarke.setClarkeSpinCorrectionOn();
   }
 
@@ -60,13 +60,13 @@ public class AlignClarkeYawSpinCorrection extends SequentialCommandGroup {
   @Override
   public void execute() {
     this.yawError = m_Clarke.getCenter();
-    m_drivetrain.drive(0,0,0);
+    m_SwerveSubsystem.drive(0,0,0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_drivetrain.stopMotors();
+      m_SwerveSubsystem.stopMotors();
       m_Clarke.setClarkeSpinCorrectionOff();
       //m_Vision.setPipeline(3);
   }

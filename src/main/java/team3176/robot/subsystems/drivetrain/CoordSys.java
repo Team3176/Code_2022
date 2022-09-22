@@ -2,12 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems.drivetrain;
+package team3176.robot.subsystems.SwerveSubsystem;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 //import edu.wpi.first.util.sendable.Sendable;
-//import team3176.robot.subsystems.drivetrain.Gyro3176;
+//import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
 
 public class CoordSys extends SubsystemBase {
   private static CoordSys instance = new CoordSys(); 
@@ -73,7 +73,7 @@ public class CoordSys extends SubsystemBase {
  
   public void setFieldCentricOffset() {
     fieldCentricOffset = m_Gyro.getNavxAngle_inRadians();
-    // SmartDashboard.putNumber("value in Drivetrain", getNavxAngle_inRadians());
+    // SmartDashboard.putNumber("value in SwerveSubsystem", getNavxAngle_inRadians());
   }  
 
   public double getFieldCentricOffset() { 

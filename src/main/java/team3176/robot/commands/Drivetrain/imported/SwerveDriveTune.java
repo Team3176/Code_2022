@@ -4,15 +4,15 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.DrivetrainConstants;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.constants.SwerveSubsystemConstants;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
+import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
 
 public class SwerveDriveTune extends CommandBase {
-  private Drivetrain drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
 
@@ -22,13 +22,13 @@ public class SwerveDriveTune extends CommandBase {
   public SwerveDriveTune() {
     //this.isFieldCentric = isFieldCentric;
     //this.isRobotCentric = isRobotCentric;
-    addRequirements(drivetrain);
+    addRequirements(SwerveSubsystem);
     addRequirements(m_CoordSys);
   }
 
   @Override
   public void initialize() {
-    drivetrain.setDriveMode(driveMode.DRIVE);
+    SwerveSubsystem.setDriveMode(driveMode.DRIVE);
     m_gyro.setSpinLockToOff();
   }
 
@@ -36,13 +36,13 @@ public class SwerveDriveTune extends CommandBase {
   public void execute() {
 
     if(m_CoordSys.getCurrentCoordType() == coordType.FIELD_CENTRIC) {
-      //drivetrain.setCoordType(coordType.FIELD_CENTRIC);
+      //SwerveSubsystem.setCoordType(coordType.FIELD_CENTRIC);
       m_CoordSys.setFieldCentricOffset();
     }
     //if(isRobotCentric.getAsBoolean()) {
-    //  drivetrain.setCoordType(coordType.ROBOT_CENTRIC);
+    //  SwerveSubsystem.setCoordType(coordType.ROBOT_CENTRIC);
     //}
-    drivetrain.drive(0,0,0);
+    SwerveSubsystem.drive(0,0,0);
   }
 
   @Override

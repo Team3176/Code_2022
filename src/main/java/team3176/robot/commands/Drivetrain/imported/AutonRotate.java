@@ -8,14 +8,14 @@ import java.sql.Driver;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 
 public class AutonRotate extends CommandBase {
 
-  private Drivetrain drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
   private double rotationSpeed;
@@ -26,7 +26,7 @@ public class AutonRotate extends CommandBase {
 
   /** To go in the negative direction put a negative rotational speed and positive degrees. */
   public AutonRotate(double rot, double degrees) {
-    addRequirements(drivetrain);
+    addRequirements(SwerveSubsystem);
     rotationSpeed = rot;
     this.degrees = degrees;
   }
@@ -34,7 +34,7 @@ public class AutonRotate extends CommandBase {
   @Override
   public void initialize() {
     m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
-    //initialAngle = -drivetrain.getNavxAngle_inDegrees();
+    //initialAngle = -SwerveSubsystem.getNavxAngle_inDegrees();
     initialAngle = m_gyro.getNavxAngle_inDegrees();
     //rotation = Math.copySign(rotation, degrees);
     
@@ -44,7 +44,7 @@ public class AutonRotate extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(0,0,rotationSpeed);
+    SwerveSubsystem.drive(0,0,rotationSpeed);
     currentAngle = -m_gyro.getNavxAngle_inDegrees();
     SmartDashboard.putNumber("Rotate.initialAngle", initialAngle);
     SmartDashboard.putNumber("Rotate.currentAngle", currentAngle);
@@ -66,13 +66,13 @@ public class AutonRotate extends CommandBase {
   public boolean isFinished() {
     if(rotationSpeed > 0){
       if(m_gyro.getNavxAngle_inDegrees() >= initialAngle + degrees ){
-        drivetrain.drive(0,0,0);
+        SwerveSubsystem.drive(0,0,0);
         return true;
       }
     }
     if(rotationSpeed < 0){
       if(m_gyro.getNavxAngle_inDegrees() <= initialAngle + -degrees ){
-        drivetrain.drive(0,0,0);
+        SwerveSubsystem.drive(0,0,0);
         return true;
       }
     }

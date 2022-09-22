@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 /** Template hardware interface for a closed loop subsystem. */
 public interface DrivetrainIO{
   /** Contains all of the input data received from hardware. */
-  public static class DrivetrainIOInputs implements LoggableInputs {
+  public static class SwerveSubsystemIOInputs implements LoggableInputs {
     public double position_1 = 0.0;
     public double position_2 = 0.0;
     public double position_3 = 0.0;
@@ -118,13 +118,13 @@ public interface DrivetrainIO{
   }
 
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(DrivetrainIOInputs inputs) {}
+  public default void updateInputs(SwerveSubsystemIOInputs inputs) {}
 
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
 
-  /** Encoder Position of the Drivetrain */
-  public default void setDrivetrainPosition(double position) {}
+  /** Encoder Position of the SwerveSubsystem */
+  public default void setSwerveSubsystemPosition(double position) {}
 
-  public default void setDrivetrainVelocity(double velocity) {}
+  public default void setSwerveSubsystemVelocity(double velocity) {}
 }

@@ -6,10 +6,10 @@ package team3176.robot.commands.Drivetrain.imported;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.drivetrain.CoordSys;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
 
 public class AutonDrive extends CommandBase {
   /** Creates a new AutonDrive. */
@@ -20,12 +20,12 @@ public class AutonDrive extends CommandBase {
   private double yVel;
   private double omega; //rotational velocity
   private double endTime;
-  private Drivetrain drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
 
   public AutonDrive(double x, double y, double rot, double time) {
-    addRequirements(drivetrain);
+    addRequirements(SwerveSubsystem);
     endTime = time;
     xVel = x;
     yVel = y;
@@ -47,7 +47,7 @@ public class AutonDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(xVel,yVel,omega);
+    SwerveSubsystem.drive(xVel,yVel,omega);
     
   }
 

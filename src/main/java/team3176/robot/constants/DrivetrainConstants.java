@@ -8,7 +8,7 @@ import edu.wpi.first.math.util.Units;
 //import team3176.robot.constants.MasterConstants;
 
 public class DrivetrainConstants extends DrivetrainHardwareMap {
-    // IDs for Drivetrain motors and solenoids
+    // IDs for SwerveSubsystem motors and solenoids
 
     
 
@@ -22,7 +22,7 @@ public class DrivetrainConstants extends DrivetrainHardwareMap {
     public static final double POD3_LOCATION_Y = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
   
 
-    // Drivetrain dimensions for kinematics and odometry
+    // SwerveSubsystem dimensions for kinematics and odometry
     public static final double LENGTH_IN_METERS_2022 = 0.581; // measured in inches as 24.75
     public static final double LENGTH_IN_INCHES_2022 = Units.metersToInches(LENGTH_IN_METERS_2022); //58.1 * (1.0/2.54); // 22.87 inches but measured in cm as 58.1cm
 

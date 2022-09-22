@@ -2,7 +2,7 @@
 Code for the 2022 Season of Rapid React
 
 This code includes:
-  Drivetrain:
+  SwerveSubsystem:
     Swerve with 4 Falcons to Drive and 4 <INSERT_MC> to Turn and Steer
 
   Intake:

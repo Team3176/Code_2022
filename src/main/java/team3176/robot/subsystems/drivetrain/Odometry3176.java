@@ -2,17 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems.drivetrain;
+package team3176.robot.subsystems.SwerveSubsystem;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import team3176.robot.subsystems.drivetrain.SwervePod2022;
+import team3176.robot.subsystems.SwerveSubsystem.SwervePod2022;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.*;
-import team3176.robot.constants.DrivetrainConstants; 
+import team3176.robot.constants.SwerveSubsystemConstants; 
 import edu.wpi.first.math.geometry.Translation2d;
 
 public class Odometry3176 extends SubsystemBase {
@@ -20,7 +20,7 @@ public class Odometry3176 extends SubsystemBase {
   private SwerveDriveOdometry m_odometry;
   private static Odometry3176 instance = new Odometry3176();
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
-  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
 
   private Translation2d m_podFRLocation; 
   private Translation2d m_podFLLocation; 
@@ -37,10 +37,10 @@ public class Odometry3176 extends SubsystemBase {
 
   public Odometry3176() {
     // Locations for the swerve drive modules relative to the robot center.
-    m_podFRLocation = new Translation2d(DrivetrainConstants.LENGTH / 2.0 , -DrivetrainConstants.WIDTH / 2.0);
-    m_podFLLocation = new Translation2d(DrivetrainConstants.LENGTH / 2.0, DrivetrainConstants.WIDTH / 2.0);
-    m_podBLLocation = new Translation2d(-DrivetrainConstants.LENGTH / 2.0, DrivetrainConstants.WIDTH / 2.0);
-    m_podBRLocation = new Translation2d(-DrivetrainConstants.LENGTH / 2.0, -DrivetrainConstants.WIDTH / 2.0);
+    m_podFRLocation = new Translation2d(SwerveSubsystemConstants.LENGTH / 2.0 , -SwerveSubsystemConstants.WIDTH / 2.0);
+    m_podFLLocation = new Translation2d(SwerveSubsystemConstants.LENGTH / 2.0, SwerveSubsystemConstants.WIDTH / 2.0);
+    m_podBLLocation = new Translation2d(-SwerveSubsystemConstants.LENGTH / 2.0, SwerveSubsystemConstants.WIDTH / 2.0);
+    m_podBRLocation = new Translation2d(-SwerveSubsystemConstants.LENGTH / 2.0, -SwerveSubsystemConstants.WIDTH / 2.0);
 
     // Creating my kinematics object using the module locations
     m_kinematics = new SwerveDriveKinematics(m_podFRLocation, m_podFLLocation, m_podBLLocation, m_podBRLocation);
@@ -70,7 +70,7 @@ public class Odometry3176 extends SubsystemBase {
     
     
     // Convert to chassis speeds
-    m_chassisSpeeds = m_kinematics.toChassisSpeeds(m_Drivetrain.getPodState(0), m_Drivetrain.getPodState(1),m_Drivetrain.getPodState(2), m_Drivetrain.getPodState(3));
+    m_chassisSpeeds = m_kinematics.toChassisSpeeds(m_SwerveSubsystem.getPodState(0), m_SwerveSubsystem.getPodState(1),m_SwerveSubsystem.getPodState(2), m_SwerveSubsystem.getPodState(3));
 
     // Get individual speeds
     forwardVelocity = m_chassisSpeeds.vxMetersPerSecond;
@@ -83,7 +83,7 @@ public class Odometry3176 extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  
-    m_pose = m_odometry.update(m_Gyro.getHeading(),m_Drivetrain.getPodState(0), m_Drivetrain.getPodState(1),m_Drivetrain.getPodState(2), m_Drivetrain.getPodState(3));
+    m_pose = m_odometry.update(m_Gyro.getHeading(),m_SwerveSubsystem.getPodState(0), m_SwerveSubsystem.getPodState(1),m_SwerveSubsystem.getPodState(2), m_SwerveSubsystem.getPodState(3));
     getCurrentPose(); 
   }
 

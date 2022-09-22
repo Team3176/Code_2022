@@ -9,11 +9,11 @@ import java.sql.Driver;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 import team3176.robot.subsystems.feeder.Feeder;
 import team3176.robot.subsystems.vision.Vision;
-import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
 
 
 /**
@@ -24,7 +24,7 @@ import team3176.robot.subsystems.drivetrain.CoordSys;
  */
 public class AlignVizYawPLoop extends SequentialCommandGroup {
 
-  private Drivetrain m_drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
   private Vision m_Vision = Vision.getInstance();
   //private Vision m_Vision = Vision.getInstance();
@@ -35,13 +35,13 @@ public class AlignVizYawPLoop extends SequentialCommandGroup {
 
   /** Creates a new AutonAlign. */
   public AlignVizYawPLoop() {
-    addRequirements(m_drivetrain);
+    addRequirements(m_SwerveSubsystem);
     //addRequirements(m_Transfer);
   }
 
   @Override
   public void initialize() {
-    // m_drivetrain.setCoordType(coordType.ROBOT_CENTRIC);
+    // m_SwerveSubsystem.setCoordType(coordType.ROBOT_CENTRIC);
     m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
     //m_Vision.setPipeline(1);
     //m_Vision.turnLEDsOn();
@@ -63,15 +63,15 @@ public class AlignVizYawPLoop extends SequentialCommandGroup {
     } else if ( tx < lowerTxLimit ) {
       steerCorrection = kP * yawError + minCommand;
     } 
-    //m_drivetrain.drive(0, 0, Math.copySign(.1, yawError));
-    m_drivetrain.drive(0, 0, -steerCorrection);
+    //m_SwerveSubsystem.drive(0, 0, Math.copySign(.1, yawError));
+    m_SwerveSubsystem.drive(0, 0, -steerCorrection);
     // SmartDashboard.putNumber("AlignViaYawPLoop.tx", tx);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_drivetrain.drive(0,0,0);
+      m_SwerveSubsystem.drive(0,0,0);
       //m_Vision.setPipeline(3);
   }
 

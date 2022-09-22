@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.commands.Drivetrain.deprecated;
+package team3176.robot.commands.SwerveSubsystem.deprecated;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import team3176.robot.Robot;
 import team3176.robot.RobotContainer;
-import team3176.robot.constants.DrivetrainConstants;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.Odometry3176;
+import team3176.robot.constants.SwerveSubsystemConstants;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.Odometry3176;
 
 public class FollowGivenPath extends CommandBase {
   
-  private Drivetrain drivetrain;
+  private SwerveSubsystem SwerveSubsystem;
   private Trajectory trajectory;
   private Robot robot;
   private RobotContainer container;
@@ -32,7 +32,7 @@ public class FollowGivenPath extends CommandBase {
   @Override
   public void initialize() {
 
-    drivetrain = Drivetrain.getInstance();
+    SwerveSubsystem = SwerveSubsystem.getInstance();
     odometry = Odometry3176.getInstance();
     
    
@@ -47,15 +47,15 @@ public class FollowGivenPath extends CommandBase {
     /* container.swerveControllerCommand =
     new SwerveControllerCommand(
         trajectory,
-        drivetrain::getCurrentPose, 
-        DrivetrainConstants.DRIVE_KINEMATICS,
+        SwerveSubsystem::getCurrentPose, 
+        SwerveSubsystemConstants.DRIVE_KINEMATICS,
 
         // Position controllers
-        new PIDController(DrivetrainConstants.P_X_Controller, 0, 0),
-        new PIDController(DrivetrainConstants.P_Y_Controller, 0, 0),
+        new PIDController(SwerveSubsystemConstants.P_X_Controller, 0, 0),
+        new PIDController(SwerveSubsystemConstants.P_Y_Controller, 0, 0),
         container.thetaController,
-        drivetrain::setModuleStates, //Not sure about setModuleStates
-        drivetrain);*/
+        SwerveSubsystem::setModuleStates, //Not sure about setModuleStates
+        SwerveSubsystem);*/
 
 // Reset odometry to the starting pose of the trajectory.
 odometry.resetOdometry(trajectory.getInitialPose());

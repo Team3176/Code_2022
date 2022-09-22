@@ -15,15 +15,15 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.DrivetrainConstants;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
-import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.constants.SwerveSubsystemConstants;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
+import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
 
 public class SwervePivotAtPodBi extends CommandBase {
-  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private DoubleSupplier forwardCommand, strafeCommand, spinCommand;
@@ -38,7 +38,7 @@ public class SwervePivotAtPodBi extends CommandBase {
     this.spinCommand = spinCommand;
     this.hatPov = hatPov;
     this.pov = this.hatPov;
-    addRequirements(m_Drivetrain, m_Gyro);
+    addRequirements(m_SwerveSubsystem, m_Gyro);
   }
 
   @Override
@@ -101,36 +101,36 @@ public class SwervePivotAtPodBi extends CommandBase {
 
     if (pov == 315 || pov == 0 || pov == 45) {
       if ((m_yaw >= -45 && m_yaw <=0) || (m_yaw >= 0 && m_yaw <= 44 )) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTBRBL);
+        m_SwerveSubsystem.setDriveMode(driveMode.PIVOTBRBL);
       }
       if (m_yaw >= 45 && m_yaw <= 134) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTFRBR);
+        m_SwerveSubsystem.setDriveMode(driveMode.PIVOTFRBR);
       } 
       if ((m_yaw >= 135 && m_yaw <=180) || (m_yaw >= -180 && m_yaw <= -136)) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTFLFR);
+        m_SwerveSubsystem.setDriveMode(driveMode.PIVOTFLFR);
       } 
       if (m_yaw <= -135 && m_yaw >=-46) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTBLFL);
+        m_SwerveSubsystem.setDriveMode(driveMode.PIVOTBLFL);
       } 
     }
       
     if (pov == 135 || pov == 180 || pov == 225) {
       if ((m_yaw >= -45 && m_yaw <=0) || (m_yaw >= 0 && m_yaw <= 44 )) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTFRFL);
+        m_SwerveSubsystem.setDriveMode(driveMode.PIVOTFRFL);
       }
       if (m_yaw >= 45 && m_yaw <= 134) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTFLBL);
+        m_SwerveSubsystem.setDriveMode(driveMode.PIVOTFLBL);
       } 
       if ((m_yaw >= 135 && m_yaw <=180) || (m_yaw >= -180 && m_yaw <= -136)) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTBLBR);
+        m_SwerveSubsystem.setDriveMode(driveMode.PIVOTBLBR);
       } 
       if (m_yaw <= -135 && m_yaw >=-46) {
-        m_Drivetrain.setDriveMode(driveMode.PIVOTBRFR);
+        m_SwerveSubsystem.setDriveMode(driveMode.PIVOTBRFR);
       } 
     }
       
 
-    m_Drivetrain.drive(forwardCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 25 /* inches */); //}
+    m_SwerveSubsystem.drive(forwardCommand.getAsDouble() * SwerveSubsystemConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * SwerveSubsystemConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 25 /* inches */); //}
   }
 
   @Override
@@ -140,6 +140,6 @@ public class SwervePivotAtPodBi extends CommandBase {
   public void end(boolean interrupted) {
     //if(wasFieldCentric) {
 
-    m_Drivetrain.setDriveMode(driveMode.DRIVE);
+    m_SwerveSubsystem.setDriveMode(driveMode.DRIVE);
   }
 }

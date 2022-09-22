@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import team3176.robot.subsystems.*;
-import team3176.robot.subsystems.drivetrain.*;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.*;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 import team3176.robot.subsystems.feeder.Feeder;
 import team3176.robot.subsystems.flywheel.Flywheel;
 import team3176.robot.subsystems.indexer.Indexer;
@@ -41,7 +41,7 @@ public class RobotContainer {
   private final Intake m_Intake;
   private final Controller m_Controller;
   private final Compressor m_Compressor;
-  private final Drivetrain m_Drivetrain;
+  private final SwerveSubsystem m_SwerveSubsystem;
   private final CoordSys m_CoordSys;
   private final Vision m_Vision;
   private final Angler m_Angler;
@@ -86,7 +86,7 @@ public class RobotContainer {
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
     m_Feeder = Feeder.getInstance();
-    m_Drivetrain = Drivetrain.getInstance();
+    m_SwerveSubsystem = SwerveSubsystem.getInstance();
     m_CoordSys = CoordSys.getInstance();
     m_Climb = Climb.getInstance();
     m_Clarke = Clarke.getInstance();
@@ -103,7 +103,7 @@ public class RobotContainer {
     m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
 
     if (!MasterConstants.IS_TUNING_MODE) {
-      m_Drivetrain.setDefaultCommand(new SwerveDrive(
+      m_SwerveSubsystem.setDefaultCommand(new SwerveDrive(
           () -> m_Controller.getForward(),
           () -> m_Controller.getStrafe(),
           () -> m_Controller.getSpin()// ,
@@ -111,7 +111,7 @@ public class RobotContainer {
       // () -> m_Controller.isRobotCentricButtonPressed()
       ));
     } else {
-      m_Drivetrain.setDefaultCommand(new SwerveDriveTune());
+      m_SwerveSubsystem.setDefaultCommand(new SwerveDriveTune());
     }
 
     m_autonChooser = new SendableChooser<>();
@@ -147,8 +147,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    m_Controller.getTransStick_Button1().whenHeld(new InstantCommand( () -> m_Drivetrain.setTurbo(true), m_Drivetrain));
-    m_Controller.getTransStick_Button1().whenReleased(new InstantCommand( () -> m_Drivetrain.setTurbo(false), m_Drivetrain));
+    m_Controller.getTransStick_Button1().whenHeld(new InstantCommand( () -> m_SwerveSubsystem.setTurbo(true), m_SwerveSubsystem));
+    m_Controller.getTransStick_Button1().whenReleased(new InstantCommand( () -> m_SwerveSubsystem.setTurbo(false), m_SwerveSubsystem));
     m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
     // m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
     m_Controller.getTransStick_Button4().whenHeld(new InstantCommand(m_CoordSys::setCoordTypeToRobotCentric,m_CoordSys));

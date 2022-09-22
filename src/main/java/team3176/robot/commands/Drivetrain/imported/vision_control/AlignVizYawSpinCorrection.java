@@ -9,11 +9,11 @@ import java.sql.Driver;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 import team3176.robot.subsystems.feeder.Feeder;
 import team3176.robot.subsystems.vision.Vision;
-import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
 
 
 /**
@@ -24,7 +24,7 @@ import team3176.robot.subsystems.drivetrain.CoordSys;
  */
 public class AlignVizYawSpinCorrection extends SequentialCommandGroup {
 
-  private Drivetrain m_drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
   private Vision m_Vision = Vision.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
   
@@ -34,14 +34,14 @@ public class AlignVizYawSpinCorrection extends SequentialCommandGroup {
 
   /** Creates a new AutonAlign. */
   public AlignVizYawSpinCorrection() {
-    addRequirements(m_drivetrain);
+    addRequirements(m_SwerveSubsystem);
     addRequirements(m_Vision);
     //addRequirements(m_Transfer);
   }
 
   @Override
   public void initialize() {
-    // m_drivetrain.setCoordType(coordType.ROBOT_CENTRIC);
+    // m_SwerveSubsystem.setCoordType(coordType.ROBOT_CENTRIC);
     m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
     //m_Vision.setPipeline(1);
     //m_Vision.turnLEDsOn();
@@ -49,7 +49,7 @@ public class AlignVizYawSpinCorrection extends SequentialCommandGroup {
     this.minCommand = 0.001;
     this.upperTxLimit = 3;
     this.lowerTxLimit = -3;
-    m_drivetrain.drive(0,0,0);
+    m_SwerveSubsystem.drive(0,0,0);
     m_Vision.setVisionSpinCorrectionOn();
   }
 
@@ -57,13 +57,13 @@ public class AlignVizYawSpinCorrection extends SequentialCommandGroup {
   @Override
   public void execute() {
     this.yawError = m_Vision.tx.getDouble(0);
-    m_drivetrain.drive(0,0,0);
+    m_SwerveSubsystem.drive(0,0,0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_drivetrain.stopMotors();
+      m_SwerveSubsystem.stopMotors();
       m_Vision.setVisionSpinCorrectionOff();
       //m_Vision.setPipeline(3);
   }

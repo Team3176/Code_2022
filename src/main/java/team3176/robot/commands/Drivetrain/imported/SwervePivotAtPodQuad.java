@@ -15,15 +15,15 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.DrivetrainConstants;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
-import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
-import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.constants.SwerveSubsystemConstants;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
+import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
 
 public class SwervePivotAtPodQuad extends CommandBase {
-  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private DoubleSupplier forwardCommand, strafeCommand, spinCommand;
@@ -37,7 +37,7 @@ public class SwervePivotAtPodQuad extends CommandBase {
     this.spinCommand = spinCommand;
     this.hatPov = hatPov;
     this.pov = this.hatPov;
-    addRequirements(m_Drivetrain, m_Gyro);
+    addRequirements(m_SwerveSubsystem, m_Gyro);
   }
 
   @Override
@@ -97,23 +97,23 @@ public class SwervePivotAtPodQuad extends CommandBase {
 
 /*
     if (pov == 45.0) {
-      m_Drivetrain.setDriveMode(driveMode.PIVOTBL);
+      m_SwerveSubsystem.setDriveMode(driveMode.PIVOTBL);
     }
 
     if (pov == 135.0) {
-      m_Drivetrain.setDriveMode(driveMode.PIVOTFL);
+      m_SwerveSubsystem.setDriveMode(driveMode.PIVOTFL);
     }
 
     if (pov == 225.0) {
-      m_Drivetrain.setDriveMode(driveMode.PIVOTFR);
+      m_SwerveSubsystem.setDriveMode(driveMode.PIVOTFR);
     }
 
     if (pov == 315.0 ) {
-      m_Drivetrain.setDriveMode(driveMode.PIVOTBR);
+      m_SwerveSubsystem.setDriveMode(driveMode.PIVOTBR);
     }
     */
 
-    m_Drivetrain.drive(forwardCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 25 /* inches */); //}
+    m_SwerveSubsystem.drive(forwardCommand.getAsDouble() * SwerveSubsystemConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * SwerveSubsystemConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 25 /* inches */); //}
   }
 
   @Override
@@ -123,6 +123,6 @@ public class SwervePivotAtPodQuad extends CommandBase {
   public void end(boolean interrupted) {
     //if(wasFieldCentric) {
 
-    m_Drivetrain.setDriveMode(driveMode.DRIVE);
+    m_SwerveSubsystem.setDriveMode(driveMode.DRIVE);
   }
 }

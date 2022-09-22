@@ -7,10 +7,10 @@ package team3176.robot.commands.Drivetrain.imported;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.pidwrappers.PIDEncoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
-import team3176.robot.subsystems.drivetrain.CoordSys;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 import edu.wpi.first.math.controller.PIDController;
 import team3176.robot.util.God.PID3176;
 
@@ -21,7 +21,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public class AutonRotatePidGyro extends CommandBase {
   /** Creates a new TrapezoidDrive. */
-  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private TrapezoidProfile profile;
@@ -38,7 +38,7 @@ public class AutonRotatePidGyro extends CommandBase {
    */
   public AutonRotatePidGyro(double requestedYawChange) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Drivetrain);
+    addRequirements(m_SwerveSubsystem);
     addRequirements(m_Gyro);
     this.requestedYawChange= requestedYawChange;
     rotationController = new PIDController(.15, 0, 0);
@@ -59,16 +59,16 @@ public class AutonRotatePidGyro extends CommandBase {
     double yawError = m_Gyro.getYaw() - this.yaw_TrueSetpoint; 
     double spinCommand = rotationController.calculate(yawError,this.yaw_TrueSetpoint);
     double smallnum = Math.pow(10,-9);
-    m_Drivetrain.drive(smallnum, smallnum, spinCommand);
+    m_SwerveSubsystem.drive(smallnum, smallnum, spinCommand);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     double smallnum = Math.pow(10,-10);
-    //m_Drivetrain.drive(smallnum, smallnum, smallnum);
-    //m_Drivetrain.drive(0,0,0);
-    m_Drivetrain.stopMotors();
+    //m_SwerveSubsystem.drive(smallnum, smallnum, smallnum);
+    //m_SwerveSubsystem.drive(0,0,0);
+    m_SwerveSubsystem.stopMotors();
     //System.out.println("######################################################################################################################     TrapRot.end()");
   }
 

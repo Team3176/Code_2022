@@ -6,7 +6,7 @@
       "/LiveWindow/Clarke": "Subsystem",
       "/LiveWindow/Climb": "Subsystem",
       "/LiveWindow/CoordSys": "Subsystem",
-      "/LiveWindow/Drivetrain": "Subsystem",
+      "/LiveWindow/SwerveSubsystem": "Subsystem",
       "/LiveWindow/Feeder": "Subsystem",
       "/LiveWindow/Flywheel": "Subsystem",
       "/LiveWindow/Gyro3176": "Subsystem",

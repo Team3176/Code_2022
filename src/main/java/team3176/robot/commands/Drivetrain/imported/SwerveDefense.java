@@ -3,24 +3,24 @@ package team3176.robot.commands.Drivetrain.imported;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
 
 public class SwerveDefense extends CommandBase {
-  private Drivetrain drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
 
   public SwerveDefense() {
-    addRequirements(drivetrain);
+    addRequirements(SwerveSubsystem);
   }
 
   @Override
   public void initialize() {
-    drivetrain.setDriveMode(driveMode.DEFENSE);
+    SwerveSubsystem.setDriveMode(driveMode.DEFENSE);
   }
 
   @Override
   public void execute() {
-    drivetrain.drive(0.0, 0.0, 0.0);
+    SwerveSubsystem.drive(0.0, 0.0, 0.0);
   }
 
   @Override
@@ -28,6 +28,6 @@ public class SwerveDefense extends CommandBase {
 
   @Override
   public void end(boolean interrupted) { 
-    drivetrain.setDriveMode(driveMode.DRIVE);
+    SwerveSubsystem.setDriveMode(driveMode.DRIVE);
    }
 }

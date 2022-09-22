@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems.drivetrain;
+package team3176.robot.subsystems.SwerveSubsystem;
 
 import edu.wpi.first.math.filter.MedianFilter;
 //import edu.wpi.first.math.geometry.Pose2d;
@@ -42,12 +42,12 @@ public class Gyro3176 extends SubsystemBase {
     // gyro.setAngleAdjustment(90.0);
     // gyroUpdateOffset();
     updateNavxAngle();
-    // odometry = new SwerveDriveOdometry(DrivetrainConstants.DRIVE_KINEMATICS,
+    // odometry = new SwerveDriveOdometry(SwerveSubsystemConstants.DRIVE_KINEMATICS,
     // gyro.getRotation2d()); // <<-- getRotation2d is continuous. ie 360+1=361 not
     // 0 or -361. gyro.getRotation2d() uses NWU Axis Convention
 
     //Is continuous. ie 360+1=361 not m0 or -361. getNavxAngle_asRotation2d() should be same Axis Convention as Teleop, I believe.
-    //odometry = new SwerveDriveOdometry(DrivetrainConstants.DRIVE_KINEMATICS, getNavxAngle_inRadians_asRotation2d()); 
+    //odometry = new SwerveDriveOdometry(SwerveSubsystemConstants.DRIVE_KINEMATICS, getNavxAngle_inRadians_asRotation2d()); 
 
     isSpinLocked = false;
 
@@ -61,7 +61,7 @@ public class Gyro3176 extends SubsystemBase {
  
 
   public double getNavxAngle_inDegrees() {
-    return (-gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
+    return (-gyro.getAngle() + SwerveSubsystemConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
   }
   
   public double getNavxAngle_inRadians() {

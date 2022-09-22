@@ -3,14 +3,14 @@ package team3176.robot.commands.Drivetrain.imported;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.DrivetrainConstants;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys;
-import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
-import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.constants.SwerveSubsystemConstants;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
+import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
 
 public class SwerveDrive extends CommandBase {
-  private Drivetrain drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
 
@@ -22,20 +22,20 @@ public class SwerveDrive extends CommandBase {
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;
     this.spinCommand = spinCommand;
-    addRequirements(drivetrain);
+    addRequirements(SwerveSubsystem);
     addRequirements(m_CoordSys);
   }
 
   @Override
   public void initialize() {
-    drivetrain.setDriveMode(driveMode.DRIVE);
+    SwerveSubsystem.setDriveMode(driveMode.DRIVE);
     m_gyro.setSpinLockToOff();
   }
 
   @Override
   public void execute() {
-    drivetrain.drive(forwardCommand.getAsDouble() * DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND, 
-    strafeCommand.getAsDouble() * DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND, 
+    SwerveSubsystem.drive(forwardCommand.getAsDouble() * SwerveSubsystemConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND, 
+    strafeCommand.getAsDouble() * SwerveSubsystemConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND, 
     spinCommand.getAsDouble()*10, m_CoordSys.getCurrentCoordType());
   }
 

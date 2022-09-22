@@ -9,14 +9,14 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.constants.DrivetrainConstants;
-import team3176.robot.subsystems.drivetrain.Odometry3176;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.constants.SwerveSubsystemConstants;
+import team3176.robot.subsystems.SwerveSubsystem.Odometry3176;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 
 public class HolonomicAuton extends CommandBase {
 
-  Drivetrain drivetrain = Drivetrain.getInstance();
+  SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
   Odometry3176 odometry = Odometry3176.getInstance();
 
   HolonomicDriveController holonomicController;
@@ -31,7 +31,7 @@ public class HolonomicAuton extends CommandBase {
       new PIDController(1, 0, 0), // X Controller
       new PIDController(1, 0, 0), // Y Controller
       new ProfiledPIDController(1, 0, 0, // Theta Controller
-        new TrapezoidProfile.Constraints(DrivetrainConstants.MAX_ROT_SPEED_RADIANS_PER_SECOND, 2 * Math.PI))); // Constraints are maxVel and maxAccel both in radians
+        new TrapezoidProfile.Constraints(SwerveSubsystemConstants.MAX_ROT_SPEED_RADIANS_PER_SECOND, 2 * Math.PI))); // Constraints are maxVel and maxAccel both in radians
 
     this.trajectory = trajectory;
     stateNumber = 0;
@@ -58,11 +58,11 @@ public class HolonomicAuton extends CommandBase {
     ChassisSpeeds adjustedSpeeds = holonomicController.calculate(odometry.getCurrentPose(), nextState, nextState.poseMeters.getRotation());
 
     // Simpily normalizing to get -1 to 1
-    double forwardCommand = adjustedSpeeds.vxMetersPerSecond / DrivetrainConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND;
-    double strafeCommand = adjustedSpeeds.vyMetersPerSecond / DrivetrainConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND;
-    double spinCommand = adjustedSpeeds.omegaRadiansPerSecond / DrivetrainConstants.MAX_ROT_SPEED_RADIANS_PER_SECOND;
+    double forwardCommand = adjustedSpeeds.vxMetersPerSecond / SwerveSubsystemConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND;
+    double strafeCommand = adjustedSpeeds.vyMetersPerSecond / SwerveSubsystemConstants.MAX_WHEEL_SPEED_METERS_PER_SECOND;
+    double spinCommand = adjustedSpeeds.omegaRadiansPerSecond / SwerveSubsystemConstants.MAX_ROT_SPEED_RADIANS_PER_SECOND;
 
-    drivetrain.drive(forwardCommand, strafeCommand, spinCommand, coordType.FIELD_CENTRIC);
+    SwerveSubsystem.drive(forwardCommand, strafeCommand, spinCommand, coordType.FIELD_CENTRIC);
   }
 
   @Override

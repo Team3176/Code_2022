@@ -9,10 +9,10 @@ import java.sql.Driver;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
 import team3176.robot.subsystems.vision.Vision;
-import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
 
 
 /**
@@ -23,7 +23,7 @@ import team3176.robot.subsystems.drivetrain.CoordSys;
  */
 public class AlignVizYawBangBang extends SequentialCommandGroup {
 
-  private Drivetrain m_drivetrain = Drivetrain.getInstance();
+  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
   //private Vision m_Vision = Vision.getInstance();
   private double tx;
@@ -31,12 +31,12 @@ public class AlignVizYawBangBang extends SequentialCommandGroup {
 
   /** Creates a new AutonAlign. */
   public AlignVizYawBangBang() {
-    addRequirements(m_drivetrain);
+    addRequirements(m_SwerveSubsystem);
   }
 
   @Override
   public void initialize() {
-    // m_drivetrain.setCoordType(coordType.ROBOT_CENTRIC);
+    // m_SwerveSubsystem.setCoordType(coordType.ROBOT_CENTRIC);
     m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
    // m_Vision.turnLEDsOn();
     this.upperTxLimit = 1;
@@ -48,14 +48,14 @@ public class AlignVizYawBangBang extends SequentialCommandGroup {
   public void execute() {
     //this.tx =  m_Vision.getTx();
     //new AutonRotate(.1, tx);
-    m_drivetrain.drive(0, 0, Math.copySign(.05, -tx));
+    m_SwerveSubsystem.drive(0, 0, Math.copySign(.05, -tx));
     // SmartDashboard.putNumber("AlignVizYawBangBang.tx", -tx);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_drivetrain.drive(0,0,0);
+      m_SwerveSubsystem.drive(0,0,0);
       //m_Vision.turnLEDsOff();
   }
 

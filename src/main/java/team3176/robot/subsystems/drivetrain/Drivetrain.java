@@ -33,6 +33,7 @@ import team3176.robot.constants.DrivetrainConstants;
 // import team3176.robot.util.God.PID3176;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
 import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.*;
 
 import java.util.ArrayList;
 
@@ -51,7 +52,7 @@ import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
   
 
 public class Drivetrain extends SubsystemBase {
-  private static Drivetrain instance;
+  private static SwerveSubsystem instance;
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
   //private Vision m_Vision = Vision.getInstance();
@@ -103,8 +104,8 @@ public class Drivetrain extends SubsystemBase {
   private SwervePod2022 podBR;
 
 
-  private final DrivetrainIO io;
-  //private final DrivetrainIOInputs inputs = new DrivetrainIOInputs();
+  private final Drivetrain io;
+  //private final SwerveSubsystemIOInputs inputs = new SwerveSubsystemIOInputs();
 
   private Drivetrain(DrivetrainIO io) {
     this.io = io;
@@ -154,8 +155,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Prevents more than one instance of drivetrian
-  public static Drivetrain getInstance() {
-    if(instance == null) {instance = new Drivetrain(new DrivetrainIO() {});}
+  public static SwerveSubsystem getInstance() {
+    if(instance == null) {instance = new SwerveSubsystem(new SwerveSubsystemIO() {});}
     return instance;
   }
 
@@ -228,7 +229,7 @@ public class Drivetrain extends SubsystemBase {
     }
     else if (m_Clarke.getIsClarkeSpinCorrectionOn()) {
       this.spinCommand = m_Clarke.getClarkeSpinCorrection(); 
-      SmartDashboard.putNumber("Drivetrain_ClarkeSpinCommand",this.spinCommand);
+      SmartDashboard.putNumber("SwerveSubsystem_ClarkeSpinCommand",this.spinCommand);
     }*/
 
    
