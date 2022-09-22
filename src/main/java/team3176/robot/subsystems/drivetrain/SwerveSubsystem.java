@@ -12,6 +12,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.subsystems.drivetrain.SwervePod2022;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.*;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 public class SwerveSubsystem extends SubsystemBase {
     private final SwervePod2022 frontLeft;
 
@@ -25,6 +32,15 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DrivetrainConstants.DRIVE_KINEMATICS,
             new Rotation2d(0));
 
+    public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_FR_CID),
+       new TalonFX(DrivetrainConstants.THRUST_FL_CID), new TalonFX(DrivetrainConstants.THRUST_BL_CID),
+       new TalonFX(DrivetrainConstants.THRUST_BR_CID) };
+          
+    public CANSparkMax[] azimuthControllers = { new CANSparkMax(DrivetrainConstants.STEER_FR_CID, MotorType.kBrushless),
+       new CANSparkMax(DrivetrainConstants.STEER_FL_CID, MotorType.kBrushless), new CANSparkMax(DrivetrainConstants.STEER_BL_CID, MotorType.kBrushless),
+       new CANSparkMax(DrivetrainConstants.STEER_BR_CID, MotorType.kBrushless) };
+        
+
     public SwerveSubsystem() {
         new Thread(() -> {
             try {
@@ -33,6 +49,11 @@ public class SwerveSubsystem extends SubsystemBase {
             } catch (Exception e) {
             }
         }).start();
+    
+        frontLeft = new SwervePod2022(0, driveControllers[0], azimuthControllers[0]);
+        frontRight = new SwervePod2022(1, driveControllers[1], azimuthControllers[1]);
+        backLeft = new SwervePod2022(2, driveControllers[2], azimuthControllers[2]);
+        backRight = new SwervePod2022(3, driveControllers[3], azimuthControllers[3]);
     }
 
     public void zeroHeading() {

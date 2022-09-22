@@ -55,7 +55,7 @@ public class Drivetrain extends SubsystemBase {
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
   //private Vision m_Vision = Vision.getInstance();
-  private Clarke m_Clarke = Clarke.getInstance();
+  //private Clarke m_Clarke = Clarke.getInstance();
 
   //private Controller controller = Controller.getInstance();
   //private Vision m_Vision = Vision.getInstance();
