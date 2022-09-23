@@ -5,6 +5,7 @@
 package team3176.robot;
 
 import team3176.robot.constants.*;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -13,9 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import java.util.HashMap;
+import java.util.Map;
 import team3176.robot.subsystems.*;
-import team3176.robot.subsystems.SwerveSubsystem.*;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.*;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 import team3176.robot.subsystems.feeder.Feeder;
 import team3176.robot.subsystems.flywheel.Flywheel;
 import team3176.robot.subsystems.indexer.Indexer;
@@ -315,5 +318,31 @@ public class RobotContainer {
     return new AutoInTarmacShoot();
   }
 
+  private static class AutonRoutine {
+    public final AutonStartPosition startPosition;
+    public final Command command;
+
+    public AutonRoutine(AutonStartPosition startPosition, Command command) {
+      this.startPosition = startPosition;
+      this.command = command;
+    }
+  }
+
+  public static enum AutonStartPosition {
+    TARMAC_RIGHT, TARMAC_MIDDLE, TARMAC_LEFT;
+
+    public Pose2d getPose() {
+      switch (this) {
+        case TARMAC_RIGHT:
+          return new Pose2d();
+        case TARMAC_MIDDLE:
+          return new Pose2d();
+        case TARMAC_LEFT:
+          return new Pose2d();
+        default:
+          return new Pose2d();
+      } 
+    }
+  }
   
 }

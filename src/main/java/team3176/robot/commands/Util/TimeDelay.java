@@ -6,7 +6,7 @@ package team3176.robot.commands.Util;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
 
 /**
  * TimeDelay Command to use in Command Groups to make sure that the commands have equal spacing
@@ -16,26 +16,26 @@ public class TimeDelay extends CommandBase {
   private double setTime;
   private double startTime;
   private Timer clock;
-  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
+  private Drivetrain m_Drivetrain= Drivetrain.getInstance();
 
   public TimeDelay(double delay) {
     startTime = Timer.getFPGATimestamp();
     setTime = delay;
     clock = new Timer();
 
-    addRequirements(m_SwerveSubsystem);
+    addRequirements(m_Drivetrain);
   }
 
   @Override
   public void initialize() {
     clock.start();
-    m_SwerveSubsystem.drive(0, 0, 0);
+    m_Drivetrain.drive(0, 0, 0);
   }
 
   @Override
   public void execute() {
     double smallnum=Math.pow(10,-20);
-    m_SwerveSubsystem.drive(smallnum, smallnum, smallnum);
+    m_Drivetrain.drive(smallnum, smallnum, smallnum);
   }
 
   @Override

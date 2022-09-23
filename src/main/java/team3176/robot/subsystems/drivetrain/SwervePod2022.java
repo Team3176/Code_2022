@@ -1,4 +1,4 @@
-package team3176.robot.subsystems.SwerveSubsystem;
+package team3176.robot.subsystems.drivetrain;
 
 import java.util.Map;
 import java.util.function.DoubleSupplier;
@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import team3176.robot.RobotContainer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
-import team3176.robot.constants.SwerveSubsystemConstants;
+import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.constants.SwervePodConstants2022;
 import team3176.robot.constants.MasterConstants;
 
@@ -347,7 +347,7 @@ public class SwervePod2022 {
         this.podThrust = podDrive;
         this.podAzimuth = podAzimuth; 
        
-        this.maxVelTicsPer100ms = Units3176.fps2ums(SwerveSubsystemConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
+        this.maxVelTicsPer100ms = Units3176.fps2ums(DrivetrainConstants.MAX_WHEEL_SPEED_FEET_PER_SECOND);
         this.velTicsPer100ms = Units3176.fps2ums(this.podThrust);
        // velTicsPer100ms = SmartDashboard.getNumber("thrustSet",velTicsPer100ms);
         double optmizdAzimuthAbsPos = optimizeAzimuthAbsPos(this.podAzimuth);

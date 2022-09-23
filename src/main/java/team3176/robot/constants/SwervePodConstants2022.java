@@ -2,7 +2,7 @@ package team3176.robot.constants;
 
 public final class SwervePodConstants2022 extends DrivetrainHardwareMap {
 
-    private static final double WHEEL_DIAMETER = SwerveSubsystemConstants.WHEEL_DIAMETER;  // in inches
+    private static final double WHEEL_DIAMETER = DrivetrainConstants.WHEEL_DIAMETER;  // in inches
     //private static final double AZIMUTH_GEAR_RATIO = 70.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
     private static final double AZIMUTH_GEAR_RATIO = 70.0 / 1.0; // Is the Versa gearbox btwn motor & encoder
     //private static final double AZIMUTH_GEAR_RATIO = 1.0 / 1.0; // Is the Versa gearbox btwn motor & encoder

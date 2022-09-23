@@ -17,7 +17,7 @@ import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.angler.Angler;
 import team3176.robot.subsystems.clarke.Clarke;
 import team3176.robot.subsystems.climb.Climb;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.drivetrain.SwerveSubsystem;
 import team3176.robot.subsystems.feeder.Feeder;
 import team3176.robot.subsystems.flywheel.Flywheel;
 import team3176.robot.subsystems.indexer.Indexer;

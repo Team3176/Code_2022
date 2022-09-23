@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.subsystems.SwerveSubsystem;
+package team3176.robot.subsystems.drivetrain;
 
 import edu.wpi.first.math.filter.MedianFilter;
 //import edu.wpi.first.math.geometry.Pose2d;
@@ -61,7 +61,7 @@ public class Gyro3176 extends SubsystemBase {
  
 
   public double getNavxAngle_inDegrees() {
-    return (-gyro.getAngle() + SwerveSubsystemConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
+    return (-gyro.getAngle() + DrivetrainConstants.GYRO_ROTATIONAL_OFFSET_FOR_RIO_MOUNTING + this.gyroOffset_in_Degrees);
   }
   
   public double getNavxAngle_inRadians() {

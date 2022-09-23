@@ -6,7 +6,7 @@ package team3176.robot.commands.Util;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import team3176.robot.subsystems.drivetrain.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

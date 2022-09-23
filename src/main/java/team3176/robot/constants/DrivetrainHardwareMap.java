@@ -1,6 +1,6 @@
 package team3176.robot.constants;
 
-public class SwerveSubsystemHardwareMap {
+public class DrivetrainHardwareMap {
     //statics constants for swerve pods 
     public static final SwervePodHardwareID pod001 = 
     new SwervePodHardwareID(  10,  12,  105.296);

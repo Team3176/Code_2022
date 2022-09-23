@@ -44,7 +44,7 @@ import team3176.robot.subsystems.drivetrain.CoordSys;
 import team3176.robot.subsystems.drivetrain.Gyro3176;
 
 import org.littletonrobotics.junction.Logger;
-import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
+import team3176.robot.subsystems.drivetrain.DrivetrainIO;
 //import team3176.robot.subsystems.vision.Vision;
 
 
@@ -52,7 +52,7 @@ import team3176.robot.subsystems.drivetrain.DrivetrainIO.DrivetrainIOInputs;
   
 
 public class Drivetrain extends SubsystemBase {
-  private static SwerveSubsystem instance;
+  private static Drivetrain instance;
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Gyro3176 m_Gyro3176 = Gyro3176.getInstance();
   //private Vision m_Vision = Vision.getInstance();
@@ -104,7 +104,7 @@ public class Drivetrain extends SubsystemBase {
   private SwervePod2022 podBR;
 
 
-  private final Drivetrain io;
+  private final DrivetrainIO io;
   //private final SwerveSubsystemIOInputs inputs = new SwerveSubsystemIOInputs();
 
   private Drivetrain(DrivetrainIO io) {
@@ -155,8 +155,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Prevents more than one instance of drivetrian
-  public static SwerveSubsystem getInstance() {
-    if(instance == null) {instance = new SwerveSubsystem(new SwerveSubsystemIO() {});}
+  public static Drivetrain getInstance() {
+    if(instance == null) {instance = new Drivetrain(new DrivetrainIO() {});}
     return instance;
   }
 
