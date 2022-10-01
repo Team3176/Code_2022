@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 // import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -67,13 +68,8 @@ public class Drivetrain extends SubsystemBase {
 
   private driveMode currentDriveMode = driveMode.DRIVE;
 
-  public TalonFX[] driveControllers = { new TalonFX(DrivetrainConstants.THRUST_FR_CID),
-      new TalonFX(DrivetrainConstants.THRUST_FL_CID), new TalonFX(DrivetrainConstants.THRUST_BL_CID),
-      new TalonFX(DrivetrainConstants.THRUST_BR_CID) };
-
-  public CANSparkMax[] azimuthControllers = { new CANSparkMax(DrivetrainConstants.STEER_FR_CID, MotorType.kBrushless),
-      new CANSparkMax(DrivetrainConstants.STEER_FL_CID, MotorType.kBrushless), new CANSparkMax(DrivetrainConstants.STEER_BL_CID, MotorType.kBrushless),
-      new CANSparkMax(DrivetrainConstants.STEER_BR_CID, MotorType.kBrushless) };
+  private ChassisSpeeds ChassisCommands;
+  private Translation2d CenterOfSpin;
 
   private double length; // robot's wheelbase
   private double width; // robot's trackwidth
@@ -110,18 +106,15 @@ public class Drivetrain extends SubsystemBase {
   private Drivetrain(DrivetrainIO io) {
     this.io = io;
     
-    // Instantiate pods
-    podFR = new SwervePod2022(0, driveControllers[0], azimuthControllers[0]);
-    podFL = new SwervePod2022(1, driveControllers[1], azimuthControllers[1]);
-    podBL = new SwervePod2022(2, driveControllers[2], azimuthControllers[2]);
-    podBR = new SwervePod2022(3, driveControllers[3], azimuthControllers[3]);
+    ChassisCommands = new ChassisSpeeds(Math.pow(10, -15),0,0);
+    CenterOfSpin = new Translation2d(0,0);
 
     // Instantiate array list then add instantiated pods to list
-    pods = new ArrayList<SwervePod2022>();
-    pods.add(podFR);
-    pods.add(podFL);
-    pods.add(podBL);
-    pods.add(podBR);  
+   // pods = new ArrayList<SwervePod2022>();
+    //pods.add(podFR);
+    //pods.add(podFL);
+    //pods.add(podBL);
+    //pods.add(podBR);  
     
     Rotation2d emptyRotation2d = Rotation2d.fromDegrees(0.0);
 
@@ -147,10 +140,6 @@ public class Drivetrain extends SubsystemBase {
     /*
      * // Start wheels in a forward facing direction
      */
-
-    this.forwardCommand = Math.pow(10, -15); // Has to be positive to turn that direction?
-    this.strafeCommand = 0.0;
-    this.spinCommand = 0.0;
 
   }
 
@@ -206,18 +195,17 @@ public class Drivetrain extends SubsystemBase {
    * @param spinCommand    feet per second
    */
   private void p_drive(double forwardCommand, double strafeCommand, double spinCommand) {
-    this.spinCommandInit = spinCommand;
-    this.forwardCommand = forwardCommand;
-    this.strafeCommand = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
-    this.spinCommand = spinCommand;
+    ChassisCommands.vxMetersPerSecond = forwardCommand;
+    ChassisCommands.vyMetersPerSecond = strafeCommand;  // TODO: The y is inverted because it is backwards for some reason, why?
+    ChassisCommands.omegaRadiansPerSecond = spinCommand;
     //System.out.println("forward: "+ forwardCommand + "strafe: " + strafeCommand + "spin: " + spinCommand);
     if (!isTurboOn) {
-      this.forwardCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
-      this.strafeCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+      ChassisCommands.vxMetersPerSecond  *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+      ChassisCommands.vyMetersPerSecond *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
       //this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
-      this.spinCommand *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
+      ChassisCommands.omegaRadiansPerSecond *= DrivetrainConstants.NON_TURBO_PERCENT_OUT_CAP;
     } else {
-      this.spinCommand *= 2; 
+      ChassisCommands.omegaRadiansPerSecond *= 2; 
     }
 
     //these should be mutually exclusive 
@@ -318,17 +306,6 @@ public class Drivetrain extends SubsystemBase {
       pods.get(3).set(smallNum, 3.0 * Math.PI / 8.0);
     }
   }
-  
- 
-
-  public void stopMotors() {
-    //TODO: this seems to voilate a data flow overiding pods and could cause issues should be a state variable
-    for (int idx = 0; idx < (pods.size()); idx++) {
-      driveControllers[idx].set(ControlMode.PercentOutput, 0);
-      azimuthControllers[idx].set(0);
-    }
-
-  }
 
   public void setPodsAzimuthHome() {
       double smallNum = Math.pow(10, -5);
@@ -351,88 +328,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
 
-  private double getRadius(String component) {
-    // Omitted if driveStatements where we pivoted around a pod
-    // This'll be orbit and dosado in the future
-
-    if (currentDriveMode == driveMode.DRIVE) {
-      if (component.equals("A") || component.equals("B")) {
-        return length / 2.0;
-      } else {
-        return width / 2.0;
-      } // TODO: place to check for forward vs back pods working vs not working
-    }
-
-    String pivotpoint = ""; 
-    if (currentDriveMode == driveMode.PIVOTFRFL) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTFR"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTFL";}
-    }
-    if (currentDriveMode == driveMode.PIVOTFLBL) {
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTFL"; }
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL";}
-    }
-    if (currentDriveMode == driveMode.PIVOTBLBR) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL"; 
-         }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTBR"; this.spinCommand = -this.spinCommand;}
-    }
-    if (currentDriveMode == driveMode.PIVOTBRFR) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTFR";}
-    }
-    if (currentDriveMode == driveMode.PIVOTBRBL) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTBL";}
-    }
-    if (currentDriveMode == driveMode.PIVOTFRBR) {
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTFR"; this.spinCommand = -1 * this.spinCommand; }
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTBR"; this.spinCommand = -1 * this.spinCommand;}
-    }
-    if (currentDriveMode == driveMode.PIVOTFLFR) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTFL"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTFR";}
-    }
-    if (currentDriveMode == driveMode.PIVOTBLFL) {
-      if (spinCommandInit < 0) { pivotpoint = "PIVOTBL"; }
-      if (spinCommandInit > 0) { pivotpoint = "PIVOTFL";}
-    }
-    switch(pivotpoint) {
-      case "PIVOTFR": if (component.equals("B") || component.equals("C")) { 
-                        return 0.0;
-                      } else if (component.equals("A")) {
-                        return length;
-                      } else if (component.equals("D")) {
-                        return width; 
-                      } 
-                      break;
-      case "PIVOTFL": if (component.equals("B") || component.equals("D")) {
-                        return 0.0;
-                      } else if (component.equals("A")) {
-                        return length;
-                      } else if (component.equals("C")) {
-                        return width;
-                      }
-                      break;
-      case "PIVOTBL": if (component.equals("A") || component.equals("D")) {
-                        return 0.0;
-                      } else if (component.equals("B")) {
-                        return length;
-                      } else if (component.equals("C")) {
-                        return width;
-                      }
-                      break;
-      case "PIVOTBR": if (component.equals("A") || component.equals("C")) {
-                        return 0.0;
-                      } else if (component.equals("B")) { 
-                        return length;
-                      } else if (component.equals("D")) {
-                        return width;
-                      }
-    }
-     return 0.0; // TODO: this method needs cleanup and logic-checking
-  }
-
+ 
   public void setDriveMode(driveMode wantedDriveMode) {
     currentDriveMode = wantedDriveMode;
   }
