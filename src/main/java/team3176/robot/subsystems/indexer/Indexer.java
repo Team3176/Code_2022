@@ -56,6 +56,8 @@ public class Indexer extends SubsystemBase {
 
     m_I2C = new I2C(I2C.Port.kMXP, IndexerConstants.I2C_DEVICE_ADDRESS);
 
+    this.indexerMotor.configNominalOutputForward(0.0);
+    this.indexerMotor.configNominalOutputReverse(0.0);
     this.indexerMotor.configAllowableClosedloopError(IndexerConstants.kPID_LOOP_IDX[1],
         IndexerConstants.ALLOWABLE_CLOSED_LOOP_ERROR, IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.config_kF(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][3],
@@ -93,11 +95,11 @@ public class Indexer extends SubsystemBase {
   }
 
   public void Up() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, 0.5);
+    indexerMotor.set(ControlMode.PercentOutput, 0.26);
   }
 
   public void Down() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, -0.5);
+    indexerMotor.set(ControlMode.PercentOutput, -0.26);
   }
 
   /**

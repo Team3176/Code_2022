@@ -17,7 +17,7 @@ public class DrivetrainHardwareMap {
     public static final SwervePodHardwareID pod007 = 
     new SwervePodHardwareID(  33,  34,  -109.16);
     public static final SwervePodHardwareID pod008 = 
-    new SwervePodHardwareID(  43,  44,  -179.473);
+    new SwervePodHardwareID(  43,  44,  167.352);
 
     
     public static final SwervePodHardwareID FR = pod005;
