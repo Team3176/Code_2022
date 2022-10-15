@@ -70,6 +70,8 @@ public class Indexer extends SubsystemBase {
         IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][4],
         IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.configPeakOutputForward(0.75);
+    this.indexerMotor.configPeakOutputReverse(0.75);
 
     //I2CReciever(); 
      secondLinebreak = new DigitalInput(IndexerConstants.SECOND_LINEBREAK_DIO);
