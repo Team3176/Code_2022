@@ -56,6 +56,7 @@ public class ShootVisionAutoFire extends CommandBase {
       else if(ty < ShooterLocationValues.TY_2X_LAUNCH_PAD && ty >= ShooterLocationValues.TY_2X_WALL_ZONE) {
         m_Intake.spinVelocityPercent(ShooterLocationValues.POINTS[3][0]);
         m_Indexer.setVelocity(ShooterLocationValues.POINTS[3][1]);
+        //m_Indexer.Up();
         m_Feeder.setVelocityPID(ShooterLocationValues.POINTS[3][2]);
       }
       else if(ty < ShooterLocationValues.TY_2X_WALL_ZONE) {

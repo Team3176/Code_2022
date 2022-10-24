@@ -70,6 +70,7 @@ public class Indexer extends SubsystemBase {
         IndexerConstants.kTIMEOUT_MS);
     this.indexerMotor.config_IntegralZone(IndexerConstants.kPID_LOOP_IDX[1], IndexerConstants.PIDFConstants[1][4],
         IndexerConstants.kTIMEOUT_MS);
+    this.indexerMotor.configClosedLoopPeakOutput(0, 0.4);
 
     //I2CReciever(); 
      secondLinebreak = new DigitalInput(IndexerConstants.SECOND_LINEBREAK_DIO);
@@ -95,11 +96,12 @@ public class Indexer extends SubsystemBase {
   }
 
   public void Up() { // TODO: RENAME TO SOMETHING BETTER
-    indexerMotor.set(ControlMode.PercentOutput, 0.26);
+    indexerMotor.set(ControlMode.PercentOutput, 0.20);
   }
 
   public void Down() { // TODO: RENAME TO SOMETHING BETTER
     indexerMotor.set(ControlMode.PercentOutput, -0.26);
+    System.out.println("Indexer Down");
   }
 
   /**

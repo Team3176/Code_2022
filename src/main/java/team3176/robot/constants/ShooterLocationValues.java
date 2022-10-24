@@ -14,10 +14,10 @@ public final class ShooterLocationValues {
 
     public static final double[][] POINTS = {
     //{INTAKE, INDEXER, FEEDER, FLYWHEEL1, FLYWHEEL2, ANGLE}
-        {0.5, 0.02, 0.5, 0.30, 0.30, 79.5},  /* Fender */
-        {0.5, 0.02, 0.5, 0.31, 0.20, 76},    /* Edge of Tarmac */
-        {0.5, 0.02, 0.5, 0.43, 0.23, 72},    /* Launch Pad */
-        {0.5, 0.02, 0.5, 0.55, 0.25, 42},    /* Wall Zone */
+        {0.5, 0.3, 0.5, 0.30, 0.30, 79.5},  /* Fender */
+        {0.5, 0.3, 0.5, 0.31, 0.20, 76},    /* Edge of Tarmac */
+        {0.5, 0.3, 0.5, 0.43, 0.23, 72},    /* Launch Pad */
+        {0.5, 0.3, 0.5, 0.55, 0.25, 42},    /* Wall Zone */
         {0.5, 0.02, 0.5, 0.52, 0.23, 49}     /* Wall */
     };
 }
