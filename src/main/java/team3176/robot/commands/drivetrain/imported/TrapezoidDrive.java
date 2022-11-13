@@ -2,19 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.commands.Drivetrain.imported;
+package team3176.robot.commands.drivetrain.imported;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
-import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public class TrapezoidDrive extends CommandBase {
   /** Creates a new TrapezoidDrive. */
-  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
+    private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Timer timer = new Timer();
@@ -25,7 +25,7 @@ public class TrapezoidDrive extends CommandBase {
 
   public TrapezoidDrive(double distanceX, double distanceY) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_SwerveSubsystem);
+    addRequirements(m_Drivetrain);
     this.distanceX = distanceX;
     this.distanceY = distanceY;
     m_CoordSys.setCoordTypeToRobotCentric();
@@ -51,7 +51,7 @@ public class TrapezoidDrive extends CommandBase {
     TrapezoidProfile.State setPoint = profile.calculate(timer.get());
     double velocityX = setPoint.velocity * Math.cos(theta);
     double velocityY = setPoint.velocity * Math.sin(theta);
-    m_SwerveSubsystem.drive(Math.copySign(velocityX, distanceX), Math.copySign(velocityY, distanceY), 0);
+    m_Drivetrain.drive(Math.copySign(velocityX, distanceX), Math.copySign(velocityY, distanceY), 0);
 
     // System.out.println("X: " + distanceX + ", Y: " + distanceY);
   }

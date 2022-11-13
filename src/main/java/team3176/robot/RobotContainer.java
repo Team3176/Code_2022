@@ -30,13 +30,13 @@ import team3176.robot.subsystems.climb.Climb;
 import team3176.robot.commands.Climb.*;
 import team3176.robot.commands.Auton.*;
 import team3176.robot.commands.CMD_Groups.*;
-import team3176.robot.commands.Drivetrain.imported.*;
 import team3176.robot.commands.Indexer.*;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
 import team3176.robot.commands.Test.*;
 import team3176.robot.commands.Util.*;
 import team3176.robot.commands.Vision.*;
+import team3176.robot.commands.drivetrain.imported.*;
 
 public class RobotContainer {
 
@@ -48,6 +48,7 @@ public class RobotContainer {
   private final CoordSys m_CoordSys;
   private final Vision m_Vision;
   private final Angler m_Angler;
+  private final Drivetrain m_Drivetrain;
   private final Feeder m_Feeder;
   private final Flywheel m_Flywheel;
   private final Indexer m_Indexer;
@@ -93,6 +94,7 @@ public class RobotContainer {
     m_CoordSys = CoordSys.getInstance();
     m_Climb = Climb.getInstance();
     m_Clarke = Clarke.getInstance();
+    m_Drivetrain= Drivetrain.getInstance();
 
     m_PDH = new PowerDistribution(1, ModuleType.kRev);
     m_PDH.clearStickyFaults();
@@ -150,8 +152,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    m_Controller.getTransStick_Button1().whenHeld(new InstantCommand( () -> m_SwerveSubsystem.setTurbo(true), m_SwerveSubsystem));
-    m_Controller.getTransStick_Button1().whenReleased(new InstantCommand( () -> m_SwerveSubsystem.setTurbo(false), m_SwerveSubsystem));
+    m_Controller.getTransStick_Button1().whenHeld(new InstantCommand( () -> m_Drivetrain.setTurbo(true), m_SwerveSubsystem));
+    m_Controller.getTransStick_Button1().whenReleased(new InstantCommand( () -> m_Drivetrain.setTurbo(false), m_SwerveSubsystem));
     m_Controller.getTransStick_Button3().whenHeld(new SwerveDefense());
     // m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
     m_Controller.getTransStick_Button4().whenHeld(new InstantCommand(m_CoordSys::setCoordTypeToRobotCentric,m_CoordSys));

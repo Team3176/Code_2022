@@ -11,13 +11,13 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
 import org.littletonrobotics.junction.io.*;
 
-import team3176.robot.commands.Drivetrain.imported.SwerveDrive;
+import team3176.robot.commands.drivetrain.imported.SwerveDrive;
 import team3176.robot.constants.MasterConstants;
 import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.angler.Angler;
 import team3176.robot.subsystems.clarke.Clarke;
 import team3176.robot.subsystems.climb.Climb;
-import team3176.robot.subsystems.drivetrain.SwerveSubsystem;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.feeder.Feeder;
 import team3176.robot.subsystems.flywheel.Flywheel;
 import team3176.robot.subsystems.indexer.Indexer;
@@ -45,7 +45,7 @@ public class Robot extends LoggedRobot {
   private Angler m_Angler;
   private Flywheel m_Flywheel;
   private Feeder m_Feeder;
-  private SwerveSubsystem m_SwerveSubsystem;
+  private Drivetrain m_Drivetrain;
   private Controller m_Controller;
   private Vision m_Vision;
   private Clarke m_Clarke;
@@ -82,7 +82,7 @@ public class Robot extends LoggedRobot {
     m_Angler = Angler.getInstance();
     m_Flywheel = Flywheel.getInstance();
     m_Feeder = Feeder.getInstance();
-    m_SwerveSubsystem = SwerveSubsystem.getInstance();
+    m_Drivetrain = Drivetrain.getInstance();
     m_Controller = Controller.getInstance();
     m_Vision = Vision.getInstance();
     m_Clarke = Clarke.getInstance();
@@ -206,7 +206,7 @@ public class Robot extends LoggedRobot {
     m_Feeder.mode = "test";
     */
 
-    m_SwerveSubsystem.setDefaultCommand(new SwerveDrive(
+    m_Drivetrain.setDefaultCommand(new SwerveDrive(
         () -> m_Controller.getForward(), 
         () -> m_Controller.getStrafe(),
         () -> m_Controller.getSpin()//,

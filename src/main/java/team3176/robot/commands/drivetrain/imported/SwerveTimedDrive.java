@@ -1,13 +1,13 @@
-package team3176.robot.commands.Drivetrain.imported;
+package team3176.robot.commands.drivetrain.imported;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.SwerveSubsystem.*;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
+import team3176.robot.subsystems.drivetrain.*;
+import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
 
 
 public class SwerveTimedDrive  extends CommandBase{
     double forwardCommand, strafeCommand, spinCommand;
-    SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
+    Drivetrain m_Drivetrain = Drivetrain.getInstance();
     CoordSys m_CoordSys = CoordSys.getInstance();
     Gyro3176 m_gyro = Gyro3176.getInstance();
     /**
@@ -21,19 +21,19 @@ public class SwerveTimedDrive  extends CommandBase{
         this.forwardCommand = forwardCommand;
         this.strafeCommand = strafeCommand;
         this.spinCommand = spinCommand;
-        addRequirements(SwerveSubsystem);
+        addRequirements(m_Drivetrain);
         addRequirements(m_CoordSys);
         }
     
         @Override
         public void initialize() {
-            SwerveSubsystem.setDriveMode(driveMode.DRIVE);
+            m_Drivetrain.setDriveMode(driveMode.DRIVE);
             m_gyro.setSpinLockToOff();
         }
     
         @Override
         public void execute() {
-        SwerveSubsystem.drive(forwardCommand, strafeCommand, spinCommand, m_CoordSys.getCurrentCoordType());
+        m_Drivetrain.drive(forwardCommand, strafeCommand, spinCommand, m_CoordSys.getCurrentCoordType());
         }
     
         @Override
@@ -41,6 +41,6 @@ public class SwerveTimedDrive  extends CommandBase{
     
         @Override
         public void end(boolean interrupted) {  
-            SwerveSubsystem.drive(0.0, 0.0, 0.0, m_CoordSys.getCurrentCoordType());
+            m_Drivetrain.drive(0.0, 0.0, 0.0, m_CoordSys.getCurrentCoordType());
         }
 }

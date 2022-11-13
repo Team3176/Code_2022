@@ -2,19 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.commands.Drivetrain.imported.vision_control;
+package team3176.robot.commands.drivetrain.imported.vision_control;
 
 import java.sql.Driver;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
-import team3176.robot.subsystems.feeder.Feeder;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 import team3176.robot.subsystems.vision.Vision;
-import team3176.robot.subsystems.clarke.Clarke;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.subsystems.drivetrain.CoordSys;
 
 
 /**
@@ -23,58 +21,48 @@ import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
  * used to call AutoRotate(tx) to rotate the bot until the angle is within the range 
  * formed by upperTxLimit and lowerTxLimit
  */
-public class AlignClarkeYawSpinCorrection extends SequentialCommandGroup {
+public class AlignVizYawBangBang extends SequentialCommandGroup {
 
-  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
-  private Vision m_Vision = Vision.getInstance();
-  private Clarke m_Clarke= Clarke.getInstance();
+    private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
-  
-  private double tx, yawError;
+  //private Vision m_Vision = Vision.getInstance();
+  private double tx;
   private double upperTxLimit, lowerTxLimit;
-  private double kP, minCommand;
 
   /** Creates a new AutonAlign. */
-  public AlignClarkeYawSpinCorrection() {
-    addRequirements(m_SwerveSubsystem);
-    addRequirements(m_Clarke);
-    //addRequirements(m_Vision);
-    //addRequirements(m_Transfer);
+  public AlignVizYawBangBang() {
+    addRequirements(m_Drivetrain);
   }
 
   @Override
   public void initialize() {
     // m_SwerveSubsystem.setCoordType(coordType.ROBOT_CENTRIC);
     m_coordSys.setCoordType(coordType.FIELD_CENTRIC);
-    //m_Vision.setPipeline(1);
-    //m_Vision.turnLEDsOn();
-    this.kP = -0.01;
-    this.minCommand = 0.001;
-    this.upperTxLimit = 3;
-    this.lowerTxLimit = -3;
-    m_SwerveSubsystem.drive(0,0,0);
-    m_Clarke.setClarkeSpinCorrectionOn();
+   // m_Vision.turnLEDsOn();
+    this.upperTxLimit = 1;
+    this.lowerTxLimit = -1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.yawError = m_Clarke.getCenter();
-    m_SwerveSubsystem.drive(0,0,0);
+    //this.tx =  m_Vision.getTx();
+    //new AutonRotate(.1, tx);
+    m_Drivetrain.drive(0, 0, Math.copySign(.05, -tx));
+    // SmartDashboard.putNumber("AlignVizYawBangBang.tx", -tx);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_SwerveSubsystem.stopMotors();
-      m_Clarke.setClarkeSpinCorrectionOff();
-      //m_Vision.setPipeline(3);
+      m_Drivetrain.drive(0,0,0);
+      //m_Vision.turnLEDsOff();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (this.yawError >= lowerTxLimit && this.yawError <= upperTxLimit) {
+    if (this.tx >= lowerTxLimit && this.tx <= upperTxLimit){
       return true;
     }
     return false;

@@ -1,12 +1,12 @@
 
-package team3176.robot.commands.SwerveSubsystem.deprecated;
+package team3176.robot.commands.drivetrain.deprecated;
 
 import java.util.function.DoubleSupplier;
-import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 // import team3176.robot.util.God.PID3176;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
 import team3176.robot.subsystems.vision.Vision;
 
 /* 
@@ -18,7 +18,7 @@ well, we could drive across the field while staying locked onto the target with 
 public class SwerveVision extends CommandBase {
   private Vision m_Vision = Vision.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
-  private SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
+  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private DoubleSupplier forwardCommand;
   private DoubleSupplier strafeCommand;
 
@@ -28,14 +28,14 @@ public class SwerveVision extends CommandBase {
   public SwerveVision(DoubleSupplier forwardCommand, DoubleSupplier strafeCommand) {
     this.forwardCommand = forwardCommand;
     this.strafeCommand = strafeCommand;
-    addRequirements(SwerveSubsystem);
+    addRequirements(m_Drivetrain);
 
     // spinPID = new PID3176(0.3, 0.0, 0.0, 0.0);
   }
 
   @Override
   public void initialize() {
-    SwerveSubsystem.setDriveMode(driveMode.VISION);
+    m_Drivetrain.setDriveMode(driveMode.VISION);
   }
 
   @Override

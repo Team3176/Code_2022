@@ -1,7 +1,7 @@
-package team3176.robot.commands.Drivetrain.imported;
+package team3176.robot.commands.drivetrain.imported;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
 
 /**
  * Makes the gyro's "zero point" its current position, for recallibration.

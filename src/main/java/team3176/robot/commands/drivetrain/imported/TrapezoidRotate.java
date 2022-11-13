@@ -2,14 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.commands.Drivetrain.imported;
+package team3176.robot.commands.drivetrain.imported;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
-import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.subsystems.drivetrain.CoordSys;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
 
 import java.sql.Time;
 
@@ -19,7 +19,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public class TrapezoidRotate extends CommandBase {
   /** Creates a new TrapezoidDrive. */
-  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
+    private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
   private CoordSys m_CoordSys = CoordSys.getInstance();
   private Timer timer;
@@ -47,7 +47,7 @@ public class TrapezoidRotate extends CommandBase {
    */
   public TrapezoidRotate(double direction, double angle) { //TODO: FIIIIIIIIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_SwerveSubsystem);
+    addRequirements(m_Drivetrain);
     //this.distanceX = distanceX;
     //this.distanceY = distanceY;
     this.botCircumferancePer1Degree = botCircumferance / 360;
@@ -82,7 +82,7 @@ public class TrapezoidRotate extends CommandBase {
     double spinCommand = setPoint.velocity * rotation_distance;
     if (this.direction > 0) {spinCommand *= -1;}
     double smallnum = Math.pow(10,-9);
-    m_SwerveSubsystem.drive(smallnum, smallnum, spinCommand);
+    m_Drivetrain.drive(smallnum, smallnum, spinCommand);
     System.out.println("auto trapeziod constants " + timer.get() + " : " + spinCommand);
 
     // System.out.println("X: " + distanceX + ", Y: " + distanceY);
@@ -92,9 +92,9 @@ public class TrapezoidRotate extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     double smallnum = Math.pow(10,-10);
-    //m_SwerveSubsystem.drive(smallnum, smallnum, smallnum);
-    //m_SwerveSubsystem.drive(0,0,0);
-    m_SwerveSubsystem.stopMotors();
+    //m_Drivetrain.drive(smallnum, smallnum, smallnum);
+    //m_Drivetrain.drive(0,0,0);
+    //m_Drivetrain.stopMotors();  //TODO: Fix me.  Drivetrain needs a univeral motor stop.
     timer.stop();
     //System.out.println("######################################################################################################################     TrapRot.end()");
   }

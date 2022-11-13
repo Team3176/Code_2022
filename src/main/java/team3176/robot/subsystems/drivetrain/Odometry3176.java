@@ -20,7 +20,7 @@ public class Odometry3176 extends SubsystemBase {
   private SwerveDriveOdometry m_odometry;
   private static Odometry3176 instance = new Odometry3176();
   private Gyro3176 m_Gyro = Gyro3176.getInstance();
-  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
+    private Drivetrain m_Drivetrain = Drivetrain.getInstance();
 
   private Translation2d m_podFRLocation; 
   private Translation2d m_podFLLocation; 
@@ -70,7 +70,7 @@ public class Odometry3176 extends SubsystemBase {
     
     
     // Convert to chassis speeds
-    m_chassisSpeeds = m_kinematics.toChassisSpeeds(m_SwerveSubsystem.getPodState(0), m_SwerveSubsystem.getPodState(1),m_SwerveSubsystem.getPodState(2), m_SwerveSubsystem.getPodState(3));
+    m_chassisSpeeds = m_kinematics.toChassisSpeeds(m_Drivetrain.getPodState(0), m_Drivetrain.getPodState(1),m_Drivetrain.getPodState(2), m_Drivetrain.getPodState(3));
 
     // Get individual speeds
     forwardVelocity = m_chassisSpeeds.vxMetersPerSecond;
@@ -83,7 +83,7 @@ public class Odometry3176 extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  
-    m_pose = m_odometry.update(m_Gyro.getHeading(),m_SwerveSubsystem.getPodState(0), m_SwerveSubsystem.getPodState(1),m_SwerveSubsystem.getPodState(2), m_SwerveSubsystem.getPodState(3));
+    m_pose = m_odometry.update(m_Gyro.getHeading(),m_Drivetrain.getPodState(0), m_Drivetrain.getPodState(1),m_Drivetrain.getPodState(2), m_Drivetrain.getPodState(3));
     getCurrentPose(); 
   }
 

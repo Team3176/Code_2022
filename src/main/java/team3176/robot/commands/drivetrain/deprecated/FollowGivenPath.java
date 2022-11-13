@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package team3176.robot.commands.SwerveSubsystem.deprecated;
+package team3176.robot.commands.drivetrain.deprecated;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import team3176.robot.Robot;
 import team3176.robot.RobotContainer;
-import team3176.robot.constants.SwerveSubsystemConstants;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
-import team3176.robot.subsystems.SwerveSubsystem.Odometry3176;
+import team3176.robot.constants.DrivetrainConstants;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.Odometry3176;
 
 public class FollowGivenPath extends CommandBase {
   
-  private SwerveSubsystem SwerveSubsystem;
+  private Drivetrain m_Drivetrain;
   private Trajectory trajectory;
   private Robot robot;
   private RobotContainer container;
@@ -32,7 +32,7 @@ public class FollowGivenPath extends CommandBase {
   @Override
   public void initialize() {
 
-    SwerveSubsystem = SwerveSubsystem.getInstance();
+    m_Drivetrain = Drivetrain.getInstance();
     odometry = Odometry3176.getInstance();
     
    

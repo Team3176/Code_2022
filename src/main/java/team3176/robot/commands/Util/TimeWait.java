@@ -6,19 +6,19 @@ package team3176.robot.commands.Util;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import team3176.robot.subsystems.drivetrain.SwerveSubsystem;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TimeWait extends InstantCommand {
   private double time;
-  private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
+    private Drivetrain m_Drivetrain = Drivetrain.getInstance();
 
   public TimeWait(double timeToWait) {
     this.time = timeToWait;
 
-    addRequirements(m_SwerveSubsystem);
+    addRequirements(m_Drivetrain);
   }
 
   // Called when the command is initially scheduled.

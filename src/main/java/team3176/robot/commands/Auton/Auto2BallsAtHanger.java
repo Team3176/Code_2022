@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import team3176.robot.commands.CMD_Groups.AutoBallOneFlywheelAngle;
 import team3176.robot.commands.CMD_Groups.AutoShoot50;
-import team3176.robot.commands.Drivetrain.imported.TrapezoidDrive;
-import team3176.robot.commands.Drivetrain.imported.TrapezoidRotate;
 import team3176.robot.commands.Intake.IntakeExtendSpin;
 import team3176.robot.commands.Intake.IntakeRetractStop;
 import team3176.robot.commands.Shooter.AnglerZeroAtMax;
-import team3176.robot.commands.Drivetrain.imported.AutonRotate;
-import team3176.robot.commands.Drivetrain.imported.SwerveResetGyro;
+import team3176.robot.commands.drivetrain.imported.AutonRotate;
+import team3176.robot.commands.drivetrain.imported.SwerveResetGyro;
+import team3176.robot.commands.drivetrain.imported.TrapezoidDrive;
+import team3176.robot.commands.drivetrain.imported.TrapezoidRotate;
 
 public class Auto2BallsAtHanger extends SequentialCommandGroup {
   public Auto2BallsAtHanger() {

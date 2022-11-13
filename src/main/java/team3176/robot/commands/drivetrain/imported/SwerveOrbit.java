@@ -1,17 +1,18 @@
-package team3176.robot.commands.Drivetrain.imported;
+package team3176.robot.commands.drivetrain.imported;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.SwerveSubsystemConstants;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
-import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.constants.DrivetrainConstants;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.Drivetrain;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.subsystems.drivetrain.CoordSys;
 public class SwerveOrbit extends CommandBase {
-  private SwerveSubsystem SwerveSubsystem = SwerveSubsystem.getInstance();
+  private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private Gyro3176 m_gyro = Gyro3176.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
   private DoubleSupplier orbitSpeed;
@@ -26,7 +27,7 @@ public class SwerveOrbit extends CommandBase {
   public SwerveOrbit(DoubleSupplier orbitSpeed, DoubleSupplier pov) {
     this.orbitSpeed = orbitSpeed;
     this.pov = pov;
-    addRequirements(SwerveSubsystem);
+    addRequirements(m_Drivetrain);
   }
 
   @Override
@@ -42,7 +43,7 @@ public class SwerveOrbit extends CommandBase {
     // SmartDashboard.putNumber("getFieldCentricOffset", SwerveSubsystem.getFieldCentricOffset());
     // SmartDashboard.putNumber("radianOffset", radianOffset);
 
-    SwerveSubsystem.setDriveMode(driveMode.ORBIT);
+    m_Drivetrain.setDriveMode(driveMode.ORBIT);
     m_coordSys.setCoordType(coordType.ROBOT_CENTRIC);
   }
 
@@ -54,11 +55,11 @@ public class SwerveOrbit extends CommandBase {
 
     if(pov.getAsDouble() == 45.0 || pov.getAsDouble() == 90.0 || pov.getAsDouble() == 135.0) { // If on right side
       // Orbit Clockwise
-      SwerveSubsystem.drive(forwardCommand, strafeCommand, orbitSpeed.getAsDouble() / orbitEtherRadius /* inches */);
+      m_Drivetrain.drive(forwardCommand, strafeCommand, orbitSpeed.getAsDouble() / orbitEtherRadius /* inches */);
     } 
     else if (pov.getAsDouble() == 225.0 || pov.getAsDouble() == 270.0 || pov.getAsDouble() == 315.0) { // If on left side
       // Orbit Counter-Clockwise
-      SwerveSubsystem.drive(forwardCommand, strafeCommand, -orbitSpeed.getAsDouble() / orbitEtherRadius /* inches */);
+      m_Drivetrain.drive(forwardCommand, strafeCommand, -orbitSpeed.getAsDouble() / orbitEtherRadius /* inches */);
     }
   }
 
