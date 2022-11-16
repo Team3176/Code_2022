@@ -5,7 +5,6 @@
 package team3176.robot.commands.drivetrain.imported;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.pidwrappers.PIDEncoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.subsystems.drivetrain.Gyro3176;

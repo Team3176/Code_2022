@@ -15,12 +15,12 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import team3176.robot.constants.SwerveSubsystemConstants;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys.coordType;
-import team3176.robot.subsystems.SwerveSubsystem.SwerveSubsystem.driveMode;
-import team3176.robot.subsystems.SwerveSubsystem.Gyro3176;
-import team3176.robot.subsystems.SwerveSubsystem.CoordSys;
+import team3176.robot.constants.DrivetrainConstants;
+import team3176.robot.subsystems.drivetrain.SwerveSubsystem;
+import team3176.robot.subsystems.drivetrain.CoordSys.coordType;
+import team3176.robot.subsystems.drivetrain.Drivetrain.driveMode;
+import team3176.robot.subsystems.drivetrain.Gyro3176;
+import team3176.robot.subsystems.drivetrain.CoordSys;
 
 public class SwervePivotAtPodQuad extends CommandBase {
   private SwerveSubsystem m_SwerveSubsystem = SwerveSubsystem.getInstance();
@@ -113,7 +113,7 @@ public class SwervePivotAtPodQuad extends CommandBase {
     }
     */
 
-    m_SwerveSubsystem.drive(forwardCommand.getAsDouble() * SwerveSubsystemConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * SwerveSubsystemConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 25 /* inches */); //}
+    m_SwerveSubsystem.drive(forwardCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, strafeCommand.getAsDouble() * DrivetrainConstants.MAX_ACCEL_FEET_PER_SECOND, spinCommand.getAsDouble() * 25 /* inches */); //}
   }
 
   @Override
