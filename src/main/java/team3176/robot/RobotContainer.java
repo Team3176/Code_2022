@@ -34,6 +34,7 @@ import team3176.robot.commands.Shooter.*;
 import team3176.robot.commands.Test.*;
 import team3176.robot.commands.Util.*;
 import team3176.robot.commands.Vision.*;
+import team3176.robot.commands.Auton.Custer;
 
 public class RobotContainer {
 
@@ -77,6 +78,7 @@ public class RobotContainer {
   private static final String m_Rot = "s_Rot";
   private static final String m_TrapRot = "s_TrapRot";
   private static final String m_TrapDriveRot = "s_TrapDriveRot";
+  private static final String m_Custer = "s_Custer";
 
   public RobotContainer() {
     m_Controller = Controller.getInstance();
@@ -141,6 +143,7 @@ public class RobotContainer {
     m_autonChooser.addOption("Auto: Rotation", m_Rot);
     m_autonChooser.addOption("Auto: TrapRotate", m_TrapRot);
     m_autonChooser.addOption("Auto: TrapDriveRotate", m_TrapDriveRot);
+    m_autonChooser.addOption("Custer", m_Custer);
     SmartDashboard.putData("Auton Choice", m_autonChooser);
 
     configureButtonBindings();
@@ -311,6 +314,8 @@ public class RobotContainer {
       return new TrapezoidRotate(-1, 20);
     if (chosen.equals(m_TrapDriveRot))
       return new TrapezoidDriveRotate(3, 0, 1, 5);
+    if (chosen.equals(m_Custer))
+      return new Custer();
 
     return new AutoInTarmacShoot();
   }
