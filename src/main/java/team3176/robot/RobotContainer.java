@@ -36,7 +36,16 @@ import team3176.robot.commands.Shooter.*;
 import team3176.robot.commands.Test.*;
 import team3176.robot.commands.Util.*;
 import team3176.robot.commands.Vision.*;
-import team3176.robot.commands.drivetrain.imported.*;
+import team3176.robot.commands.drivetrain.AutonRotate;
+import team3176.robot.commands.drivetrain.SwerveDefense;
+import team3176.robot.commands.drivetrain.SwerveDrive;
+import team3176.robot.commands.drivetrain.SwerveDriveTune;
+import team3176.robot.commands.drivetrain.SwervePivotAtPodBi;
+import team3176.robot.commands.drivetrain.SwerveResetGyro;
+import team3176.robot.commands.drivetrain.TrapezoidDrive;
+import team3176.robot.commands.drivetrain.TrapezoidDriveRotate;
+import team3176.robot.commands.drivetrain.TrapezoidRotate;
+import team3176.robot.commands.drivetrain.*;
 
 public class RobotContainer {
 
@@ -107,7 +116,7 @@ public class RobotContainer {
     m_Flywheel.setAutoSpinFlywheels(true);
     m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
 
-    if (!MasterConstants.IS_TUNING_MODE) {
+    if (!LoggerConstants.IS_TUNING_MODE) {
       m_SwerveSubsystem.setDefaultCommand(new SwerveDrive(
           () -> m_Controller.getForward(),
           () -> m_Controller.getStrafe(),

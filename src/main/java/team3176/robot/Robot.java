@@ -4,15 +4,26 @@
 
 package team3176.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import org.littletonrobotics.junction.inputs.*;
+import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
-import org.littletonrobotics.junction.io.*;
+import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import team3176.robot.commands.drivetrain.imported.SwerveDrive;
-import team3176.robot.constants.MasterConstants;
+import team3176.robot.commands.drivetrain.SwerveDrive;
+import team3176.robot.constants.LoggerConstants;
+import team3176.robot.constants.RobotConstants;
 import team3176.robot.subsystems.*;
 import team3176.robot.subsystems.angler.Angler;
 import team3176.robot.subsystems.clarke.Clarke;
@@ -23,11 +34,8 @@ import team3176.robot.subsystems.flywheel.Flywheel;
 import team3176.robot.subsystems.indexer.Indexer;
 import team3176.robot.subsystems.intake.Intake;
 import team3176.robot.subsystems.vision.Vision;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import team3176.robot.util.God.Alert;
+import team3176.robot.util.God.Alert.AlertType;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -51,17 +59,74 @@ public class Robot extends LoggedRobot {
   private Clarke m_Clarke;
   //private AnalogPotentiometer m_pressureSensor;
 
+  private final Alert logNoFileAlert = 
+    new Alert("No log path set for current robot.Data will NOT be logged.",
+        AlertType.WARNING);
+  private final Alert logReceiverQueueAlert = 
+    new Alert("Logging queue exceeded capacity, data will NOT be logged.",
+        AlertType.ERROR);
+
+  public Robot() {
+    super(RobotConstants.loopPeriodSecs);
+  }
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard
 
-    if(MasterConstants.IS_LOGGING_MODE) {
+    if(LoggerConstants.IS_LOGGER_ACTIVE) {
       setUseTiming(isReal()); // Run as fast as possible during replay
+      Logger m_logger = Logger.getInstance();
+      m_logger.recordMetadata("Robot", RobotConstants.getRobot().toString());
+      m_logger.recordMetadata("TuningMode", Boolean.toString(RobotConstants.tuningMode));
+      m_logger.recordMetadata("RuntimeType", getRuntimeType().toString());
+      m_logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+      m_logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+      m_logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+      m_logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+      m_logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+      switch (BuildConstants.DIRTY) {
+        case 0:
+          m_logger.recordMetadata("GitDirty", "All changes committed");
+          break;
+        case 1:
+          m_logger.recordMetadata("GitDirty", "Uncomitted changes");
+          break;
+        default:
+          m_logger.recordMetadata("GitDirty", "Unknown");
+          break;
+      }
+
+      switch (RobotConstants.getMode()) {
+        case REAL:
+          String folder = RobotConstants.logFolders.get(RobotConstants.getRobot());
+          if (folder != null) {
+            m_logger.addDataReceiver(new WPILOGWriter(folder));
+          } else {
+            logNoFileAlert.set(true);
+          }
+          m_logger.addDataReceiver(new NT4Publisher());
+          LoggedPowerDistribution.getInstance();
+          break;
+
+         case SIM:
+          m_logger.addDataReceiver(new NT4Publisher());
+          break;
+
+      case REPLAY:
+        String path = LogFileUtil.findReplayLog();
+        m_logger.setReplaySource(new WPILOGReader(path));
+        m_logger.addDataReceiver(
+            new WPILOGWriter(LogFileUtil.addPathSuffix(path, "_sim")));
+        break;
+    }
+    m_logger.start();
+
+
+      /* OLD 2022 AdvantageKit Code for logging.  TODO: RIPE FOR REMOVAL 
       LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
       Logger.getInstance().recordMetadata("ProjectName", "MyProject"); // Set a metadata value
       
@@ -74,8 +139,9 @@ public class Robot extends LoggedRobot {
         Logger.getInstance().addDataReceiver(new ByteLogReceiver(ByteLogReceiver.addPathSuffix(path, "_sim"))); // Save replay results to a new log with the "_sim" suffix
 
         Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+      } 
+      */
       }
-    }
 
     m_Intake = Intake.getInstance();
     m_Indexer = Indexer.getInstance();
@@ -94,6 +160,8 @@ public class Robot extends LoggedRobot {
     //CameraServer.startAutomaticCapture(); //Fish-I Camera
     // CameraServer.startAutomaticCapture("Fish-I", 0);
 
+    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // autonomous chooser on the dashboard
     m_robotContainer = new RobotContainer();
   }
 
@@ -118,7 +186,7 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putBoolean("High Climb", m_pressureSensor.get() > 60);
     */
 
-    if (MasterConstants.IS_CMD_SCH_LOGGING) {
+    if (LoggerConstants.IS_CMD_SCH_LOGGING_ACTIVE) {
       Logger.getInstance().recordOutput("Scheduler Commands", NetworkTableInstance.getDefault()
         .getEntry("/LiveWindow/Ungrouped/Scheduler/Names").getStringArray(new String[] {}));
     }

@@ -28,7 +28,9 @@ public class FeederPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Feeder.stopMotor();
+    /* Commented b/c "delete" is depreciated from SmartDashboard.  TODO: Convert these to NT4 pub/sub model 
     SmartDashboard.delete(FeederConstants.kShuffleboardPercentName);
+    */
   }
 
   @Override

@@ -1,6 +1,7 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.1.1-beta-3"
+    id "edu.wpi.first.GradleRIO" version "2023.1.1-beta-4"
+    id "com.peterabeles.gversion" version "1.10"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -105,3 +106,15 @@ wpi.java.configureTestTasks(test)
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
+
+// Create version file
+project.compileJava.dependsOn(createVersionFile)
+gversion {
+    srcDir          = "src/main/java"
+    classPackage    = "team3176.robot"
+    className       = "BuildConstants"
+    dateFormat      = "yyyy-MM-dd HH:mm:ss z"
+    timeZone        = "America/New_York"
+    indent          = "  "
+}
+

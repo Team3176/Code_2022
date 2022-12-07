@@ -39,7 +39,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 import team3176.robot.constants.DrivetrainConstants;
 import team3176.robot.constants.SwervePodConstants2022;
-import team3176.robot.constants.MasterConstants;
+import team3176.robot.constants.LoggerConstants;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;

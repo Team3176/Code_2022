@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
-import team3176.robot.commands.drivetrain.imported.*;
+import team3176.robot.commands.drivetrain.AutonRotate;
+import team3176.robot.commands.drivetrain.SwerveResetGyro;
+import team3176.robot.commands.drivetrain.TrapezoidDrive;
+import team3176.robot.commands.drivetrain.*;
 
 public class Auto2BallExtraCitrus extends SequentialCommandGroup {
   public Auto2BallExtraCitrus() {

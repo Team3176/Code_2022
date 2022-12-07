@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import team3176.robot.commands.CMD_Groups.*;
 import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
-import team3176.robot.commands.drivetrain.imported.*;
+import team3176.robot.commands.drivetrain.TrapezoidDrive;
+import team3176.robot.commands.drivetrain.TrapezoidRotate;
+import team3176.robot.commands.drivetrain.*;
 public class Auto3Balls extends SequentialCommandGroup {
   public Auto3Balls() {
     addCommands(

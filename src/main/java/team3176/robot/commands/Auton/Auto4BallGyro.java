@@ -13,8 +13,11 @@ import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
 import team3176.robot.commands.Vision.VisionSpinCorrectionOff;
 import team3176.robot.commands.Vision.VisionSpinCorrectionOn;
-import team3176.robot.commands.drivetrain.imported.*;
-import team3176.robot.commands.drivetrain.imported.vision_control.AlignVizYawSpinCorrection;
+import team3176.robot.commands.drivetrain.AutonRotatePidGyro;
+import team3176.robot.commands.drivetrain.SwerveResetGyro;
+import team3176.robot.commands.drivetrain.TrapezoidDrive;
+import team3176.robot.commands.drivetrain.*;
+import team3176.robot.commands.drivetrain.vision_control.AlignVizYawSpinCorrection;
 
 public class Auto4BallGyro extends SequentialCommandGroup {
   public Auto4BallGyro() {

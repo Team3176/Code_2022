@@ -13,7 +13,10 @@ import team3176.robot.commands.Intake.*;
 import team3176.robot.commands.Shooter.*;
 import team3176.robot.commands.Vision.VisionSpinCorrectionOff;
 import team3176.robot.commands.Vision.VisionSpinCorrectionOn;
-import team3176.robot.commands.drivetrain.imported.*;
+import team3176.robot.commands.drivetrain.SwerveResetGyro;
+import team3176.robot.commands.drivetrain.TrapezoidDrive;
+import team3176.robot.commands.drivetrain.TrapezoidRotate;
+import team3176.robot.commands.drivetrain.*;
 
 public class Auto2BallsMiddle extends SequentialCommandGroup {
   public Auto2BallsMiddle() {

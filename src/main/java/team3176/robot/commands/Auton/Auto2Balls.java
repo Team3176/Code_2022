@@ -11,10 +11,10 @@ import team3176.robot.commands.CMD_Groups.AutoShoot50;
 import team3176.robot.commands.Intake.IntakeExtendSpin;
 import team3176.robot.commands.Intake.IntakeRetractStop;
 import team3176.robot.commands.Shooter.AnglerZeroAtMax;
-import team3176.robot.commands.drivetrain.imported.AutonRotate;
-import team3176.robot.commands.drivetrain.imported.SwerveResetGyro;
-import team3176.robot.commands.drivetrain.imported.TrapezoidDrive;
-import team3176.robot.commands.drivetrain.imported.TrapezoidRotate;
+import team3176.robot.commands.drivetrain.AutonRotate;
+import team3176.robot.commands.drivetrain.SwerveResetGyro;
+import team3176.robot.commands.drivetrain.TrapezoidDrive;
+import team3176.robot.commands.drivetrain.TrapezoidRotate;
 
 public class Auto2Balls extends SequentialCommandGroup {
   public Auto2Balls() {

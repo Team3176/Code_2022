@@ -34,7 +34,9 @@ public class IntakePctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intake.stopMotor();
+    /* Commented b/c "delete" is depreciated from SmartDashboard.  TODO: Convert these to NT4 pub/sub model 
     SmartDashboard.delete(IntakeConstants.kShuffleboardPercentName);
+    */
   }
 
   // Returns true when the command should end.

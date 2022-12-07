@@ -4,10 +4,10 @@
 
 package team3176.robot.constants;
 
-public final class MasterConstants{
+public final class LoggerConstants{
     public static final boolean IS_PRACTICE_BOT = false;
     public static final boolean IS_TUNING_MODE = false;
-    public static final boolean IS_LOGGING_MODE = false;
-    public static final boolean IS_CMD_SCH_LOGGING = true;
+    public static final boolean IS_LOGGER_ACTIVE = false;
+    public static final boolean IS_CMD_SCH_LOGGING_ACTIVE = true;
     public static final double FULL_MATCH_TIME = 215;
 }

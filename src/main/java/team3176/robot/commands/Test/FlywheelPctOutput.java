@@ -30,8 +30,10 @@ public class FlywheelPctOutput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Flywheel.stopMotors();
+    /* Commented b/c "delete" is depreciated from SmartDashboard.  TODO: Convert these to NT4 pub/sub model 
     SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName1);
     SmartDashboard.delete(FlywheelConstants.kShuffleboardPercentName2);
+    */
   }
 
   @Override

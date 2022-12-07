@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team3176.robot.constants.ClimbConstants;
-import team3176.robot.constants.MasterConstants;
+import team3176.robot.constants.LoggerConstants;
 import team3176.robot.subsystems.climb.ClimbIO.ClimbIOInputs;
 
 public class Climb extends SubsystemBase {
