@@ -21,7 +21,7 @@ import team3176.robot.subsystems.drivetrain.CoordSys;
  * used to call AutoRotate(tx) to rotate the bot until the angle is within the range 
  * formed by upperTxLimit and lowerTxLimit
  */
-public class AlignVizYawBangBang extends SequentialCommandGroup {
+public class AlignVizYawBangBang extends CommandBase {
 
     private Drivetrain m_Drivetrain = Drivetrain.getInstance();
   private CoordSys m_coordSys = CoordSys.getInstance();
