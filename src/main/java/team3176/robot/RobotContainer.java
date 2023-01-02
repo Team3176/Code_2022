@@ -168,7 +168,8 @@ public class RobotContainer {
     m_Controller.getTransStick_Button4().whileTrue(new InstantCommand(m_CoordSys::setCoordTypeToRobotCentric,m_CoordSys));
     m_Controller.getTransStick_Button4().onFalse(new InstantCommand(m_CoordSys::setCoordTypeToFieldCentric,m_CoordSys));
 
-    m_Controller.getTransStick_HAT_0().whileTrue(new SwervePivotAtPodBi(
+    /* 
+    m_Controller.getTransStick_HAT_0().whileHeld(new SwervePivotAtPodBi(
         () -> m_Controller.getForward(),
         () -> m_Controller.getStrafe(),
         () -> m_Controller.getSpin(),
@@ -198,6 +199,7 @@ public class RobotContainer {
         () -> m_Controller.getStrafe(),
         () -> m_Controller.getSpin(),
         315.0));
+    */
 
     m_Controller.getRotStick_Button1().whileTrue(new FlywheelAngleVisionIntAutoFire());
     m_Controller.getRotStick_Button1().whileTrue(new VisionSpinCorrectionOn());
