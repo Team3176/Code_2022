@@ -23,6 +23,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.SPI;
@@ -64,8 +65,8 @@ public class SwervePod2022 {
     /** Numerical identifier to differentiate between pods.
      *     For 4 Pods:  0 = FrontRight (FR),
      *                  1 = FrontLeft (FL),
-     *                  2 = BackLeft (BL),
-     *                  3 = BackRight (BR)
+     *                  2 =m_backLeft (BL),
+     *                  3 =m_backRight (BR)
      */
     private int id;
     private String idString;
@@ -527,6 +528,12 @@ public class SwervePod2022 {
      */
     public double getAzimuth() {
         return azimuthEncoder.getPosition(); 
+    }
+
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(
+            getDistanceChangeOfThrustEncoder, new Rotation2d(getDistanceChangeOfSteeringEncoderRotation)
+        );
     }
     public SwerveModuleState getState() {
         return new SwerveModuleState(getVelocity(),Rotation2d.fromDegrees(getAzimuth()));

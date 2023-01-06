@@ -12,14 +12,6 @@ public class DrivetrainConstants extends DrivetrainHardwareMap {
 
     
 
-    public static final double POD0_LOCATION_X = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
-    public static final double POD0_LOCATION_Y = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
-    public static final double POD1_LOCATION_X = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
-    public static final double POD1_LOCATION_Y = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
-    public static final double POD2_LOCATION_X = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
-    public static final double POD2_LOCATION_Y = 1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
-    public static final double POD3_LOCATION_X = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
-    public static final double POD3_LOCATION_Y = -1.0;   // <---TODO: REPLACE WITH MEASURED VALUES
   
 
     // SwerveSubsystem dimensions for kinematics and odometry
@@ -57,12 +49,22 @@ public class DrivetrainConstants extends DrivetrainHardwareMap {
 
     //public static final double LENGTH_CENTER_TO_CENTER = 23.5;
     //public static final double WIDTH_CENTER_TO_CENTER = 23.5;
+    public static final Translation2d FR_POD_LOCATION = new Translation2d(-Units.inchesToMeters(LENGTH) / 2, Units.inchesToMeters(WIDTH) / 2); //FR where +x=forward and +y=port
+    public static final Translation2d FL_POD_LOCATION = new Translation2d(Units.inchesToMeters(LENGTH) / 2, Units.inchesToMeters(WIDTH) / 2);   //FL where +x=forward and +y=port
+    public static final Translation2d BL_POD_LOCATION = new Translation2d(-Units.inchesToMeters(LENGTH) / 2, -Units.inchesToMeters(WIDTH) / 2); //BL where +x=forward and +y=port
+    public static final Translation2d BR_POD_LOCATION = new Translation2d(Units.inchesToMeters(LENGTH) / 2, -Units.inchesToMeters(WIDTH) / 2);   //BR where +x=forward and +y=port
+    
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
-        new Translation2d(-Units.inchesToMeters(LENGTH) / 2, Units.inchesToMeters(WIDTH) / 2),  //FR where +x=forward and +y=port
-        new Translation2d(Units.inchesToMeters(LENGTH) / 2, Units.inchesToMeters(WIDTH) / 2),   //FL where +x=forward and +y=port
-        new Translation2d(-Units.inchesToMeters(LENGTH) / 2, -Units.inchesToMeters(WIDTH) / 2), //BL where +x=forward and +y=port
-        new Translation2d(Units.inchesToMeters(LENGTH) / 2, -Units.inchesToMeters(WIDTH) / 2)   //BR where +x=forward and +y=port
+        FR_POD_LOCATION,
+        FL_POD_LOCATION,
+        BL_POD_LOCATION,
+        BR_POD_LOCATION
     );
+        //new Translation2d(-Units.inchesToMeters(LENGTH) / 2, Units.inchesToMeters(WIDTH) / 2),  //FR where +x=forward and +y=port
+        //new Translation2d(Units.inchesToMeters(LENGTH) / 2, Units.inchesToMeters(WIDTH) / 2),   //FL where +x=forward and +y=port
+        //new Translation2d(-Units.inchesToMeters(LENGTH) / 2, -Units.inchesToMeters(WIDTH) / 2), //BL where +x=forward and +y=port
+        //new Translation2d(Units.inchesToMeters(LENGTH) / 2, -Units.inchesToMeters(WIDTH) / 2)   //BR where +x=forward and +y=port
+    //);
 
     /* NOTE: Related to above decomposition of pod locations where
      *               O (Chassis center) = 0,0,

@@ -167,7 +167,7 @@ public class RobotContainer {
     // m_Controller.getTransStick_Button4().whenPressed(new ToggleCoordSys());
     m_Controller.getTransStick_Button4().whileTrue(new InstantCommand(m_CoordSys::setCoordTypeToRobotCentric,m_CoordSys));
     m_Controller.getTransStick_Button4().onFalse(new InstantCommand(m_CoordSys::setCoordTypeToFieldCentric,m_CoordSys));
-
+/* 
     m_Controller.getTransStick_HAT_0().whileTrue(new SwervePivotAtPodBi(
         () -> m_Controller.getForward(),
         () -> m_Controller.getStrafe(),
@@ -198,13 +198,14 @@ public class RobotContainer {
         () -> m_Controller.getStrafe(),
         () -> m_Controller.getSpin(),
         315.0));
+    */
 
     m_Controller.getRotStick_Button1().whileTrue(new FlywheelAngleVisionIntAutoFire());
     m_Controller.getRotStick_Button1().whileTrue(new VisionSpinCorrectionOn());
     m_Controller.getRotStick_Button1().onFalse(new VisionSpinCorrectionOff());
     m_Controller.getRotStick_Button2().whileTrue(new ShootVisionAutoFire());
     /*
-     * m_Controller.getRotStick_Button2().whileActiveOnce(new
+     * m_Controller.getRotStick_Button2().whileTrue(new
      * ShootVisionTrueAutoFire(
      * () -> m_Controller.getForward(),
      * () -> m_Controller.getStrafe(),
@@ -232,7 +233,7 @@ public class RobotContainer {
     m_Controller.operator.back().and(m_Controller.operator.leftBumper()).and(m_Controller.operator.rightBumper()).onTrue(new ExtendIntake());
     m_Controller.operator.start().and(m_Controller.operator.leftBumper()).and(m_Controller.operator.rightBumper()).onTrue(new RetractIntake());
 
-    // m_Controller.getOp_A_DS().whenActive(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
+    // m_Controller.getOp_A_DS().onTrue(new ClimbPistonEngage()); // TODO: CHECK IF TWO COMMANDS CAN BE MAPPED TO THE
     //                                                                // SAME BUTTON
     // m_Controller.getOp_A_DS().whenActive(new AnglerZeroAtMax());
     m_Controller.operator.b().and(m_Controller.operator.leftBumper()).and(m_Controller.operator.rightBumper()).onTrue(new ClimbPistonRetract());
@@ -253,8 +254,8 @@ public class RobotContainer {
     m_Controller.operator.back().whileTrue(new SpittingDown());
     m_Controller.operator.start().whileTrue(new SpittingUp());
 
-    // m_Controller.getOp_Back().whileActiveOnce(new FlywheelPIDToggleTest());
-    // m_Controller.getOp_Start().whileActiveOnce(new ShootPIDToggleTest());
+    // m_Controller.getOp_Back().whileTrue(new FlywheelPIDToggleTest());
+    // m_Controller.getOp_Start().whileTrue(new ShootPIDToggleTest());
 
     m_Controller.operator.x().whileTrue(new FlywheelAngleVision());
 
