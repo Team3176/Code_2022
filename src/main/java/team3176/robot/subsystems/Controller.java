@@ -5,15 +5,16 @@
 package team3176.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import team3176.robot.constants.ControllerConstants;
-import team3176.robot.util.XboxController.XboxAxisAsButton;
+// import team3176.robot.util.XboxController.XboxAxisAsButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import team3176.robot.util.XboxController.*;
+// import team3176.robot.util.XboxController.*;
 
 public class Controller {
   private static Controller instance = new Controller();
@@ -23,7 +24,7 @@ public class Controller {
 
   private final Joystick transStick;
   private final Joystick rotStick;
-  private final XboxController operator;
+  public CommandXboxController operator;
 
   /* First Part of Creating the Buttons on the Joysticks */
 
@@ -80,37 +81,37 @@ public class Controller {
 
   //TODO: Add slider
 
-  private final Trigger op_A;
-  private final Trigger op_A_Shift;
-  private final Trigger op_A_Double_Shift;
-  private final Trigger op_B;
-  private final Trigger op_B_Shift;
-  private final Trigger op_B_Double_Shift;
-  private final Trigger op_X;
-  private final Trigger op_X_Shift;
-  private final Trigger op_X_Double_Shift;
-  private final Trigger op_Y;
-  private final Trigger op_Y_Shift;
-  private final Trigger op_Y_Double_Shift;
-  private final Trigger op_Start;
-  private final Trigger op_Start_Shift;
-  private final Trigger op_Start_Double_Shift;
-  private final Trigger op_Back;
-  private final Trigger op_Back_Shift;
-  private final Trigger op_Back_Double_Shift;
-  private final Trigger op_LTrigger;
-  private final Trigger op_RTrigger;
-  private final POVButton op_DPAD_Up;
-  private final POVButton op_DPAD_Left;
-  private final POVButton op_DPAD_Down;
-  private final POVButton op_DPAD_Right;
+  // private final Trigger op_A;
+  // private final Trigger op_A_Shift;
+  // private final Trigger op_A_Double_Shift;
+  // private final Trigger op_B;
+  // private final Trigger op_B_Shift;
+  // private final Trigger op_B_Double_Shift;
+  // private final Trigger op_X;
+  // private final Trigger op_X_Shift;
+  // private final Trigger op_X_Double_Shift;
+  // private final Trigger op_Y;
+  // private final Trigger op_Y_Shift;
+  // private final Trigger op_Y_Double_Shift;
+  // private final Trigger op_Start;
+  // private final Trigger op_Start_Shift;
+  // private final Trigger op_Start_Double_Shift;
+  // private final Trigger op_Back;
+  // private final Trigger op_Back_Shift;
+  // private final Trigger op_Back_Double_Shift;
+  // private final Trigger op_LTrigger;
+  // private final Trigger op_RTrigger;
+  // private final POVButton op_DPAD_Up;
+  // private final POVButton op_DPAD_Left;
+  // private final POVButton op_DPAD_Down;
+  // private final POVButton op_DPAD_Right;
 
   public Controller() {
     /* Finish Creating the Objects */
 
     transStick = new Joystick(ControllerConstants.TRANS_ID);
     rotStick = new Joystick(ControllerConstants.ROT_ID);
-    operator = new XboxController(ControllerConstants.OP_ID);
+    operator = new CommandXboxController(ControllerConstants.OP_ID);
 
     transStick_Button1 = new JoystickButton(transStick, 1);
     transStick_Button2 = new JoystickButton(transStick, 2);
@@ -181,26 +182,26 @@ public class Controller {
      * XboxDBLShift: The third level of control; The second shift; NAME + FIRST SHIFT + SECOND SHIFT
      */
 
-    op_A = new XboxMain(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_A_Shift = new XboxShift(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_A_Double_Shift = new XboxDBLShift(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_B = new XboxMain(operator, Button.kB.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_B_Shift = new XboxShift(operator, Button.kB.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_B_Double_Shift = new XboxDBLShift(operator, Button.kB.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_X = new XboxMain(operator, Button.kX.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_X_Shift = new XboxShift(operator, Button.kX.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_X_Double_Shift = new XboxDBLShift(operator, Button.kX.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Y = new XboxMain(operator, Button.kY.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Y_Shift = new XboxShift(operator, Button.kY.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Y_Double_Shift = new XboxDBLShift(operator, Button.kY.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Start = new XboxMain(operator, Button.kStart.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Start_Shift = new XboxShift(operator, Button.kStart.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Start_Double_Shift = new XboxDBLShift(operator, Button.kStart.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Back = new XboxMain(operator, Button.kBack.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Back_Shift = new XboxShift(operator, Button.kBack.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_Back_Double_Shift = new XboxDBLShift(operator, Button.kBack.value, Button.kLeftBumper.value, Button.kRightBumper.value);
-    op_LTrigger = new XboxAxisAsButton(operator, Axis.kLeftTrigger.value, ControllerConstants.TRIGGER_THRESHOLD); //TODO: CHANGE THRESHOLD
-    op_RTrigger = new XboxAxisAsButton(operator, Axis.kRightTrigger.value, ControllerConstants.TRIGGER_THRESHOLD);
+    // op_A = new XboxMain(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_A_Shift = new XboxShift(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_A_Double_Shift = new XboxDBLShift(operator, Button.kA.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_B = new XboxMain(operator, Button.kB.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_B_Shift = new XboxShift(operator, Button.kB.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_B_Double_Shift = new XboxDBLShift(operator, Button.kB.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_X = new XboxMain(operator, Button.kX.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_X_Shift = new XboxShift(operator, Button.kX.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_X_Double_Shift = new XboxDBLShift(operator, Button.kX.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Y = new XboxMain(operator, Button.kY.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Y_Shift = new XboxShift(operator, Button.kY.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Y_Double_Shift = new XboxDBLShift(operator, Button.kY.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Start = new XboxMain(operator, Button.kStart.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Start_Shift = new XboxShift(operator, Button.kStart.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Start_Double_Shift = new XboxDBLShift(operator, Button.kStart.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Back = new XboxMain(operator, Button.kBack.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Back_Shift = new XboxShift(operator, Button.kBack.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_Back_Double_Shift = new XboxDBLShift(operator, Button.kBack.value, Button.kLeftBumper.value, Button.kRightBumper.value);
+    // op_LTrigger = new XboxAxisAsButton(operator, Axis.kLeftTrigger.value, ControllerConstants.TRIGGER_THRESHOLD); //TODO: CHANGE THRESHOLD
+    // op_RTrigger = new XboxAxisAsButton(operator, Axis.kRightTrigger.value, ControllerConstants.TRIGGER_THRESHOLD);
    
     
     
@@ -209,10 +210,10 @@ public class Controller {
      * The values are 0 as UP going in a 360 circle CCW
      */
 
-    op_DPAD_Up = new POVButton(operator, 0);
-    op_DPAD_Right = new POVButton(operator, 90);
-    op_DPAD_Down = new POVButton(operator, 180);
-    op_DPAD_Left = new POVButton(operator, 270);
+    // op_DPAD_Up = new POVButton(operator, 0);
+    // op_DPAD_Right = new POVButton(operator, 90);
+    // op_DPAD_Down = new POVButton(operator, 180);
+    // op_DPAD_Left = new POVButton(operator, 270);
   }
 
   /**
@@ -470,29 +471,29 @@ public class Controller {
   public POVButton getRotStick_HAT_315() {return rotStick_HAT_315;}
 
 
-  public Trigger getOp_A() {return op_A;}
-  public Trigger getOp_A_FS() {return op_A_Shift;}
-  public Trigger getOp_A_DS() {return op_A_Double_Shift;}
-  public Trigger getOp_B() {return op_B;}
-  public Trigger getOp_B_FS() {return op_B_Shift;}
-  public Trigger getOp_B_DS() {return op_B_Double_Shift;}
-  public Trigger getOp_X() {return op_X;}
-  public Trigger getOp_X_FS() {return op_X_Shift;}
-  public Trigger getOp_X_DS() {return op_X_Double_Shift;}
-  public Trigger getOp_Y() {return op_Y;}
-  public Trigger getOp_Y_FS() {return op_Y_Shift;}
-  public Trigger getOp_Y_DS() {return op_Y_Double_Shift;}
-  public Trigger getOp_Start() {return op_Start;}
-  public Trigger getOp_Start_FS() {return op_Start_Shift;}
-  public Trigger getOp_Start_DS() {return op_Start_Double_Shift;}
-  public Trigger getOp_Back() {return op_Back;}
-  public Trigger getOp_Back_FS() {return op_Back_Shift;}
-  public Trigger getOp_Back_DS() {return op_Back_Double_Shift;}
-  public Trigger getOp_LeftTrigger() {return op_LTrigger;}
-  public Trigger getOp_RightTrigger() {return op_RTrigger;}
+  // public Trigger getOp_A() {return op_A;}
+  // public Trigger getOp_A_FS() {return op_A_Shift;}
+  // public Trigger getOp_A_DS() {return op_A_Double_Shift;}
+  // public Trigger getOp_B() {return op_B;}
+  // public Trigger getOp_B_FS() {return op_B_Shift;}
+  // public Trigger getOp_B_DS() {return op_B_Double_Shift;}
+  // public Trigger getOp_X() {return op_X;}
+  // public Trigger getOp_X_FS() {return op_X_Shift;}
+  // public Trigger getOp_X_DS() {return op_X_Double_Shift;}
+  // public Trigger getOp_Y() {return op_Y;}
+  // public Trigger getOp_Y_FS() {return op_Y_Shift;}
+  // public Trigger getOp_Y_DS() {return op_Y_Double_Shift;}
+  // public Trigger getOp_Start() {return op_Start;}
+  // public Trigger getOp_Start_FS() {return op_Start_Shift;}
+  // public Trigger getOp_Start_DS() {return op_Start_Double_Shift;}
+  // public Trigger getOp_Back() {return op_Back;}
+  // public Trigger getOp_Back_FS() {return op_Back_Shift;}
+  // public Trigger getOp_Back_DS() {return op_Back_Double_Shift;}
+  // public Trigger getOp_LeftTrigger() {return op_LTrigger;}
+  // public Trigger getOp_RightTrigger() {return op_RTrigger;}
   
-  public POVButton getOp_DPAD_UP() {return op_DPAD_Up;}
-  public POVButton getOp_DPAD_RIGHT() {return op_DPAD_Right;}
-  public POVButton getOp_DPAD_DOWN() {return op_DPAD_Down;}
-  public POVButton getOp_DPAD_LEFT() {return op_DPAD_Left;}
+  // public POVButton getOp_DPAD_UP() {return op_DPAD_Up;}
+  // public POVButton getOp_DPAD_RIGHT() {return op_DPAD_Right;}
+  // public POVButton getOp_DPAD_DOWN() {return op_DPAD_Down;}
+  // public POVButton getOp_DPAD_LEFT() {return op_DPAD_Left;}
 }
