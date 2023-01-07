@@ -162,8 +162,10 @@ gradle-app.setting
 bin/
 */bin/
 imgui.ini
+Code_2022.code-workspace
 
 # WPILib specific
+BuildConstants.java
 **/BuildConstants.java
 /src/main/java/team3176/robot/BuildConstants.java
 .wpilib
