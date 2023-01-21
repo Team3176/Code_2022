@@ -49,7 +49,7 @@ public class Odometry3176 extends SubsystemBase {
     // our starting pose is 5 meters along the long end of the field and in the
     // center of the field along the short end, facing forward.
     // FYI: Pose2d(x-coord, y-coord) per WPILib API.  So i dunno WTF the above description really means about long and short edges of field.
-    m_odometry = new SwerveDriveOdometry(m_kinematics, m_Gyro.getHeading(), new Pose2d(5.0, 13.5, new Rotation2d()));
+    //**m_odometry = new SwerveDriveOdometry(m_kinematics, m_Gyro.getHeading(), new Pose2d(5.0, 13.5, new Rotation2d()));
 
   }
 
@@ -61,7 +61,7 @@ public class Odometry3176 extends SubsystemBase {
   
   public void resetOdometry(Pose2d pose) {
     //odometry.resetPosition(pose, gyro.getRotation2d().times(1));  //Not sure, gyroAngle);a   // <-- Note getRotation2d is continuous, ie 360+1=361 not 0 or -359 
-    m_odometry.resetPosition(pose, m_Gyro.getNavxAngle_inRadians_asRotation2d());  
+    //**m_odometry.resetPosition(pose, m_Gyro.getNavxAngle_inRadians_asRotation2d());  
   }
   
   public void chassisSpeedConversion() {
@@ -83,7 +83,7 @@ public class Odometry3176 extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  
-    m_pose = m_odometry.update(m_Gyro.getHeading(),m_Drivetrain.getPodState(0), m_Drivetrain.getPodState(1),m_Drivetrain.getPodState(2), m_Drivetrain.getPodState(3));
+    //***m_pose = m_odometry.update(m_Gyro.getHeading(),m_Drivetrain.getPodState(0), m_Drivetrain.getPodState(1),m_Drivetrain.getPodState(2), m_Drivetrain.getPodState(3));
     getCurrentPose(); 
   }
 

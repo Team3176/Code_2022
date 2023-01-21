@@ -90,13 +90,12 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        odometer.resetPosition(pose, getRotation2d());
+        //***odometer.resetPosition(pose, getRotation2d());
     }
 
     @Override
     public void periodic() {
-        odometer.update(getRotation2d(),m_frontLeft.getState(), m_frontRight.getState(),m_backLeft.getState(),
-               m_backRight.getState());
+        //***odometer.update(getRotation2d(),m_frontLeft.getState(), m_frontRight.getState(),m_backLeft.getState(), m_backRight.getState());
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
     }

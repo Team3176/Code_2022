@@ -49,20 +49,20 @@ import team3176.robot.commands.drivetrain.*;
 
 public class RobotContainer {
 
-  private final PowerDistribution m_PDH;
-  private final Intake m_Intake;
+  //private final PowerDistribution m_PDH;
+  //private final Intake m_Intake;
   private final Controller m_Controller;
-  private final Compressor m_Compressor;
+  //private final Compressor m_Compressor;
   private final SwerveSubsystem m_SwerveSubsystem;
   private final CoordSys m_CoordSys;
-  private final Vision m_Vision;
-  private final Angler m_Angler;
+  //private final Vision m_Vision;
+  //private final Angler m_Angler;
   private final Drivetrain m_Drivetrain;
-  private final Feeder m_Feeder;
-  private final Flywheel m_Flywheel;
-  private final Indexer m_Indexer;
-  private final Climb m_Climb;
-  private final Clarke m_Clarke;
+  //private final Feeder m_Feeder;
+  //private final Flywheel m_Flywheel;
+  //private final Indexer m_Indexer;
+  //private final Climb m_Climb;
+  //private final Clarke m_Clarke;
   private SendableChooser<String> m_autonChooser;
   // private static final String m_B = "s_Block";
   private static final String m_M = "s_ExitTarmac";
@@ -93,28 +93,28 @@ public class RobotContainer {
 
   public RobotContainer() {
     m_Controller = Controller.getInstance();
-    m_Indexer = Indexer.getInstance();
-    m_Intake = Intake.getInstance();
-    m_Vision = Vision.getInstance();
-    m_Angler = Angler.getInstance();
-    m_Flywheel = Flywheel.getInstance();
-    m_Feeder = Feeder.getInstance();
+    //m_Indexer = Indexer.getInstance();
+    //m_Intake = Intake.getInstance();
+    //m_Vision = Vision.getInstance();
+    //m_Angler = Angler.getInstance();
+    //m_Flywheel = Flywheel.getInstance();
+    //m_Feeder = Feeder.getInstance();
     m_SwerveSubsystem = SwerveSubsystem.getInstance();
     m_CoordSys = CoordSys.getInstance();
-    m_Climb = Climb.getInstance();
-    m_Clarke = Clarke.getInstance();
+    //m_Climb = Climb.getInstance();
+    //m_Clarke = Clarke.getInstance();
     m_Drivetrain= Drivetrain.getInstance();
 
-    m_PDH = new PowerDistribution(1, ModuleType.kRev);
-    m_PDH.clearStickyFaults();
+    //m_PDH = new PowerDistribution(1, ModuleType.kRev);
+    //m_PDH.clearStickyFaults();
 
-    m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    //m_Compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     // TODO: ADD A WAY TO CLEAR STICKY FAULTS
     // m_Compressor.disable(); //HAVE TO TELL IT TO DISABLE FOR IT TO NOT AUTO START
-    m_Compressor.enableDigital();
+    //m_Compressor.enableDigital();
 
-    m_Flywheel.setAutoSpinFlywheels(true);
-    m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
+    //m_Flywheel.setAutoSpinFlywheels(true);
+    //m_Flywheel.setDefaultCommand(new FlywheelDefaultCommand(0.31, 0.2));
 
     if (!LoggerConstants.IS_TUNING_MODE) {
       m_SwerveSubsystem.setDefaultCommand(new SwerveDrive(

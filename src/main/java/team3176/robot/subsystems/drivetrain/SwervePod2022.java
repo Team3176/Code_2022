@@ -532,7 +532,7 @@ public class SwervePod2022 {
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-            getDistanceChangeOfThrustEncoder, new Rotation2d(getDistanceChangeOfSteeringEncoderRotation)
+            //**getDistanceChangeOfThrustEncoder, new Rotation2d(getDistanceChangeOfSteeringEncoderRotation)
         );
     }
     public SwerveModuleState getState() {
